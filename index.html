@@ -3,29 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>UNIT — Short Film Crew Finder</title>
-  <!-- Google Fonts: Bebas Neue (Condensed Poster Font) & Plus Jakarta Sans (Clean UI Body) -->
+  <title>UNIT — Short Film Industry Network</title>
+  
+  <!-- Cinematic Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --bg-main: #0a0b0e;
-      --bg-surface: #14161d;
-      --bg-card: #1c1f28;
-      --border-dim: #2a2e3d;
-      --border-bright: #3f465c;
-      --text-main: #f1f3f7;
-      --text-muted: #8b92a5;
+      /* Base Theme: Neon Night Shoot / Dark Film Slate */
+      --bg-darkest: #07080b;
+      --bg-main: #0e1017;
+      --bg-card: #151822;
+      --bg-card-hover: #1c202d;
+      --border-dim: #252a3a;
+      --border-glow: #38425d;
       
-      /* Role Specific Accents */
-      --role-director: #f59e0b;       /* Amber Gold */
-      --role-cinematographer: #06b6d4;/* Cyan */
-      --role-actor: #f43f5e;          /* Coral / Crimson */
-      --role-editor: #a855f7;         /* Purple */
+      --text-main: #f8fafc;
+      --text-muted: #8e98b0;
       
-      --font-display: 'Bebas Neue', sans-serif;
+      /* 3D Vibrant Role & Accent Colors */
+      --neon-director: #ffb703;      /* Golden Hour Amber */
+      --neon-director-3d: #b37d00;
+      --neon-cinema: #00f0ff;        /* Neon Night Cyan */
+      --neon-cinema-3d: #008f99;
+      --neon-actor: #ff0055;         /* Vivid Neon Crimson */
+      --neon-actor-3d: #990033;
+      --neon-editor: #a855f7;        /* Ultraviolet Purple */
+      --neon-editor-3d: #6b21a8;
+      
+      --3d-cta-bg: #ffb703;
+      --3d-cta-shadow: #b37d00;
+      --3d-btn-dark: #222736;
+      --3d-btn-dark-shadow: #11141c;
+      
+      --font-poster: 'Bebas Neue', cursive;
+      --font-title: 'Syne', sans-serif;
       --font-body: 'Plus Jakarta Sans', sans-serif;
     }
 
@@ -34,125 +48,271 @@
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
+      font-family: var(--font-body);
     }
 
     body {
-      background-color: #050608;
+      background-color: var(--bg-darkest);
       color: var(--text-main);
-      font-family: var(--font-body);
       display: flex;
       justify-content: center;
       min-height: 100vh;
       overflow-x: hidden;
+      /* Subtle Film Grain & Light Leak Gradient */
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255, 0, 85, 0.08) 0%, transparent 35%),
+        radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.07) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(255, 183, 3, 0.04) 0%, transparent 50%);
+      background-attachment: fixed;
     }
 
-    /* Mobile Container Frame */
     .app-container {
       width: 100%;
-      max-width: 440px;
+      max-width: 480px;
       min-height: 100vh;
       background-color: var(--bg-main);
+      position: relative;
       display: flex;
       flex-direction: column;
-      position: relative;
       border-left: 1px solid var(--border-dim);
       border-right: 1px solid var(--border-dim);
-      box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
-      padding-bottom: 74px; /* Space for Bottom Nav */
+      box-shadow: 0 0 70px rgba(0, 0, 0, 0.9);
+      padding-bottom: 78px;
     }
 
-    /* Film Sprocket Perforations Border Header */
-    .film-strip-header {
-      background: #020204;
-      padding: 6px 12px;
+    /* Film Perforation Header */
+    .film-perforation {
+      background: #040507;
+      padding: 6px 14px;
       display: flex;
       justify-content: space-between;
-      border-bottom: 1px dashed #2f3444;
+      border-bottom: 1px dashed #262b3b;
       position: sticky;
       top: 0;
-      z-index: 50;
+      z-index: 90;
     }
-    .sprockets {
+    .sprocket-holes {
       display: flex;
-      gap: 12px;
       width: 100%;
       justify-content: space-between;
     }
-    .hole {
+    .sprocket {
       width: 12px;
       height: 7px;
-      background: #171922;
+      background: #141720;
       border-radius: 2px;
-      border: 1px solid #2a2e3d;
+      border: 1px solid #232736;
     }
 
     /* Top Brand Bar */
     .brand-bar {
-      padding: 14px 18px;
+      padding: 12px 18px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: var(--bg-surface);
+      background: var(--bg-card);
       border-bottom: 1px solid var(--border-dim);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     }
     .brand-title {
-      font-family: var(--font-display);
-      font-size: 28px;
-      letter-spacing: 2px;
+      font-family: var(--font-poster);
+      font-size: 30px;
+      letter-spacing: 2.5px;
       color: #fff;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      text-shadow: 0 2px 8px rgba(255, 183, 3, 0.3);
     }
-    .rec-dot {
-      width: 10px;
-      height: 10px;
-      background: #ef4444;
+    .live-rec {
+      width: 11px;
+      height: 11px;
+      background: #ff0055;
       border-radius: 50%;
-      animation: pulse 1.8s infinite ease-in-out;
+      box-shadow: 0 0 10px #ff0055;
+      animation: pulseRec 1.6s infinite ease-in-out;
     }
-    @keyframes pulse {
+    @keyframes pulseRec {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.3; transform: scale(0.85); }
+      50% { opacity: 0.3; transform: scale(0.8); }
     }
-    .user-pill {
-      font-size: 11px;
-      font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 20px;
-      background: rgba(245, 158, 11, 0.15);
-      color: var(--role-director);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+    .user-mini-avatar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .avatar-img-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--neon-director);
+      box-shadow: 0 0 8px rgba(255, 183, 3, 0.4);
     }
 
-    /* Screen View Container */
+    /* 3D Button Utility Classes */
+    .btn-3d {
+      border: none;
+      outline: none;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      border-radius: 8px;
+      padding: 10px 16px;
+      transition: transform 0.08s ease, box-shadow 0.08s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .btn-3d-primary {
+      background: var(--3d-cta-bg);
+      color: #000;
+      box-shadow: 0 4px 0 var(--3d-cta-shadow), 0 6px 12px rgba(255, 183, 3, 0.35);
+    }
+    .btn-3d-primary:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 var(--3d-cta-shadow);
+    }
+    .btn-3d-dark {
+      background: var(--3d-btn-dark);
+      color: var(--text-main);
+      border: 1px solid var(--border-glow);
+      box-shadow: 0 4px 0 var(--3d-btn-dark-shadow);
+    }
+    .btn-3d-dark:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 var(--3d-btn-dark-shadow);
+    }
+    .btn-3d-connect {
+      background: #00f0ff;
+      color: #000;
+      box-shadow: 0 4px 0 #008f99, 0 6px 12px rgba(0, 240, 255, 0.3);
+    }
+    .btn-3d-connect:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #008f99;
+    }
+    .btn-3d-connected {
+      background: #10b981;
+      color: #fff;
+      box-shadow: 0 3px 0 #065f46;
+      cursor: default;
+    }
+
+    /* Screen Management */
     .screen-view {
       display: none;
       padding: 16px;
-      animation: fadeIn 0.25s ease-out;
+      animation: screenFade 0.2s ease-out;
     }
     .screen-view.active {
       display: block;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
+    @keyframes screenFade {
+      from { opacity: 0; transform: translateY(5px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Section Headings */
     .section-title {
-      font-family: var(--font-display);
-      font-size: 26px;
-      letter-spacing: 1px;
-      color: #ffffff;
-      margin-bottom: 4px;
+      font-family: var(--font-poster);
+      font-size: 28px;
+      letter-spacing: 1.5px;
+      color: #fff;
+      margin-bottom: 2px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
     }
     .section-desc {
       font-size: 13px;
       color: var(--text-muted);
       margin-bottom: 14px;
+    }
+
+    /* View Toggle (List vs Radar) */
+    .toggle-pill-wrap {
+      display: flex;
+      background: #080a0f;
+      padding: 4px;
+      border-radius: 30px;
+      border: 1px solid var(--border-dim);
+      margin-bottom: 14px;
+    }
+    .toggle-pill-btn {
+      flex: 1;
+      padding: 8px 14px;
+      border-radius: 25px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .toggle-pill-btn.active {
+      background: var(--bg-card-hover);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      border: 1px solid var(--border-glow);
+    }
+
+    /* Search & Filter Bar */
+    .search-box {
+      position: relative;
+      margin-bottom: 12px;
+    }
+    .search-input {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: 10px;
+      padding: 12px 14px 12px 40px;
+      color: #fff;
+      font-size: 14px;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: var(--neon-cinema);
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+    }
+    .search-icon-fixed {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: var(--text-muted);
+    }
+
+    /* Budget Slider Card */
+    .budget-filter-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .budget-slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .slider-styled {
+      width: 100%;
+      accent-color: var(--neon-director);
+      cursor: pointer;
     }
 
     /* Filter Pills */
@@ -164,358 +324,593 @@
       scrollbar-width: none;
     }
     .filter-scroll::-webkit-scrollbar { display: none; }
-    .filter-btn {
-      background: var(--bg-surface);
+    .role-filter-chip {
+      background: var(--bg-card);
       border: 1px solid var(--border-dim);
       color: var(--text-muted);
       padding: 6px 14px;
       border-radius: 20px;
       font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
+      font-weight: 700;
       white-space: nowrap;
-      transition: all 0.2s;
+      cursor: pointer;
+      transition: all 0.15s;
     }
-    .filter-btn.active {
+    .role-filter-chip.active {
       background: #fff;
       color: #000;
       border-color: #fff;
+      box-shadow: 0 3px 0 #999;
     }
 
     /* Crew Cards */
-    .crew-list {
+    .crew-feed {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
     .crew-card {
-      background: var(--bg-surface);
+      background: var(--bg-card);
       border: 1px solid var(--border-dim);
-      border-radius: 12px;
-      padding: 14px;
+      border-radius: 14px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
       position: relative;
-      overflow: hidden;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
+      transition: border-color 0.2s;
     }
-    .crew-card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 4px;
-      height: 100%;
-      background: var(--card-role-color, #fff);
+    .crew-card:hover {
+      border-color: var(--border-glow);
     }
-    .crew-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
-    .crew-name {
-      font-size: 16px;
-      font-weight: 700;
-      color: #fff;
-    }
-    .crew-badge {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      padding: 3px 8px;
-      border-radius: 4px;
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--card-role-color, #fff);
-      border: 1px solid var(--card-role-color, #fff);
-    }
-    .crew-meta {
-      font-size: 12px;
-      color: var(--text-muted);
+    .crew-top {
       display: flex;
       gap: 12px;
-      align-items: center;
     }
-    .crew-meta span {
+    .crew-avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 2px solid #333;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+    }
+    .crew-info {
+      flex: 1;
+    }
+    .crew-name-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .crew-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .badge-verified {
+      background: rgba(0, 240, 255, 0.15);
+      color: var(--neon-cinema);
+      border: 1px solid var(--neon-cinema);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .role-badge {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-left: auto;
+    }
+    .crew-location-line {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
       display: flex;
       align-items: center;
       gap: 4px;
     }
-    .crew-bio {
-      font-size: 13px;
-      color: #c2c7d0;
-      line-height: 1.4;
+    .crew-stats-strip {
+      display: flex;
+      gap: 12px;
+      font-size: 12px;
+      background: #0d1017;
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid #1f2331;
     }
-    .crew-footer {
+    .stat-rating {
+      color: #ffb703;
+      font-weight: 700;
+    }
+    .stat-rate {
+      color: #10b981;
+      font-weight: 700;
+      margin-left: auto;
+    }
+    .crew-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .skill-tag {
+      background: #1b202e;
+      color: #a4adc5;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      border: 1px solid #282f42;
+    }
+    .crew-card-actions {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 4px;
-      padding-top: 8px;
+      padding-top: 10px;
       border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
-    .showreel-link {
+    .phone-locked {
       font-size: 12px;
-      color: #60a5fa;
-      text-decoration: none;
-      font-weight: 500;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
-    .btn-invite {
-      background: #242938;
-      border: 1px solid var(--border-bright);
-      color: #fff;
+    .phone-unlocked {
       font-size: 12px;
-      font-weight: 600;
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-invite:hover {
-      background: #fff;
-      color: #000;
+      color: #10b981;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
-    /* Radar View */
-    .radar-wrapper {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      background: radial-gradient(circle, #10141f 0%, #08090d 100%);
+    /* Radar Map Screen (Integrated) */
+    .radar-container-card {
+      background: var(--bg-card);
       border: 1px solid var(--border-dim);
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .radar-visual {
+      width: 100%;
+      max-width: 360px;
+      aspect-ratio: 1 / 1;
+      background: radial-gradient(circle, #0e1726 0%, #060910 100%);
+      border: 2px solid var(--border-glow);
       border-radius: 50%;
       position: relative;
-      margin: 15px 0;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.15);
+      margin-bottom: 12px;
     }
     .radar-ring {
       position: absolute;
-      border: 1px dashed rgba(255, 255, 255, 0.12);
+      border: 1px dashed rgba(0, 240, 255, 0.25);
       border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.2s;
     }
-    .ring-1 { width: 30%; height: 30%; }
-    .ring-2 { width: 60%; height: 60%; }
-    .ring-3 { width: 90%; height: 90%; }
-    .radar-axis-h {
+    .radar-ring:hover {
+      background: rgba(0, 240, 255, 0.05);
+    }
+    .ring-km-5 { width: 32%; height: 32%; }
+    .ring-km-15 { width: 62%; height: 62%; }
+    .ring-km-30 { width: 92%; height: 92%; }
+    .ring-label {
       position: absolute;
-      width: 100%;
-      height: 1px;
-      background: rgba(255, 255, 255, 0.08);
+      top: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--neon-cinema);
+      background: #040508;
+      padding: 1px 4px;
+      border-radius: 4px;
+      border: 1px solid var(--border-dim);
     }
-    .radar-axis-v {
-      position: absolute;
-      height: 100%;
-      width: 1px;
-      background: rgba(255, 255, 255, 0.08);
-    }
-    .radar-sweep {
+    .radar-sweep-beam {
       position: absolute;
       width: 50%;
       height: 50%;
       top: 0;
       right: 0;
       transform-origin: bottom left;
-      background: linear-gradient(45deg, rgba(6, 182, 212, 0.2) 0%, transparent 70%);
-      animation: sweep 4s linear infinite;
+      background: linear-gradient(45deg, rgba(0, 240, 255, 0.3) 0%, transparent 60%);
+      animation: sweepAnim 4s linear infinite;
       border-radius: 100% 0 0 0;
     }
-    @keyframes sweep {
+    @keyframes sweepAnim {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
     }
-    .radar-center-user {
-      width: 12px;
-      height: 12px;
-      background: #ffffff;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #ffffff;
-      z-index: 5;
-    }
-    .radar-blip {
-      position: absolute;
+    .radar-user-center {
       width: 14px;
       height: 14px;
+      background: #fff;
       border-radius: 50%;
-      cursor: pointer;
+      box-shadow: 0 0 12px #fff;
+      z-index: 10;
+    }
+    .radar-pin {
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
       transform: translate(-50%, -50%);
-      z-index: 6;
-      border: 2px solid #000;
+      border: 2px solid #fff;
+      cursor: pointer;
+      z-index: 12;
+      box-shadow: 0 0 10px rgba(0,0,0,0.8);
       transition: transform 0.2s;
+      object-fit: cover;
     }
-    .radar-blip:hover {
-      transform: translate(-50%, -50%) scale(1.6);
+    .radar-pin:hover {
+      transform: translate(-50%, -50%) scale(1.4);
     }
-    .radar-legend {
+
+    /* Projects Screen & Feed */
+    .project-header-actions {
       display: flex;
-      justify-content: space-around;
-      background: var(--bg-surface);
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 11px;
-      border: 1px solid var(--border-dim);
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
     }
-    .legend-item {
+    .projects-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .project-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: 14px;
+      padding: 16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+      position: relative;
+    }
+    .project-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    .project-title {
+      font-family: var(--font-title);
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .status-badge {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: rgba(255, 183, 3, 0.15);
+      color: var(--neon-director);
+      border: 1px solid var(--neon-director);
+    }
+    .project-creator-row {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
       display: flex;
       align-items: center;
       gap: 6px;
     }
-    .legend-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
+    .project-desc {
+      font-size: 13px;
+      color: #cbd5e1;
+      line-height: 1.4;
+      margin-bottom: 14px;
     }
-
-    /* Projects View */
-    .project-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-dim);
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 16px;
-    }
-    .project-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .slots-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
       margin-bottom: 12px;
     }
-    .project-name {
-      font-family: var(--font-display);
-      font-size: 22px;
-      letter-spacing: 0.8px;
-      color: #fff;
-    }
-    .slot-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .slot-item {
+    .slot-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: var(--bg-card);
-      padding: 10px 14px;
+      background: #0d1017;
+      padding: 8px 12px;
       border-radius: 8px;
-      border: 1px dashed var(--border-dim);
+      border: 1px solid #1d2230;
     }
-    .slot-item.filled {
+    .slot-title {
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .slot-fill-status {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #1b202e;
+    }
+
+    /* Requests Screen */
+    .requests-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .request-item {
+      background: var(--bg-card);
       border: 1px solid var(--border-dim);
-      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    .slot-role-info {
+    .req-user {
       display: flex;
       align-items: center;
       gap: 10px;
     }
-    .slot-tag {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      padding: 2px 6px;
-      border-radius: 4px;
+    .req-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
     }
-    .btn-remove-slot {
-      color: #ef4444;
-      background: none;
-      border: none;
-      font-size: 12px;
-      cursor: pointer;
+    .req-actions {
+      display: flex;
+      gap: 6px;
     }
 
-    /* Profile View */
-    .profile-form {
+    /* Messages & Chat Screen */
+    .threads-list {
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      background: var(--bg-surface);
-      padding: 18px;
-      border-radius: 12px;
-      border: 1px solid var(--border-dim);
+      gap: 10px;
     }
+    .thread-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: 12px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .thread-card:hover {
+      background: var(--bg-card-hover);
+    }
+    .thread-info {
+      flex: 1;
+    }
+    .thread-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .thread-preview {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 200px;
+    }
+
+    /* In-App Chat Modal Screen */
+    .chat-view-modal {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      height: 100vh;
+      background: var(--bg-main);
+      z-index: 200;
+      display: none;
+      flex-direction: column;
+    }
+    .chat-view-modal.active {
+      display: flex;
+    }
+    .chat-top-header {
+      padding: 14px 16px;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-dim);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .chat-messages-area {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .chat-bubble {
+      max-width: 78%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+    .chat-bubble.mine {
+      align-self: flex-end;
+      background: var(--neon-director);
+      color: #000;
+      font-weight: 600;
+      border-bottom-right-radius: 2px;
+    }
+    .chat-bubble.theirs {
+      align-self: flex-start;
+      background: var(--bg-card-hover);
+      color: #fff;
+      border: 1px solid var(--border-dim);
+      border-bottom-left-radius: 2px;
+    }
+    .chat-input-bar {
+      padding: 12px 14px;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-dim);
+      display: flex;
+      gap: 8px;
+    }
+
+    /* Modal Form for Project Creation */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+      padding: 16px;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-card {
+      background: var(--bg-main);
+      border: 1px solid var(--border-glow);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 420px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    }
+
+    /* Form UI Elements */
     .form-group {
       display: flex;
       flex-direction: column;
       gap: 6px;
+      margin-bottom: 14px;
     }
     .form-group label {
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 11px;
+      font-weight: 800;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
-    .form-input, .form-select {
+    .form-input, .form-select, .form-textarea {
       background: var(--bg-card);
       border: 1px solid var(--border-dim);
-      padding: 10px 12px;
       border-radius: 8px;
+      padding: 10px 12px;
       color: #fff;
       font-size: 14px;
-      font-family: inherit;
     }
-    .form-input:focus, .form-select:focus {
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
       outline: none;
-      border-color: #60a5fa;
+      border-color: var(--neon-director);
     }
-    .geo-status {
-      font-size: 11px;
-      color: #10b981;
+
+    /* Profile Photo Upload Box */
+    .photo-upload-box {
       display: flex;
       align-items: center;
-      gap: 4px;
-      margin-top: 2px;
+      gap: 16px;
+      margin-bottom: 16px;
+      background: var(--bg-card);
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border-dim);
     }
-    .btn-save {
-      background: #f59e0b;
-      color: #000;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 14px;
-      cursor: pointer;
-      margin-top: 6px;
-      transition: opacity 0.2s;
+    .profile-large-preview {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--neon-director);
+      box-shadow: 0 0 12px rgba(255, 183, 3, 0.4);
     }
-    .btn-save:hover { opacity: 0.9; }
 
-    /* Bottom Navigation Bar */
+    /* Bottom 5-Tab Navigation */
     .bottom-nav {
       position: fixed;
       bottom: 0;
       width: 100%;
-      max-width: 440px;
-      background: #0d0f15;
+      max-width: 480px;
+      background: #090b10;
       border-top: 1px solid var(--border-dim);
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      height: 64px;
+      grid-template-columns: repeat(5, 1fr);
+      height: 68px;
       z-index: 100;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6);
     }
-    .nav-item {
+    .nav-btn {
+      background: transparent;
+      border: none;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 4px;
+      gap: 3px;
       color: var(--text-muted);
-      background: none;
-      border: none;
       cursor: pointer;
-      transition: all 0.15s;
+      position: relative;
+      transition: color 0.15s;
     }
-    .nav-item.active {
+    .nav-btn.active {
       color: #fff;
     }
-    .nav-icon {
+    .nav-btn.active::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 24px;
+      height: 3px;
+      background: var(--neon-director);
+      border-radius: 0 0 4px 4px;
+      box-shadow: 0 0 8px var(--neon-director);
+    }
+    .nav-btn-icon {
       font-size: 18px;
     }
-    .nav-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.3px;
+    .nav-btn-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .nav-badge-count {
+      position: absolute;
+      top: 8px;
+      right: 18px;
+      background: var(--neon-actor);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 1px 4px;
+      border-radius: 8px;
     }
   </style>
 </head>
@@ -523,251 +918,528 @@
 
   <div class="app-container">
     
-    <!-- Film Perforation Edge Top Decoration -->
-    <div class="film-strip-header">
-      <div class="sprockets">
-        <div class="hole"></div><div class="hole"></div><div class="hole"></div>
-        <div class="hole"></div><div class="hole"></div><div class="hole"></div>
-        <div class="hole"></div><div class="hole"></div><div class="hole"></div>
+    <!-- Film Perforation Edge -->
+    <div class="film-perforation">
+      <div class="sprocket-holes">
+        <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+        <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+        <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
+        <div class="sprocket"></div>
       </div>
     </div>
 
-    <!-- Top Brand Header -->
+    <!-- Top Branding & Profile Pill -->
     <header class="brand-bar">
       <div class="brand-title">
-        <div class="rec-dot"></div>
+        <div class="live-rec"></div>
         UNIT
       </div>
-      <div class="user-pill" id="userRoleBadge">Director</div>
+      <div class="user-mini-avatar" onclick="switchNavTab('profile')">
+        <img id="headerAvatar" class="avatar-img-circle" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Avatar">
+      </div>
     </header>
 
-    <!-- 1. DISCOVER SCREEN -->
+    <!-- ==============================================
+         1. DISCOVER SCREEN (With List & Radar Views)
+         ============================================== -->
     <section id="screen-discover" class="screen-view active">
-      <h1 class="section-title">CREW DISCOVERY</h1>
-      <p class="section-desc">Nearby talent sorted by proximity to your shoot location</p>
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4px;">
+        <h1 class="section-title">CREW RADAR & DISCOVER</h1>
+      </div>
+      <p class="section-desc">Real-time GPS proximity sorting for indie film crews</p>
+
+      <!-- Toggle between List View and Map View -->
+      <div class="toggle-pill-wrap">
+        <button class="toggle-pill-btn active" id="btnViewList" onclick="setDiscoverView('list')">
+          📋 List View
+        </button>
+        <button class="toggle-pill-btn" id="btnViewRadar" onclick="setDiscoverView('radar')">
+          📡 Radar View
+        </button>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="search-box">
+        <span class="search-icon-fixed">🔍</span>
+        <input 
+          type="text" 
+          id="discoverSearchInput" 
+          class="search-input" 
+          placeholder="Search by name, 'drone', 'DaVinci', 'RED'..."
+          oninput="handleSearchFilter()"
+        />
+      </div>
+
+      <!-- Budget Filter Slider -->
+      <div class="budget-filter-card">
+        <div class="budget-slider-header">
+          <span style="color: var(--text-muted);">Max Day Rate:</span>
+          <span style="color: var(--neon-director); font-weight: 800;" id="dayRateVal">₹35,000 / day</span>
+        </div>
+        <input 
+          type="range" 
+          id="dayRateRange" 
+          class="slider-styled" 
+          min="5000" 
+          max="50000" 
+          step="2500" 
+          value="45000"
+          oninput="handleBudgetFilter(this.value)"
+        />
+      </div>
 
       <!-- Role Filters -->
       <div class="filter-scroll">
-        <button class="filter-btn active" onclick="filterRole('All', this)">All Crew</button>
-        <button class="filter-btn" onclick="filterRole('Cinematographer', this)">Cinematographers</button>
-        <button class="filter-btn" onclick="filterRole('Actor', this)">Actors</button>
-        <button class="filter-btn" onclick="filterRole('Editor', this)">Editors</button>
+        <button class="role-filter-chip active" onclick="filterRole('All', this)">All Crew</button>
+        <button class="role-filter-chip" onclick="filterRole('Cinematographer', this)">Cinematographers</button>
+        <button class="role-filter-chip" onclick="filterRole('Actor', this)">Actors</button>
+        <button class="role-filter-chip" onclick="filterRole('Editor', this)">Editors</button>
       </div>
 
-      <!-- Crew List -->
-      <div class="crew-list" id="crewListContainer">
-        <!-- Dynamically rendered -->
-      </div>
-    </section>
-
-    <!-- 2. RADAR MAP SCREEN -->
-    <section id="screen-map" class="screen-view">
-      <h1 class="section-title">CREW RADAR</h1>
-      <p class="section-desc">Proximity radar mapped relative to your location</p>
-
-      <div class="radar-wrapper" id="radarContainer">
-        <div class="radar-ring ring-1"></div>
-        <div class="radar-ring ring-2"></div>
-        <div class="radar-ring ring-3"></div>
-        <div class="radar-axis-h"></div>
-        <div class="radar-axis-v"></div>
-        <div class="radar-sweep"></div>
-        <div class="radar-center-user" title="Your Location"></div>
-        <!-- Blips injected via JS -->
+      <!-- LIST CONTAINER -->
+      <div id="discoverListView">
+        <div class="crew-feed" id="crewFeedContainer">
+          <!-- Injected via JS -->
+        </div>
       </div>
 
-      <div class="radar-legend">
-        <div class="legend-item"><div class="legend-dot" style="background: var(--role-cinematographer)"></div>Cinematographer</div>
-        <div class="legend-item"><div class="legend-dot" style="background: var(--role-actor)"></div>Actor</div>
-        <div class="legend-item"><div class="legend-dot" style="background: var(--role-editor)"></div>Editor</div>
-      </div>
-    </section>
-
-    <!-- 3. PROJECTS SCREEN -->
-    <section id="screen-projects" class="screen-view">
-      <h1 class="section-title">PROJECT CREW SLOTS</h1>
-      <p class="section-desc">Assemble your unit for the upcoming short film</p>
-
-      <div class="project-card">
-        <div class="project-header">
-          <div>
-            <div class="project-name">PROJECT: "NIGHT RUN"</div>
-            <div style="font-size: 12px; color: var(--text-muted);">Genre: Neo-Noir Thriller • 18 Mins</div>
+      <!-- RADAR MAP CONTAINER (Toggleable) -->
+      <div id="discoverRadarView" style="display: none;">
+        <div class="radar-container-card">
+          <div class="radar-visual" id="radarVisualBox">
+            <!-- Tappable Distance Rings -->
+            <div class="radar-ring ring-km-5" onclick="filterByDistanceRadius(5)" title="Filter within 5 km">
+              <span class="ring-label">5km</span>
+            </div>
+            <div class="radar-ring ring-km-15" onclick="filterByDistanceRadius(15)" title="Filter within 15 km">
+              <span class="ring-label">15km</span>
+            </div>
+            <div class="radar-ring ring-km-30" onclick="filterByDistanceRadius(30)" title="Filter within 30 km">
+              <span class="ring-label">30km</span>
+            </div>
+            
+            <div class="radar-sweep-beam"></div>
+            <div class="radar-user-center" title="Your Location"></div>
+            <!-- Radar Pins dynamically loaded -->
+          </div>
+          <div style="font-size: 11px; color: var(--text-muted); text-align: center;">
+            💡 Tap any circular ring to filter crew distance, or tap pins to view crew profile
           </div>
         </div>
-
-        <div class="slot-list" id="projectSlotsContainer">
-          <!-- Dynamically populated slots -->
-        </div>
       </div>
     </section>
 
-    <!-- 4. PROFILE SCREEN -->
+    <!-- ==============================================
+         2. LIVE PROJECTS SCREEN & FEED
+         ============================================== -->
+    <section id="screen-projects" class="screen-view">
+      <div class="project-header-actions">
+        <div>
+          <h1 class="section-title">PROJECTS FEED</h1>
+          <p class="section-desc" style="margin: 0;">Live opportunities from creators</p>
+        </div>
+        <button class="btn-3d btn-3d-primary" onclick="openCreateProjectModal()">
+          + Create Project
+        </button>
+      </div>
+
+      <div class="projects-feed" id="projectsFeedContainer">
+        <!-- Dynamic Projects Injected Here -->
+      </div>
+    </section>
+
+    <!-- ==============================================
+         3. CONNECT REQUESTS SCREEN
+         ============================================== -->
+    <section id="screen-requests" class="screen-view">
+      <h1 class="section-title">CONNECT REQUESTS</h1>
+      <p class="section-desc">Accept requests to unlock direct phone numbers & in-app chat</p>
+
+      <div class="requests-list" id="requestsListContainer">
+        <!-- Injected via JS -->
+      </div>
+    </section>
+
+    <!-- ==============================================
+         4. IN-APP MESSAGES / CHAT TAB
+         ============================================== -->
+    <section id="screen-messages" class="screen-view">
+      <h1 class="section-title">UNIT DISPATCH</h1>
+      <p class="section-desc">Active conversations with connected team members</p>
+
+      <div class="threads-list" id="threadsListContainer">
+        <!-- Dynamic Threads -->
+      </div>
+    </section>
+
+    <!-- ==============================================
+         5. USER PROFILE SCREEN
+         ============================================== -->
     <section id="screen-profile" class="screen-view">
       <h1 class="section-title">YOUR PROFILE</h1>
-      <p class="section-desc">Configure role, showreel link & location coordinates</p>
+      <p class="section-desc">Manage your showreel, GPS coords & connect settings</p>
 
-      <div class="profile-form">
+      <!-- Photo Upload Box -->
+      <div class="photo-upload-box">
+        <img id="profilePhotoDisplay" class="profile-large-preview" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Avatar">
+        <div>
+          <div style="font-size: 13px; font-weight: 700; margin-bottom: 4px;">Profile Avatar</div>
+          <label class="btn-3d btn-3d-dark" style="padding: 6px 12px; font-size: 11px;">
+            📷 Upload Photo
+            <input type="file" id="avatarFileInput" accept="image/*" style="display: none;" onchange="handlePhotoUpload(event)" />
+          </label>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
         <div class="form-group">
-          <label>Your Name</label>
-          <input type="text" id="profName" class="form-input" value="Kiran Kumar" />
+          <label>Full Name</label>
+          <input type="text" id="profName" class="form-input" value="Kiran Varma" />
+        </div>
+        <div class="form-group">
+          <label>Age</label>
+          <input type="number" id="profAge" class="form-input" value="28" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Primary Role</label>
+        <select id="profRole" class="form-select">
+          <option value="Director" selected>Director</option>
+          <option value="Cinematographer">Cinematographer</option>
+          <option value="Actor">Actor</option>
+          <option value="Editor">Editor</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Mobile Number (Only visible after Connect accepted)</label>
+        <input type="text" id="profPhone" class="form-input" value="+91 98490 23456" />
+      </div>
+
+      <div class="form-group">
+        <label>Readable Location</label>
+        <input type="text" id="profLocationText" class="form-input" value="Jubilee Hills, Hyderabad" />
+      </div>
+
+      <div class="form-group">
+        <label>Google Maps Link (Auto Lat/Lng Extraction)</label>
+        <input 
+          type="text" 
+          id="profMapsLink" 
+          class="form-input" 
+          value="https://maps.google.com/?q=17.4325,78.4070" 
+          oninput="handleUserMapsLinkInput(this.value)"
+        />
+        <div style="font-size: 11px; color: #10b981; margin-top: 3px;">
+          ✓ GPS Coordinates: <span id="userCoordsDisplay">17.4325, 78.4070</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Showreel URL</label>
+        <input type="text" id="profShowreel" class="form-input" value="https://vimeo.com/kirandirector" />
+      </div>
+
+      <button class="btn-3d btn-3d-primary" style="width: 100%; padding: 14px; margin-top: 6px;" onclick="saveUserProfile()">
+        Save Profile
+      </button>
+    </section>
+
+    <!-- ==============================================
+         BOTTOM 5-TAB NAVIGATION
+         ============================================== -->
+    <nav class="bottom-nav">
+      <button class="nav-btn active" onclick="switchNavTab('discover')">
+        <span class="nav-btn-icon">🔍</span>
+        <span class="nav-btn-label">Discover</span>
+      </button>
+      <button class="nav-btn" onclick="switchNavTab('projects')">
+        <span class="nav-btn-icon">🎬</span>
+        <span class="nav-btn-label">Projects</span>
+      </button>
+      <button class="nav-btn" onclick="switchNavTab('requests')">
+        <span class="nav-btn-icon">⚡</span>
+        <span class="nav-btn-label">Connects</span>
+        <span class="nav-badge-count" id="connectsBadge">1</span>
+      </button>
+      <button class="nav-btn" onclick="switchNavTab('messages')">
+        <span class="nav-btn-icon">💬</span>
+        <span class="nav-btn-label">Messages</span>
+      </button>
+      <button class="nav-btn" onclick="switchNavTab('profile')">
+        <span class="nav-btn-icon">👤</span>
+        <span class="nav-btn-label">Profile</span>
+      </button>
+    </nav>
+
+    <!-- ==============================================
+         CREATE PROJECT MODAL
+         ============================================== -->
+    <div class="modal-overlay" id="createProjectModal">
+      <div class="modal-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <h2 class="section-title" style="font-size: 22px;">CREATE NEW PROJECT</h2>
+          <button style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;" onclick="closeCreateProjectModal()">✕</button>
         </div>
 
         <div class="form-group">
-          <label>Primary Role</label>
-          <select id="profRole" class="form-select" onchange="updateProfileRole(this.value)">
-            <option value="Director" selected>Director</option>
-            <option value="Cinematographer">Cinematographer</option>
-            <option value="Actor">Actor</option>
-            <option value="Editor">Editor</option>
+          <label>Project Title</label>
+          <input type="text" id="newProjTitle" class="form-input" placeholder="e.g. 'Midnight in Charminar'" />
+        </div>
+
+        <div class="form-group">
+          <label>Project Type</label>
+          <select id="newProjType" class="form-select">
+            <option value="Short Film">Short film</option>
+            <option value="Web Series">Web series</option>
+            <option value="Movie">Feature Movie</option>
+            <option value="Other">Pilot / Music Video</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label>Paste Google Maps Link</label>
-          <input 
-            type="text" 
-            id="profMapLink" 
-            class="form-input" 
-            placeholder="e.g. https://maps.google.com/?q=17.4486,78.3908" 
-            value="https://maps.google.com/?q=17.4486,78.3908"
-            oninput="parseGoogleMapsUrl(this.value)"
-          />
-          <div class="geo-status" id="geoStatus">
-            ✓ Coordinates detected: <span id="coordsDisplay">17.4486, 78.3908</span>
+          <label>Project Status</label>
+          <select id="newProjStatus" class="form-select">
+            <option value="Pre-production">Pre-production</option>
+            <option value="Shooting">Shooting</option>
+            <option value="Editing">Editing</option>
+            <option value="Done">Done</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Crew Roles Needed & Slots</label>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <div>
+              <span style="font-size: 11px; color: var(--text-muted);">Cinematographers</span>
+              <input type="number" id="slotNumDop" class="form-input" value="1" min="0" />
+            </div>
+            <div>
+              <span style="font-size: 11px; color: var(--text-muted);">Actors</span>
+              <input type="number" id="slotNumActor" class="form-input" value="2" min="0" />
+            </div>
+            <div>
+              <span style="font-size: 11px; color: var(--text-muted);">Editors</span>
+              <input type="number" id="slotNumEditor" class="form-input" value="1" min="0" />
+            </div>
           </div>
         </div>
 
         <div class="form-group">
-          <label>Showreel / Portfolio URL</label>
-          <input type="text" class="form-input" value="https://vimeo.com/kirankumar-reel" />
+          <label>Detailed Requirements / Pitch</label>
+          <textarea id="newProjDesc" class="form-textarea" rows="3" placeholder="Describe the story, shoot dates, equipment needed, etc."></textarea>
         </div>
 
-        <button class="btn-save" onclick="alert('Profile changes saved successfully!')">Save Profile</button>
+        <button class="btn-3d btn-3d-primary" style="width: 100%; padding: 12px;" onclick="submitNewProject()">
+          Publish to Live Feed
+        </button>
       </div>
-    </section>
+    </div>
 
-    <!-- Bottom Tab Navigation -->
-    <nav class="bottom-nav">
-      <button class="nav-item active" onclick="switchTab('discover', this)">
-        <span class="nav-icon">🔍</span>
-        <span class="nav-label">Discover</span>
-      </button>
-      <button class="nav-item" onclick="switchTab('map', this)">
-        <span class="nav-icon">📡</span>
-        <span class="nav-label">Radar</span>
-      </button>
-      <button class="nav-item" onclick="switchTab('projects', this)">
-        <span class="nav-icon">🎬</span>
-        <span class="nav-label">Projects</span>
-      </button>
-      <button class="nav-item" onclick="switchTab('profile', this)">
-        <span class="nav-icon">👤</span>
-        <span class="nav-label">Profile</span>
-      </button>
-    </nav>
+    <!-- ==============================================
+         ACTIVE CHAT MODAL SCREEN
+         ============================================== -->
+    <div class="chat-view-modal" id="chatViewModal">
+      <div class="chat-top-header">
+        <button class="btn-3d btn-3d-dark" style="padding: 6px 10px; font-size: 12px;" onclick="closeChatModal()">← Back</button>
+        <img id="chatHeaderImg" src="" style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover;">
+        <div>
+          <div id="chatHeaderName" style="font-size: 14px; font-weight: 800; color: #fff;">User</div>
+          <div id="chatHeaderRole" style="font-size: 11px; color: var(--neon-cinema);">Role</div>
+        </div>
+      </div>
+
+      <div class="chat-messages-area" id="chatMessagesArea">
+        <!-- Messages -->
+      </div>
+
+      <div class="chat-input-bar">
+        <input type="text" id="chatTextInput" class="form-input" style="flex: 1;" placeholder="Type your message..." onkeydown="if(event.key==='Enter') sendChatMessage()" />
+        <button class="btn-3d btn-3d-primary" onclick="sendChatMessage()">Send</button>
+      </div>
+    </div>
 
   </div>
 
+  <!-- ==============================================
+       JAVASCRIPT APP LOGIC & STATE
+       ============================================== -->
   <script>
-    // User State & Coordinates (Default: Hyderabad Film Nagar area)
-    let userLat = 17.4486;
-    let userLng = 78.3908;
-    let currentFilter = 'All';
-
-    // Role Accent Colors
-    const roleColors = {
-      'Director': 'var(--role-director)',
-      'Cinematographer': 'var(--role-cinematographer)',
-      'Actor': 'var(--role-actor)',
-      'Editor': 'var(--role-editor)'
+    // Current User Profile State
+    const currentUser = {
+      name: "Kiran Varma",
+      role: "Director",
+      age: 28,
+      phone: "+91 98490 23456",
+      locationName: "Jubilee Hills, Hyderabad",
+      lat: 17.4325,
+      lng: 78.4070,
+      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+      showreel: "https://vimeo.com/kirandirector"
     };
 
-    // Realistic Mock Crew Data in India
-    const crewData = [
+    // Role Styling Map
+    const roleMeta = {
+      'Director': { color: 'var(--neon-director)', bg: 'rgba(255, 183, 3, 0.15)', border: '#ffb703' },
+      'Cinematographer': { color: 'var(--neon-cinema)', bg: 'rgba(0, 240, 255, 0.15)', border: '#00f0ff' },
+      'Actor': { color: 'var(--neon-actor)', bg: 'rgba(255, 0, 85, 0.15)', border: '#ff0055' },
+      'Editor': { color: 'var(--neon-editor)', bg: 'rgba(168, 85, 247, 0.15)', border: '#a855f7' }
+    };
+
+    // Realistic Mock Crew Data in Hyderabad Area
+    let crewMembers = [
       {
-        id: 1,
+        id: 101,
         name: "Siddharth Rao",
         role: "Cinematographer",
-        equipment: "Sony FX3 + Anamorphic lenses",
-        lat: 17.4520,
-        lng: 78.3990,
-        showreel: "https://vimeo.com",
-        bio: "Specialized in indie low-light moody lighting and gimbal tracking shots."
+        age: 27,
+        phone: "+91 98765 11223",
+        locationName: "Film Nagar, Hyderabad",
+        lat: 17.4190,
+        lng: 78.4110,
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+        rating: 4.9,
+        projectsCount: 8,
+        dayRate: 22000,
+        skills: ["Sony FX3", "Anamorphic", "Gimbal Specialist", "Gaffer"],
+        bio: "Specialized in indie low-light aesthetic and handheld cinematic motion.",
+        connected: true // already connected
       },
       {
-        id: 2,
+        id: 102,
         name: "Ananya Sharma",
         role: "Actor",
-        equipment: "Theatre background (5 yrs)",
-        lat: 17.4410,
-        lng: 78.3840,
-        showreel: "https://youtube.com",
-        bio: "Fluent in Telugu & Hindi. Method acting background, 6 indie shorts completed."
+        age: 24,
+        phone: "+91 98111 44556",
+        locationName: "Madhapur, Hyderabad",
+        lat: 17.4482,
+        lng: 78.3915,
+        avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
+        rating: 4.8,
+        projectsCount: 6,
+        dayRate: 15000,
+        skills: ["Method Acting", "Telugu", "Hindi", "Classical Dance"],
+        bio: "Theatre trained for 4 years. Fluent in Telugu, Hindi and English dialogs.",
+        connected: false
       },
       {
-        id: 3,
+        id: 103,
         name: "Vivek Menon",
         role: "Editor",
-        equipment: "DaVinci Resolve / Premiere Pro",
-        lat: 17.4650,
-        lng: 78.3750,
-        showreel: "https://behance.net",
-        bio: "Rhythm-focused narrative editor & colorist. Fast turnaround time."
+        age: 31,
+        phone: "+91 97000 88991",
+        locationName: "Gachibowli, Hyderabad",
+        lat: 17.4400,
+        lng: 78.3489,
+        avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
+        rating: 5.0,
+        projectsCount: 14,
+        dayRate: 18000,
+        skills: ["DaVinci Resolve", "Premiere Pro", "Color Grading", "Sound Design"],
+        bio: "Fast turnaround narrative film editor and senior colorist.",
+        connected: false
       },
       {
-        id: 4,
+        id: 104,
         name: "Rahul Nambiar",
         role: "Cinematographer",
-        equipment: "Blackmagic 6K Pro",
-        lat: 17.4320,
-        lng: 78.4110,
-        showreel: "https://vimeo.com",
-        bio: "Documentary and guerrilla indie filmmaker. Drone certified."
+        age: 29,
+        phone: "+91 99887 66554",
+        locationName: "Banjara Hills, Hyderabad",
+        lat: 17.4156,
+        lng: 78.4350,
+        avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150&auto=format&fit=crop&q=80",
+        rating: 4.7,
+        projectsCount: 5,
+        dayRate: 25000,
+        skills: ["RED Komodo", "FPV Drone", "Car Rigs"],
+        bio: "High-octane action and car tracking shot specialist with certified drone license.",
+        connected: false
       },
       {
-        id: 5,
-        name: "Meera Krishnan",
+        id: 105,
+        name: "Pooja Hegde Reddy",
         role: "Actor",
-        equipment: "Classical dancer & screen actor",
-        lat: 17.4700,
-        lng: 78.4050,
-        showreel: "https://youtube.com",
-        bio: "Expressive lead roles. Previous award winner at SIIMA Short Film Fest."
+        age: 23,
+        phone: "+91 94444 33221",
+        locationName: "Kondapur, Hyderabad",
+        lat: 17.4622,
+        lng: 78.3568,
+        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
+        rating: 4.6,
+        projectsCount: 3,
+        dayRate: 12000,
+        skills: ["Expressive", "Dubbing", "Improv"],
+        bio: "Lead roles in SIIMA nominee short films. Passionate about indie arthouse cinema.",
+        connected: false
       }
     ];
 
-    // Project Slots State
-    const projectSlots = {
-      Cinematographer: null,
-      Actor: null,
-      Editor: null
-    };
-
-    // Regex for extracting Lat/Lng from Google Maps Links without API
-    function parseGoogleMapsUrl(url) {
-      const coordDisplay = document.getElementById('coordsDisplay');
-      const status = document.getElementById('geoStatus');
-      
-      // Matches @lat,lng or q=lat,lng or ll=lat,lng
-      const regex = /(?:@|q=|ll=)(-?\d+\.\d+),(-?\d+\.\d+)/;
-      const match = url.match(regex);
-
-      if (match) {
-        userLat = parseFloat(match[1]);
-        userLng = parseFloat(match[2]);
-        coordDisplay.innerText = `${userLat.toFixed(4)}, ${userLng.toFixed(4)}`;
-        status.style.color = '#10b981';
-        renderCrewList();
-        renderRadar();
-      } else {
-        status.style.color = '#f59e0b';
-        coordDisplay.innerText = 'Coordinates parsed fallback';
+    // Connect Requests Pool
+    let pendingRequests = [
+      {
+        id: 201,
+        crewId: 102,
+        name: "Ananya Sharma",
+        role: "Actor",
+        avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
+        note: "Hey Kiran, I loved the script logline for Night Run. Would love to audition!"
       }
-    }
+    ];
 
-    // Haversine Distance Formula
-    function getDistanceKm(lat1, lon1, lat2, lon2) {
+    // Live Projects Feed
+    let projectsFeed = [
+      {
+        id: 301,
+        title: "NIGHT RUN: HYDERABAD",
+        type: "Short Film",
+        status: "Pre-production",
+        creatorName: "Kiran Varma (You)",
+        desc: "A neo-noir crime thriller set in the underbelly of Begumpet during midnight.",
+        slots: {
+          Cinematographer: { needed: 1, filled: 1, names: ["Siddharth Rao"] },
+          Actor: { needed: 2, filled: 1, names: ["Open Slot", "Open Slot"] },
+          Editor: { needed: 1, filled: 0, names: ["Open Slot"] }
+        }
+      },
+      {
+        id: 302,
+        title: "SHADOWS OF CHARMINAR",
+        type: "Web Series",
+        status: "Shooting",
+        creatorName: "Tarun Bhaskar Fans Unit",
+        desc: "A 4-episode dark comedy series exploring old city alleys. Looking for second camera op and sound designer.",
+        slots: {
+          Cinematographer: { needed: 2, filled: 1, names: ["Rahul Nambiar"] },
+          Actor: { needed: 4, filled: 3, names: [] },
+          Editor: { needed: 1, filled: 1, names: ["Vivek Menon"] }
+        }
+      }
+    ];
+
+    // In-App Chat Threads State
+    let activeChatThreads = [
+      {
+        crewId: 101,
+        name: "Siddharth Rao",
+        role: "Cinematographer",
+        avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+        messages: [
+          { sender: 'them', text: "Hey Kiran! Checked the shoot dates for 'Night Run'. I have my FX3 ready with prime lenses." },
+          { sender: 'me', text: "Awesome Siddharth! Let's do a location recce this Saturday near Film Nagar." }
+        ]
+      }
+    ];
+
+    let currentSelectedRole = 'All';
+    let currentSearchTerm = '';
+    let currentMaxBudget = 45000;
+    let currentRadiusFilter = null;
+    let activeChatPartnerId = null;
+
+    // Haversine formula for exact distance computation
+    function calculateRealDistance(lat1, lon1, lat2, lon2) {
       const R = 6371; // Earth radius in km
       const dLat = (lat2 - lat1) * (Math.PI / 180);
       const dLon = (lon2 - lon1) * (Math.PI / 180);
@@ -776,150 +1448,483 @@
         Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
         Math.sin(dLon / 2) * Math.sin(dLon / 2);
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      return (R * c).toFixed(1);
+      return parseFloat((R * c).toFixed(1));
     }
 
-    // Render Crew List
-    function renderCrewList() {
-      const container = document.getElementById('crewListContainer');
-      
-      // Calculate distances and sort
-      const list = crewData.map(crew => {
-        const dist = getDistanceKm(userLat, userLng, crew.lat, crew.lng);
-        return { ...crew, distance: parseFloat(dist) };
-      }).sort((a, b) => a.distance - b.distance);
-
-      const filtered = currentFilter === 'All' 
-        ? list 
-        : list.filter(c => c.role.toLowerCase() === currentFilter.toLowerCase());
-
-      container.innerHTML = filtered.map(item => `
-        <div class="crew-card" style="--card-role-color: ${roleColors[item.role]}">
-          <div class="crew-header">
-            <div>
-              <div class="crew-name">${item.name}</div>
-              <div class="crew-meta" style="margin-top: 4px;">
-                <span>📍 ${item.distance} km away</span>
-                <span>•</span>
-                <span>🛠️ ${item.equipment}</span>
-              </div>
-            </div>
-            <span class="crew-badge">${item.role}</span>
-          </div>
-          <p class="crew-bio">${item.bio}</p>
-          <div class="crew-footer">
-            <a href="${item.showreel}" target="_blank" class="showreel-link">▶ Watch Showreel</a>
-            <button class="btn-invite" onclick="inviteToProject('${item.role}', '${item.name}')">
-              ${projectSlots[item.role] === item.name ? '✓ Slot Filled' : '+ Invite to Slot'}
-            </button>
-          </div>
-        </div>
-      `).join('');
+    // Regex for Extracting Lat/Lng from Google Maps Links
+    function parseGoogleMapsRegex(url) {
+      const regex = /(?:@|q=|ll=)(-?\d+\.\d+),(-?\d+\.\d+)/;
+      const match = url.match(regex);
+      if (match) {
+        return { lat: parseFloat(match[1]), lng: parseFloat(match[2]) };
+      }
+      return null;
     }
 
-    // Filter by Role
-    function filterRole(role, btn) {
-      currentFilter = role;
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderCrewList();
+    function handleUserMapsLinkInput(val) {
+      const parsed = parseGoogleMapsRegex(val);
+      if (parsed) {
+        currentUser.lat = parsed.lat;
+        currentUser.lng = parsed.lng;
+        document.getElementById('userCoordsDisplay').innerText = `${parsed.lat.toFixed(4)}, ${parsed.lng.toFixed(4)}`;
+        renderCrewList();
+        renderRadarPins();
+      }
     }
 
-    // Render Radar View
-    function renderRadar() {
-      const radar = document.getElementById('radarContainer');
-      // Remove existing blips
-      radar.querySelectorAll('.radar-blip').forEach(b => b.remove());
-
-      crewData.forEach(crew => {
-        const dLat = crew.lat - userLat;
-        const dLng = crew.lng - userLng;
-        
-        // Scale to percentage for radar visualization (-0.05 to +0.05 deg mapped to 15%..85%)
-        const leftPercent = Math.min(Math.max(50 + (dLng * 800), 10), 90);
-        const topPercent = Math.min(Math.max(50 - (dLat * 800), 10), 90);
-
-        const blip = document.createElement('div');
-        blip.className = 'radar-blip';
-        blip.style.background = roleColors[crew.role];
-        blip.style.left = `${leftPercent}%`;
-        blip.style.top = `${topPercent}%`;
-        blip.title = `${crew.name} (${crew.role})`;
-        blip.onclick = () => {
-          alert(`${crew.name}\nRole: ${crew.role}\nDistance: ${getDistanceKm(userLat, userLng, crew.lat, crew.lng)} km away\nTools: ${crew.equipment}`);
+    // Photo Upload Handler (FileReader -> DataURL)
+    function handlePhotoUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          const dataUrl = evt.target.result;
+          currentUser.avatar = dataUrl;
+          document.getElementById('profilePhotoDisplay').src = dataUrl;
+          document.getElementById('headerAvatar').src = dataUrl;
         };
-        radar.appendChild(blip);
-      });
+        reader.readAsDataURL(file);
+      }
     }
 
-    // Project Slot Management
-    function renderProjectSlots() {
-      const container = document.getElementById('projectSlotsContainer');
-      const roles = ['Cinematographer', 'Actor', 'Editor'];
+    // Discover Filtering & Rendering
+    function renderCrewList() {
+      const container = document.getElementById('crewFeedContainer');
+      
+      // Calculate real distance for every crew member
+      const withDistance = crewMembers.map(crew => {
+        const dist = calculateRealDistance(currentUser.lat, currentUser.lng, crew.lat, crew.lng);
+        return { ...crew, distance: dist };
+      }).sort((a, b) => a.distance - b.distance); // Nearest first
 
-      container.innerHTML = roles.map(role => {
-        const filledBy = projectSlots[role];
-        const color = roleColors[role];
+      // Apply Filters
+      const filtered = withDistance.filter(item => {
+        const matchRole = currentSelectedRole === 'All' || item.role.toLowerCase() === currentSelectedRole.toLowerCase();
+        const matchSearch = currentSearchTerm === '' || 
+          item.name.toLowerCase().includes(currentSearchTerm) ||
+          item.skills.some(s => s.toLowerCase().includes(currentSearchTerm)) ||
+          item.locationName.toLowerCase().includes(currentSearchTerm);
+        const matchBudget = item.dayRate <= currentMaxBudget;
+        const matchRadius = currentRadiusFilter === null || item.distance <= currentRadiusFilter;
+
+        return matchRole && matchSearch && matchBudget && matchRadius;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 30px; color: var(--text-muted);">
+            No crew found matching your search & budget criteria.
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = filtered.map(crew => {
+        const roleStyle = roleMeta[crew.role] || roleMeta['Director'];
+        const isVerified = crew.projectsCount >= 5;
 
         return `
-          <div class="slot-item ${filledBy ? 'filled' : ''}">
-            <div class="slot-role-info">
-              <span class="slot-tag" style="background: rgba(255,255,255,0.08); color: ${color}; border: 1px solid ${color};">
-                ${role}
-              </span>
-              <span style="font-size: 13px; font-weight: 500; color: ${filledBy ? '#fff' : 'var(--text-muted)'};">
-                ${filledBy ? filledBy : 'Empty Slot (Unassigned)'}
-              </span>
+          <div class="crew-card">
+            <div class="crew-top">
+              <img class="crew-avatar" src="${crew.avatar}" alt="${crew.name}">
+              <div class="crew-info">
+                <div class="crew-name-row">
+                  <span class="crew-name">${crew.name}</span>
+                  <span style="font-size: 13px; color: var(--text-muted);">(${crew.age}y)</span>
+                  ${isVerified ? `<span class="badge-verified">✓ Verified</span>` : ''}
+                  <span class="role-badge" style="background: ${roleStyle.bg}; color: ${roleStyle.color}; border: 1px solid ${roleStyle.border}">
+                    ${crew.role}
+                  </span>
+                </div>
+                <div class="crew-location-line">
+                  <span>📍 ${crew.locationName}</span>
+                  <span>•</span>
+                  <span style="color: var(--neon-cinema); font-weight: 700;">${crew.distance} km away</span>
+                </div>
+              </div>
             </div>
-            ${filledBy ? `
-              <button class="btn-remove-slot" onclick="removeSlot('${role}')">✕ Remove</button>
-            ` : `
-              <button class="btn-invite" onclick="switchTab('discover', document.querySelectorAll('.nav-item')[0])">Find Crew</button>
-            `}
+
+            <div class="crew-stats-strip">
+              <span class="stat-rating">★ ${crew.rating} / 5.0</span>
+              <span style="color: var(--text-muted);">(${crew.projectsCount} projects done)</span>
+              <span class="stat-rate">₹${crew.dayRate.toLocaleString()}/day</span>
+            </div>
+
+            <div class="crew-skills">
+              ${crew.skills.map(s => `<span class="skill-tag">${s}</span>`).join('')}
+            </div>
+
+            <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4;">${crew.bio}</p>
+
+            <div class="crew-card-actions">
+              ${crew.connected ? `
+                <div class="phone-unlocked">
+                  📞 ${crew.phone}
+                </div>
+                <button class="btn-3d btn-3d-primary" onclick="openDirectChat(${crew.id})">
+                  💬 Chat Now
+                </button>
+              ` : `
+                <div class="phone-locked">
+                  🔒 Phone locked until connect
+                </div>
+                <button class="btn-3d btn-3d-connect" onclick="sendConnectRequest(${crew.id})">
+                  ⚡ Send Connect
+                </button>
+              `}
+            </div>
           </div>
         `;
       }).join('');
     }
 
-    function inviteToProject(role, name) {
-      projectSlots[role] = name;
-      renderProjectSlots();
+    // Toggle Discover List / Radar
+    function setDiscoverView(view) {
+      const listView = document.getElementById('discoverListView');
+      const radarView = document.getElementById('discoverRadarView');
+      const btnList = document.getElementById('btnViewList');
+      const btnRadar = document.getElementById('btnViewRadar');
+
+      if (view === 'list') {
+        listView.style.display = 'block';
+        radarView.style.display = 'none';
+        btnList.classList.add('active');
+        btnRadar.classList.remove('active');
+      } else {
+        listView.style.display = 'none';
+        radarView.style.display = 'block';
+        btnList.classList.remove('active');
+        btnRadar.classList.add('active');
+        renderRadarPins();
+      }
+    }
+
+    // Render Dynamic Radar Pins
+    function renderRadarPins() {
+      const visualBox = document.getElementById('radarVisualBox');
+      visualBox.querySelectorAll('.radar-pin').forEach(p => p.remove());
+
+      crewMembers.forEach(crew => {
+        const dLat = crew.lat - currentUser.lat;
+        const dLng = crew.lng - currentUser.lng;
+        
+        // Map delta to radar radius percent
+        const leftPercent = Math.min(Math.max(50 + (dLng * 900), 12), 88);
+        const topPercent = Math.min(Math.max(50 - (dLat * 900), 12), 88);
+
+        const pin = document.createElement('img');
+        pin.className = 'radar-pin';
+        pin.src = crew.avatar;
+        pin.style.left = `${leftPercent}%`;
+        pin.style.top = `${topPercent}%`;
+        pin.style.borderColor = roleMeta[crew.role]?.border || '#fff';
+        pin.title = `${crew.name} (${crew.role}) - ${calculateRealDistance(currentUser.lat, currentUser.lng, crew.lat, crew.lng)} km`;
+        
+        pin.onclick = () => {
+          setDiscoverView('list');
+          currentSearchTerm = crew.name.toLowerCase();
+          document.getElementById('discoverSearchInput').value = crew.name;
+          renderCrewList();
+        };
+
+        visualBox.appendChild(pin);
+      });
+    }
+
+    function filterByDistanceRadius(km) {
+      currentRadiusFilter = (currentRadiusFilter === km) ? null : km;
       renderCrewList();
-      alert(`Assigned ${name} to your project as ${role}!`);
+      alert(`Filtering crew within ${km} km radius!`);
     }
 
-    function removeSlot(role) {
-      projectSlots[role] = null;
-      renderProjectSlots();
+    function handleSearchFilter() {
+      currentSearchTerm = document.getElementById('discoverSearchInput').value.toLowerCase().trim();
       renderCrewList();
     }
 
-    function updateProfileRole(role) {
-      const badge = document.getElementById('userRoleBadge');
-      badge.innerText = role;
-      badge.style.color = roleColors[role];
-      badge.style.borderColor = roleColors[role];
-      badge.style.background = `rgba(255, 255, 255, 0.05)`;
+    function handleBudgetFilter(val) {
+      currentMaxBudget = parseInt(val);
+      document.getElementById('dayRateVal').innerText = `₹${currentMaxBudget.toLocaleString()} / day`;
+      renderCrewList();
     }
 
-    // Tab Navigation Switcher
-    function switchTab(screenId, btn) {
+    function filterRole(role, btn) {
+      currentSelectedRole = role;
+      document.querySelectorAll('.role-filter-chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderCrewList();
+    }
+
+    // Connect Flow
+    function sendConnectRequest(crewId) {
+      const member = crewMembers.find(c => c.id === crewId);
+      if (member) {
+        alert(`⚡ Connect request sent to ${member.name}! Once they accept, their mobile number and in-app chat will unlock.`);
+      }
+    }
+
+    function renderConnectRequests() {
+      const container = document.getElementById('requestsListContainer');
+      document.getElementById('connectsBadge').innerText = pendingRequests.length;
+
+      if (pendingRequests.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:30px; color:var(--text-muted);">No pending connect requests.</div>`;
+        return;
+      }
+
+      container.innerHTML = pendingRequests.map(req => `
+        <div class="request-item">
+          <div class="req-user">
+            <img class="req-avatar" src="${req.avatar}">
+            <div>
+              <div style="font-size: 15px; font-weight: 700; color: #fff;">${req.name}</div>
+              <div style="font-size: 12px; color: var(--neon-cinema);">${req.role}</div>
+              <div style="font-size: 11px; color: #cbd5e1; margin-top: 4px;">"${req.note}"</div>
+            </div>
+          </div>
+          <div class="req-actions">
+            <button class="btn-3d btn-3d-primary" style="padding: 6px 10px; font-size: 11px;" onclick="acceptConnectRequest(${req.id})">Accept</button>
+            <button class="btn-3d btn-3d-dark" style="padding: 6px 10px; font-size: 11px;" onclick="declineConnectRequest(${req.id})">Decline</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function acceptConnectRequest(reqId) {
+      const req = pendingRequests.find(r => r.id === reqId);
+      if (req) {
+        // Mark member as connected
+        const target = crewMembers.find(c => c.id === req.crewId);
+        if (target) target.connected = true;
+
+        // Add thread to active chat threads if not exists
+        if (!activeChatThreads.some(t => t.crewId === req.crewId)) {
+          activeChatThreads.push({
+            crewId: target.id,
+            name: target.name,
+            role: target.role,
+            avatar: target.avatar,
+            messages: [
+              { sender: 'them', text: `Hi Kiran, thanks for connecting! Looking forward to working together.` }
+            ]
+          });
+        }
+
+        // Remove from pending
+        pendingRequests = pendingRequests.filter(r => r.id !== reqId);
+        renderConnectRequests();
+        renderThreads();
+        renderCrewList();
+        alert(`Connected with ${req.name}! Phone number unlocked and Chat thread opened.`);
+      }
+    }
+
+    function declineConnectRequest(reqId) {
+      pendingRequests = pendingRequests.filter(r => r.id !== reqId);
+      renderConnectRequests();
+    }
+
+    // Projects Feed
+    function renderProjectsFeed() {
+      const container = document.getElementById('projectsFeedContainer');
+      container.innerHTML = projectsFeed.map(proj => {
+        return `
+          <div class="project-card">
+            <div class="project-card-top">
+              <div>
+                <span style="font-size: 11px; color: var(--neon-cinema); font-weight: 700; text-transform: uppercase;">${proj.type}</span>
+                <div class="project-title">${proj.title}</div>
+              </div>
+              <span class="status-badge">${proj.status}</span>
+            </div>
+            
+            <div class="project-creator-row">
+              <span>👤 Created by <strong>${proj.creatorName}</strong></span>
+            </div>
+
+            <p class="project-desc">${proj.desc}</p>
+
+            <div class="slots-grid">
+              ${Object.entries(proj.slots).map(([role, slotData]) => `
+                <div class="slot-row">
+                  <span class="slot-title" style="color: ${roleMeta[role]?.color || '#fff'}">${role}</span>
+                  <span class="slot-fill-status">
+                    ${slotData.filled} of ${slotData.needed} filled
+                  </span>
+                </div>
+              `).join('')}
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px;">
+              <button class="btn-3d btn-3d-dark" onclick="alert('Shared project details to clipboard!')">🔗 Share</button>
+              <button class="btn-3d btn-3d-connect" onclick="alert('Connect request sent to project creator!')">⚡ Apply for Slot</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openCreateProjectModal() {
+      document.getElementById('createProjectModal').classList.add('active');
+    }
+    function closeCreateProjectModal() {
+      document.getElementById('createProjectModal').classList.remove('active');
+    }
+
+    function submitNewProject() {
+      const title = document.getElementById('newProjTitle').value.trim() || 'Untitled Project';
+      const type = document.getElementById('newProjType').value;
+      const status = document.getElementById('newProjStatus').value;
+      const desc = document.getElementById('newProjDesc').value.trim() || 'No description provided.';
+      
+      const dopCount = parseInt(document.getElementById('slotNumDop').value) || 0;
+      const actorCount = parseInt(document.getElementById('slotNumActor').value) || 0;
+      const editorCount = parseInt(document.getElementById('slotNumEditor').value) || 0;
+
+      const newProj = {
+        id: Date.now(),
+        title: title.toUpperCase(),
+        type: type,
+        status: status,
+        creatorName: `${currentUser.name} (You)`,
+        desc: desc,
+        slots: {
+          Cinematographer: { needed: dopCount, filled: 0, names: [] },
+          Actor: { needed: actorCount, filled: 0, names: [] },
+          Editor: { needed: editorCount, filled: 0, names: [] }
+        }
+      };
+
+      projectsFeed.unshift(newProj);
+      renderProjectsFeed();
+      closeCreateProjectModal();
+      alert(`Project "${title}" is now LIVE to everyone on the feed!`);
+    }
+
+    // Chat / Messages System
+    function renderThreads() {
+      const container = document.getElementById('threadsListContainer');
+      if (activeChatThreads.length === 0) {
+        container.innerHTML = `<div style="text-align: center; padding: 30px; color: var(--text-muted);">No active conversations yet. Connect with crew members to start chatting.</div>`;
+        return;
+      }
+
+      container.innerHTML = activeChatThreads.map(thread => {
+        const lastMsg = thread.messages[thread.messages.length - 1];
+        return `
+          <div class="thread-card" onclick="openDirectChat(${thread.crewId})">
+            <img src="${thread.avatar}" style="width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 2px solid #333;">
+            <div class="thread-info">
+              <div style="display: flex; justify-content: space-between;">
+                <span class="thread-name">${thread.name}</span>
+                <span style="font-size: 11px; color: var(--neon-cinema); font-weight: 700;">${thread.role}</span>
+              </div>
+              <div class="thread-preview">${lastMsg ? lastMsg.text : 'Tap to chat'}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openDirectChat(crewId) {
+      activeChatPartnerId = crewId;
+      let thread = activeChatThreads.find(t => t.crewId === crewId);
+      if (!thread) {
+        const member = crewMembers.find(c => c.id === crewId);
+        thread = {
+          crewId: member.id,
+          name: member.name,
+          role: member.role,
+          avatar: member.avatar,
+          messages: []
+        };
+        activeChatThreads.push(thread);
+      }
+
+      document.getElementById('chatHeaderName').innerText = thread.name;
+      document.getElementById('chatHeaderRole').innerText = thread.role;
+      document.getElementById('chatHeaderImg').src = thread.avatar;
+
+      renderChatMessages();
+      document.getElementById('chatViewModal').classList.add('active');
+    }
+
+    function closeChatModal() {
+      document.getElementById('chatViewModal').classList.remove('active');
+      renderThreads();
+    }
+
+    function renderChatMessages() {
+      const area = document.getElementById('chatMessagesArea');
+      const thread = activeChatThreads.find(t => t.crewId === activeChatPartnerId);
+      if (!thread) return;
+
+      area.innerHTML = thread.messages.map(m => `
+        <div class="chat-bubble ${m.sender === 'me' ? 'mine' : 'theirs'}">
+          ${m.text}
+        </div>
+      `).join('');
+
+      area.scrollTop = area.scrollHeight;
+    }
+
+    function sendChatMessage() {
+      const input = document.getElementById('chatTextInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const thread = activeChatThreads.find(t => t.crewId === activeChatPartnerId);
+      if (thread) {
+        thread.messages.push({ sender: 'me', text: text });
+        input.value = '';
+        renderChatMessages();
+
+        // Auto mock reply after 1.5s
+        setTimeout(() => {
+          thread.messages.push({ sender: 'them', text: `Noted Kiran! Let's make this short film huge 🎬` });
+          renderChatMessages();
+        }, 1200);
+      }
+    }
+
+    // Save Profile Action
+    function saveUserProfile() {
+      currentUser.name = document.getElementById('profName').value;
+      currentUser.age = document.getElementById('profAge').value;
+      currentUser.role = document.getElementById('profRole').value;
+      currentUser.phone = document.getElementById('profPhone').value;
+      currentUser.locationName = document.getElementById('profLocationText').value;
+      currentUser.showreel = document.getElementById('profShowreel').value;
+      
+      alert('Profile details and GPS location updated successfully!');
+      renderCrewList();
+    }
+
+    // Bottom Navigation Switcher
+    function switchNavTab(screenKey) {
       document.querySelectorAll('.screen-view').forEach(s => s.classList.remove('active'));
-      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
 
-      document.getElementById(`screen-${screenId}`).classList.add('active');
-      if (btn) btn.classList.add('active');
+      const targetScreen = document.getElementById(`screen-${screenKey}`);
+      if (targetScreen) targetScreen.classList.add('active');
 
-      if (screenId === 'map') renderRadar();
-      if (screenId === 'projects') renderProjectSlots();
-      if (screenId === 'discover') renderCrewList();
+      const btnIndex = { discover: 0, projects: 1, requests: 2, messages: 3, profile: 4 }[screenKey];
+      if (btnIndex !== undefined) {
+        document.querySelectorAll('.nav-btn')[btnIndex].classList.add('active');
+      }
+
+      if (screenKey === 'discover') renderCrewList();
+      if (screenKey === 'projects') renderProjectsFeed();
+      if (screenKey === 'requests') renderConnectRequests();
+      if (screenKey === 'messages') renderThreads();
     }
 
-    // Initialize on Load
+    // Initial Bootstrap
     window.addEventListener('DOMContentLoaded', () => {
       renderCrewList();
-      renderProjectSlots();
-      renderRadar();
+      renderProjectsFeed();
+      renderConnectRequests();
+      renderThreads();
     });
   </script>
 </body>
