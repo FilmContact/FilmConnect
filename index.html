@@ -132,9 +132,7 @@
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.3; transform: scale(0.8); }
     }
-    .user-mini-avatar {
-      cursor: pointer;
-    }
+    .user-mini-avatar { cursor: pointer; }
     .avatar-img-circle {
       width: 38px;
       height: 38px;
@@ -152,12 +150,12 @@
       font-size: 12px;
       cursor: pointer;
       border-radius: 8px;
-      padding: 10px 14px;
+      padding: 9px 13px;
       transition: transform 0.08s ease, box-shadow 0.08s ease;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 5px;
       text-transform: uppercase;
       letter-spacing: 0.3px;
     }
@@ -203,6 +201,11 @@
       color: #000;
       box-shadow: 0 3px 0 #059669;
     }
+    .btn-3d-warning {
+      background: #f97316;
+      color: #fff;
+      box-shadow: 0 3px 0 #c2410c;
+    }
 
     /* Screen Management */
     .screen-view {
@@ -210,9 +213,7 @@
       padding: 16px;
       animation: screenFade 0.2s ease-out;
     }
-    .screen-view.active {
-      display: block;
-    }
+    .screen-view.active { display: block; }
     @keyframes screenFade {
       from { opacity: 0; transform: translateY(5px); }
       to { opacity: 1; transform: translateY(0); }
@@ -275,10 +276,7 @@
       color: #fff;
       font-size: 14px;
     }
-    .search-input:focus {
-      outline: none;
-      border-color: var(--neon-cinema);
-    }
+    .search-input:focus { outline: none; border-color: var(--neon-cinema); }
     .search-icon-fixed {
       position: absolute;
       left: 12px;
@@ -338,9 +336,7 @@
       object-fit: cover;
       border: 2px solid #333;
     }
-    .crew-info {
-      flex: 1;
-    }
+    .crew-info { flex: 1; }
     .crew-name-row {
       display: flex;
       align-items: center;
@@ -371,7 +367,8 @@
     }
     .crew-stats-strip {
       display: flex;
-      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
       font-size: 12px;
       background: #0d1017;
       padding: 6px 10px;
@@ -567,7 +564,15 @@
       gap: 8px;
     }
 
-    /* Messages & Chat */
+    /* Messages & Group Section */
+    .messages-section-title {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+      margin: 14px 0 8px 0;
+    }
     .threads-list {
       display: flex;
       flex-direction: column;
@@ -582,6 +587,18 @@
       align-items: center;
       gap: 12px;
       cursor: pointer;
+      position: relative;
+    }
+    .group-avatar-stack {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #2a1b4e, #14283c);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      border: 1px solid var(--border-glow);
     }
 
     /* In-App Chat Modal */
@@ -598,16 +615,19 @@
       display: none;
       flex-direction: column;
     }
-    .chat-view-modal.active {
-      display: flex;
-    }
+    .chat-view-modal.active { display: flex; }
     .chat-top-header {
       padding: 12px 16px;
       background: var(--bg-card);
       border-bottom: 1px solid var(--border-dim);
       display: flex;
       align-items: center;
-      gap: 12px;
+      justify-content: space-between;
+    }
+    .chat-user-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     .chat-messages-area {
       flex: 1;
@@ -618,11 +638,14 @@
       gap: 12px;
     }
     .chat-bubble {
-      max-width: 78%;
+      max-width: 82%;
       padding: 10px 14px;
       border-radius: 12px;
       font-size: 13px;
       line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
     .chat-bubble.mine {
       align-self: flex-end;
@@ -636,15 +659,29 @@
       color: #fff;
       border: 1px solid var(--border-dim);
     }
+    .chat-sender-tag {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--neon-cinema);
+      margin-bottom: 2px;
+    }
+    .chat-image-content {
+      width: 100%;
+      max-width: 220px;
+      border-radius: 8px;
+      margin-top: 4px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
     .chat-input-bar {
-      padding: 12px 14px;
+      padding: 10px 14px;
       background: var(--bg-card);
       border-top: 1px solid var(--border-dim);
       display: flex;
+      align-items: center;
       gap: 8px;
     }
 
-    /* Modal Sheet */
+    /* Modal Overlay & Card */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -658,9 +695,7 @@
       z-index: 300;
       padding: 16px;
     }
-    .modal-overlay.active {
-      display: flex;
-    }
+    .modal-overlay.active { display: flex; }
     .modal-card {
       background: var(--bg-main);
       border: 1px solid var(--border-glow);
@@ -673,7 +708,7 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.8);
     }
 
-    /* Form Fields */
+    /* Form UI */
     .form-group {
       display: flex;
       flex-direction: column;
@@ -707,6 +742,39 @@
       align-items: center;
     }
 
+    .crew-select-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #0e121a;
+      padding: 8px 10px;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      border: 1px solid #1f2536;
+    }
+
+    /* Reviews Section in Modal */
+    .review-bubble {
+      background: #0d1017;
+      border: 1px solid #1e2433;
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .star-rating-select {
+      display: flex;
+      gap: 8px;
+      margin: 8px 0;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
     /* Bottom Navigation */
     .bottom-nav {
       position: fixed;
@@ -732,9 +800,7 @@
       cursor: pointer;
       position: relative;
     }
-    .nav-btn.active {
-      color: #fff;
-    }
+    .nav-btn.active { color: #fff; }
     .nav-btn.active::after {
       content: "";
       position: absolute;
@@ -788,13 +854,11 @@
       <h1 class="section-title">CREW RADAR & DISCOVER</h1>
       <p class="section-desc">Find nearby film talent sorted by live GPS distance</p>
 
-      <!-- View Toggle -->
       <div class="toggle-pill-wrap">
         <button class="toggle-pill-btn active" id="btnViewList" onclick="setDiscoverView('list')">📋 List View</button>
         <button class="toggle-pill-btn" id="btnViewRadar" onclick="setDiscoverView('radar')">📡 Radar View</button>
       </div>
 
-      <!-- Search Box -->
       <div class="search-box">
         <span class="search-icon-fixed">🔍</span>
         <input 
@@ -806,7 +870,6 @@
         />
       </div>
 
-      <!-- Role Filters -->
       <div class="filter-scroll">
         <button class="role-filter-chip active" onclick="filterRole('All', this)">All Crew</button>
         <button class="role-filter-chip" onclick="filterRole('Cinematographer', this)">Cinematographers</button>
@@ -814,12 +877,10 @@
         <button class="role-filter-chip" onclick="filterRole('Editor', this)">Editors</button>
       </div>
 
-      <!-- List Container -->
       <div id="discoverListView">
         <div class="crew-feed" id="crewFeedContainer"></div>
       </div>
 
-      <!-- Radar Container -->
       <div id="discoverRadarView" style="display: none;">
         <div class="radar-container-card">
           <div class="radar-visual" id="radarVisualBox">
@@ -859,18 +920,29 @@
       <div class="requests-list" id="requestsListContainer"></div>
     </section>
 
-    <!-- ================= 4. IN-APP MESSAGES ================= -->
+    <!-- ================= 4. IN-APP MESSAGES & TEAMS ================= -->
     <section id="screen-messages" class="screen-view">
-      <h1 class="section-title">UNIT DISPATCH</h1>
-      <p class="section-desc">Direct in-app messaging with accepted crew connections</p>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <div>
+          <h1 class="section-title">UNIT DISPATCH</h1>
+          <p class="section-desc" style="margin: 0;">Direct chats & team group channels</p>
+        </div>
+        <button class="btn-3d btn-3d-primary" onclick="openCreateGroupModal()">
+          👥 + Create Group
+        </button>
+      </div>
 
+      <div class="messages-section-title">👥 Team & Project Groups</div>
+      <div class="threads-list" id="groupThreadsContainer"></div>
+
+      <div class="messages-section-title" style="margin-top: 18px;">💬 1-on-1 Direct Messages</div>
       <div class="threads-list" id="threadsListContainer"></div>
     </section>
 
-    <!-- ================= 5. PROFILE SCREEN (With Description / Bio) ================= -->
+    <!-- ================= 5. PROFILE SCREEN (MOBILE NUMBER REMOVED) ================= -->
     <section id="screen-profile" class="screen-view">
       <h1 class="section-title">CREW PROFILE</h1>
-      <p class="section-desc">Complete your profile to book slots & receive film invites</p>
+      <p class="section-desc">Manage your showreels, storytelling bio & GPS shoot location</p>
 
       <div style="background: var(--bg-card); padding: 14px; border-radius: 12px; border: 1px solid var(--border-dim); margin-bottom: 14px; display: flex; align-items: center; gap: 14px;">
         <img id="profilePhotoDisplay" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 3px solid var(--neon-director);">
@@ -896,25 +968,23 @@
 
       <div class="form-group">
         <label>Primary Role *</label>
-        <select id="profRole" class="form-select">
+        <select id="profRole" class="form-select" onchange="handleProfileRoleChange(this.value)">
           <option value="Director" selected>Director</option>
           <option value="Cinematographer">Cinematographer</option>
           <option value="Actor">Actor</option>
           <option value="Editor">Editor</option>
           <option value="Sound Engineer">Sound Engineer</option>
           <option value="Music Director">Music Director</option>
+          <option value="Other">Others (Type Below)</option>
         </select>
+        <div id="customRoleWrap" style="display: none; margin-top: 6px;">
+          <input type="text" id="customProfRoleInput" class="form-input" placeholder="Enter your custom role (e.g. Art Director / Drone Pilot / Stylist)" />
+        </div>
       </div>
 
-      <!-- 2. Profile Description / Bio -->
       <div class="form-group">
         <label>About You / Bio (Describe yourself & your work)</label>
-        <textarea id="profBio" class="form-textarea" rows="3" placeholder="Tell directors and crew about your experience, past short films, storytelling vision, equipment, etc."></textarea>
-      </div>
-
-      <div class="form-group">
-        <label>Mobile Number * (Protected)</label>
-        <input type="text" id="profPhone" class="form-input" value="+91 98490 23456" />
+        <textarea id="profBio" class="form-textarea" rows="3" placeholder="Tell directors and crew about your experience, past short films, storytelling vision, etc."></textarea>
       </div>
 
       <div class="form-group">
@@ -930,7 +1000,6 @@
         </div>
       </div>
 
-      <!-- Showreel & Portfolio Links -->
       <div class="form-group">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
           <label style="margin: 0;">Showreel & Portfolio URLs (Multiple)</label>
@@ -961,6 +1030,62 @@
         <span class="nav-btn-icon">👤</span><span class="nav-btn-label">Profile</span>
       </button>
     </nav>
+
+    <!-- ================= REVIEWS & RATING MODAL (Requirement 3) ================= -->
+    <div class="modal-overlay" id="reviewsModal">
+      <div class="modal-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h2 class="section-title" style="font-size: 20px;" id="reviewModalTitle">CREW REVIEWS</h2>
+          <button style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;" onclick="closeReviewsModal()">✕</button>
+        </div>
+
+        <div id="crewReviewsList" style="max-height: 220px; overflow-y: auto; margin-bottom: 14px;">
+          <!-- Populated via JS -->
+        </div>
+
+        <div style="border-top: 1px solid var(--border-dim); padding-top: 12px;">
+          <div style="font-size: 12px; font-weight: 800; color: #fff; margin-bottom: 4px;">Leave a Rating & Review</div>
+          
+          <div class="star-rating-select" id="starRatingPicker">
+            <span onclick="setRatingScore(1)">★</span>
+            <span onclick="setRatingScore(2)">★</span>
+            <span onclick="setRatingScore(3)">★</span>
+            <span onclick="setRatingScore(4)">★</span>
+            <span onclick="setRatingScore(5)">★</span>
+          </div>
+          <div style="font-size: 11px; color: var(--neon-director); margin-bottom: 8px;">
+            Selected: <span id="starScoreDisplay">5 Stars</span>
+          </div>
+
+          <textarea id="newReviewComment" class="form-textarea" rows="2" placeholder="Write about their filmmaking skills, punctuality, collaboration..."></textarea>
+          <button class="btn-3d btn-3d-primary" style="width: 100%; margin-top: 8px;" onclick="submitCrewReview()">Post Review</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= CREATE GROUP MODAL ================= -->
+    <div class="modal-overlay" id="createGroupModal">
+      <div class="modal-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h2 class="section-title" style="font-size: 22px;">CREATE TEAM GROUP</h2>
+          <button style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;" onclick="closeCreateGroupModal()">✕</button>
+        </div>
+
+        <div class="form-group">
+          <label>Group / Team Name *</label>
+          <input type="text" id="newGroupName" class="form-input" placeholder="e.g. 'Night Run — Core Unit 🎬'" />
+        </div>
+
+        <div class="form-group">
+          <label>Select Connected Crew to Add</label>
+          <div id="groupCrewSelectorList"></div>
+        </div>
+
+        <button class="btn-3d btn-3d-primary" style="width: 100%; padding: 12px;" onclick="submitCreateGroup()">
+          Create Group & Send Invites
+        </button>
+      </div>
+    </div>
 
     <!-- ================= CREATE PROJECT MODAL ================= -->
     <div class="modal-overlay" id="createProjectModal">
@@ -1042,20 +1167,32 @@
       </div>
     </div>
 
-    <!-- ================= CHAT MODAL ================= -->
+    <!-- ================= CHAT & GROUP MODAL ================= -->
     <div class="chat-view-modal" id="chatViewModal">
       <div class="chat-top-header">
-        <button class="btn-3d btn-3d-dark" style="padding: 6px 10px; font-size: 11px;" onclick="closeChatModal()">← Back</button>
-        <img id="chatHeaderImg" src="" style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover;">
-        <div>
-          <div id="chatHeaderName" style="font-size: 14px; font-weight: 800; color: #fff;">User</div>
-          <div id="chatHeaderRole" style="font-size: 11px; color: var(--neon-cinema);">Role</div>
+        <div class="chat-user-meta">
+          <button class="btn-3d btn-3d-dark" style="padding: 6px 10px; font-size: 11px;" onclick="closeChatModal()">← Back</button>
+          <img id="chatHeaderImg" src="" style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover;">
+          <div>
+            <div id="chatHeaderName" style="font-size: 14px; font-weight: 800; color: #fff;">User</div>
+            <div id="chatHeaderRole" style="font-size: 11px; color: var(--neon-cinema);">Role</div>
+          </div>
+        </div>
+
+        <div id="groupActionWrap" style="display: none;">
+          <button class="btn-3d btn-3d-danger" style="padding: 5px 8px; font-size: 10px;" onclick="exitCurrentGroup()">
+            🚪 Exit Group
+          </button>
         </div>
       </div>
 
       <div class="chat-messages-area" id="chatMessagesArea"></div>
 
       <div class="chat-input-bar">
+        <label class="btn-3d btn-3d-dark" style="padding: 8px 11px; font-size: 14px; cursor: pointer;" title="Share Image from Camera or Gallery">
+          📷
+          <input type="file" accept="image/*" style="display: none;" onchange="handleChatImageUpload(event)" />
+        </label>
         <input type="text" id="chatTextInput" class="form-input" style="flex: 1;" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendChatMessage()" />
         <button class="btn-3d btn-3d-primary" onclick="sendChatMessage()">Send</button>
       </div>
@@ -1064,13 +1201,12 @@
   </div>
 
   <script>
-    // Current User Profile State
+    // Current User Profile State (NO MOBILE NUMBER)
     const currentUser = {
       name: "Kiran Varma",
       role: "Director",
       age: 28,
       bio: "Passionate indie director & writer with 4+ years of experience. Focused on neo-noir and realistic drama short films.",
-      phone: "+91 98490 23456",
       locationName: "Jubilee Hills, Hyderabad",
       lat: 17.4325,
       lng: 78.4070,
@@ -1091,23 +1227,27 @@
       'Other': { color: '#10b981', bg: 'rgba(16, 185, 129, 0.15)', border: '#10b981' }
     };
 
-    // Mock Crew Data (No budget fields)
+    // Mock Crew Data (With Reviews, Ratings & Report Tracking)
     let crewMembers = [
       {
         id: 101,
         name: "Siddharth Rao",
         role: "Cinematographer",
         age: 27,
-        phone: "+91 98765 11223",
         locationName: "Film Nagar, Hyderabad",
         lat: 17.4190,
         lng: 78.4110,
         avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
         rating: 4.9,
         projectsCount: 8,
+        reportsCount: 0, // 10 reports threshold for auto-suspend
         portfolioLinks: [
           { platform: "Vimeo", url: "https://vimeo.com" },
           { platform: "Instagram", url: "https://instagram.com" }
+        ],
+        reviews: [
+          { reviewer: "Tarun Bhaskar", rating: 5, comment: "Superb low-light lighting techniques! Very cooperative." },
+          { reviewer: "Kiran Varma", rating: 5, comment: "Brought anamorphic lenses, top tier cinematography." }
         ],
         skills: ["Sony FX3", "Anamorphic", "Gimbal Specialist"],
         bio: "Specialized in indie low-light aesthetic, moody lighting and handheld cinematic motion.",
@@ -1118,16 +1258,19 @@
         name: "Ananya Sharma",
         role: "Actor",
         age: 24,
-        phone: "+91 98111 44556",
         locationName: "Madhapur, Hyderabad",
         lat: 17.4482,
         lng: 78.3915,
         avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
         rating: 4.8,
         projectsCount: 6,
+        reportsCount: 1,
         portfolioLinks: [
           { platform: "YouTube", url: "https://youtube.com" },
           { platform: "Instagram", url: "https://instagram.com" }
+        ],
+        reviews: [
+          { reviewer: "Venkat Cinema", rating: 5, comment: "Fluent in Telugu dialogue delivery. Great emotional range." }
         ],
         skills: ["Method Acting", "Telugu", "Hindi", "Classical Dance"],
         bio: "Theatre trained for 4 years. Fluent in Telugu, Hindi and English. 6 indie shorts completed.",
@@ -1138,16 +1281,19 @@
         name: "Vivek Menon",
         role: "Editor",
         age: 31,
-        phone: "+91 97000 88991",
         locationName: "Gachibowli, Hyderabad",
         lat: 17.4400,
         lng: 78.3489,
         avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
         rating: 5.0,
         projectsCount: 14,
+        reportsCount: 8, // Set to 8 so user can easily test 10 reports suspension!
         portfolioLinks: [
           { platform: "Drive", url: "https://drive.google.com" },
           { platform: "YouTube", url: "https://youtube.com" }
+        ],
+        reviews: [
+          { reviewer: "Sita Films", rating: 5, comment: "Fast turnaround in DaVinci Resolve color grading." }
         ],
         skills: ["DaVinci Resolve", "Premiere Pro", "Color Grading"],
         bio: "Fast turnaround narrative film editor, dialogue cutter and senior colorist.",
@@ -1171,25 +1317,9 @@
           { role: "Actor", needed: 2, filled: 1 },
           { role: "Editor", needed: 1, filled: 0 }
         ]
-      },
-      {
-        id: 302,
-        title: "SHADOWS OF CHARMINAR",
-        type: "Web Series",
-        status: "Shooting",
-        location: "Old City, Hyderabad",
-        creatorName: "Tarun Cinema Club",
-        isMine: false,
-        desc: "A 4-episode comedy thriller exploring hidden historical alleys.",
-        slots: [
-          { role: "Cinematographer", needed: 2, filled: 1 },
-          { role: "Actor", needed: 3, filled: 2 },
-          { role: "Music Director", needed: 1, filled: 0 }
-        ]
       }
     ];
 
-    // Slot Applications & Connect Requests Pool
     let slotApplications = [
       {
         id: 501,
@@ -1198,7 +1328,6 @@
         role: "Actor",
         applicantName: "Ananya Sharma",
         applicantRole: "Actor",
-        applicantPhone: "+91 98111 44556",
         applicantAvatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
         status: "pending",
         appliedAt: "Just now"
@@ -1212,15 +1341,33 @@
         role: "Cinematographer",
         avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
         messages: [
-          { sender: 'them', text: "Hi Kiran! I am confirmed for 'Night Run'." }
+          { sender: 'them', text: "Hi Kiran! I am confirmed for 'Night Run'.", type: 'text' }
         ]
       }
     ];
 
+    let teamGroups = [
+      {
+        id: 901,
+        name: "Night Run — Production Unit 🎬",
+        creatorName: "Kiran Varma (You)",
+        membersCount: 3,
+        members: ["Kiran Varma", "Siddharth Rao", "Vivek Menon"],
+        messages: [
+          { senderName: "Kiran Varma", senderRole: "Director", isMe: true, type: 'text', text: "Welcome team! Let's finalize the Begumpet location photos here." }
+        ]
+      }
+    ];
+
+    let currentChatMode = 'direct';
+    let currentDirectChatId = null;
+    let currentGroupId = null;
+    let currentReviewedCrewId = null;
+    let selectedRatingStars = 5;
+
     let currentSelectedRole = 'All';
     let currentSearchTerm = '';
     let currentRadiusFilter = null;
-    let activeChatPartnerId = null;
 
     // Haversine Distance
     function calculateRealDistance(lat1, lon1, lat2, lon2) {
@@ -1251,7 +1398,6 @@
       }
     }
 
-    // Profile Photo Upload
     function handlePhotoUpload(e) {
       const file = e.target.files[0];
       if (file) {
@@ -1265,7 +1411,10 @@
       }
     }
 
-    // Multiple Links in Profile
+    function handleProfileRoleChange(val) {
+      document.getElementById('customRoleWrap').style.display = (val === 'Other') ? 'block' : 'none';
+    }
+
     function renderProfileLinksForm() {
       const container = document.getElementById('profileLinksList');
       container.innerHTML = currentUser.portfolioLinks.map((link, idx) => `
@@ -1293,42 +1442,146 @@
       renderProfileLinksForm();
     }
 
-    // Save Profile with Description/Bio
     function saveUserProfile() {
       currentUser.name = document.getElementById('profName').value.trim();
       currentUser.age = document.getElementById('profAge').value;
-      currentUser.role = document.getElementById('profRole').value;
+      
+      const roleVal = document.getElementById('profRole').value;
+      if (roleVal === 'Other') {
+        currentUser.role = document.getElementById('customProfRoleInput').value.trim() || 'Crew Member';
+      } else {
+        currentUser.role = roleVal;
+      }
+
       currentUser.bio = document.getElementById('profBio').value.trim();
-      currentUser.phone = document.getElementById('profPhone').value.trim();
       currentUser.locationName = document.getElementById('profLocationText').value.trim();
       
-      alert('✓ Profile & Bio updated successfully!');
+      alert('✓ Profile updated successfully!');
       renderCrewList();
     }
 
     function populateProfileForm() {
       document.getElementById('profName').value = currentUser.name;
       document.getElementById('profAge').value = currentUser.age;
-      document.getElementById('profRole').value = currentUser.role;
+      
+      const standardRoles = ['Director', 'Cinematographer', 'Actor', 'Editor', 'Sound Engineer', 'Music Director'];
+      if (standardRoles.includes(currentUser.role)) {
+        document.getElementById('profRole').value = currentUser.role;
+        document.getElementById('customRoleWrap').style.display = 'none';
+      } else {
+        document.getElementById('profRole').value = 'Other';
+        document.getElementById('customRoleWrap').style.display = 'block';
+        document.getElementById('customProfRoleInput').value = currentUser.role;
+      }
+
       document.getElementById('profBio').value = currentUser.bio;
-      document.getElementById('profPhone').value = currentUser.phone;
       document.getElementById('profLocationText').value = currentUser.locationName;
     }
 
-    // Mandatory Profile Check Before Applying
     function isUserProfileComplete() {
-      return (currentUser.name && currentUser.name.length > 1 && currentUser.phone && currentUser.phone.length > 5);
+      return (currentUser.name && currentUser.name.length > 1);
     }
 
-    // Toggle Custom Project Type & Status
-    function toggleCustomTypeField(val) {
-      document.getElementById('customTypeWrap').style.display = (val === 'Other') ? 'block' : 'none';
-    }
-    function toggleCustomStatusField(val) {
-      document.getElementById('customStatusWrap').style.display = (val === 'Other') ? 'block' : 'none';
+    // ================= 2. REPORT PROFILE & 10-REPORT AUTO-SUSPEND =================
+    function reportCrewProfile(crewId) {
+      const crew = crewMembers.find(c => c.id === crewId);
+      if (!crew) return;
+
+      const reason = prompt(`⚠️ Report Profile for Misbehavior / Conduct:\nPlease enter reason for reporting ${crew.name}:`, "Inappropriate behavior / Misconduct");
+      if (reason === null) return; // cancelled
+
+      crew.reportsCount = (crew.reportsCount || 0) + 1;
+
+      // 10 Reports Rule: Auto-Suspend & Delete
+      if (crew.reportsCount >= 10) {
+        alert(`🚫 PROFILE SUSPENDED & DELETED!\n\nUser '${crew.name}' has received 10 misconduct reports. Their account has been permanently SUSPENDED and removed from UNIT platform.`);
+        // Remove from crew list and chats
+        crewMembers = crewMembers.filter(c => c.id !== crewId);
+        activeChatThreads = activeChatThreads.filter(t => t.crewId !== crewId);
+      } else {
+        alert(`🚩 Report submitted against ${crew.name}.\nCurrent Report Count: ${crew.reportsCount}/10.\n(Note: If 10 reports are reached, this profile will be automatically suspended).`);
+      }
+
+      renderCrewList();
+      renderRadarPins();
     }
 
-    // Add Custom Crew Role Row
+    // ================= 3. REVIEWS & RATINGS SYSTEM =================
+    function openReviewsModal(crewId) {
+      currentReviewedCrewId = crewId;
+      const crew = crewMembers.find(c => c.id === crewId);
+      if (!crew) return;
+
+      document.getElementById('reviewModalTitle').innerText = `${crew.name.toUpperCase()} — REVIEWS`;
+      setRatingScore(5);
+      renderReviewsList(crew);
+
+      document.getElementById('reviewsModal').classList.add('active');
+    }
+
+    function closeReviewsModal() {
+      document.getElementById('reviewsModal').classList.remove('active');
+    }
+
+    function renderReviewsList(crew) {
+      const list = document.getElementById('crewReviewsList');
+      if (!crew.reviews || crew.reviews.length === 0) {
+        list.innerHTML = `<div style="font-size: 12px; color: var(--text-muted); text-align: center; padding: 16px;">No reviews yet. Be the first to rate & review this crew member!</div>`;
+        return;
+      }
+
+      list.innerHTML = crew.reviews.map(r => `
+        <div class="review-bubble">
+          <div class="review-header">
+            <span style="font-size: 13px; font-weight: 700; color: #fff;">${r.reviewer}</span>
+            <span style="color: #ffb703; font-weight: 800; font-size: 12px;">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+          </div>
+          <p style="font-size: 12px; color: #cbd5e1; line-height: 1.3;">"${r.comment}"</p>
+        </div>
+      `).join('');
+    }
+
+    function setRatingScore(stars) {
+      selectedRatingStars = stars;
+      document.getElementById('starScoreDisplay').innerText = `${stars} Star${stars > 1 ? 's' : ''}`;
+      
+      const starSpans = document.querySelectorAll('#starRatingPicker span');
+      starSpans.forEach((span, idx) => {
+        span.style.color = (idx < stars) ? '#ffb703' : '#4b5563';
+      });
+    }
+
+    function submitCrewReview() {
+      const comment = document.getElementById('newReviewComment').value.trim();
+      if (!comment) {
+        alert('Please enter a short review comment before submitting!');
+        return;
+      }
+
+      const crew = crewMembers.find(c => c.id === currentReviewedCrewId);
+      if (crew) {
+        if (!crew.reviews) crew.reviews = [];
+        crew.reviews.unshift({
+          reviewer: `${currentUser.name} (${currentUser.role})`,
+          rating: selectedRatingStars,
+          comment: comment
+        });
+
+        // Recalculate Average Rating
+        const totalRating = crew.reviews.reduce((acc, r) => acc + r.rating, 0);
+        crew.rating = parseFloat((totalRating / crew.reviews.length).toFixed(1));
+
+        document.getElementById('newReviewComment').value = '';
+        renderReviewsList(crew);
+        renderCrewList();
+        alert('⭐ Thank you! Your review and rating have been posted.');
+      }
+    }
+
+    // Projects & Slots
+    function toggleCustomTypeField(val) { document.getElementById('customTypeWrap').style.display = (val === 'Other') ? 'block' : 'none'; }
+    function toggleCustomStatusField(val) { document.getElementById('customStatusWrap').style.display = (val === 'Other') ? 'block' : 'none'; }
+
     let customRoleCount = 0;
     function addCustomRoleSlotRow() {
       customRoleCount++;
@@ -1337,33 +1590,23 @@
       div.className = 'url-item-row';
       div.id = `customRoleRow-${customRoleCount}`;
       div.innerHTML = `
-        <input type="text" class="form-input custom-role-name" style="flex: 2; padding: 6px;" placeholder="Role Title (e.g. Music Director)" />
+        <input type="text" class="form-input custom-role-name" style="flex: 2; padding: 6px;" placeholder="Role Title (e.g. Art Director)" />
         <input type="number" class="form-input custom-role-count" style="width: 70px; padding: 6px;" value="1" min="1" />
         <button type="button" class="btn-3d btn-3d-danger" style="padding: 6px 8px; font-size: 10px;" onclick="this.parentElement.remove()">✕</button>
       `;
       container.appendChild(div);
     }
 
-    function openCreateProjectModal() {
-      document.getElementById('createProjectModal').classList.add('active');
-    }
-    function closeCreateProjectModal() {
-      document.getElementById('createProjectModal').classList.remove('active');
-    }
+    function openCreateProjectModal() { document.getElementById('createProjectModal').classList.add('active'); }
+    function closeCreateProjectModal() { document.getElementById('createProjectModal').classList.remove('active'); }
 
-    // Submit New Project
     function submitNewProject() {
       const title = document.getElementById('newProjTitle').value.trim() || 'Untitled Short Film';
-      
       let type = document.getElementById('newProjType').value;
-      if (type === 'Other') {
-        type = document.getElementById('customProjTypeInput').value.trim() || 'Custom Project';
-      }
+      if (type === 'Other') type = document.getElementById('customProjTypeInput').value.trim() || 'Custom Project';
 
       let status = document.getElementById('newProjStatus').value;
-      if (status === 'Other') {
-        status = document.getElementById('customProjStatusInput').value.trim() || 'Active';
-      }
+      if (status === 'Other') status = document.getElementById('customProjStatusInput').value.trim() || 'Active';
 
       const location = document.getElementById('newProjLocation').value.trim() || 'Location TBD';
       const desc = document.getElementById('newProjDesc').value.trim() || 'Story pitch not specified.';
@@ -1377,9 +1620,7 @@
       document.querySelectorAll('#customRolesContainer .url-item-row').forEach(row => {
         const name = row.querySelector('.custom-role-name').value.trim();
         const count = parseInt(row.querySelector('.custom-role-count').value) || 1;
-        if (name) {
-          slots.push({ role: name, needed: count, filled: 0 });
-        }
+        if (name) slots.push({ role: name, needed: count, filled: 0 });
       });
 
       const newProj = {
@@ -1400,7 +1641,6 @@
       alert(`🎬 Project "${title}" is now LIVE to everyone!`);
     }
 
-    // Render Projects Feed
     function renderProjectsFeed() {
       const container = document.getElementById('projectsFeedContainer');
       container.innerHTML = projectsFeed.map(proj => `
@@ -1445,10 +1685,9 @@
       `).join('');
     }
 
-    // Apply for Slot Flow
     function applyForSlot(projId, roleName) {
       if (!isUserProfileComplete()) {
-        alert("⚠️ Slots book chese mundhu kachithanga mee Profile ni poorthi cheyali! (Name & Mobile Number are required)");
+        alert("⚠️ Slots book chese mundhu kachithanga mee Profile Name ni enter cheyali!");
         switchNavTab('profile');
         return;
       }
@@ -1463,17 +1702,15 @@
         role: roleName,
         applicantName: currentUser.name,
         applicantRole: currentUser.role,
-        applicantPhone: currentUser.phone,
         applicantAvatar: currentUser.avatar,
         status: "pending",
         appliedAt: "Just now"
       });
 
       renderRequests();
-      alert(`✅ Application Submitted for "${roleName}" on project "${proj.title}"!\n\nAa project create chesina person nunchi reply vachedhaaka wait cheyandi. Vaallu OK chesthe slot fill avthundhi.`);
+      alert(`✅ Application Submitted for "${roleName}" on project "${proj.title}"!\n\nAa project create chesina person nunchi reply vachedhaaka wait cheyandi.`);
     }
 
-    // Requests Screen with OK (Accept) and NOT FIT (Decline)
     function renderRequests() {
       const container = document.getElementById('requestsListContainer');
       const pending = slotApplications.filter(a => a.status === 'pending');
@@ -1533,7 +1770,7 @@
           role: app.applicantRole,
           avatar: app.applicantAvatar,
           messages: [
-            { sender: 'them', text: `Hi! Thank you for accepting my slot application for '${app.projectTitle}'. Let's connect!` }
+            { sender: 'them', text: `Hi! Thank you for accepting my slot application for '${app.projectTitle}'. Let's connect!`, type: 'text' }
           ]
         });
 
@@ -1548,7 +1785,7 @@
       renderThreads();
     }
 
-    // Discover Screen Render (Without Budget / Day Rate)
+    // Discover Screen Render (With Reviews, Rating & Report Button)
     function renderCrewList() {
       const container = document.getElementById('crewFeedContainer');
       const withDistance = crewMembers.map(crew => {
@@ -1573,6 +1810,8 @@
 
       container.innerHTML = filtered.map(crew => {
         const style = roleMeta[crew.role] || roleMeta['Other'];
+        const reviewCount = crew.reviews ? crew.reviews.length : 0;
+
         return `
           <div class="crew-card">
             <div class="crew-top">
@@ -1592,12 +1831,19 @@
               </div>
             </div>
 
+            <!-- Stats with Interactive Reviews Link -->
             <div class="crew-stats-strip">
-              <span style="color: #ffb703; font-weight: 700;">★ ${crew.rating} / 5.0</span>
-              <span style="color: var(--text-muted);">(${crew.projectsCount} projects completed)</span>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span style="color: #ffb703; font-weight: 800;">★ ${crew.rating}</span>
+                <span style="color: var(--text-muted); font-size: 11px;">(${reviewCount} review${reviewCount !== 1 ? 's' : ''})</span>
+              </div>
+              <div style="display: flex; gap: 6px;">
+                <button class="btn-3d btn-3d-dark" style="padding: 4px 8px; font-size: 10px;" onclick="openReviewsModal(${crew.id})">
+                  💬 Reviews / Rate
+                </button>
+              </div>
             </div>
 
-            <!-- Multiple Showreel Links Display -->
             <div class="links-tags-container">
               ${(crew.portfolioLinks || []).map(l => `
                 <a href="${l.url}" target="_blank" class="link-badge">
@@ -1608,10 +1854,11 @@
 
             <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4;">${crew.bio}</p>
 
+            <!-- Actions (Connect + Report Profile) -->
             <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 8px;">
-              <span style="font-size: 12px; color: ${crew.connected ? '#10b981' : 'var(--text-muted)'}; font-weight: 600;">
-                ${crew.connected ? `📞 ${crew.phone}` : '🔒 Phone locked'}
-              </span>
+              <button class="btn-3d btn-3d-danger" style="padding: 5px 9px; font-size: 10px;" onclick="reportCrewProfile(${crew.id})" title="Report for Misconduct (10 reports = suspend)">
+                🚩 Report (${crew.reportsCount || 0}/10)
+              </button>
               <button class="btn-3d ${crew.connected ? 'btn-3d-primary' : 'btn-3d-connect'}" onclick="handleCrewConnectClick(${crew.id})">
                 ${crew.connected ? '💬 Chat' : '⚡ Connect'}
               </button>
@@ -1627,11 +1874,10 @@
       if (crew.connected) {
         openDirectChat(crew.id);
       } else {
-        alert(`⚡ Connect request sent to ${crew.name}! Wait for them to accept.`);
+        alert(`⚡ Connect request sent to ${crew.name}! Once accepted, you can chat directly inside the app.`);
       }
     }
 
-    // Toggle Discover Radar / List
     function setDiscoverView(view) {
       document.getElementById('discoverListView').style.display = (view === 'list') ? 'block' : 'none';
       document.getElementById('discoverRadarView').style.display = (view === 'radar') ? 'block' : 'none';
@@ -1684,11 +1930,70 @@
       renderCrewList();
     }
 
-    // Chat / Messages
+    // Groups & Messaging
+    function openCreateGroupModal() {
+      const list = document.getElementById('groupCrewSelectorList');
+      list.innerHTML = crewMembers.map(c => `
+        <label class="crew-select-row">
+          <input type="checkbox" value="${c.name}" class="group-crew-checkbox" checked />
+          <img src="${c.avatar}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover;">
+          <span style="font-size: 13px; font-weight: 700; color: #fff;">${c.name}</span>
+          <span style="font-size: 11px; color: var(--neon-cinema); margin-left: auto;">${c.role}</span>
+        </label>
+      `).join('');
+
+      document.getElementById('createGroupModal').classList.add('active');
+    }
+
+    function closeCreateGroupModal() {
+      document.getElementById('createGroupModal').classList.remove('active');
+    }
+
+    function submitCreateGroup() {
+      const name = document.getElementById('newGroupName').value.trim() || 'New Team Unit 🎬';
+      const selected = Array.from(document.querySelectorAll('.group-crew-checkbox:checked')).map(cb => cb.value);
+
+      const newGrp = {
+        id: Date.now(),
+        name: name,
+        creatorName: `${currentUser.name} (You)`,
+        membersCount: selected.length + 1,
+        members: [currentUser.name, ...selected],
+        messages: [
+          { senderName: currentUser.name, senderRole: currentUser.role, isMe: true, type: 'text', text: `Group "${name}" created! Welcome everyone.` }
+        ]
+      };
+
+      teamGroups.unshift(newGrp);
+      closeCreateGroupModal();
+      renderThreads();
+      alert(`👥 Group "${name}" created with ${selected.length} members!`);
+    }
+
     function renderThreads() {
+      const grpContainer = document.getElementById('groupThreadsContainer');
+      if (teamGroups.length === 0) {
+        grpContainer.innerHTML = `<div style="font-size: 12px; color: var(--text-muted); padding: 10px 0;">No active team groups. Click '+ Create Group' above.</div>`;
+      } else {
+        grpContainer.innerHTML = teamGroups.map(grp => `
+          <div class="thread-card" onclick="openGroupChat(${grp.id})">
+            <div class="group-avatar-stack">👥</div>
+            <div style="flex: 1;">
+              <div style="display: flex; justify-content: space-between;">
+                <span style="font-size: 14px; font-weight: 800; color: #fff;">${grp.name}</span>
+                <span style="font-size: 11px; color: var(--neon-director); font-weight: 700;">${grp.membersCount} Members</span>
+              </div>
+              <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
+                ${grp.messages[grp.messages.length - 1]?.text || 'Image attachment'}
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+
       const container = document.getElementById('threadsListContainer');
       if (activeChatThreads.length === 0) {
-        container.innerHTML = `<div style="text-align: center; padding: 30px; color: var(--text-muted);">No active chats. Accept slot requests to start talking!</div>`;
+        container.innerHTML = `<div style="font-size: 12px; color: var(--text-muted); padding: 10px 0;">No 1-on-1 direct messages yet.</div>`;
         return;
       }
       container.innerHTML = activeChatThreads.map(thread => `
@@ -1699,14 +2004,19 @@
               <span style="font-size: 14px; font-weight: 800; color: #fff;">${thread.name}</span>
               <span style="font-size: 11px; color: var(--neon-cinema);">${thread.role}</span>
             </div>
-            <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">${thread.messages[thread.messages.length - 1]?.text || 'Tap to chat'}</div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
+              ${thread.messages[thread.messages.length - 1]?.text || 'Image attachment'}
+            </div>
           </div>
         </div>
       `).join('');
     }
 
     function openDirectChat(crewId) {
-      activeChatPartnerId = crewId;
+      currentChatMode = 'direct';
+      currentDirectChatId = crewId;
+      document.getElementById('groupActionWrap').style.display = 'none';
+
       let thread = activeChatThreads.find(t => t.crewId === crewId);
       if (!thread) {
         const member = crewMembers.find(c => c.id === crewId);
@@ -1717,8 +2027,34 @@
       document.getElementById('chatHeaderName').innerText = thread.name;
       document.getElementById('chatHeaderRole').innerText = thread.role;
       document.getElementById('chatHeaderImg').src = thread.avatar;
+      document.getElementById('chatHeaderImg').style.display = 'block';
+
       renderChatMessages();
       document.getElementById('chatViewModal').classList.add('active');
+    }
+
+    function openGroupChat(groupId) {
+      currentChatMode = 'group';
+      currentGroupId = groupId;
+      document.getElementById('groupActionWrap').style.display = 'block';
+
+      const grp = teamGroups.find(g => g.id === groupId);
+      if (!grp) return;
+
+      document.getElementById('chatHeaderName').innerText = grp.name;
+      document.getElementById('chatHeaderRole').innerText = `${grp.membersCount} Crew Members`;
+      document.getElementById('chatHeaderImg').style.display = 'none';
+
+      renderChatMessages();
+      document.getElementById('chatViewModal').classList.add('active');
+    }
+
+    function exitCurrentGroup() {
+      if (confirm("Are you sure you want to exit this team group?")) {
+        teamGroups = teamGroups.filter(g => g.id !== currentGroupId);
+        closeChatModal();
+        alert("You have exited the group.");
+      }
     }
 
     function closeChatModal() {
@@ -1728,12 +2064,30 @@
 
     function renderChatMessages() {
       const area = document.getElementById('chatMessagesArea');
-      const thread = activeChatThreads.find(t => t.crewId === activeChatPartnerId);
-      if (!thread) return;
+      
+      if (currentChatMode === 'direct') {
+        const thread = activeChatThreads.find(t => t.crewId === currentDirectChatId);
+        if (!thread) return;
 
-      area.innerHTML = thread.messages.map(m => `
-        <div class="chat-bubble ${m.sender === 'me' ? 'mine' : 'theirs'}">${m.text}</div>
-      `).join('');
+        area.innerHTML = thread.messages.map(m => `
+          <div class="chat-bubble ${m.sender === 'me' ? 'mine' : 'theirs'}">
+            ${m.text ? `<div>${m.text}</div>` : ''}
+            ${m.type === 'image' ? `<img src="${m.imageSrc}" class="chat-image-content" onclick="window.open(this.src)">` : ''}
+          </div>
+        `).join('');
+      } else {
+        const grp = teamGroups.find(g => g.id === currentGroupId);
+        if (!grp) return;
+
+        area.innerHTML = grp.messages.map(m => `
+          <div class="chat-bubble ${m.isMe ? 'mine' : 'theirs'}">
+            ${!m.isMe ? `<span class="chat-sender-tag">${m.senderName} (${m.senderRole})</span>` : ''}
+            ${m.text ? `<div>${m.text}</div>` : ''}
+            ${m.type === 'image' ? `<img src="${m.imageSrc}" class="chat-image-content" onclick="window.open(this.src)">` : ''}
+          </div>
+        `).join('');
+      }
+
       area.scrollTop = area.scrollHeight;
     }
 
@@ -1742,19 +2096,66 @@
       const text = input.value.trim();
       if (!text) return;
 
-      const thread = activeChatThreads.find(t => t.crewId === activeChatPartnerId);
-      if (thread) {
-        thread.messages.push({ sender: 'me', text: text });
-        input.value = '';
-        renderChatMessages();
-        setTimeout(() => {
-          thread.messages.push({ sender: 'them', text: `Got it! Let's prep the shooting plan 🎬` });
+      if (currentChatMode === 'direct') {
+        const thread = activeChatThreads.find(t => t.crewId === currentDirectChatId);
+        if (thread) {
+          thread.messages.push({ sender: 'me', text: text, type: 'text' });
+          input.value = '';
           renderChatMessages();
-        }, 1200);
+
+          setTimeout(() => {
+            thread.messages.push({ sender: 'them', text: `Noted Kiran! Let's make this short film huge 🎬`, type: 'text' });
+            renderChatMessages();
+          }, 1200);
+        }
+      } else {
+        const grp = teamGroups.find(g => g.id === currentGroupId);
+        if (grp) {
+          grp.messages.push({
+            senderName: currentUser.name,
+            senderRole: currentUser.role,
+            isMe: true,
+            type: 'text',
+            text: text
+          });
+          input.value = '';
+          renderChatMessages();
+        }
       }
     }
 
-    // Bottom Tab Navigation
+    function handleChatImageUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const imgData = evt.target.result;
+
+        if (currentChatMode === 'direct') {
+          const thread = activeChatThreads.find(t => t.crewId === currentDirectChatId);
+          if (thread) {
+            thread.messages.push({ sender: 'me', type: 'image', imageSrc: imgData });
+            renderChatMessages();
+          }
+        } else {
+          const grp = teamGroups.find(g => g.id === currentGroupId);
+          if (grp) {
+            grp.messages.push({
+              senderName: currentUser.name,
+              senderRole: currentUser.role,
+              isMe: true,
+              type: 'image',
+              imageSrc: imgData
+            });
+            renderChatMessages();
+          }
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Bottom Navigation
     function switchNavTab(tabKey) {
       document.querySelectorAll('.screen-view').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
