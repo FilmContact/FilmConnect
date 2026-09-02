@@ -288,22 +288,6 @@
       color: var(--text-muted);
     }
 
-    .budget-filter-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-dim);
-      border-radius: 10px;
-      padding: 10px 14px;
-      margin-bottom: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .slider-styled {
-      width: 100%;
-      accent-color: var(--neon-director);
-      cursor: pointer;
-    }
-
     .filter-scroll {
       display: flex;
       gap: 8px;
@@ -716,7 +700,6 @@
       border-color: var(--neon-director);
     }
 
-    /* Multi URL Dynamic Item */
     .url-item-row {
       display: flex;
       gap: 6px;
@@ -823,24 +806,6 @@
         />
       </div>
 
-      <!-- Budget Filter -->
-      <div class="budget-filter-card">
-        <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700;">
-          <span style="color: var(--text-muted);">Max Budget (Day Rate):</span>
-          <span style="color: var(--neon-director);" id="dayRateVal">₹45,000 / day</span>
-        </div>
-        <input 
-          type="range" 
-          id="dayRateRange" 
-          class="slider-styled" 
-          min="5000" 
-          max="50000" 
-          step="2500" 
-          value="45000"
-          oninput="handleBudgetFilter(this.value)"
-        />
-      </div>
-
       <!-- Role Filters -->
       <div class="filter-scroll">
         <button class="role-filter-chip active" onclick="filterRole('All', this)">All Crew</button>
@@ -902,10 +867,10 @@
       <div class="threads-list" id="threadsListContainer"></div>
     </section>
 
-    <!-- ================= 5. PROFILE SCREEN ================= -->
+    <!-- ================= 5. PROFILE SCREEN (With Description / Bio) ================= -->
     <section id="screen-profile" class="screen-view">
       <h1 class="section-title">CREW PROFILE</h1>
-      <p class="section-desc">Complete your profile to book slots & receive invites</p>
+      <p class="section-desc">Complete your profile to book slots & receive film invites</p>
 
       <div style="background: var(--bg-card); padding: 14px; border-radius: 12px; border: 1px solid var(--border-dim); margin-bottom: 14px; display: flex; align-items: center; gap: 14px;">
         <img id="profilePhotoDisplay" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 3px solid var(--neon-director);">
@@ -941,6 +906,12 @@
         </select>
       </div>
 
+      <!-- 2. Profile Description / Bio -->
+      <div class="form-group">
+        <label>About You / Bio (Describe yourself & your work)</label>
+        <textarea id="profBio" class="form-textarea" rows="3" placeholder="Tell directors and crew about your experience, past short films, storytelling vision, equipment, etc."></textarea>
+      </div>
+
       <div class="form-group">
         <label>Mobile Number * (Protected)</label>
         <input type="text" id="profPhone" class="form-input" value="+91 98490 23456" />
@@ -959,15 +930,13 @@
         </div>
       </div>
 
-      <!-- Multiple Showreel / Portfolio Links (Requirement 7) -->
+      <!-- Showreel & Portfolio Links -->
       <div class="form-group">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
           <label style="margin: 0;">Showreel & Portfolio URLs (Multiple)</label>
           <button type="button" class="btn-3d btn-3d-dark" style="padding: 4px 8px; font-size: 10px;" onclick="addProfileLinkField()">+ Add URL</button>
         </div>
-        <div id="profileLinksList">
-          <!-- Dynamically filled with Link rows -->
-        </div>
+        <div id="profileLinksList"></div>
       </div>
 
       <button class="btn-3d btn-3d-primary" style="width: 100%; padding: 14px;" onclick="saveUserProfile()">Save Profile</button>
@@ -1006,7 +975,6 @@
           <input type="text" id="newProjTitle" class="form-input" placeholder="e.g. 'Midnight in Charminar'" />
         </div>
 
-        <!-- 1. Project Type with Other text option -->
         <div class="form-group">
           <label>Project Type</label>
           <select id="newProjType" class="form-select" onchange="toggleCustomTypeField(this.value)">
@@ -1020,7 +988,6 @@
           </div>
         </div>
 
-        <!-- 2. Project Status with Other text option -->
         <div class="form-group">
           <label>Project Status</label>
           <select id="newProjStatus" class="form-select" onchange="toggleCustomStatusField(this.value)">
@@ -1035,13 +1002,11 @@
           </div>
         </div>
 
-        <!-- 4. Project Location (Optional text) -->
         <div class="form-group">
           <label>Project Shoot Location (Optional)</label>
           <input type="text" id="newProjLocation" class="form-input" placeholder="e.g. Ramoji Film City, Hyderabad or Araku Valley" />
         </div>
 
-        <!-- 3. Roles & Slots with Custom Role Additions -->
         <div class="form-group">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
             <label style="margin: 0;">Crew Roles Needed & Slots</label>
@@ -1063,9 +1028,7 @@
             </div>
           </div>
 
-          <div id="customRolesContainer" style="margin-top: 8px; display: flex; flex-direction: column; gap: 6px;">
-            <!-- Dynamic Custom Role Rows injected here -->
-          </div>
+          <div id="customRolesContainer" style="margin-top: 8px; display: flex; flex-direction: column; gap: 6px;"></div>
         </div>
 
         <div class="form-group">
@@ -1101,11 +1064,12 @@
   </div>
 
   <script>
-    // Current User Profile State with Multiple Showreel/Portfolio Links
+    // Current User Profile State
     const currentUser = {
       name: "Kiran Varma",
       role: "Director",
       age: 28,
+      bio: "Passionate indie director & writer with 4+ years of experience. Focused on neo-noir and realistic drama short films.",
       phone: "+91 98490 23456",
       locationName: "Jubilee Hills, Hyderabad",
       lat: 17.4325,
@@ -1127,7 +1091,7 @@
       'Other': { color: '#10b981', bg: 'rgba(16, 185, 129, 0.15)', border: '#10b981' }
     };
 
-    // Mock Crew Data with Multiple Portfolio URLs
+    // Mock Crew Data (No budget fields)
     let crewMembers = [
       {
         id: 101,
@@ -1141,13 +1105,12 @@
         avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
         rating: 4.9,
         projectsCount: 8,
-        dayRate: 22000,
         portfolioLinks: [
           { platform: "Vimeo", url: "https://vimeo.com" },
           { platform: "Instagram", url: "https://instagram.com" }
         ],
         skills: ["Sony FX3", "Anamorphic", "Gimbal Specialist"],
-        bio: "Specialized in indie low-light aesthetic and handheld cinematic motion.",
+        bio: "Specialized in indie low-light aesthetic, moody lighting and handheld cinematic motion.",
         connected: true
       },
       {
@@ -1162,13 +1125,12 @@
         avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
         rating: 4.8,
         projectsCount: 6,
-        dayRate: 15000,
         portfolioLinks: [
           { platform: "YouTube", url: "https://youtube.com" },
           { platform: "Instagram", url: "https://instagram.com" }
         ],
         skills: ["Method Acting", "Telugu", "Hindi", "Classical Dance"],
-        bio: "Theatre trained for 4 years. Fluent in Telugu, Hindi and English dialogs.",
+        bio: "Theatre trained for 4 years. Fluent in Telugu, Hindi and English. 6 indie shorts completed.",
         connected: false
       },
       {
@@ -1183,18 +1145,17 @@
         avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
         rating: 5.0,
         projectsCount: 14,
-        dayRate: 18000,
         portfolioLinks: [
           { platform: "Drive", url: "https://drive.google.com" },
           { platform: "YouTube", url: "https://youtube.com" }
         ],
         skills: ["DaVinci Resolve", "Premiere Pro", "Color Grading"],
-        bio: "Fast turnaround narrative film editor and senior colorist.",
+        bio: "Fast turnaround narrative film editor, dialogue cutter and senior colorist.",
         connected: false
       }
     ];
 
-    // Live Projects Feed (with Project Location & Multi-slot support)
+    // Live Projects Feed
     let projectsFeed = [
       {
         id: 301,
@@ -1239,7 +1200,7 @@
         applicantRole: "Actor",
         applicantPhone: "+91 98111 44556",
         applicantAvatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
-        status: "pending", // pending, accepted, rejected
+        status: "pending",
         appliedAt: "Just now"
       }
     ];
@@ -1258,7 +1219,6 @@
 
     let currentSelectedRole = 'All';
     let currentSearchTerm = '';
-    let currentMaxBudget = 45000;
     let currentRadiusFilter = null;
     let activeChatPartnerId = null;
 
@@ -1305,7 +1265,7 @@
       }
     }
 
-    // 7. Dynamic Showreel & Multiple Links in Profile
+    // Multiple Links in Profile
     function renderProfileLinksForm() {
       const container = document.getElementById('profileLinksList');
       container.innerHTML = currentUser.portfolioLinks.map((link, idx) => `
@@ -1333,23 +1293,34 @@
       renderProfileLinksForm();
     }
 
+    // Save Profile with Description/Bio
     function saveUserProfile() {
       currentUser.name = document.getElementById('profName').value.trim();
       currentUser.age = document.getElementById('profAge').value;
       currentUser.role = document.getElementById('profRole').value;
+      currentUser.bio = document.getElementById('profBio').value.trim();
       currentUser.phone = document.getElementById('profPhone').value.trim();
       currentUser.locationName = document.getElementById('profLocationText').value.trim();
       
-      alert('✓ Profile updated successfully with your showreels and location!');
+      alert('✓ Profile & Bio updated successfully!');
       renderCrewList();
     }
 
-    // 5. Mandatory Profile Check Before Applying
+    function populateProfileForm() {
+      document.getElementById('profName').value = currentUser.name;
+      document.getElementById('profAge').value = currentUser.age;
+      document.getElementById('profRole').value = currentUser.role;
+      document.getElementById('profBio').value = currentUser.bio;
+      document.getElementById('profPhone').value = currentUser.phone;
+      document.getElementById('profLocationText').value = currentUser.locationName;
+    }
+
+    // Mandatory Profile Check Before Applying
     function isUserProfileComplete() {
       return (currentUser.name && currentUser.name.length > 1 && currentUser.phone && currentUser.phone.length > 5);
     }
 
-    // 1 & 2. Toggle Custom Project Type & Status
+    // Toggle Custom Project Type & Status
     function toggleCustomTypeField(val) {
       document.getElementById('customTypeWrap').style.display = (val === 'Other') ? 'block' : 'none';
     }
@@ -1357,7 +1328,7 @@
       document.getElementById('customStatusWrap').style.display = (val === 'Other') ? 'block' : 'none';
     }
 
-    // 3. Add Custom Crew Role Row
+    // Add Custom Crew Role Row
     let customRoleCount = 0;
     function addCustomRoleSlotRow() {
       customRoleCount++;
@@ -1380,34 +1351,29 @@
       document.getElementById('createProjectModal').classList.remove('active');
     }
 
-    // Submit New Project with Type/Status "Other" & Location & Custom Slots
+    // Submit New Project
     function submitNewProject() {
       const title = document.getElementById('newProjTitle').value.trim() || 'Untitled Short Film';
       
-      // 1. Project Type
       let type = document.getElementById('newProjType').value;
       if (type === 'Other') {
         type = document.getElementById('customProjTypeInput').value.trim() || 'Custom Project';
       }
 
-      // 2. Project Status
       let status = document.getElementById('newProjStatus').value;
       if (status === 'Other') {
         status = document.getElementById('customProjStatusInput').value.trim() || 'Active';
       }
 
-      // 4. Project Location
       const location = document.getElementById('newProjLocation').value.trim() || 'Location TBD';
       const desc = document.getElementById('newProjDesc').value.trim() || 'Story pitch not specified.';
 
-      // Standard Slots
       const slots = [
         { role: 'Cinematographer', needed: parseInt(document.getElementById('slotDop').value) || 0, filled: 0 },
         { role: 'Actor', needed: parseInt(document.getElementById('slotActor').value) || 0, filled: 0 },
         { role: 'Editor', needed: parseInt(document.getElementById('slotEditor').value) || 0, filled: 0 }
       ].filter(s => s.needed > 0);
 
-      // 3. Custom Slots
       document.querySelectorAll('#customRolesContainer .url-item-row').forEach(row => {
         const name = row.querySelector('.custom-role-name').value.trim();
         const count = parseInt(row.querySelector('.custom-role-count').value) || 1;
@@ -1479,7 +1445,7 @@
       `).join('');
     }
 
-    // 5 & 6. Apply for Slot Flow (Profile Check + Wait for Creator Decision)
+    // Apply for Slot Flow
     function applyForSlot(projId, roleName) {
       if (!isUserProfileComplete()) {
         alert("⚠️ Slots book chese mundhu kachithanga mee Profile ni poorthi cheyali! (Name & Mobile Number are required)");
@@ -1490,7 +1456,6 @@
       const proj = projectsFeed.find(p => p.id === projId);
       if (!proj) return;
 
-      // Add application to creator's requests pool
       slotApplications.push({
         id: Date.now(),
         projectId: proj.id,
@@ -1505,11 +1470,10 @@
       });
 
       renderRequests();
-      // Requirement 6 Notice
       alert(`✅ Application Submitted for "${roleName}" on project "${proj.title}"!\n\nAa project create chesina person nunchi reply vachedhaaka wait cheyandi. Vaallu OK chesthe slot fill avthundhi.`);
     }
 
-    // 6. Requests Screen with OK (Accept) and NOT FIT (Decline)
+    // Requests Screen with OK (Accept) and NOT FIT (Decline)
     function renderRequests() {
       const container = document.getElementById('requestsListContainer');
       const pending = slotApplications.filter(a => a.status === 'pending');
@@ -1555,7 +1519,6 @@
 
       if (isAccepted) {
         app.status = 'accepted';
-        // Fill slot in project
         const proj = projectsFeed.find(p => p.id === app.projectId);
         if (proj) {
           const targetSlot = proj.slots.find(s => s.role === app.role);
@@ -1564,7 +1527,6 @@
           }
         }
 
-        // Open chat thread
         activeChatThreads.push({
           crewId: Date.now(),
           name: app.applicantName,
@@ -1586,7 +1548,7 @@
       renderThreads();
     }
 
-    // Discover Screen Render
+    // Discover Screen Render (Without Budget / Day Rate)
     function renderCrewList() {
       const container = document.getElementById('crewFeedContainer');
       const withDistance = crewMembers.map(crew => {
@@ -1597,11 +1559,11 @@
         const matchRole = currentSelectedRole === 'All' || item.role.toLowerCase() === currentSelectedRole.toLowerCase();
         const matchSearch = currentSearchTerm === '' || 
           item.name.toLowerCase().includes(currentSearchTerm) ||
-          item.skills.some(s => s.toLowerCase().includes(currentSearchTerm));
-        const matchBudget = item.dayRate <= currentMaxBudget;
+          item.skills.some(s => s.toLowerCase().includes(currentSearchTerm)) ||
+          item.bio.toLowerCase().includes(currentSearchTerm);
         const matchRadius = currentRadiusFilter === null || item.distance <= currentRadiusFilter;
 
-        return matchRole && matchSearch && matchBudget && matchRadius;
+        return matchRole && matchSearch && matchRadius;
       });
 
       if (filtered.length === 0) {
@@ -1632,8 +1594,7 @@
 
             <div class="crew-stats-strip">
               <span style="color: #ffb703; font-weight: 700;">★ ${crew.rating} / 5.0</span>
-              <span style="color: var(--text-muted);">(${crew.projectsCount} projects)</span>
-              <span style="color: #10b981; font-weight: 700; margin-left: auto;">₹${crew.dayRate.toLocaleString()}/day</span>
+              <span style="color: var(--text-muted);">(${crew.projectsCount} projects completed)</span>
             </div>
 
             <!-- Multiple Showreel Links Display -->
@@ -1713,12 +1674,6 @@
 
     function handleSearchFilter() {
       currentSearchTerm = document.getElementById('discoverSearchInput').value.toLowerCase().trim();
-      renderCrewList();
-    }
-
-    function handleBudgetFilter(val) {
-      currentMaxBudget = parseInt(val);
-      document.getElementById('dayRateVal').innerText = `₹${currentMaxBudget.toLocaleString()} / day`;
       renderCrewList();
     }
 
@@ -1816,11 +1771,15 @@
       if (tabKey === 'projects') renderProjectsFeed();
       if (tabKey === 'requests') renderRequests();
       if (tabKey === 'messages') renderThreads();
-      if (tabKey === 'profile') renderProfileLinksForm();
+      if (tabKey === 'profile') {
+        populateProfileForm();
+        renderProfileLinksForm();
+      }
     }
 
     // Initial Load
     window.addEventListener('DOMContentLoaded', () => {
+      populateProfileForm();
       renderCrewList();
       renderProjectsFeed();
       renderRequests();
