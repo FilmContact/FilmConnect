@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>UNIT — Short Film Industry Network</title>
+  <title>UNIT — Short Film Network</title>
   
   <!-- Cinematic Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +12,6 @@
 
   <style>
     :root {
-      /* Base Theme: Neon Night Shoot / Dark Film Slate */
       --bg-darkest: #07080b;
       --bg-main: #0e1017;
       --bg-card: #151822;
@@ -24,13 +23,13 @@
       --text-muted: #8e98b0;
       
       /* 3D Vibrant Role & Accent Colors */
-      --neon-director: #ffb703;      /* Golden Hour Amber */
+      --neon-director: #ffb703;
       --neon-director-3d: #b37d00;
-      --neon-cinema: #00f0ff;        /* Neon Night Cyan */
+      --neon-cinema: #00f0ff;
       --neon-cinema-3d: #008f99;
-      --neon-actor: #ff0055;         /* Vivid Neon Crimson */
+      --neon-actor: #ff0055;
       --neon-actor-3d: #990033;
-      --neon-editor: #a855f7;        /* Ultraviolet Purple */
+      --neon-editor: #a855f7;
       --neon-editor-3d: #6b21a8;
       
       --3d-cta-bg: #ffb703;
@@ -58,7 +57,6 @@
       justify-content: center;
       min-height: 100vh;
       overflow-x: hidden;
-      /* Subtle Film Grain & Light Leak Gradient */
       background-image: 
         radial-gradient(circle at 10% 20%, rgba(255, 0, 85, 0.08) 0%, transparent 35%),
         radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.07) 0%, transparent 40%),
@@ -77,7 +75,7 @@
       border-left: 1px solid var(--border-dim);
       border-right: 1px solid var(--border-dim);
       box-shadow: 0 0 70px rgba(0, 0, 0, 0.9);
-      padding-bottom: 78px;
+      padding-bottom: 80px;
     }
 
     /* Film Perforation Header */
@@ -112,17 +110,15 @@
       align-items: center;
       background: var(--bg-card);
       border-bottom: 1px solid var(--border-dim);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     }
     .brand-title {
       font-family: var(--font-poster);
       font-size: 30px;
-      letter-spacing: 2.5px;
+      letter-spacing: 2px;
       color: #fff;
       display: flex;
       align-items: center;
       gap: 10px;
-      text-shadow: 0 2px 8px rgba(255, 183, 3, 0.3);
     }
     .live-rec {
       width: 11px;
@@ -137,9 +133,6 @@
       50% { opacity: 0.3; transform: scale(0.8); }
     }
     .user-mini-avatar {
-      display: flex;
-      align-items: center;
-      gap: 8px;
       cursor: pointer;
     }
     .avatar-img-circle {
@@ -151,22 +144,22 @@
       box-shadow: 0 0 8px rgba(255, 183, 3, 0.4);
     }
 
-    /* 3D Button Utility Classes */
+    /* 3D Tactile Buttons */
     .btn-3d {
       border: none;
       outline: none;
       font-weight: 700;
-      font-size: 13px;
+      font-size: 12px;
       cursor: pointer;
       border-radius: 8px;
-      padding: 10px 16px;
+      padding: 10px 14px;
       transition: transform 0.08s ease, box-shadow 0.08s ease;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      letter-spacing: 0.3px;
       text-transform: uppercase;
+      letter-spacing: 0.3px;
     }
     .btn-3d-primary {
       background: var(--3d-cta-bg);
@@ -196,11 +189,19 @@
       transform: translateY(3px);
       box-shadow: 0 1px 0 #008f99;
     }
-    .btn-3d-connected {
-      background: #10b981;
+    .btn-3d-danger {
+      background: #ef4444;
       color: #fff;
-      box-shadow: 0 3px 0 #065f46;
-      cursor: default;
+      box-shadow: 0 3px 0 #991b1b;
+    }
+    .btn-3d-danger:active {
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #991b1b;
+    }
+    .btn-3d-success {
+      background: #10b981;
+      color: #000;
+      box-shadow: 0 3px 0 #059669;
     }
 
     /* Screen Management */
@@ -223,7 +224,6 @@
       letter-spacing: 1.5px;
       color: #fff;
       margin-bottom: 2px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
     }
     .section-desc {
       font-size: 13px;
@@ -231,7 +231,7 @@
       margin-bottom: 14px;
     }
 
-    /* View Toggle (List vs Radar) */
+    /* Toggle Views */
     .toggle-pill-wrap {
       display: flex;
       background: #080a0f;
@@ -254,16 +254,14 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      transition: all 0.2s;
     }
     .toggle-pill-btn.active {
       background: var(--bg-card-hover);
       color: #fff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
       border: 1px solid var(--border-glow);
     }
 
-    /* Search & Filter Bar */
+    /* Search & Filters */
     .search-box {
       position: relative;
       margin-bottom: 12px;
@@ -273,26 +271,23 @@
       background: var(--bg-card);
       border: 1px solid var(--border-dim);
       border-radius: 10px;
-      padding: 12px 14px 12px 40px;
+      padding: 11px 14px 11px 38px;
       color: #fff;
       font-size: 14px;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
     }
     .search-input:focus {
       outline: none;
       border-color: var(--neon-cinema);
-      box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
     }
     .search-icon-fixed {
       position: absolute;
-      left: 14px;
+      left: 12px;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 16px;
+      font-size: 15px;
       color: var(--text-muted);
     }
 
-    /* Budget Slider Card */
     .budget-filter-card {
       background: var(--bg-card);
       border: 1px solid var(--border-dim);
@@ -303,19 +298,12 @@
       flex-direction: column;
       gap: 6px;
     }
-    .budget-slider-header {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      font-weight: 600;
-    }
     .slider-styled {
       width: 100%;
       accent-color: var(--neon-director);
       cursor: pointer;
     }
 
-    /* Filter Pills */
     .filter-scroll {
       display: flex;
       gap: 8px;
@@ -323,7 +311,6 @@
       padding-bottom: 12px;
       scrollbar-width: none;
     }
-    .filter-scroll::-webkit-scrollbar { display: none; }
     .role-filter-chip {
       background: var(--bg-card);
       border: 1px solid var(--border-dim);
@@ -334,13 +321,11 @@
       font-weight: 700;
       white-space: nowrap;
       cursor: pointer;
-      transition: all 0.15s;
     }
     .role-filter-chip.active {
       background: #fff;
       color: #000;
       border-color: #fff;
-      box-shadow: 0 3px 0 #999;
     }
 
     /* Crew Cards */
@@ -357,12 +342,6 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      position: relative;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.3);
-      transition: border-color 0.2s;
-    }
-    .crew-card:hover {
-      border-color: var(--border-glow);
     }
     .crew-top {
       display: flex;
@@ -374,7 +353,6 @@
       border-radius: 12px;
       object-fit: cover;
       border: 2px solid #333;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.4);
     }
     .crew-info {
       flex: 1;
@@ -386,7 +364,7 @@
       flex-wrap: wrap;
     }
     .crew-name {
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 800;
       color: #fff;
     }
@@ -394,86 +372,48 @@
       background: rgba(0, 240, 255, 0.15);
       color: var(--neon-cinema);
       border: 1px solid var(--neon-cinema);
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 800;
       padding: 2px 6px;
       border-radius: 12px;
-      display: inline-flex;
-      align-items: center;
-      gap: 2px;
     }
     .role-badge {
       font-size: 10px;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
       padding: 3px 8px;
       border-radius: 6px;
       margin-left: auto;
     }
-    .crew-location-line {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 2px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
     .crew-stats-strip {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       font-size: 12px;
       background: #0d1017;
       padding: 6px 10px;
       border-radius: 8px;
       border: 1px solid #1f2331;
     }
-    .stat-rating {
-      color: #ffb703;
-      font-weight: 700;
-    }
-    .stat-rate {
-      color: #10b981;
-      font-weight: 700;
-      margin-left: auto;
-    }
-    .crew-skills {
+    .links-tags-container {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
     }
-    .skill-tag {
-      background: #1b202e;
-      color: #a4adc5;
+    .link-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #192030;
+      color: #60a5fa;
+      text-decoration: none;
       font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 4px;
-      border: 1px solid #282f42;
-    }
-    .crew-card-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 10px;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    .phone-locked {
-      font-size: 12px;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .phone-unlocked {
-      font-size: 12px;
-      color: #10b981;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 4px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid #2b3652;
     }
 
-    /* Radar Map Screen (Integrated) */
+    /* Radar Map View */
     .radar-container-card {
       background: var(--bg-card);
       border: 1px solid var(--border-dim);
@@ -485,7 +425,7 @@
     }
     .radar-visual {
       width: 100%;
-      max-width: 360px;
+      max-width: 340px;
       aspect-ratio: 1 / 1;
       background: radial-gradient(circle, #0e1726 0%, #060910 100%);
       border: 2px solid var(--border-glow);
@@ -495,32 +435,26 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 30px rgba(0, 240, 255, 0.15);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .radar-ring {
       position: absolute;
       border: 1px dashed rgba(0, 240, 255, 0.25);
       border-radius: 50%;
       cursor: pointer;
-      transition: background 0.2s;
-    }
-    .radar-ring:hover {
-      background: rgba(0, 240, 255, 0.05);
     }
     .ring-km-5 { width: 32%; height: 32%; }
     .ring-km-15 { width: 62%; height: 62%; }
     .ring-km-30 { width: 92%; height: 92%; }
     .ring-label {
       position: absolute;
-      top: 6px;
-      font-size: 10px;
+      top: 4px;
+      font-size: 9px;
       font-weight: 700;
       color: var(--neon-cinema);
       background: #040508;
       padding: 1px 4px;
       border-radius: 4px;
-      border: 1px solid var(--border-dim);
     }
     .radar-sweep-beam {
       position: absolute;
@@ -538,37 +472,26 @@
       to { transform: rotate(360deg); }
     }
     .radar-user-center {
-      width: 14px;
-      height: 14px;
+      width: 12px;
+      height: 12px;
       background: #fff;
       border-radius: 50%;
-      box-shadow: 0 0 12px #fff;
+      box-shadow: 0 0 10px #fff;
       z-index: 10;
     }
     .radar-pin {
       position: absolute;
-      width: 22px;
-      height: 22px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       transform: translate(-50%, -50%);
       border: 2px solid #fff;
       cursor: pointer;
       z-index: 12;
-      box-shadow: 0 0 10px rgba(0,0,0,0.8);
-      transition: transform 0.2s;
       object-fit: cover;
     }
-    .radar-pin:hover {
-      transform: translate(-50%, -50%) scale(1.4);
-    }
 
-    /* Projects Screen & Feed */
-    .project-header-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
+    /* Projects View */
     .projects-feed {
       display: flex;
       flex-direction: column;
@@ -579,14 +502,14 @@
       border: 1px solid var(--border-dim);
       border-radius: 14px;
       padding: 16px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
-      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
     .project-card-top {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 8px;
     }
     .project-title {
       font-family: var(--font-title);
@@ -594,7 +517,7 @@
       font-weight: 800;
       color: #fff;
     }
-    .status-badge {
+    .status-tag {
       font-size: 10px;
       font-weight: 800;
       text-transform: uppercase;
@@ -604,48 +527,31 @@
       color: var(--neon-director);
       border: 1px solid var(--neon-director);
     }
-    .project-creator-row {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 10px;
-      display: flex;
+    .project-location-badge {
+      font-size: 11px;
+      color: var(--neon-cinema);
+      display: inline-flex;
       align-items: center;
+      gap: 4px;
+      margin-top: 2px;
+    }
+    .slot-table {
+      display: flex;
+      flex-direction: column;
       gap: 6px;
-    }
-    .project-desc {
-      font-size: 13px;
-      color: #cbd5e1;
-      line-height: 1.4;
-      margin-bottom: 14px;
-    }
-    .slots-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 8px;
-      margin-bottom: 12px;
+      margin: 6px 0;
     }
     .slot-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #0d1017;
+      background: #0c0f16;
       padding: 8px 12px;
       border-radius: 8px;
-      border: 1px solid #1d2230;
-    }
-    .slot-title {
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .slot-fill-status {
-      font-size: 11px;
-      font-weight: 700;
-      padding: 2px 6px;
-      border-radius: 4px;
-      background: #1b202e;
+      border: 1px solid #1c2130;
     }
 
-    /* Requests Screen */
+    /* Requests List */
     .requests-list {
       display: flex;
       flex-direction: column;
@@ -657,13 +563,13 @@
       border-radius: 12px;
       padding: 14px;
       display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .req-user {
-      display: flex;
-      align-items: center;
+      flex-direction: column;
       gap: 10px;
+    }
+    .req-top {
+      display: flex;
+      gap: 10px;
+      align-items: center;
     }
     .req-avatar {
       width: 44px;
@@ -673,10 +579,11 @@
     }
     .req-actions {
       display: flex;
-      gap: 6px;
+      justify-content: flex-end;
+      gap: 8px;
     }
 
-    /* Messages & Chat Screen */
+    /* Messages & Chat */
     .threads-list {
       display: flex;
       flex-direction: column;
@@ -691,30 +598,9 @@
       align-items: center;
       gap: 12px;
       cursor: pointer;
-      transition: background 0.15s;
-    }
-    .thread-card:hover {
-      background: var(--bg-card-hover);
-    }
-    .thread-info {
-      flex: 1;
-    }
-    .thread-name {
-      font-size: 15px;
-      font-weight: 700;
-      color: #fff;
-    }
-    .thread-preview {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 2px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 200px;
     }
 
-    /* In-App Chat Modal Screen */
+    /* In-App Chat Modal */
     .chat-view-modal {
       position: fixed;
       top: 0;
@@ -732,7 +618,7 @@
       display: flex;
     }
     .chat-top-header {
-      padding: 14px 16px;
+      padding: 12px 16px;
       background: var(--bg-card);
       border-bottom: 1px solid var(--border-dim);
       display: flex;
@@ -759,14 +645,12 @@
       background: var(--neon-director);
       color: #000;
       font-weight: 600;
-      border-bottom-right-radius: 2px;
     }
     .chat-bubble.theirs {
       align-self: flex-start;
       background: var(--bg-card-hover);
       color: #fff;
       border: 1px solid var(--border-dim);
-      border-bottom-left-radius: 2px;
     }
     .chat-input-bar {
       padding: 12px 14px;
@@ -776,7 +660,7 @@
       gap: 8px;
     }
 
-    /* Modal Form for Project Creation */
+    /* Modal Sheet */
     .modal-overlay {
       position: fixed;
       top: 0;
@@ -798,19 +682,19 @@
       border: 1px solid var(--border-glow);
       border-radius: 16px;
       width: 100%;
-      max-width: 420px;
+      max-width: 430px;
       max-height: 90vh;
       overflow-y: auto;
       padding: 20px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.8);
     }
 
-    /* Form UI Elements */
+    /* Form Fields */
     .form-group {
       display: flex;
       flex-direction: column;
       gap: 6px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
     .form-group label {
       font-size: 11px;
@@ -825,34 +709,22 @@
       border-radius: 8px;
       padding: 10px 12px;
       color: #fff;
-      font-size: 14px;
+      font-size: 13px;
     }
     .form-input:focus, .form-select:focus, .form-textarea:focus {
       outline: none;
       border-color: var(--neon-director);
     }
 
-    /* Profile Photo Upload Box */
-    .photo-upload-box {
+    /* Multi URL Dynamic Item */
+    .url-item-row {
       display: flex;
+      gap: 6px;
+      margin-bottom: 6px;
       align-items: center;
-      gap: 16px;
-      margin-bottom: 16px;
-      background: var(--bg-card);
-      padding: 14px;
-      border-radius: 12px;
-      border: 1px solid var(--border-dim);
-    }
-    .profile-large-preview {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid var(--neon-director);
-      box-shadow: 0 0 12px rgba(255, 183, 3, 0.4);
     }
 
-    /* Bottom 5-Tab Navigation */
+    /* Bottom Navigation */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -864,7 +736,6 @@
       grid-template-columns: repeat(5, 1fr);
       height: 68px;
       z-index: 100;
-      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.6);
     }
     .nav-btn {
       background: transparent;
@@ -877,7 +748,6 @@
       color: var(--text-muted);
       cursor: pointer;
       position: relative;
-      transition: color 0.15s;
     }
     .nav-btn.active {
       color: #fff;
@@ -890,17 +760,9 @@
       height: 3px;
       background: var(--neon-director);
       border-radius: 0 0 4px 4px;
-      box-shadow: 0 0 8px var(--neon-director);
     }
-    .nav-btn-icon {
-      font-size: 18px;
-    }
-    .nav-btn-label {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+    .nav-btn-icon { font-size: 18px; }
+    .nav-btn-label { font-size: 10px; font-weight: 700; text-transform: uppercase; }
     .nav-badge-count {
       position: absolute;
       top: 8px;
@@ -918,17 +780,16 @@
 
   <div class="app-container">
     
-    <!-- Film Perforation Edge -->
+    <!-- Film Perforation -->
     <div class="film-perforation">
       <div class="sprocket-holes">
         <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
         <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
         <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
-        <div class="sprocket"></div>
       </div>
     </div>
 
-    <!-- Top Branding & Profile Pill -->
+    <!-- Header -->
     <header class="brand-bar">
       <div class="brand-title">
         <div class="live-rec"></div>
@@ -939,42 +800,34 @@
       </div>
     </header>
 
-    <!-- ==============================================
-         1. DISCOVER SCREEN (With List & Radar Views)
-         ============================================== -->
+    <!-- ================= 1. DISCOVER SCREEN ================= -->
     <section id="screen-discover" class="screen-view active">
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4px;">
-        <h1 class="section-title">CREW RADAR & DISCOVER</h1>
-      </div>
-      <p class="section-desc">Real-time GPS proximity sorting for indie film crews</p>
+      <h1 class="section-title">CREW RADAR & DISCOVER</h1>
+      <p class="section-desc">Find nearby film talent sorted by live GPS distance</p>
 
-      <!-- Toggle between List View and Map View -->
+      <!-- View Toggle -->
       <div class="toggle-pill-wrap">
-        <button class="toggle-pill-btn active" id="btnViewList" onclick="setDiscoverView('list')">
-          📋 List View
-        </button>
-        <button class="toggle-pill-btn" id="btnViewRadar" onclick="setDiscoverView('radar')">
-          📡 Radar View
-        </button>
+        <button class="toggle-pill-btn active" id="btnViewList" onclick="setDiscoverView('list')">📋 List View</button>
+        <button class="toggle-pill-btn" id="btnViewRadar" onclick="setDiscoverView('radar')">📡 Radar View</button>
       </div>
 
-      <!-- Search Bar -->
+      <!-- Search Box -->
       <div class="search-box">
         <span class="search-icon-fixed">🔍</span>
         <input 
           type="text" 
           id="discoverSearchInput" 
           class="search-input" 
-          placeholder="Search by name, 'drone', 'DaVinci', 'RED'..."
+          placeholder="Search by name, 'drone', 'DaVinci Resolve', 'RED'..."
           oninput="handleSearchFilter()"
         />
       </div>
 
-      <!-- Budget Filter Slider -->
+      <!-- Budget Filter -->
       <div class="budget-filter-card">
-        <div class="budget-slider-header">
-          <span style="color: var(--text-muted);">Max Day Rate:</span>
-          <span style="color: var(--neon-director); font-weight: 800;" id="dayRateVal">₹35,000 / day</span>
+        <div style="display: flex; justify-content: space-between; font-size: 12px; font-weight: 700;">
+          <span style="color: var(--text-muted);">Max Budget (Day Rate):</span>
+          <span style="color: var(--neon-director);" id="dayRateVal">₹45,000 / day</span>
         </div>
         <input 
           type="range" 
@@ -996,96 +849,70 @@
         <button class="role-filter-chip" onclick="filterRole('Editor', this)">Editors</button>
       </div>
 
-      <!-- LIST CONTAINER -->
+      <!-- List Container -->
       <div id="discoverListView">
-        <div class="crew-feed" id="crewFeedContainer">
-          <!-- Injected via JS -->
-        </div>
+        <div class="crew-feed" id="crewFeedContainer"></div>
       </div>
 
-      <!-- RADAR MAP CONTAINER (Toggleable) -->
+      <!-- Radar Container -->
       <div id="discoverRadarView" style="display: none;">
         <div class="radar-container-card">
           <div class="radar-visual" id="radarVisualBox">
-            <!-- Tappable Distance Rings -->
-            <div class="radar-ring ring-km-5" onclick="filterByDistanceRadius(5)" title="Filter within 5 km">
-              <span class="ring-label">5km</span>
-            </div>
-            <div class="radar-ring ring-km-15" onclick="filterByDistanceRadius(15)" title="Filter within 15 km">
-              <span class="ring-label">15km</span>
-            </div>
-            <div class="radar-ring ring-km-30" onclick="filterByDistanceRadius(30)" title="Filter within 30 km">
-              <span class="ring-label">30km</span>
-            </div>
-            
+            <div class="radar-ring ring-km-5" onclick="filterByDistanceRadius(5)" title="Within 5 km"><span class="ring-label">5km</span></div>
+            <div class="radar-ring ring-km-15" onclick="filterByDistanceRadius(15)" title="Within 15 km"><span class="ring-label">15km</span></div>
+            <div class="radar-ring ring-km-30" onclick="filterByDistanceRadius(30)" title="Within 30 km"><span class="ring-label">30km</span></div>
             <div class="radar-sweep-beam"></div>
-            <div class="radar-user-center" title="Your Location"></div>
-            <!-- Radar Pins dynamically loaded -->
+            <div class="radar-user-center"></div>
           </div>
           <div style="font-size: 11px; color: var(--text-muted); text-align: center;">
-            💡 Tap any circular ring to filter crew distance, or tap pins to view crew profile
+            💡 Tap rings to filter radius (5km / 15km / 30km) or click any avatar pin
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ==============================================
-         2. LIVE PROJECTS SCREEN & FEED
-         ============================================== -->
+    <!-- ================= 2. PROJECTS SCREEN ================= -->
     <section id="screen-projects" class="screen-view">
-      <div class="project-header-actions">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
         <div>
           <h1 class="section-title">PROJECTS FEED</h1>
-          <p class="section-desc" style="margin: 0;">Live opportunities from creators</p>
+          <p class="section-desc" style="margin: 0;">Live opportunities from filmmakers</p>
         </div>
         <button class="btn-3d btn-3d-primary" onclick="openCreateProjectModal()">
           + Create Project
         </button>
       </div>
 
-      <div class="projects-feed" id="projectsFeedContainer">
-        <!-- Dynamic Projects Injected Here -->
-      </div>
+      <div class="projects-feed" id="projectsFeedContainer"></div>
     </section>
 
-    <!-- ==============================================
-         3. CONNECT REQUESTS SCREEN
-         ============================================== -->
+    <!-- ================= 3. CONNECT & SLOT REQUESTS ================= -->
     <section id="screen-requests" class="screen-view">
-      <h1 class="section-title">CONNECT REQUESTS</h1>
-      <p class="section-desc">Accept requests to unlock direct phone numbers & in-app chat</p>
+      <h1 class="section-title">APPLICATIONS & REQUESTS</h1>
+      <p class="section-desc">Review crew slot applications: Choose OK (Accept) or Not Fit (Decline)</p>
 
-      <div class="requests-list" id="requestsListContainer">
-        <!-- Injected via JS -->
-      </div>
+      <div class="requests-list" id="requestsListContainer"></div>
     </section>
 
-    <!-- ==============================================
-         4. IN-APP MESSAGES / CHAT TAB
-         ============================================== -->
+    <!-- ================= 4. IN-APP MESSAGES ================= -->
     <section id="screen-messages" class="screen-view">
       <h1 class="section-title">UNIT DISPATCH</h1>
-      <p class="section-desc">Active conversations with connected team members</p>
+      <p class="section-desc">Direct in-app messaging with accepted crew connections</p>
 
-      <div class="threads-list" id="threadsListContainer">
-        <!-- Dynamic Threads -->
-      </div>
+      <div class="threads-list" id="threadsListContainer"></div>
     </section>
 
-    <!-- ==============================================
-         5. USER PROFILE SCREEN
-         ============================================== -->
+    <!-- ================= 5. PROFILE SCREEN ================= -->
     <section id="screen-profile" class="screen-view">
-      <h1 class="section-title">YOUR PROFILE</h1>
-      <p class="section-desc">Manage your showreel, GPS coords & connect settings</p>
+      <h1 class="section-title">CREW PROFILE</h1>
+      <p class="section-desc">Complete your profile to book slots & receive invites</p>
 
-      <!-- Photo Upload Box -->
-      <div class="photo-upload-box">
-        <img id="profilePhotoDisplay" class="profile-large-preview" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Avatar">
+      <div style="background: var(--bg-card); padding: 14px; border-radius: 12px; border: 1px solid var(--border-dim); margin-bottom: 14px; display: flex; align-items: center; gap: 14px;">
+        <img id="profilePhotoDisplay" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 3px solid var(--neon-director);">
         <div>
-          <div style="font-size: 13px; font-weight: 700; margin-bottom: 4px;">Profile Avatar</div>
-          <label class="btn-3d btn-3d-dark" style="padding: 6px 12px; font-size: 11px;">
-            📷 Upload Photo
+          <div style="font-size: 13px; font-weight: 700; margin-bottom: 4px;">Upload Profile Avatar</div>
+          <label class="btn-3d btn-3d-dark" style="padding: 6px 10px; font-size: 11px;">
+            📷 Choose Photo
             <input type="file" id="avatarFileInput" accept="image/*" style="display: none;" onchange="handlePhotoUpload(event)" />
           </label>
         </div>
@@ -1093,7 +920,7 @@
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
         <div class="form-group">
-          <label>Full Name</label>
+          <label>Your Name *</label>
           <input type="text" id="profName" class="form-input" value="Kiran Varma" />
         </div>
         <div class="form-group">
@@ -1103,146 +930,159 @@
       </div>
 
       <div class="form-group">
-        <label>Primary Role</label>
+        <label>Primary Role *</label>
         <select id="profRole" class="form-select">
           <option value="Director" selected>Director</option>
           <option value="Cinematographer">Cinematographer</option>
           <option value="Actor">Actor</option>
           <option value="Editor">Editor</option>
+          <option value="Sound Engineer">Sound Engineer</option>
+          <option value="Music Director">Music Director</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label>Mobile Number (Only visible after Connect accepted)</label>
+        <label>Mobile Number * (Protected)</label>
         <input type="text" id="profPhone" class="form-input" value="+91 98490 23456" />
       </div>
 
       <div class="form-group">
-        <label>Readable Location</label>
+        <label>Readable Location (City/Area)</label>
         <input type="text" id="profLocationText" class="form-input" value="Jubilee Hills, Hyderabad" />
       </div>
 
       <div class="form-group">
-        <label>Google Maps Link (Auto Lat/Lng Extraction)</label>
-        <input 
-          type="text" 
-          id="profMapsLink" 
-          class="form-input" 
-          value="https://maps.google.com/?q=17.4325,78.4070" 
-          oninput="handleUserMapsLinkInput(this.value)"
-        />
-        <div style="font-size: 11px; color: #10b981; margin-top: 3px;">
-          ✓ GPS Coordinates: <span id="userCoordsDisplay">17.4325, 78.4070</span>
+        <label>Google Maps Link (Regex Lat/Lng)</label>
+        <input type="text" id="profMapsLink" class="form-input" value="https://maps.google.com/?q=17.4325,78.4070" oninput="handleUserMapsLinkInput(this.value)" />
+        <div style="font-size: 11px; color: #10b981; margin-top: 2px;">
+          ✓ GPS: <span id="userCoordsDisplay">17.4325, 78.4070</span>
         </div>
       </div>
 
+      <!-- Multiple Showreel / Portfolio Links (Requirement 7) -->
       <div class="form-group">
-        <label>Showreel URL</label>
-        <input type="text" id="profShowreel" class="form-input" value="https://vimeo.com/kirandirector" />
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <label style="margin: 0;">Showreel & Portfolio URLs (Multiple)</label>
+          <button type="button" class="btn-3d btn-3d-dark" style="padding: 4px 8px; font-size: 10px;" onclick="addProfileLinkField()">+ Add URL</button>
+        </div>
+        <div id="profileLinksList">
+          <!-- Dynamically filled with Link rows -->
+        </div>
       </div>
 
-      <button class="btn-3d btn-3d-primary" style="width: 100%; padding: 14px; margin-top: 6px;" onclick="saveUserProfile()">
-        Save Profile
-      </button>
+      <button class="btn-3d btn-3d-primary" style="width: 100%; padding: 14px;" onclick="saveUserProfile()">Save Profile</button>
     </section>
 
-    <!-- ==============================================
-         BOTTOM 5-TAB NAVIGATION
-         ============================================== -->
+    <!-- ================= BOTTOM NAVIGATION ================= -->
     <nav class="bottom-nav">
       <button class="nav-btn active" onclick="switchNavTab('discover')">
-        <span class="nav-btn-icon">🔍</span>
-        <span class="nav-btn-label">Discover</span>
+        <span class="nav-btn-icon">🔍</span><span class="nav-btn-label">Discover</span>
       </button>
       <button class="nav-btn" onclick="switchNavTab('projects')">
-        <span class="nav-btn-icon">🎬</span>
-        <span class="nav-btn-label">Projects</span>
+        <span class="nav-btn-icon">🎬</span><span class="nav-btn-label">Projects</span>
       </button>
       <button class="nav-btn" onclick="switchNavTab('requests')">
-        <span class="nav-btn-icon">⚡</span>
-        <span class="nav-btn-label">Connects</span>
+        <span class="nav-btn-icon">⚡</span><span class="nav-btn-label">Requests</span>
         <span class="nav-badge-count" id="connectsBadge">1</span>
       </button>
       <button class="nav-btn" onclick="switchNavTab('messages')">
-        <span class="nav-btn-icon">💬</span>
-        <span class="nav-btn-label">Messages</span>
+        <span class="nav-btn-icon">💬</span><span class="nav-btn-label">Messages</span>
       </button>
       <button class="nav-btn" onclick="switchNavTab('profile')">
-        <span class="nav-btn-icon">👤</span>
-        <span class="nav-btn-label">Profile</span>
+        <span class="nav-btn-icon">👤</span><span class="nav-btn-label">Profile</span>
       </button>
     </nav>
 
-    <!-- ==============================================
-         CREATE PROJECT MODAL
-         ============================================== -->
+    <!-- ================= CREATE PROJECT MODAL ================= -->
     <div class="modal-overlay" id="createProjectModal">
       <div class="modal-card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
           <h2 class="section-title" style="font-size: 22px;">CREATE NEW PROJECT</h2>
           <button style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;" onclick="closeCreateProjectModal()">✕</button>
         </div>
 
         <div class="form-group">
-          <label>Project Title</label>
+          <label>Project Title *</label>
           <input type="text" id="newProjTitle" class="form-input" placeholder="e.g. 'Midnight in Charminar'" />
         </div>
 
+        <!-- 1. Project Type with Other text option -->
         <div class="form-group">
           <label>Project Type</label>
-          <select id="newProjType" class="form-select">
-            <option value="Short Film">Short film</option>
-            <option value="Web Series">Web series</option>
+          <select id="newProjType" class="form-select" onchange="toggleCustomTypeField(this.value)">
+            <option value="Short Film">Short Film</option>
+            <option value="Web Series">Web Series</option>
             <option value="Movie">Feature Movie</option>
-            <option value="Other">Pilot / Music Video</option>
+            <option value="Other">Others (Type Below)</option>
           </select>
+          <div id="customTypeWrap" style="display: none; margin-top: 6px;">
+            <input type="text" id="customProjTypeInput" class="form-input" placeholder="Enter custom project type (e.g. Pilot / Ad Film / Music Video)" />
+          </div>
         </div>
 
+        <!-- 2. Project Status with Other text option -->
         <div class="form-group">
           <label>Project Status</label>
-          <select id="newProjStatus" class="form-select">
+          <select id="newProjStatus" class="form-select" onchange="toggleCustomStatusField(this.value)">
             <option value="Pre-production">Pre-production</option>
             <option value="Shooting">Shooting</option>
             <option value="Editing">Editing</option>
             <option value="Done">Done</option>
+            <option value="Other">Others (Type Below)</option>
           </select>
+          <div id="customStatusWrap" style="display: none; margin-top: 6px;">
+            <input type="text" id="customProjStatusInput" class="form-input" placeholder="Enter custom status (e.g. Scripting / Crowdfunding / Festival Run)" />
+          </div>
         </div>
 
+        <!-- 4. Project Location (Optional text) -->
         <div class="form-group">
-          <label>Crew Roles Needed & Slots</label>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <label>Project Shoot Location (Optional)</label>
+          <input type="text" id="newProjLocation" class="form-input" placeholder="e.g. Ramoji Film City, Hyderabad or Araku Valley" />
+        </div>
+
+        <!-- 3. Roles & Slots with Custom Role Additions -->
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <label style="margin: 0;">Crew Roles Needed & Slots</label>
+            <button type="button" class="btn-3d btn-3d-dark" style="padding: 4px 8px; font-size: 10px;" onclick="addCustomRoleSlotRow()">+ Add Custom Role</button>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
             <div>
-              <span style="font-size: 11px; color: var(--text-muted);">Cinematographers</span>
-              <input type="number" id="slotNumDop" class="form-input" value="1" min="0" />
+              <span style="font-size: 11px; color: var(--neon-cinema);">Cinematographer</span>
+              <input type="number" id="slotDop" class="form-input" value="1" min="0" />
             </div>
             <div>
-              <span style="font-size: 11px; color: var(--text-muted);">Actors</span>
-              <input type="number" id="slotNumActor" class="form-input" value="2" min="0" />
+              <span style="font-size: 11px; color: var(--neon-actor);">Actors</span>
+              <input type="number" id="slotActor" class="form-input" value="2" min="0" />
             </div>
             <div>
-              <span style="font-size: 11px; color: var(--text-muted);">Editors</span>
-              <input type="number" id="slotNumEditor" class="form-input" value="1" min="0" />
+              <span style="font-size: 11px; color: var(--neon-editor);">Editors</span>
+              <input type="number" id="slotEditor" class="form-input" value="1" min="0" />
             </div>
+          </div>
+
+          <div id="customRolesContainer" style="margin-top: 8px; display: flex; flex-direction: column; gap: 6px;">
+            <!-- Dynamic Custom Role Rows injected here -->
           </div>
         </div>
 
         <div class="form-group">
-          <label>Detailed Requirements / Pitch</label>
-          <textarea id="newProjDesc" class="form-textarea" rows="3" placeholder="Describe the story, shoot dates, equipment needed, etc."></textarea>
+          <label>Detailed Requirements / Story Pitch</label>
+          <textarea id="newProjDesc" class="form-textarea" rows="3" placeholder="Describe storyline, shoot schedule, required camera gear, etc."></textarea>
         </div>
 
         <button class="btn-3d btn-3d-primary" style="width: 100%; padding: 12px;" onclick="submitNewProject()">
-          Publish to Live Feed
+          Publish Live Project
         </button>
       </div>
     </div>
 
-    <!-- ==============================================
-         ACTIVE CHAT MODAL SCREEN
-         ============================================== -->
+    <!-- ================= CHAT MODAL ================= -->
     <div class="chat-view-modal" id="chatViewModal">
       <div class="chat-top-header">
-        <button class="btn-3d btn-3d-dark" style="padding: 6px 10px; font-size: 12px;" onclick="closeChatModal()">← Back</button>
+        <button class="btn-3d btn-3d-dark" style="padding: 6px 10px; font-size: 11px;" onclick="closeChatModal()">← Back</button>
         <img id="chatHeaderImg" src="" style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover;">
         <div>
           <div id="chatHeaderName" style="font-size: 14px; font-weight: 800; color: #fff;">User</div>
@@ -1250,23 +1090,18 @@
         </div>
       </div>
 
-      <div class="chat-messages-area" id="chatMessagesArea">
-        <!-- Messages -->
-      </div>
+      <div class="chat-messages-area" id="chatMessagesArea"></div>
 
       <div class="chat-input-bar">
-        <input type="text" id="chatTextInput" class="form-input" style="flex: 1;" placeholder="Type your message..." onkeydown="if(event.key==='Enter') sendChatMessage()" />
+        <input type="text" id="chatTextInput" class="form-input" style="flex: 1;" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendChatMessage()" />
         <button class="btn-3d btn-3d-primary" onclick="sendChatMessage()">Send</button>
       </div>
     </div>
 
   </div>
 
-  <!-- ==============================================
-       JAVASCRIPT APP LOGIC & STATE
-       ============================================== -->
   <script>
-    // Current User Profile State
+    // Current User Profile State with Multiple Showreel/Portfolio Links
     const currentUser = {
       name: "Kiran Varma",
       role: "Director",
@@ -1276,18 +1111,23 @@
       lat: 17.4325,
       lng: 78.4070,
       avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
-      showreel: "https://vimeo.com/kirandirector"
+      portfolioLinks: [
+        { platform: "YouTube", url: "https://youtube.com/@kirandirector" },
+        { platform: "Instagram", url: "https://instagram.com/kiran_films" },
+        { platform: "Vimeo", url: "https://vimeo.com/kirandirector" }
+      ]
     };
 
-    // Role Styling Map
+    // Role Styling
     const roleMeta = {
-      'Director': { color: 'var(--neon-director)', bg: 'rgba(255, 183, 3, 0.15)', border: '#ffb703' },
-      'Cinematographer': { color: 'var(--neon-cinema)', bg: 'rgba(0, 240, 255, 0.15)', border: '#00f0ff' },
-      'Actor': { color: 'var(--neon-actor)', bg: 'rgba(255, 0, 85, 0.15)', border: '#ff0055' },
-      'Editor': { color: 'var(--neon-editor)', bg: 'rgba(168, 85, 247, 0.15)', border: '#a855f7' }
+      'Director': { color: '#ffb703', bg: 'rgba(255, 183, 3, 0.15)', border: '#ffb703' },
+      'Cinematographer': { color: '#00f0ff', bg: 'rgba(0, 240, 255, 0.15)', border: '#00f0ff' },
+      'Actor': { color: '#ff0055', bg: 'rgba(255, 0, 85, 0.15)', border: '#ff0055' },
+      'Editor': { color: '#a855f7', bg: 'rgba(168, 85, 247, 0.15)', border: '#a855f7' },
+      'Other': { color: '#10b981', bg: 'rgba(16, 185, 129, 0.15)', border: '#10b981' }
     };
 
-    // Realistic Mock Crew Data in Hyderabad Area
+    // Mock Crew Data with Multiple Portfolio URLs
     let crewMembers = [
       {
         id: 101,
@@ -1302,9 +1142,13 @@
         rating: 4.9,
         projectsCount: 8,
         dayRate: 22000,
-        skills: ["Sony FX3", "Anamorphic", "Gimbal Specialist", "Gaffer"],
+        portfolioLinks: [
+          { platform: "Vimeo", url: "https://vimeo.com" },
+          { platform: "Instagram", url: "https://instagram.com" }
+        ],
+        skills: ["Sony FX3", "Anamorphic", "Gimbal Specialist"],
         bio: "Specialized in indie low-light aesthetic and handheld cinematic motion.",
-        connected: true // already connected
+        connected: true
       },
       {
         id: 102,
@@ -1319,6 +1163,10 @@
         rating: 4.8,
         projectsCount: 6,
         dayRate: 15000,
+        portfolioLinks: [
+          { platform: "YouTube", url: "https://youtube.com" },
+          { platform: "Instagram", url: "https://instagram.com" }
+        ],
         skills: ["Method Acting", "Telugu", "Hindi", "Classical Dance"],
         bio: "Theatre trained for 4 years. Fluent in Telugu, Hindi and English dialogs.",
         connected: false
@@ -1336,89 +1184,66 @@
         rating: 5.0,
         projectsCount: 14,
         dayRate: 18000,
-        skills: ["DaVinci Resolve", "Premiere Pro", "Color Grading", "Sound Design"],
+        portfolioLinks: [
+          { platform: "Drive", url: "https://drive.google.com" },
+          { platform: "YouTube", url: "https://youtube.com" }
+        ],
+        skills: ["DaVinci Resolve", "Premiere Pro", "Color Grading"],
         bio: "Fast turnaround narrative film editor and senior colorist.",
         connected: false
-      },
-      {
-        id: 104,
-        name: "Rahul Nambiar",
-        role: "Cinematographer",
-        age: 29,
-        phone: "+91 99887 66554",
-        locationName: "Banjara Hills, Hyderabad",
-        lat: 17.4156,
-        lng: 78.4350,
-        avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=150&auto=format&fit=crop&q=80",
-        rating: 4.7,
-        projectsCount: 5,
-        dayRate: 25000,
-        skills: ["RED Komodo", "FPV Drone", "Car Rigs"],
-        bio: "High-octane action and car tracking shot specialist with certified drone license.",
-        connected: false
-      },
-      {
-        id: 105,
-        name: "Pooja Hegde Reddy",
-        role: "Actor",
-        age: 23,
-        phone: "+91 94444 33221",
-        locationName: "Kondapur, Hyderabad",
-        lat: 17.4622,
-        lng: 78.3568,
-        avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
-        rating: 4.6,
-        projectsCount: 3,
-        dayRate: 12000,
-        skills: ["Expressive", "Dubbing", "Improv"],
-        bio: "Lead roles in SIIMA nominee short films. Passionate about indie arthouse cinema.",
-        connected: false
       }
     ];
 
-    // Connect Requests Pool
-    let pendingRequests = [
-      {
-        id: 201,
-        crewId: 102,
-        name: "Ananya Sharma",
-        role: "Actor",
-        avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
-        note: "Hey Kiran, I loved the script logline for Night Run. Would love to audition!"
-      }
-    ];
-
-    // Live Projects Feed
+    // Live Projects Feed (with Project Location & Multi-slot support)
     let projectsFeed = [
       {
         id: 301,
         title: "NIGHT RUN: HYDERABAD",
         type: "Short Film",
         status: "Pre-production",
+        location: "Begumpet & Film Nagar, Hyderabad",
         creatorName: "Kiran Varma (You)",
+        isMine: true,
         desc: "A neo-noir crime thriller set in the underbelly of Begumpet during midnight.",
-        slots: {
-          Cinematographer: { needed: 1, filled: 1, names: ["Siddharth Rao"] },
-          Actor: { needed: 2, filled: 1, names: ["Open Slot", "Open Slot"] },
-          Editor: { needed: 1, filled: 0, names: ["Open Slot"] }
-        }
+        slots: [
+          { role: "Cinematographer", needed: 1, filled: 1 },
+          { role: "Actor", needed: 2, filled: 1 },
+          { role: "Editor", needed: 1, filled: 0 }
+        ]
       },
       {
         id: 302,
         title: "SHADOWS OF CHARMINAR",
         type: "Web Series",
         status: "Shooting",
-        creatorName: "Tarun Bhaskar Fans Unit",
-        desc: "A 4-episode dark comedy series exploring old city alleys. Looking for second camera op and sound designer.",
-        slots: {
-          Cinematographer: { needed: 2, filled: 1, names: ["Rahul Nambiar"] },
-          Actor: { needed: 4, filled: 3, names: [] },
-          Editor: { needed: 1, filled: 1, names: ["Vivek Menon"] }
-        }
+        location: "Old City, Hyderabad",
+        creatorName: "Tarun Cinema Club",
+        isMine: false,
+        desc: "A 4-episode comedy thriller exploring hidden historical alleys.",
+        slots: [
+          { role: "Cinematographer", needed: 2, filled: 1 },
+          { role: "Actor", needed: 3, filled: 2 },
+          { role: "Music Director", needed: 1, filled: 0 }
+        ]
       }
     ];
 
-    // In-App Chat Threads State
+    // Slot Applications & Connect Requests Pool
+    let slotApplications = [
+      {
+        id: 501,
+        projectId: 301,
+        projectTitle: "NIGHT RUN: HYDERABAD",
+        role: "Actor",
+        applicantName: "Ananya Sharma",
+        applicantRole: "Actor",
+        applicantPhone: "+91 98111 44556",
+        applicantAvatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
+        status: "pending", // pending, accepted, rejected
+        appliedAt: "Just now"
+      }
+    ];
+
     let activeChatThreads = [
       {
         crewId: 101,
@@ -1426,8 +1251,7 @@
         role: "Cinematographer",
         avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
         messages: [
-          { sender: 'them', text: "Hey Kiran! Checked the shoot dates for 'Night Run'. I have my FX3 ready with prime lenses." },
-          { sender: 'me', text: "Awesome Siddharth! Let's do a location recce this Saturday near Film Nagar." }
+          { sender: 'them', text: "Hi Kiran! I am confirmed for 'Night Run'." }
         ]
       }
     ];
@@ -1438,27 +1262,22 @@
     let currentRadiusFilter = null;
     let activeChatPartnerId = null;
 
-    // Haversine formula for exact distance computation
+    // Haversine Distance
     function calculateRealDistance(lat1, lon1, lat2, lon2) {
-      const R = 6371; // Earth radius in km
+      const R = 6371;
       const dLat = (lat2 - lat1) * (Math.PI / 180);
       const dLon = (lon2 - lon1) * (Math.PI / 180);
-      const a =
-        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
-        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      return parseFloat((R * c).toFixed(1));
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      return parseFloat((R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).toFixed(1));
     }
 
-    // Regex for Extracting Lat/Lng from Google Maps Links
+    // Google Maps Regex
     function parseGoogleMapsRegex(url) {
       const regex = /(?:@|q=|ll=)(-?\d+\.\d+),(-?\d+\.\d+)/;
       const match = url.match(regex);
-      if (match) {
-        return { lat: parseFloat(match[1]), lng: parseFloat(match[2]) };
-      }
-      return null;
+      return match ? { lat: parseFloat(match[1]), lng: parseFloat(match[2]) } : null;
     }
 
     function handleUserMapsLinkInput(val) {
@@ -1472,38 +1291,313 @@
       }
     }
 
-    // Photo Upload Handler (FileReader -> DataURL)
+    // Profile Photo Upload
     function handlePhotoUpload(e) {
       const file = e.target.files[0];
       if (file) {
         const reader = new FileReader();
-        reader.onload = function(evt) {
-          const dataUrl = evt.target.result;
-          currentUser.avatar = dataUrl;
-          document.getElementById('profilePhotoDisplay').src = dataUrl;
-          document.getElementById('headerAvatar').src = dataUrl;
+        reader.onload = (evt) => {
+          currentUser.avatar = evt.target.result;
+          document.getElementById('profilePhotoDisplay').src = evt.target.result;
+          document.getElementById('headerAvatar').src = evt.target.result;
         };
         reader.readAsDataURL(file);
       }
     }
 
-    // Discover Filtering & Rendering
+    // 7. Dynamic Showreel & Multiple Links in Profile
+    function renderProfileLinksForm() {
+      const container = document.getElementById('profileLinksList');
+      container.innerHTML = currentUser.portfolioLinks.map((link, idx) => `
+        <div class="url-item-row" id="linkRow-${idx}">
+          <select class="form-select" style="width: 110px; padding: 6px;" onchange="currentUser.portfolioLinks[${idx}].platform = this.value">
+            <option value="YouTube" ${link.platform === 'YouTube' ? 'selected' : ''}>YouTube</option>
+            <option value="Instagram" ${link.platform === 'Instagram' ? 'selected' : ''}>Instagram</option>
+            <option value="Vimeo" ${link.platform === 'Vimeo' ? 'selected' : ''}>Vimeo</option>
+            <option value="Drive" ${link.platform === 'Drive' ? 'selected' : ''}>Drive/Cloud</option>
+            <option value="Website" ${link.platform === 'Website' ? 'selected' : ''}>Portfolio</option>
+          </select>
+          <input type="text" class="form-input" style="flex: 1; padding: 6px;" value="${link.url}" placeholder="https://..." oninput="currentUser.portfolioLinks[${idx}].url = this.value" />
+          <button type="button" class="btn-3d btn-3d-danger" style="padding: 6px 8px; font-size: 10px;" onclick="removeProfileLink(${idx})">✕</button>
+        </div>
+      `).join('');
+    }
+
+    function addProfileLinkField() {
+      currentUser.portfolioLinks.push({ platform: "YouTube", url: "" });
+      renderProfileLinksForm();
+    }
+
+    function removeProfileLink(idx) {
+      currentUser.portfolioLinks.splice(idx, 1);
+      renderProfileLinksForm();
+    }
+
+    function saveUserProfile() {
+      currentUser.name = document.getElementById('profName').value.trim();
+      currentUser.age = document.getElementById('profAge').value;
+      currentUser.role = document.getElementById('profRole').value;
+      currentUser.phone = document.getElementById('profPhone').value.trim();
+      currentUser.locationName = document.getElementById('profLocationText').value.trim();
+      
+      alert('✓ Profile updated successfully with your showreels and location!');
+      renderCrewList();
+    }
+
+    // 5. Mandatory Profile Check Before Applying
+    function isUserProfileComplete() {
+      return (currentUser.name && currentUser.name.length > 1 && currentUser.phone && currentUser.phone.length > 5);
+    }
+
+    // 1 & 2. Toggle Custom Project Type & Status
+    function toggleCustomTypeField(val) {
+      document.getElementById('customTypeWrap').style.display = (val === 'Other') ? 'block' : 'none';
+    }
+    function toggleCustomStatusField(val) {
+      document.getElementById('customStatusWrap').style.display = (val === 'Other') ? 'block' : 'none';
+    }
+
+    // 3. Add Custom Crew Role Row
+    let customRoleCount = 0;
+    function addCustomRoleSlotRow() {
+      customRoleCount++;
+      const container = document.getElementById('customRolesContainer');
+      const div = document.createElement('div');
+      div.className = 'url-item-row';
+      div.id = `customRoleRow-${customRoleCount}`;
+      div.innerHTML = `
+        <input type="text" class="form-input custom-role-name" style="flex: 2; padding: 6px;" placeholder="Role Title (e.g. Music Director)" />
+        <input type="number" class="form-input custom-role-count" style="width: 70px; padding: 6px;" value="1" min="1" />
+        <button type="button" class="btn-3d btn-3d-danger" style="padding: 6px 8px; font-size: 10px;" onclick="this.parentElement.remove()">✕</button>
+      `;
+      container.appendChild(div);
+    }
+
+    function openCreateProjectModal() {
+      document.getElementById('createProjectModal').classList.add('active');
+    }
+    function closeCreateProjectModal() {
+      document.getElementById('createProjectModal').classList.remove('active');
+    }
+
+    // Submit New Project with Type/Status "Other" & Location & Custom Slots
+    function submitNewProject() {
+      const title = document.getElementById('newProjTitle').value.trim() || 'Untitled Short Film';
+      
+      // 1. Project Type
+      let type = document.getElementById('newProjType').value;
+      if (type === 'Other') {
+        type = document.getElementById('customProjTypeInput').value.trim() || 'Custom Project';
+      }
+
+      // 2. Project Status
+      let status = document.getElementById('newProjStatus').value;
+      if (status === 'Other') {
+        status = document.getElementById('customProjStatusInput').value.trim() || 'Active';
+      }
+
+      // 4. Project Location
+      const location = document.getElementById('newProjLocation').value.trim() || 'Location TBD';
+      const desc = document.getElementById('newProjDesc').value.trim() || 'Story pitch not specified.';
+
+      // Standard Slots
+      const slots = [
+        { role: 'Cinematographer', needed: parseInt(document.getElementById('slotDop').value) || 0, filled: 0 },
+        { role: 'Actor', needed: parseInt(document.getElementById('slotActor').value) || 0, filled: 0 },
+        { role: 'Editor', needed: parseInt(document.getElementById('slotEditor').value) || 0, filled: 0 }
+      ].filter(s => s.needed > 0);
+
+      // 3. Custom Slots
+      document.querySelectorAll('#customRolesContainer .url-item-row').forEach(row => {
+        const name = row.querySelector('.custom-role-name').value.trim();
+        const count = parseInt(row.querySelector('.custom-role-count').value) || 1;
+        if (name) {
+          slots.push({ role: name, needed: count, filled: 0 });
+        }
+      });
+
+      const newProj = {
+        id: Date.now(),
+        title: title.toUpperCase(),
+        type: type,
+        status: status,
+        location: location,
+        creatorName: `${currentUser.name} (You)`,
+        isMine: true,
+        desc: desc,
+        slots: slots
+      };
+
+      projectsFeed.unshift(newProj);
+      renderProjectsFeed();
+      closeCreateProjectModal();
+      alert(`🎬 Project "${title}" is now LIVE to everyone!`);
+    }
+
+    // Render Projects Feed
+    function renderProjectsFeed() {
+      const container = document.getElementById('projectsFeedContainer');
+      container.innerHTML = projectsFeed.map(proj => `
+        <div class="project-card">
+          <div class="project-card-top">
+            <div>
+              <span style="font-size: 11px; color: var(--neon-cinema); font-weight: 800; text-transform: uppercase;">${proj.type}</span>
+              <div class="project-title">${proj.title}</div>
+              ${proj.location ? `<div class="project-location-badge">📍 ${proj.location}</div>` : ''}
+            </div>
+            <span class="status-tag">${proj.status}</span>
+          </div>
+
+          <div style="font-size: 12px; color: var(--text-muted);">
+            Created by: <strong>${proj.creatorName}</strong>
+          </div>
+
+          <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4;">${proj.desc}</p>
+
+          <div class="slot-table">
+            ${proj.slots.map(s => {
+              const roleColor = roleMeta[s.role]?.color || '#00f0ff';
+              const isFull = s.filled >= s.needed;
+              return `
+                <div class="slot-row">
+                  <div>
+                    <span style="font-size: 12px; font-weight: 700; color: ${roleColor};">${s.role}</span>
+                    <span style="font-size: 11px; color: var(--text-muted); margin-left: 6px;">(${s.filled} of ${s.needed} filled)</span>
+                  </div>
+                  ${!proj.isMine ? `
+                    <button class="btn-3d ${isFull ? 'btn-3d-dark' : 'btn-3d-connect'}" style="padding: 4px 10px; font-size: 10px;" ${isFull ? 'disabled' : ''} onclick="applyForSlot(${proj.id}, '${s.role}')">
+                      ${isFull ? 'Full' : '⚡ Apply for Slot'}
+                    </button>
+                  ` : `
+                    <span style="font-size: 11px; color: #10b981; font-weight: 700;">Your Project</span>
+                  `}
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // 5 & 6. Apply for Slot Flow (Profile Check + Wait for Creator Decision)
+    function applyForSlot(projId, roleName) {
+      if (!isUserProfileComplete()) {
+        alert("⚠️ Slots book chese mundhu kachithanga mee Profile ni poorthi cheyali! (Name & Mobile Number are required)");
+        switchNavTab('profile');
+        return;
+      }
+
+      const proj = projectsFeed.find(p => p.id === projId);
+      if (!proj) return;
+
+      // Add application to creator's requests pool
+      slotApplications.push({
+        id: Date.now(),
+        projectId: proj.id,
+        projectTitle: proj.title,
+        role: roleName,
+        applicantName: currentUser.name,
+        applicantRole: currentUser.role,
+        applicantPhone: currentUser.phone,
+        applicantAvatar: currentUser.avatar,
+        status: "pending",
+        appliedAt: "Just now"
+      });
+
+      renderRequests();
+      // Requirement 6 Notice
+      alert(`✅ Application Submitted for "${roleName}" on project "${proj.title}"!\n\nAa project create chesina person nunchi reply vachedhaaka wait cheyandi. Vaallu OK chesthe slot fill avthundhi.`);
+    }
+
+    // 6. Requests Screen with OK (Accept) and NOT FIT (Decline)
+    function renderRequests() {
+      const container = document.getElementById('requestsListContainer');
+      const pending = slotApplications.filter(a => a.status === 'pending');
+      document.getElementById('connectsBadge').innerText = pending.length;
+
+      if (slotApplications.length === 0) {
+        container.innerHTML = `<div style="text-align: center; padding: 30px; color: var(--text-muted);">No applications or connect requests yet.</div>`;
+        return;
+      }
+
+      container.innerHTML = slotApplications.map(app => `
+        <div class="request-item">
+          <div class="req-top">
+            <img class="req-avatar" src="${app.applicantAvatar}">
+            <div style="flex: 1;">
+              <div style="font-size: 15px; font-weight: 800; color: #fff;">${app.applicantName}</div>
+              <div style="font-size: 12px; color: var(--neon-cinema);">Applied for: <strong>${app.role}</strong></div>
+              <div style="font-size: 11px; color: var(--text-muted);">Project: ${app.projectTitle}</div>
+            </div>
+            <div>
+              ${app.status === 'accepted' ? `<span style="color: #10b981; font-weight: 800; font-size: 11px;">✓ OK (Accepted)</span>` : ''}
+              ${app.status === 'rejected' ? `<span style="color: #ef4444; font-weight: 800; font-size: 11px;">✕ Not Fit</span>` : ''}
+            </div>
+          </div>
+
+          ${app.status === 'pending' ? `
+            <div class="req-actions">
+              <button class="btn-3d btn-3d-danger" onclick="reviewApplication(${app.id}, false)">
+                ✕ Not Fit
+              </button>
+              <button class="btn-3d btn-3d-success" onclick="reviewApplication(${app.id}, true)">
+                ✓ OK (Accept)
+              </button>
+            </div>
+          ` : ''}
+        </div>
+      `).join('');
+    }
+
+    function reviewApplication(appId, isAccepted) {
+      const app = slotApplications.find(a => a.id === appId);
+      if (!app) return;
+
+      if (isAccepted) {
+        app.status = 'accepted';
+        // Fill slot in project
+        const proj = projectsFeed.find(p => p.id === app.projectId);
+        if (proj) {
+          const targetSlot = proj.slots.find(s => s.role === app.role);
+          if (targetSlot && targetSlot.filled < targetSlot.needed) {
+            targetSlot.filled++;
+          }
+        }
+
+        // Open chat thread
+        activeChatThreads.push({
+          crewId: Date.now(),
+          name: app.applicantName,
+          role: app.applicantRole,
+          avatar: app.applicantAvatar,
+          messages: [
+            { sender: 'them', text: `Hi! Thank you for accepting my slot application for '${app.projectTitle}'. Let's connect!` }
+          ]
+        });
+
+        alert(`✓ Accepted! ${app.applicantName} has been assigned to '${app.role}'. In-app chat unlocked.`);
+      } else {
+        app.status = 'rejected';
+        alert(`✕ Application marked as 'Not Fit'.`);
+      }
+
+      renderRequests();
+      renderProjectsFeed();
+      renderThreads();
+    }
+
+    // Discover Screen Render
     function renderCrewList() {
       const container = document.getElementById('crewFeedContainer');
-      
-      // Calculate real distance for every crew member
       const withDistance = crewMembers.map(crew => {
-        const dist = calculateRealDistance(currentUser.lat, currentUser.lng, crew.lat, crew.lng);
-        return { ...crew, distance: dist };
-      }).sort((a, b) => a.distance - b.distance); // Nearest first
+        return { ...crew, distance: calculateRealDistance(currentUser.lat, currentUser.lng, crew.lat, crew.lng) };
+      }).sort((a, b) => a.distance - b.distance);
 
-      // Apply Filters
       const filtered = withDistance.filter(item => {
         const matchRole = currentSelectedRole === 'All' || item.role.toLowerCase() === currentSelectedRole.toLowerCase();
         const matchSearch = currentSearchTerm === '' || 
           item.name.toLowerCase().includes(currentSearchTerm) ||
-          item.skills.some(s => s.toLowerCase().includes(currentSearchTerm)) ||
-          item.locationName.toLowerCase().includes(currentSearchTerm);
+          item.skills.some(s => s.toLowerCase().includes(currentSearchTerm));
         const matchBudget = item.dayRate <= currentMaxBudget;
         const matchRadius = currentRadiusFilter === null || item.distance <= currentRadiusFilter;
 
@@ -1511,130 +1605,110 @@
       });
 
       if (filtered.length === 0) {
-        container.innerHTML = `
-          <div style="text-align: center; padding: 30px; color: var(--text-muted);">
-            No crew found matching your search & budget criteria.
-          </div>
-        `;
+        container.innerHTML = `<div style="text-align: center; padding: 30px; color: var(--text-muted);">No crew matching filters.</div>`;
         return;
       }
 
       container.innerHTML = filtered.map(crew => {
-        const roleStyle = roleMeta[crew.role] || roleMeta['Director'];
-        const isVerified = crew.projectsCount >= 5;
-
+        const style = roleMeta[crew.role] || roleMeta['Other'];
         return `
           <div class="crew-card">
             <div class="crew-top">
-              <img class="crew-avatar" src="${crew.avatar}" alt="${crew.name}">
+              <img class="crew-avatar" src="${crew.avatar}">
               <div class="crew-info">
                 <div class="crew-name-row">
                   <span class="crew-name">${crew.name}</span>
-                  <span style="font-size: 13px; color: var(--text-muted);">(${crew.age}y)</span>
-                  ${isVerified ? `<span class="badge-verified">✓ Verified</span>` : ''}
-                  <span class="role-badge" style="background: ${roleStyle.bg}; color: ${roleStyle.color}; border: 1px solid ${roleStyle.border}">
+                  <span style="font-size: 12px; color: var(--text-muted);">(${crew.age}y)</span>
+                  ${crew.projectsCount >= 5 ? `<span class="badge-verified">✓ Verified</span>` : ''}
+                  <span class="role-badge" style="background: ${style.bg}; color: ${style.color}; border: 1px solid ${style.border};">
                     ${crew.role}
                   </span>
                 </div>
-                <div class="crew-location-line">
-                  <span>📍 ${crew.locationName}</span>
-                  <span>•</span>
-                  <span style="color: var(--neon-cinema); font-weight: 700;">${crew.distance} km away</span>
+                <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
+                  📍 ${crew.locationName} • <span style="color: var(--neon-cinema); font-weight: 700;">${crew.distance} km away</span>
                 </div>
               </div>
             </div>
 
             <div class="crew-stats-strip">
-              <span class="stat-rating">★ ${crew.rating} / 5.0</span>
-              <span style="color: var(--text-muted);">(${crew.projectsCount} projects done)</span>
-              <span class="stat-rate">₹${crew.dayRate.toLocaleString()}/day</span>
+              <span style="color: #ffb703; font-weight: 700;">★ ${crew.rating} / 5.0</span>
+              <span style="color: var(--text-muted);">(${crew.projectsCount} projects)</span>
+              <span style="color: #10b981; font-weight: 700; margin-left: auto;">₹${crew.dayRate.toLocaleString()}/day</span>
             </div>
 
-            <div class="crew-skills">
-              ${crew.skills.map(s => `<span class="skill-tag">${s}</span>`).join('')}
+            <!-- Multiple Showreel Links Display -->
+            <div class="links-tags-container">
+              ${(crew.portfolioLinks || []).map(l => `
+                <a href="${l.url}" target="_blank" class="link-badge">
+                  🎬 ${l.platform}
+                </a>
+              `).join('')}
             </div>
 
             <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4;">${crew.bio}</p>
 
-            <div class="crew-card-actions">
-              ${crew.connected ? `
-                <div class="phone-unlocked">
-                  📞 ${crew.phone}
-                </div>
-                <button class="btn-3d btn-3d-primary" onclick="openDirectChat(${crew.id})">
-                  💬 Chat Now
-                </button>
-              ` : `
-                <div class="phone-locked">
-                  🔒 Phone locked until connect
-                </div>
-                <button class="btn-3d btn-3d-connect" onclick="sendConnectRequest(${crew.id})">
-                  ⚡ Send Connect
-                </button>
-              `}
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 8px;">
+              <span style="font-size: 12px; color: ${crew.connected ? '#10b981' : 'var(--text-muted)'}; font-weight: 600;">
+                ${crew.connected ? `📞 ${crew.phone}` : '🔒 Phone locked'}
+              </span>
+              <button class="btn-3d ${crew.connected ? 'btn-3d-primary' : 'btn-3d-connect'}" onclick="handleCrewConnectClick(${crew.id})">
+                ${crew.connected ? '💬 Chat' : '⚡ Connect'}
+              </button>
             </div>
           </div>
         `;
       }).join('');
     }
 
-    // Toggle Discover List / Radar
-    function setDiscoverView(view) {
-      const listView = document.getElementById('discoverListView');
-      const radarView = document.getElementById('discoverRadarView');
-      const btnList = document.getElementById('btnViewList');
-      const btnRadar = document.getElementById('btnViewRadar');
-
-      if (view === 'list') {
-        listView.style.display = 'block';
-        radarView.style.display = 'none';
-        btnList.classList.add('active');
-        btnRadar.classList.remove('active');
+    function handleCrewConnectClick(id) {
+      const crew = crewMembers.find(c => c.id === id);
+      if (!crew) return;
+      if (crew.connected) {
+        openDirectChat(crew.id);
       } else {
-        listView.style.display = 'none';
-        radarView.style.display = 'block';
-        btnList.classList.remove('active');
-        btnRadar.classList.add('active');
-        renderRadarPins();
+        alert(`⚡ Connect request sent to ${crew.name}! Wait for them to accept.`);
       }
     }
 
-    // Render Dynamic Radar Pins
+    // Toggle Discover Radar / List
+    function setDiscoverView(view) {
+      document.getElementById('discoverListView').style.display = (view === 'list') ? 'block' : 'none';
+      document.getElementById('discoverRadarView').style.display = (view === 'radar') ? 'block' : 'none';
+      document.getElementById('btnViewList').classList.toggle('active', view === 'list');
+      document.getElementById('btnViewRadar').classList.toggle('active', view === 'radar');
+      if (view === 'radar') renderRadarPins();
+    }
+
     function renderRadarPins() {
-      const visualBox = document.getElementById('radarVisualBox');
-      visualBox.querySelectorAll('.radar-pin').forEach(p => p.remove());
+      const box = document.getElementById('radarVisualBox');
+      box.querySelectorAll('.radar-pin').forEach(p => p.remove());
 
       crewMembers.forEach(crew => {
         const dLat = crew.lat - currentUser.lat;
         const dLng = crew.lng - currentUser.lng;
-        
-        // Map delta to radar radius percent
-        const leftPercent = Math.min(Math.max(50 + (dLng * 900), 12), 88);
-        const topPercent = Math.min(Math.max(50 - (dLat * 900), 12), 88);
+        const left = Math.min(Math.max(50 + (dLng * 900), 12), 88);
+        const top = Math.min(Math.max(50 - (dLat * 900), 12), 88);
 
         const pin = document.createElement('img');
         pin.className = 'radar-pin';
         pin.src = crew.avatar;
-        pin.style.left = `${leftPercent}%`;
-        pin.style.top = `${topPercent}%`;
+        pin.style.left = `${left}%`;
+        pin.style.top = `${top}%`;
         pin.style.borderColor = roleMeta[crew.role]?.border || '#fff';
-        pin.title = `${crew.name} (${crew.role}) - ${calculateRealDistance(currentUser.lat, currentUser.lng, crew.lat, crew.lng)} km`;
-        
         pin.onclick = () => {
           setDiscoverView('list');
           currentSearchTerm = crew.name.toLowerCase();
           document.getElementById('discoverSearchInput').value = crew.name;
           renderCrewList();
         };
-
-        visualBox.appendChild(pin);
+        box.appendChild(pin);
       });
     }
 
     function filterByDistanceRadius(km) {
       currentRadiusFilter = (currentRadiusFilter === km) ? null : km;
       renderCrewList();
-      alert(`Filtering crew within ${km} km radius!`);
+      alert(`Filtering radius: ${km} km!`);
     }
 
     function handleSearchFilter() {
@@ -1655,175 +1729,25 @@
       renderCrewList();
     }
 
-    // Connect Flow
-    function sendConnectRequest(crewId) {
-      const member = crewMembers.find(c => c.id === crewId);
-      if (member) {
-        alert(`⚡ Connect request sent to ${member.name}! Once they accept, their mobile number and in-app chat will unlock.`);
-      }
-    }
-
-    function renderConnectRequests() {
-      const container = document.getElementById('requestsListContainer');
-      document.getElementById('connectsBadge').innerText = pendingRequests.length;
-
-      if (pendingRequests.length === 0) {
-        container.innerHTML = `<div style="text-align:center; padding:30px; color:var(--text-muted);">No pending connect requests.</div>`;
-        return;
-      }
-
-      container.innerHTML = pendingRequests.map(req => `
-        <div class="request-item">
-          <div class="req-user">
-            <img class="req-avatar" src="${req.avatar}">
-            <div>
-              <div style="font-size: 15px; font-weight: 700; color: #fff;">${req.name}</div>
-              <div style="font-size: 12px; color: var(--neon-cinema);">${req.role}</div>
-              <div style="font-size: 11px; color: #cbd5e1; margin-top: 4px;">"${req.note}"</div>
-            </div>
-          </div>
-          <div class="req-actions">
-            <button class="btn-3d btn-3d-primary" style="padding: 6px 10px; font-size: 11px;" onclick="acceptConnectRequest(${req.id})">Accept</button>
-            <button class="btn-3d btn-3d-dark" style="padding: 6px 10px; font-size: 11px;" onclick="declineConnectRequest(${req.id})">Decline</button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function acceptConnectRequest(reqId) {
-      const req = pendingRequests.find(r => r.id === reqId);
-      if (req) {
-        // Mark member as connected
-        const target = crewMembers.find(c => c.id === req.crewId);
-        if (target) target.connected = true;
-
-        // Add thread to active chat threads if not exists
-        if (!activeChatThreads.some(t => t.crewId === req.crewId)) {
-          activeChatThreads.push({
-            crewId: target.id,
-            name: target.name,
-            role: target.role,
-            avatar: target.avatar,
-            messages: [
-              { sender: 'them', text: `Hi Kiran, thanks for connecting! Looking forward to working together.` }
-            ]
-          });
-        }
-
-        // Remove from pending
-        pendingRequests = pendingRequests.filter(r => r.id !== reqId);
-        renderConnectRequests();
-        renderThreads();
-        renderCrewList();
-        alert(`Connected with ${req.name}! Phone number unlocked and Chat thread opened.`);
-      }
-    }
-
-    function declineConnectRequest(reqId) {
-      pendingRequests = pendingRequests.filter(r => r.id !== reqId);
-      renderConnectRequests();
-    }
-
-    // Projects Feed
-    function renderProjectsFeed() {
-      const container = document.getElementById('projectsFeedContainer');
-      container.innerHTML = projectsFeed.map(proj => {
-        return `
-          <div class="project-card">
-            <div class="project-card-top">
-              <div>
-                <span style="font-size: 11px; color: var(--neon-cinema); font-weight: 700; text-transform: uppercase;">${proj.type}</span>
-                <div class="project-title">${proj.title}</div>
-              </div>
-              <span class="status-badge">${proj.status}</span>
-            </div>
-            
-            <div class="project-creator-row">
-              <span>👤 Created by <strong>${proj.creatorName}</strong></span>
-            </div>
-
-            <p class="project-desc">${proj.desc}</p>
-
-            <div class="slots-grid">
-              ${Object.entries(proj.slots).map(([role, slotData]) => `
-                <div class="slot-row">
-                  <span class="slot-title" style="color: ${roleMeta[role]?.color || '#fff'}">${role}</span>
-                  <span class="slot-fill-status">
-                    ${slotData.filled} of ${slotData.needed} filled
-                  </span>
-                </div>
-              `).join('')}
-            </div>
-
-            <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px;">
-              <button class="btn-3d btn-3d-dark" onclick="alert('Shared project details to clipboard!')">🔗 Share</button>
-              <button class="btn-3d btn-3d-connect" onclick="alert('Connect request sent to project creator!')">⚡ Apply for Slot</button>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    function openCreateProjectModal() {
-      document.getElementById('createProjectModal').classList.add('active');
-    }
-    function closeCreateProjectModal() {
-      document.getElementById('createProjectModal').classList.remove('active');
-    }
-
-    function submitNewProject() {
-      const title = document.getElementById('newProjTitle').value.trim() || 'Untitled Project';
-      const type = document.getElementById('newProjType').value;
-      const status = document.getElementById('newProjStatus').value;
-      const desc = document.getElementById('newProjDesc').value.trim() || 'No description provided.';
-      
-      const dopCount = parseInt(document.getElementById('slotNumDop').value) || 0;
-      const actorCount = parseInt(document.getElementById('slotNumActor').value) || 0;
-      const editorCount = parseInt(document.getElementById('slotNumEditor').value) || 0;
-
-      const newProj = {
-        id: Date.now(),
-        title: title.toUpperCase(),
-        type: type,
-        status: status,
-        creatorName: `${currentUser.name} (You)`,
-        desc: desc,
-        slots: {
-          Cinematographer: { needed: dopCount, filled: 0, names: [] },
-          Actor: { needed: actorCount, filled: 0, names: [] },
-          Editor: { needed: editorCount, filled: 0, names: [] }
-        }
-      };
-
-      projectsFeed.unshift(newProj);
-      renderProjectsFeed();
-      closeCreateProjectModal();
-      alert(`Project "${title}" is now LIVE to everyone on the feed!`);
-    }
-
-    // Chat / Messages System
+    // Chat / Messages
     function renderThreads() {
       const container = document.getElementById('threadsListContainer');
       if (activeChatThreads.length === 0) {
-        container.innerHTML = `<div style="text-align: center; padding: 30px; color: var(--text-muted);">No active conversations yet. Connect with crew members to start chatting.</div>`;
+        container.innerHTML = `<div style="text-align: center; padding: 30px; color: var(--text-muted);">No active chats. Accept slot requests to start talking!</div>`;
         return;
       }
-
-      container.innerHTML = activeChatThreads.map(thread => {
-        const lastMsg = thread.messages[thread.messages.length - 1];
-        return `
-          <div class="thread-card" onclick="openDirectChat(${thread.crewId})">
-            <img src="${thread.avatar}" style="width: 46px; height: 46px; border-radius: 50%; object-fit: cover; border: 2px solid #333;">
-            <div class="thread-info">
-              <div style="display: flex; justify-content: space-between;">
-                <span class="thread-name">${thread.name}</span>
-                <span style="font-size: 11px; color: var(--neon-cinema); font-weight: 700;">${thread.role}</span>
-              </div>
-              <div class="thread-preview">${lastMsg ? lastMsg.text : 'Tap to chat'}</div>
+      container.innerHTML = activeChatThreads.map(thread => `
+        <div class="thread-card" onclick="openDirectChat(${thread.crewId})">
+          <img src="${thread.avatar}" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+          <div style="flex: 1;">
+            <div style="display: flex; justify-content: space-between;">
+              <span style="font-size: 14px; font-weight: 800; color: #fff;">${thread.name}</span>
+              <span style="font-size: 11px; color: var(--neon-cinema);">${thread.role}</span>
             </div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">${thread.messages[thread.messages.length - 1]?.text || 'Tap to chat'}</div>
           </div>
-        `;
-      }).join('');
+        </div>
+      `).join('');
     }
 
     function openDirectChat(crewId) {
@@ -1831,20 +1755,13 @@
       let thread = activeChatThreads.find(t => t.crewId === crewId);
       if (!thread) {
         const member = crewMembers.find(c => c.id === crewId);
-        thread = {
-          crewId: member.id,
-          name: member.name,
-          role: member.role,
-          avatar: member.avatar,
-          messages: []
-        };
+        thread = { crewId: member.id, name: member.name, role: member.role, avatar: member.avatar, messages: [] };
         activeChatThreads.push(thread);
       }
 
       document.getElementById('chatHeaderName').innerText = thread.name;
       document.getElementById('chatHeaderRole').innerText = thread.role;
       document.getElementById('chatHeaderImg').src = thread.avatar;
-
       renderChatMessages();
       document.getElementById('chatViewModal').classList.add('active');
     }
@@ -1860,11 +1777,8 @@
       if (!thread) return;
 
       area.innerHTML = thread.messages.map(m => `
-        <div class="chat-bubble ${m.sender === 'me' ? 'mine' : 'theirs'}">
-          ${m.text}
-        </div>
+        <div class="chat-bubble ${m.sender === 'me' ? 'mine' : 'theirs'}">${m.text}</div>
       `).join('');
-
       area.scrollTop = area.scrollHeight;
     }
 
@@ -1878,53 +1792,40 @@
         thread.messages.push({ sender: 'me', text: text });
         input.value = '';
         renderChatMessages();
-
-        // Auto mock reply after 1.5s
         setTimeout(() => {
-          thread.messages.push({ sender: 'them', text: `Noted Kiran! Let's make this short film huge 🎬` });
+          thread.messages.push({ sender: 'them', text: `Got it! Let's prep the shooting plan 🎬` });
           renderChatMessages();
         }, 1200);
       }
     }
 
-    // Save Profile Action
-    function saveUserProfile() {
-      currentUser.name = document.getElementById('profName').value;
-      currentUser.age = document.getElementById('profAge').value;
-      currentUser.role = document.getElementById('profRole').value;
-      currentUser.phone = document.getElementById('profPhone').value;
-      currentUser.locationName = document.getElementById('profLocationText').value;
-      currentUser.showreel = document.getElementById('profShowreel').value;
-      
-      alert('Profile details and GPS location updated successfully!');
-      renderCrewList();
-    }
-
-    // Bottom Navigation Switcher
-    function switchNavTab(screenKey) {
+    // Bottom Tab Navigation
+    function switchNavTab(tabKey) {
       document.querySelectorAll('.screen-view').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
 
-      const targetScreen = document.getElementById(`screen-${screenKey}`);
-      if (targetScreen) targetScreen.classList.add('active');
+      const target = document.getElementById(`screen-${tabKey}`);
+      if (target) target.classList.add('active');
 
-      const btnIndex = { discover: 0, projects: 1, requests: 2, messages: 3, profile: 4 }[screenKey];
-      if (btnIndex !== undefined) {
-        document.querySelectorAll('.nav-btn')[btnIndex].classList.add('active');
+      const idxMap = { discover: 0, projects: 1, requests: 2, messages: 3, profile: 4 };
+      if (idxMap[tabKey] !== undefined) {
+        document.querySelectorAll('.nav-btn')[idxMap[tabKey]].classList.add('active');
       }
 
-      if (screenKey === 'discover') renderCrewList();
-      if (screenKey === 'projects') renderProjectsFeed();
-      if (screenKey === 'requests') renderConnectRequests();
-      if (screenKey === 'messages') renderThreads();
+      if (tabKey === 'discover') renderCrewList();
+      if (tabKey === 'projects') renderProjectsFeed();
+      if (tabKey === 'requests') renderRequests();
+      if (tabKey === 'messages') renderThreads();
+      if (tabKey === 'profile') renderProfileLinksForm();
     }
 
-    // Initial Bootstrap
+    // Initial Load
     window.addEventListener('DOMContentLoaded', () => {
       renderCrewList();
       renderProjectsFeed();
-      renderConnectRequests();
+      renderRequests();
       renderThreads();
+      renderProfileLinksForm();
     });
   </script>
 </body>
