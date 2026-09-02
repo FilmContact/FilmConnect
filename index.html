@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>UNIT — Short Film Crew Finder</title>
+  <!-- Google Fonts: Bebas Neue (Condensed Poster Font) & Plus Jakarta Sans (Clean UI Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-main: #0a0b0e;
+      --bg-surface: #14161d;
+      --bg-card: #1c1f28;
+      --border-dim: #2a2e3d;
+      --border-bright: #3f465c;
+      --text-main: #f1f3f7;
+      --text-muted: #8b92a5;
+      
+      /* Role Specific Accents */
+      --role-director: #f59e0b;       /* Amber Gold */
+      --role-cinematographer: #06b6d4;/* Cyan */
+      --role-actor: #f43f5e;          /* Coral / Crimson */
+      --role-editor: #a855f7;         /* Purple */
+      
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: #050608;
+      color: var(--text-main);
+      font-family: var(--font-body);
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Mobile Container Frame */
+    .app-container {
+      width: 100%;
+      max-width: 440px;
+      min-height: 100vh;
+      background-color: var(--bg-main);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border-left: 1px solid var(--border-dim);
+      border-right: 1px solid var(--border-dim);
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+      padding-bottom: 74px; /* Space for Bottom Nav */
+    }
+
+    /* Film Sprocket Perforations Border Header */
+    .film-strip-header {
+      background: #020204;
+      padding: 6px 12px;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dashed #2f3444;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .sprockets {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      justify-content: space-between;
+    }
+    .hole {
+      width: 12px;
+      height: 7px;
+      background: #171922;
+      border-radius: 2px;
+      border: 1px solid #2a2e3d;
+    }
+
+    /* Top Brand Bar */
+    .brand-bar {
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-dim);
+    }
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 28px;
+      letter-spacing: 2px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .rec-dot {
+      width: 10px;
+      height: 10px;
+      background: #ef4444;
+      border-radius: 50%;
+      animation: pulse 1.8s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.85); }
+    }
+    .user-pill {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--role-director);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Screen View Container */
+    .screen-view {
+      display: none;
+      padding: 16px;
+      animation: fadeIn 0.25s ease-out;
+    }
+    .screen-view.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Section Headings */
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 26px;
+      letter-spacing: 1px;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+    .section-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    /* Filter Pills */
+    .filter-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      scrollbar-width: none;
+    }
+    .filter-scroll::-webkit-scrollbar { display: none; }
+    .filter-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dim);
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .filter-btn.active {
+      background: #fff;
+      color: #000;
+      border-color: #fff;
+    }
+
+    /* Crew Cards */
+    .crew-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .crew-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dim);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+    .crew-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--card-role-color, #fff);
+    }
+    .crew-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .crew-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .crew-badge {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--card-role-color, #fff);
+      border: 1px solid var(--card-role-color, #fff);
+    }
+    .crew-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .crew-meta span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .crew-bio {
+      font-size: 13px;
+      color: #c2c7d0;
+      line-height: 1.4;
+    }
+    .crew-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 4px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .showreel-link {
+      font-size: 12px;
+      color: #60a5fa;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .btn-invite {
+      background: #242938;
+      border: 1px solid var(--border-bright);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-invite:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    /* Radar View */
+    .radar-wrapper {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: radial-gradient(circle, #10141f 0%, #08090d 100%);
+      border: 1px solid var(--border-dim);
+      border-radius: 50%;
+      position: relative;
+      margin: 15px 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .radar-ring {
+      position: absolute;
+      border: 1px dashed rgba(255, 255, 255, 0.12);
+      border-radius: 50%;
+    }
+    .ring-1 { width: 30%; height: 30%; }
+    .ring-2 { width: 60%; height: 60%; }
+    .ring-3 { width: 90%; height: 90%; }
+    .radar-axis-h {
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .radar-axis-v {
+      position: absolute;
+      height: 100%;
+      width: 1px;
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .radar-sweep {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      top: 0;
+      right: 0;
+      transform-origin: bottom left;
+      background: linear-gradient(45deg, rgba(6, 182, 212, 0.2) 0%, transparent 70%);
+      animation: sweep 4s linear infinite;
+      border-radius: 100% 0 0 0;
+    }
+    @keyframes sweep {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .radar-center-user {
+      width: 12px;
+      height: 12px;
+      background: #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #ffffff;
+      z-index: 5;
+    }
+    .radar-blip {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      z-index: 6;
+      border: 2px solid #000;
+      transition: transform 0.2s;
+    }
+    .radar-blip:hover {
+      transform: translate(-50%, -50%) scale(1.6);
+    }
+    .radar-legend {
+      display: flex;
+      justify-content: space-around;
+      background: var(--bg-surface);
+      padding: 10px;
+      border-radius: 8px;
+      font-size: 11px;
+      border: 1px solid var(--border-dim);
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    /* Projects View */
+    .project-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-dim);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .project-name {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 0.8px;
+      color: #fff;
+    }
+    .slot-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .slot-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-card);
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px dashed var(--border-dim);
+    }
+    .slot-item.filled {
+      border: 1px solid var(--border-dim);
+      background: rgba(255, 255, 255, 0.03);
+    }
+    .slot-role-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .slot-tag {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .btn-remove-slot {
+      color: #ef4444;
+      background: none;
+      border: none;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    /* Profile View */
+    .profile-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      background: var(--bg-surface);
+      padding: 18px;
+      border-radius: 12px;
+      border: 1px solid var(--border-dim);
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .form-input, .form-select {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      padding: 10px 12px;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    .form-input:focus, .form-select:focus {
+      outline: none;
+      border-color: #60a5fa;
+    }
+    .geo-status {
+      font-size: 11px;
+      color: #10b981;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 2px;
+    }
+    .btn-save {
+      background: #f59e0b;
+      color: #000;
+      border: none;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 6px;
+      transition: opacity 0.2s;
+    }
+    .btn-save:hover { opacity: 0.9; }
+
+    /* Bottom Navigation Bar */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-width: 440px;
+      background: #0d0f15;
+      border-top: 1px solid var(--border-dim);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      height: 64px;
+      z-index: 100;
+    }
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .nav-item.active {
+      color: #fff;
+    }
+    .nav-icon {
+      font-size: 18px;
+    }
+    .nav-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Film Perforation Edge Top Decoration -->
+    <div class="film-strip-header">
+      <div class="sprockets">
+        <div class="hole"></div><div class="hole"></div><div class="hole"></div>
+        <div class="hole"></div><div class="hole"></div><div class="hole"></div>
+        <div class="hole"></div><div class="hole"></div><div class="hole"></div>
+      </div>
+    </div>
+
+    <!-- Top Brand Header -->
+    <header class="brand-bar">
+      <div class="brand-title">
+        <div class="rec-dot"></div>
+        UNIT
+      </div>
+      <div class="user-pill" id="userRoleBadge">Director</div>
+    </header>
+
+    <!-- 1. DISCOVER SCREEN -->
+    <section id="screen-discover" class="screen-view active">
+      <h1 class="section-title">CREW DISCOVERY</h1>
+      <p class="section-desc">Nearby talent sorted by proximity to your shoot location</p>
+
+      <!-- Role Filters -->
+      <div class="filter-scroll">
+        <button class="filter-btn active" onclick="filterRole('All', this)">All Crew</button>
+        <button class="filter-btn" onclick="filterRole('Cinematographer', this)">Cinematographers</button>
+        <button class="filter-btn" onclick="filterRole('Actor', this)">Actors</button>
+        <button class="filter-btn" onclick="filterRole('Editor', this)">Editors</button>
+      </div>
+
+      <!-- Crew List -->
+      <div class="crew-list" id="crewListContainer">
+        <!-- Dynamically rendered -->
+      </div>
+    </section>
+
+    <!-- 2. RADAR MAP SCREEN -->
+    <section id="screen-map" class="screen-view">
+      <h1 class="section-title">CREW RADAR</h1>
+      <p class="section-desc">Proximity radar mapped relative to your location</p>
+
+      <div class="radar-wrapper" id="radarContainer">
+        <div class="radar-ring ring-1"></div>
+        <div class="radar-ring ring-2"></div>
+        <div class="radar-ring ring-3"></div>
+        <div class="radar-axis-h"></div>
+        <div class="radar-axis-v"></div>
+        <div class="radar-sweep"></div>
+        <div class="radar-center-user" title="Your Location"></div>
+        <!-- Blips injected via JS -->
+      </div>
+
+      <div class="radar-legend">
+        <div class="legend-item"><div class="legend-dot" style="background: var(--role-cinematographer)"></div>Cinematographer</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--role-actor)"></div>Actor</div>
+        <div class="legend-item"><div class="legend-dot" style="background: var(--role-editor)"></div>Editor</div>
+      </div>
+    </section>
+
+    <!-- 3. PROJECTS SCREEN -->
+    <section id="screen-projects" class="screen-view">
+      <h1 class="section-title">PROJECT CREW SLOTS</h1>
+      <p class="section-desc">Assemble your unit for the upcoming short film</p>
+
+      <div class="project-card">
+        <div class="project-header">
+          <div>
+            <div class="project-name">PROJECT: "NIGHT RUN"</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Genre: Neo-Noir Thriller • 18 Mins</div>
+          </div>
+        </div>
+
+        <div class="slot-list" id="projectSlotsContainer">
+          <!-- Dynamically populated slots -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. PROFILE SCREEN -->
+    <section id="screen-profile" class="screen-view">
+      <h1 class="section-title">YOUR PROFILE</h1>
+      <p class="section-desc">Configure role, showreel link & location coordinates</p>
+
+      <div class="profile-form">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="profName" class="form-input" value="Kiran Kumar" />
+        </div>
+
+        <div class="form-group">
+          <label>Primary Role</label>
+          <select id="profRole" class="form-select" onchange="updateProfileRole(this.value)">
+            <option value="Director" selected>Director</option>
+            <option value="Cinematographer">Cinematographer</option>
+            <option value="Actor">Actor</option>
+            <option value="Editor">Editor</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Paste Google Maps Link</label>
+          <input 
+            type="text" 
+            id="profMapLink" 
+            class="form-input" 
+            placeholder="e.g. https://maps.google.com/?q=17.4486,78.3908" 
+            value="https://maps.google.com/?q=17.4486,78.3908"
+            oninput="parseGoogleMapsUrl(this.value)"
+          />
+          <div class="geo-status" id="geoStatus">
+            ✓ Coordinates detected: <span id="coordsDisplay">17.4486, 78.3908</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Showreel / Portfolio URL</label>
+          <input type="text" class="form-input" value="https://vimeo.com/kirankumar-reel" />
+        </div>
+
+        <button class="btn-save" onclick="alert('Profile changes saved successfully!')">Save Profile</button>
+      </div>
+    </section>
+
+    <!-- Bottom Tab Navigation -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" onclick="switchTab('discover', this)">
+        <span class="nav-icon">🔍</span>
+        <span class="nav-label">Discover</span>
+      </button>
+      <button class="nav-item" onclick="switchTab('map', this)">
+        <span class="nav-icon">📡</span>
+        <span class="nav-label">Radar</span>
+      </button>
+      <button class="nav-item" onclick="switchTab('projects', this)">
+        <span class="nav-icon">🎬</span>
+        <span class="nav-label">Projects</span>
+      </button>
+      <button class="nav-item" onclick="switchTab('profile', this)">
+        <span class="nav-icon">👤</span>
+        <span class="nav-label">Profile</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <script>
+    // User State & Coordinates (Default: Hyderabad Film Nagar area)
+    let userLat = 17.4486;
+    let userLng = 78.3908;
+    let currentFilter = 'All';
+
+    // Role Accent Colors
+    const roleColors = {
+      'Director': 'var(--role-director)',
+      'Cinematographer': 'var(--role-cinematographer)',
+      'Actor': 'var(--role-actor)',
+      'Editor': 'var(--role-editor)'
+    };
+
+    // Realistic Mock Crew Data in India
+    const crewData = [
+      {
+        id: 1,
+        name: "Siddharth Rao",
+        role: "Cinematographer",
+        equipment: "Sony FX3 + Anamorphic lenses",
+        lat: 17.4520,
+        lng: 78.3990,
+        showreel: "https://vimeo.com",
+        bio: "Specialized in indie low-light moody lighting and gimbal tracking shots."
+      },
+      {
+        id: 2,
+        name: "Ananya Sharma",
+        role: "Actor",
+        equipment: "Theatre background (5 yrs)",
+        lat: 17.4410,
+        lng: 78.3840,
+        showreel: "https://youtube.com",
+        bio: "Fluent in Telugu & Hindi. Method acting background, 6 indie shorts completed."
+      },
+      {
+        id: 3,
+        name: "Vivek Menon",
+        role: "Editor",
+        equipment: "DaVinci Resolve / Premiere Pro",
+        lat: 17.4650,
+        lng: 78.3750,
+        showreel: "https://behance.net",
+        bio: "Rhythm-focused narrative editor & colorist. Fast turnaround time."
+      },
+      {
+        id: 4,
+        name: "Rahul Nambiar",
+        role: "Cinematographer",
+        equipment: "Blackmagic 6K Pro",
+        lat: 17.4320,
+        lng: 78.4110,
+        showreel: "https://vimeo.com",
+        bio: "Documentary and guerrilla indie filmmaker. Drone certified."
+      },
+      {
+        id: 5,
+        name: "Meera Krishnan",
+        role: "Actor",
+        equipment: "Classical dancer & screen actor",
+        lat: 17.4700,
+        lng: 78.4050,
+        showreel: "https://youtube.com",
+        bio: "Expressive lead roles. Previous award winner at SIIMA Short Film Fest."
+      }
+    ];
+
+    // Project Slots State
+    const projectSlots = {
+      Cinematographer: null,
+      Actor: null,
+      Editor: null
+    };
+
+    // Regex for extracting Lat/Lng from Google Maps Links without API
+    function parseGoogleMapsUrl(url) {
+      const coordDisplay = document.getElementById('coordsDisplay');
+      const status = document.getElementById('geoStatus');
+      
+      // Matches @lat,lng or q=lat,lng or ll=lat,lng
+      const regex = /(?:@|q=|ll=)(-?\d+\.\d+),(-?\d+\.\d+)/;
+      const match = url.match(regex);
+
+      if (match) {
+        userLat = parseFloat(match[1]);
+        userLng = parseFloat(match[2]);
+        coordDisplay.innerText = `${userLat.toFixed(4)}, ${userLng.toFixed(4)}`;
+        status.style.color = '#10b981';
+        renderCrewList();
+        renderRadar();
+      } else {
+        status.style.color = '#f59e0b';
+        coordDisplay.innerText = 'Coordinates parsed fallback';
+      }
+    }
+
+    // Haversine Distance Formula
+    function getDistanceKm(lat1, lon1, lat2, lon2) {
+      const R = 6371; // Earth radius in km
+      const dLat = (lat2 - lat1) * (Math.PI / 180);
+      const dLon = (lon2 - lon1) * (Math.PI / 180);
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return (R * c).toFixed(1);
+    }
+
+    // Render Crew List
+    function renderCrewList() {
+      const container = document.getElementById('crewListContainer');
+      
+      // Calculate distances and sort
+      const list = crewData.map(crew => {
+        const dist = getDistanceKm(userLat, userLng, crew.lat, crew.lng);
+        return { ...crew, distance: parseFloat(dist) };
+      }).sort((a, b) => a.distance - b.distance);
+
+      const filtered = currentFilter === 'All' 
+        ? list 
+        : list.filter(c => c.role.toLowerCase() === currentFilter.toLowerCase());
+
+      container.innerHTML = filtered.map(item => `
+        <div class="crew-card" style="--card-role-color: ${roleColors[item.role]}">
+          <div class="crew-header">
+            <div>
+              <div class="crew-name">${item.name}</div>
+              <div class="crew-meta" style="margin-top: 4px;">
+                <span>📍 ${item.distance} km away</span>
+                <span>•</span>
+                <span>🛠️ ${item.equipment}</span>
+              </div>
+            </div>
+            <span class="crew-badge">${item.role}</span>
+          </div>
+          <p class="crew-bio">${item.bio}</p>
+          <div class="crew-footer">
+            <a href="${item.showreel}" target="_blank" class="showreel-link">▶ Watch Showreel</a>
+            <button class="btn-invite" onclick="inviteToProject('${item.role}', '${item.name}')">
+              ${projectSlots[item.role] === item.name ? '✓ Slot Filled' : '+ Invite to Slot'}
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Filter by Role
+    function filterRole(role, btn) {
+      currentFilter = role;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderCrewList();
+    }
+
+    // Render Radar View
+    function renderRadar() {
+      const radar = document.getElementById('radarContainer');
+      // Remove existing blips
+      radar.querySelectorAll('.radar-blip').forEach(b => b.remove());
+
+      crewData.forEach(crew => {
+        const dLat = crew.lat - userLat;
+        const dLng = crew.lng - userLng;
+        
+        // Scale to percentage for radar visualization (-0.05 to +0.05 deg mapped to 15%..85%)
+        const leftPercent = Math.min(Math.max(50 + (dLng * 800), 10), 90);
+        const topPercent = Math.min(Math.max(50 - (dLat * 800), 10), 90);
+
+        const blip = document.createElement('div');
+        blip.className = 'radar-blip';
+        blip.style.background = roleColors[crew.role];
+        blip.style.left = `${leftPercent}%`;
+        blip.style.top = `${topPercent}%`;
+        blip.title = `${crew.name} (${crew.role})`;
+        blip.onclick = () => {
+          alert(`${crew.name}\nRole: ${crew.role}\nDistance: ${getDistanceKm(userLat, userLng, crew.lat, crew.lng)} km away\nTools: ${crew.equipment}`);
+        };
+        radar.appendChild(blip);
+      });
+    }
+
+    // Project Slot Management
+    function renderProjectSlots() {
+      const container = document.getElementById('projectSlotsContainer');
+      const roles = ['Cinematographer', 'Actor', 'Editor'];
+
+      container.innerHTML = roles.map(role => {
+        const filledBy = projectSlots[role];
+        const color = roleColors[role];
+
+        return `
+          <div class="slot-item ${filledBy ? 'filled' : ''}">
+            <div class="slot-role-info">
+              <span class="slot-tag" style="background: rgba(255,255,255,0.08); color: ${color}; border: 1px solid ${color};">
+                ${role}
+              </span>
+              <span style="font-size: 13px; font-weight: 500; color: ${filledBy ? '#fff' : 'var(--text-muted)'};">
+                ${filledBy ? filledBy : 'Empty Slot (Unassigned)'}
+              </span>
+            </div>
+            ${filledBy ? `
+              <button class="btn-remove-slot" onclick="removeSlot('${role}')">✕ Remove</button>
+            ` : `
+              <button class="btn-invite" onclick="switchTab('discover', document.querySelectorAll('.nav-item')[0])">Find Crew</button>
+            `}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function inviteToProject(role, name) {
+      projectSlots[role] = name;
+      renderProjectSlots();
+      renderCrewList();
+      alert(`Assigned ${name} to your project as ${role}!`);
+    }
+
+    function removeSlot(role) {
+      projectSlots[role] = null;
+      renderProjectSlots();
+      renderCrewList();
+    }
+
+    function updateProfileRole(role) {
+      const badge = document.getElementById('userRoleBadge');
+      badge.innerText = role;
+      badge.style.color = roleColors[role];
+      badge.style.borderColor = roleColors[role];
+      badge.style.background = `rgba(255, 255, 255, 0.05)`;
+    }
+
+    // Tab Navigation Switcher
+    function switchTab(screenId, btn) {
+      document.querySelectorAll('.screen-view').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+      document.getElementById(`screen-${screenId}`).classList.add('active');
+      if (btn) btn.classList.add('active');
+
+      if (screenId === 'map') renderRadar();
+      if (screenId === 'projects') renderProjectSlots();
+      if (screenId === 'discover') renderCrewList();
+    }
+
+    // Initialize on Load
+    window.addEventListener('DOMContentLoaded', () => {
+      renderCrewList();
+      renderProjectSlots();
+      renderRadar();
+    });
+  </script>
+</body>
+</html>
