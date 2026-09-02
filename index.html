@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>UNIT — Short Film Network</title>
+  <title>UNIT — Short Film & Studio Network</title>
   
   <!-- Cinematic Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,6 +31,8 @@
       --neon-actor-3d: #990033;
       --neon-editor: #a855f7;
       --neon-editor-3d: #6b21a8;
+      --neon-org: #10b981;
+      --neon-org-3d: #059669;
       
       --3d-cta-bg: #ffb703;
       --3d-cta-shadow: #b37d00;
@@ -75,7 +77,7 @@
       border-left: 1px solid var(--border-dim);
       border-right: 1px solid var(--border-dim);
       box-shadow: 0 0 70px rgba(0, 0, 0, 0.9);
-      padding-bottom: 80px;
+      padding-bottom: 82px;
     }
 
     /* Film Perforation Header */
@@ -147,10 +149,10 @@
       border: none;
       outline: none;
       font-weight: 700;
-      font-size: 12px;
+      font-size: 11px;
       cursor: pointer;
       border-radius: 8px;
-      padding: 9px 13px;
+      padding: 8px 12px;
       transition: transform 0.08s ease, box-shadow 0.08s ease;
       display: inline-flex;
       align-items: center;
@@ -164,48 +166,32 @@
       color: #000;
       box-shadow: 0 4px 0 var(--3d-cta-shadow), 0 6px 12px rgba(255, 183, 3, 0.35);
     }
-    .btn-3d-primary:active {
-      transform: translateY(3px);
-      box-shadow: 0 1px 0 var(--3d-cta-shadow);
-    }
+    .btn-3d-primary:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--3d-cta-shadow); }
     .btn-3d-dark {
       background: var(--3d-btn-dark);
       color: var(--text-main);
       border: 1px solid var(--border-glow);
       box-shadow: 0 4px 0 var(--3d-btn-dark-shadow);
     }
-    .btn-3d-dark:active {
-      transform: translateY(3px);
-      box-shadow: 0 1px 0 var(--3d-btn-dark-shadow);
-    }
+    .btn-3d-dark:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--3d-btn-dark-shadow); }
     .btn-3d-connect {
       background: #00f0ff;
       color: #000;
       box-shadow: 0 4px 0 #008f99, 0 6px 12px rgba(0, 240, 255, 0.3);
     }
-    .btn-3d-connect:active {
-      transform: translateY(3px);
-      box-shadow: 0 1px 0 #008f99;
-    }
+    .btn-3d-connect:active { transform: translateY(3px); box-shadow: 0 1px 0 #008f99; }
     .btn-3d-danger {
       background: #ef4444;
       color: #fff;
       box-shadow: 0 3px 0 #991b1b;
     }
-    .btn-3d-danger:active {
-      transform: translateY(2px);
-      box-shadow: 0 1px 0 #991b1b;
-    }
+    .btn-3d-danger:active { transform: translateY(2px); box-shadow: 0 1px 0 #991b1b; }
     .btn-3d-success {
       background: #10b981;
       color: #000;
       box-shadow: 0 3px 0 #059669;
     }
-    .btn-3d-warning {
-      background: #f97316;
-      color: #fff;
-      box-shadow: 0 3px 0 #c2410c;
-    }
+    .btn-3d-success:active { transform: translateY(2px); box-shadow: 0 1px 0 #059669; }
 
     /* Screen Management */
     .screen-view {
@@ -243,12 +229,12 @@
     }
     .toggle-pill-btn {
       flex: 1;
-      padding: 8px 14px;
+      padding: 8px 12px;
       border-radius: 25px;
       border: none;
       background: transparent;
       color: var(--text-muted);
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       cursor: pointer;
       display: flex;
@@ -472,13 +458,13 @@
       object-fit: cover;
     }
 
-    /* Projects View */
-    .projects-feed {
+    /* Projects & Opportunities View */
+    .projects-feed, .orgs-feed {
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
-    .project-card {
+    .project-card, .org-card, .opportunity-card {
       background: var(--bg-card);
       border: 1px solid var(--border-dim);
       border-radius: 14px;
@@ -486,13 +472,14 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
     }
-    .project-card-top {
+    .project-card-top, .opp-card-top {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
     }
-    .project-title {
+    .project-title, .opp-title {
       font-family: var(--font-title);
       font-size: 18px;
       font-weight: 800;
@@ -508,28 +495,43 @@
       color: var(--neon-director);
       border: 1px solid var(--neon-director);
     }
-    .project-location-badge {
+    .opp-poster-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid var(--border-glow);
+    }
+    .opp-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
       font-size: 11px;
+    }
+    .badge-budget {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      border: 1px solid #10b981;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+    .badge-location {
+      background: rgba(0, 240, 255, 0.15);
       color: var(--neon-cinema);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      margin-top: 2px;
+      border: 1px solid var(--neon-cinema);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 700;
     }
-    .slot-table {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin: 6px 0;
-    }
-    .slot-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #0c0f16;
-      padding: 8px 12px;
+    .org-profile-box {
+      background: #0d1017;
+      border: 1px solid #1f2331;
+      padding: 10px 12px;
       border-radius: 8px;
-      border: 1px solid #1c2130;
+      font-size: 12px;
+      line-height: 1.4;
     }
 
     /* Requests List */
@@ -753,29 +755,15 @@
       border: 1px solid #1f2536;
     }
 
-    /* Reviews Section in Modal */
-    .review-bubble {
-      background: #0d1017;
-      border: 1px solid #1e2433;
-      padding: 10px 12px;
+    .preview-box {
+      width: 60px;
+      height: 60px;
       border-radius: 8px;
-      margin-bottom: 8px;
-    }
-    .review-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 4px;
-    }
-    .star-rating-select {
-      display: flex;
-      gap: 8px;
-      margin: 8px 0;
-      font-size: 24px;
-      cursor: pointer;
+      object-fit: cover;
+      border: 1px solid var(--border-glow);
     }
 
-    /* Bottom Navigation */
+    /* Bottom 6-Tab Navigation */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -784,7 +772,7 @@
       background: #090b10;
       border-top: 1px solid var(--border-dim);
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(6, 1fr);
       height: 68px;
       z-index: 100;
     }
@@ -795,7 +783,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 3px;
+      gap: 2px;
       color: var(--text-muted);
       cursor: pointer;
       position: relative;
@@ -805,17 +793,17 @@
       content: "";
       position: absolute;
       top: 0;
-      width: 24px;
+      width: 20px;
       height: 3px;
       background: var(--neon-director);
       border-radius: 0 0 4px 4px;
     }
-    .nav-btn-icon { font-size: 18px; }
-    .nav-btn-label { font-size: 10px; font-weight: 700; text-transform: uppercase; }
+    .nav-btn-icon { font-size: 17px; }
+    .nav-btn-label { font-size: 9px; font-weight: 800; text-transform: uppercase; }
     .nav-badge-count {
       position: absolute;
-      top: 8px;
-      right: 18px;
+      top: 6px;
+      right: 12px;
       background: var(--neon-actor);
       color: #fff;
       font-size: 9px;
@@ -902,7 +890,7 @@
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
         <div>
           <h1 class="section-title">PROJECTS FEED</h1>
-          <p class="section-desc" style="margin: 0;">Live opportunities from filmmakers</p>
+          <p class="section-desc" style="margin: 0;">Indie projects & open role slots</p>
         </div>
         <button class="btn-3d btn-3d-primary" onclick="openCreateProjectModal()">
           + Create Project
@@ -912,7 +900,45 @@
       <div class="projects-feed" id="projectsFeedContainer"></div>
     </section>
 
-    <!-- ================= 3. CONNECT & SLOT REQUESTS ================= -->
+    <!-- ================= 3. ORGANIZATIONS & OPPORTUNITIES SCREEN (NEW) ================= -->
+    <section id="screen-orgs" class="screen-view">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <div>
+          <h1 class="section-title">STUDIOS & ORGS</h1>
+          <p class="section-desc" style="margin: 0;">Production houses, YouTube channels & OTT calls</p>
+        </div>
+        <div style="display: flex; gap: 6px;">
+          <button class="btn-3d btn-3d-success" onclick="openCreateOpportunityModal()">
+            📢 Post Call
+          </button>
+          <button class="btn-3d btn-3d-dark" onclick="openCreateOrgModal()">
+            🏢 + Add Org
+          </button>
+        </div>
+      </div>
+
+      <!-- Toggle between Opportunities & Org Directory -->
+      <div class="toggle-pill-wrap">
+        <button class="toggle-pill-btn active" id="btnViewOpps" onclick="setOrgsView('opportunities')">
+          📢 Opportunities Feed
+        </button>
+        <button class="toggle-pill-btn" id="btnViewDirectory" onclick="setOrgsView('directory')">
+          🏢 Studios Directory
+        </button>
+      </div>
+
+      <!-- Opportunities Feed View -->
+      <div id="orgsOpportunitiesView">
+        <div class="orgs-feed" id="opportunitiesFeedContainer"></div>
+      </div>
+
+      <!-- Organizations Directory View -->
+      <div id="orgsDirectoryView" style="display: none;">
+        <div class="orgs-feed" id="orgsDirectoryContainer"></div>
+      </div>
+    </section>
+
+    <!-- ================= 4. CONNECT & SLOT REQUESTS ================= -->
     <section id="screen-requests" class="screen-view">
       <h1 class="section-title">APPLICATIONS & REQUESTS</h1>
       <p class="section-desc">Review crew slot applications: Choose OK (Accept) or Not Fit (Decline)</p>
@@ -920,7 +946,7 @@
       <div class="requests-list" id="requestsListContainer"></div>
     </section>
 
-    <!-- ================= 4. IN-APP MESSAGES & TEAMS ================= -->
+    <!-- ================= 5. IN-APP MESSAGES & TEAMS ================= -->
     <section id="screen-messages" class="screen-view">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
         <div>
@@ -939,7 +965,7 @@
       <div class="threads-list" id="threadsListContainer"></div>
     </section>
 
-    <!-- ================= 5. PROFILE SCREEN (MOBILE NUMBER REMOVED) ================= -->
+    <!-- ================= 6. PROFILE SCREEN ================= -->
     <section id="screen-profile" class="screen-view">
       <h1 class="section-title">CREW PROFILE</h1>
       <p class="section-desc">Manage your showreels, storytelling bio & GPS shoot location</p>
@@ -1011,13 +1037,16 @@
       <button class="btn-3d btn-3d-primary" style="width: 100%; padding: 14px;" onclick="saveUserProfile()">Save Profile</button>
     </section>
 
-    <!-- ================= BOTTOM NAVIGATION ================= -->
+    <!-- ================= BOTTOM 6-TAB NAVIGATION ================= -->
     <nav class="bottom-nav">
       <button class="nav-btn active" onclick="switchNavTab('discover')">
         <span class="nav-btn-icon">🔍</span><span class="nav-btn-label">Discover</span>
       </button>
       <button class="nav-btn" onclick="switchNavTab('projects')">
         <span class="nav-btn-icon">🎬</span><span class="nav-btn-label">Projects</span>
+      </button>
+      <button class="nav-btn" onclick="switchNavTab('orgs')">
+        <span class="nav-btn-icon">🏢</span><span class="nav-btn-label">Orgs</span>
       </button>
       <button class="nav-btn" onclick="switchNavTab('requests')">
         <span class="nav-btn-icon">⚡</span><span class="nav-btn-label">Requests</span>
@@ -1031,7 +1060,110 @@
       </button>
     </nav>
 
-    <!-- ================= REVIEWS & RATING MODAL (Requirement 3) ================= -->
+    <!-- ================= CREATE ORGANIZATION PROFILE MODAL ================= -->
+    <div class="modal-overlay" id="createOrgModal">
+      <div class="modal-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h2 class="section-title" style="font-size: 22px;">REGISTER ORGANIZATION</h2>
+          <button style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;" onclick="closeCreateOrgModal()">✕</button>
+        </div>
+
+        <div class="form-group">
+          <label>Organization Type *</label>
+          <select id="orgTypeSelect" class="form-select" onchange="toggleOrgCustomType(this.value)">
+            <option value="Studio">Studio / Production House</option>
+            <option value="YouTube channel">YouTube Channel</option>
+            <option value="OTT platform">OTT Platform</option>
+            <option value="Other">Other (Custom)</option>
+          </select>
+          <div id="orgCustomTypeWrap" style="display: none; margin-top: 6px;">
+            <input type="text" id="orgCustomTypeInput" class="form-input" placeholder="Enter custom type (e.g. Talent Agency, VFX Studio)" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Organization Name *</label>
+          <input type="text" id="orgNameInput" class="form-input" placeholder="e.g. Mythri Movie Makers / Chai Bisket" />
+        </div>
+
+        <div class="form-group">
+          <label>Organization Logo (Upload from Storage) *</label>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <img id="orgLogoPreview" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80" class="preview-box">
+            <label class="btn-3d btn-3d-dark" style="cursor: pointer;">
+              📷 Choose Logo
+              <input type="file" accept="image/*" style="display: none;" onchange="handleOrgLogoUpload(event)" />
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>What They Typically Produce *</label>
+          <textarea id="orgProducesInput" class="form-textarea" rows="2" placeholder="e.g. Digital web series, feature films, viral sketch comedy, music videos..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>What They Provide *</label>
+          <textarea id="orgProvidesInput" class="form-textarea" rows="2" placeholder="e.g. Budget (₹2L - ₹10L), Camera gear (FX6/RED), editing studio, fast payment..."></textarea>
+        </div>
+
+        <button class="btn-3d btn-3d-success" style="width: 100%; padding: 12px;" onclick="submitNewOrganization()">
+          Save Organization Profile
+        </button>
+      </div>
+    </div>
+
+    <!-- ================= CREATE OPPORTUNITY POST MODAL ================= -->
+    <div class="modal-overlay" id="createOpportunityModal">
+      <div class="modal-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h2 class="section-title" style="font-size: 22px;">POST OPPORTUNITY</h2>
+          <button style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;" onclick="closeCreateOpportunityModal()">✕</button>
+        </div>
+
+        <div class="form-group">
+          <label>Posting As (Select Organization) *</label>
+          <select id="oppOrgSelect" class="form-select"></select>
+        </div>
+
+        <div class="form-group">
+          <label>Role(s) Needed *</label>
+          <input type="text" id="oppRolesInput" class="form-input" placeholder="e.g. Lead Cinematographer, Female Lead Actor (20-25y), Sound Recordist" />
+        </div>
+
+        <div class="form-group">
+          <label>Poster / Cover Image (Upload from Storage) *</label>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <img id="oppPosterPreview" src="https://images.unsplash.com/photo-1485846234645-a62644f84728?w=500&auto=format&fit=crop&q=80" class="preview-box" style="width: 80px; height: 60px;">
+            <label class="btn-3d btn-3d-dark" style="cursor: pointer;">
+              🖼️ Upload Poster
+              <input type="file" accept="image/*" style="display: none;" onchange="handleOppPosterUpload(event)" />
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Shoot Location(s) *</label>
+          <input type="text" id="oppLocationInput" class="form-input" placeholder="e.g. Hyderabad & Araku Valley" />
+        </div>
+
+        <div class="form-group">
+          <label>Budget / Pay Scale (Optional)</label>
+          <input type="text" id="oppBudgetInput" class="form-input" placeholder="e.g. ₹35,000 / episode or ₹1.5L project pay (or leave empty)" />
+        </div>
+
+        <div class="form-group">
+          <label>Detailed Opportunity Description *</label>
+          <textarea id="oppDescInput" class="form-textarea" rows="3" placeholder="Describe the storyline, shoot dates, gear requirements, and audition criteria..."></textarea>
+        </div>
+
+        <button class="btn-3d btn-3d-primary" style="width: 100%; padding: 12px;" onclick="submitNewOpportunity()">
+          Publish Live Opportunity
+        </button>
+      </div>
+    </div>
+
+    <!-- ================= REVIEWS & RATING MODAL ================= -->
     <div class="modal-overlay" id="reviewsModal">
       <div class="modal-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
@@ -1039,9 +1171,7 @@
           <button style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;" onclick="closeReviewsModal()">✕</button>
         </div>
 
-        <div id="crewReviewsList" style="max-height: 220px; overflow-y: auto; margin-bottom: 14px;">
-          <!-- Populated via JS -->
-        </div>
+        <div id="crewReviewsList" style="max-height: 220px; overflow-y: auto; margin-bottom: 14px;"></div>
 
         <div style="border-top: 1px solid var(--border-dim); padding-top: 12px;">
           <div style="font-size: 12px; font-weight: 800; color: #fff; margin-bottom: 4px;">Leave a Rating & Review</div>
@@ -1201,7 +1331,7 @@
   </div>
 
   <script>
-    // Current User Profile State (NO MOBILE NUMBER)
+    // Current User Profile State
     const currentUser = {
       name: "Kiran Varma",
       role: "Director",
@@ -1227,7 +1357,58 @@
       'Other': { color: '#10b981', bg: 'rgba(16, 185, 129, 0.15)', border: '#10b981' }
     };
 
-    // Mock Crew Data (With Reviews, Ratings & Report Tracking)
+    // Mock Organizations Data
+    let organizationsList = [
+      {
+        id: 'org-1',
+        name: 'Chai Bisket Studios',
+        type: 'YouTube channel / Production House',
+        logo: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80',
+        typicallyProduces: 'Concept-driven digital web series, viral satirical sketches, and theatrical feature films.',
+        whatTheyProvide: 'Full funding budget, Sony FX6 / FX3 gear, professional sound stage, fast pay schedule, digital distribution.'
+      },
+      {
+        id: 'org-2',
+        name: 'Neon Frame Media & OTT',
+        type: 'OTT platform / Studio',
+        logo: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=150&auto=format&fit=crop&q=80',
+        typicallyProduces: 'Crime thriller mini-series, documentary short films & arthouse pilots.',
+        whatTheyProvide: 'Development funding (₹3L - ₹10L budget), editing & color grading suite access, direct OTT streaming contract.'
+      }
+    ];
+
+    // Mock Opportunities Feed Data
+    let opportunitiesList = [
+      {
+        id: 'opp-1',
+        orgId: 'org-1',
+        orgName: 'Chai Bisket Studios',
+        orgLogo: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80',
+        rolesNeeded: 'Director of Photography, Associate Director',
+        description: 'Casting and crew call for an upcoming 6-episode youth comedy-drama web series. Looking for an energetic DP with gimbal and low-light expertise.',
+        budget: '₹40,000 / episode (Negotiable)',
+        locations: 'Hyderabad & Vizag',
+        poster: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=500&auto=format&fit=crop&q=80',
+        postedAt: '1 day ago'
+      },
+      {
+        id: 'opp-2',
+        orgId: 'org-2',
+        orgName: 'Neon Frame Media & OTT',
+        orgLogo: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=150&auto=format&fit=crop&q=80',
+        rolesNeeded: 'Lead Female Actor (20-26y), Sound Designer / Foley',
+        description: 'Open auditions and crew requirement for a festival-bound psychological horror short film (22 Mins).',
+        budget: 'Production pay + Festival Profit Share',
+        locations: 'Araku Valley & Hyderabad',
+        poster: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=500&auto=format&fit=crop&q=80',
+        postedAt: 'Just now'
+      }
+    ];
+
+    let uploadedOrgLogoData = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80';
+    let uploadedOppPosterData = 'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=500&auto=format&fit=crop&q=80';
+
+    // Mock Crew Data
     let crewMembers = [
       {
         id: 101,
@@ -1240,7 +1421,7 @@
         avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
         rating: 4.9,
         projectsCount: 8,
-        reportsCount: 0, // 10 reports threshold for auto-suspend
+        reportsCount: 0,
         portfolioLinks: [
           { platform: "Vimeo", url: "https://vimeo.com" },
           { platform: "Instagram", url: "https://instagram.com" }
@@ -1287,7 +1468,7 @@
         avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
         rating: 5.0,
         projectsCount: 14,
-        reportsCount: 8, // Set to 8 so user can easily test 10 reports suspension!
+        reportsCount: 8,
         portfolioLinks: [
           { platform: "Drive", url: "https://drive.google.com" },
           { platform: "YouTube", url: "https://youtube.com" }
@@ -1482,20 +1663,226 @@
       return (currentUser.name && currentUser.name.length > 1);
     }
 
-    // ================= 2. REPORT PROFILE & 10-REPORT AUTO-SUSPEND =================
+    // ================= ORGANIZATIONS & OPPORTUNITIES LOGIC =================
+
+    function setOrgsView(view) {
+      document.getElementById('orgsOpportunitiesView').style.display = (view === 'opportunities') ? 'block' : 'none';
+      document.getElementById('orgsDirectoryView').style.display = (view === 'directory') ? 'block' : 'none';
+      document.getElementById('btnViewOpps').classList.toggle('active', view === 'opportunities');
+      document.getElementById('btnViewDirectory').classList.toggle('active', view === 'directory');
+    }
+
+    function renderOrganizationsDirectory() {
+      const container = document.getElementById('orgsDirectoryContainer');
+      container.innerHTML = organizationsList.map(org => `
+        <div class="org-card">
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <img src="${org.logo}" style="width: 52px; height: 52px; border-radius: 10px; object-fit: cover; border: 2px solid var(--border-glow);">
+            <div style="flex: 1;">
+              <div style="font-size: 17px; font-weight: 800; color: #fff;">${org.name}</div>
+              <span class="badge-budget" style="font-size: 10px;">${org.type}</span>
+            </div>
+          </div>
+
+          <div class="org-profile-box">
+            <div style="color: var(--neon-director); font-weight: 700; margin-bottom: 2px;">🎬 Typically Produces:</div>
+            <div style="color: #cbd5e1; margin-bottom: 8px;">${org.typicallyProduces}</div>
+
+            <div style="color: var(--neon-cinema); font-weight: 700; margin-bottom: 2px;">🎁 What They Provide:</div>
+            <div style="color: #cbd5e1;">${org.whatTheyProvide}</div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 4px;">
+            <button class="btn-3d btn-3d-dark" onclick="filterOppsByOrg('${org.name}')">View Open Calls</button>
+            <button class="btn-3d btn-3d-connect" onclick="alert('Contacted ${org.name} representatives!')">⚡ Connect Org</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderOpportunitiesFeed() {
+      const container = document.getElementById('opportunitiesFeedContainer');
+      if (opportunitiesList.length === 0) {
+        container.innerHTML = `<div style="text-align: center; padding: 30px; color: var(--text-muted);">No open opportunities right now. Post one above!</div>`;
+        return;
+      }
+
+      container.innerHTML = opportunitiesList.map(opp => `
+        <div class="opportunity-card">
+          <img src="${opp.poster}" class="opp-poster-img" alt="Poster">
+
+          <div class="opp-card-top">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <img src="${opp.orgLogo}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #fff;">
+              <div>
+                <div style="font-size: 13px; font-weight: 800; color: #fff;">${opp.orgName}</div>
+                <div style="font-size: 10px; color: var(--text-muted);">Posted ${opp.postedAt}</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="font-size: 14px; font-weight: 800; color: var(--neon-cinema);">
+            🎯 Roles Needed: <span style="color: #fff;">${opp.rolesNeeded}</span>
+          </div>
+
+          <div class="opp-meta-row">
+            <span class="badge-location">📍 ${opp.locations}</span>
+            ${opp.budget ? `<span class="badge-budget">💰 ${opp.budget}</span>` : ''}
+          </div>
+
+          <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4;">${opp.description}</p>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 8px;">
+            <button class="btn-3d btn-3d-dark" onclick="alert('Opportunity details copied to share!')">🔗 Share</button>
+            <button class="btn-3d btn-3d-primary" onclick="applyToOpportunity('${opp.orgName}', '${opp.rolesNeeded}')">
+              ⚡ Apply to Org
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function applyToOpportunity(orgName, roles) {
+      if (!isUserProfileComplete()) {
+        alert("⚠️ Please enter your Name in Profile before applying!");
+        switchNavTab('profile');
+        return;
+      }
+
+      alert(`✅ Application sent to ${orgName} for "${roles}"!\nYour showreels and profile portfolio have been submitted for review.`);
+    }
+
+    function filterOppsByOrg(orgName) {
+      setOrgsView('opportunities');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Organization Creation Modal & Upload Handlers
+    function openCreateOrgModal() {
+      document.getElementById('createOrgModal').classList.add('active');
+    }
+    function closeCreateOrgModal() {
+      document.getElementById('createOrgModal').classList.remove('active');
+    }
+
+    function toggleOrgCustomType(val) {
+      document.getElementById('orgCustomTypeWrap').style.display = (val === 'Other') ? 'block' : 'none';
+    }
+
+    function handleOrgLogoUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          uploadedOrgLogoData = evt.target.result;
+          document.getElementById('orgLogoPreview').src = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function submitNewOrganization() {
+      const name = document.getElementById('orgNameInput').value.trim();
+      let type = document.getElementById('orgTypeSelect').value;
+      if (type === 'Other') {
+        type = document.getElementById('orgCustomTypeInput').value.trim() || 'Custom Studio';
+      }
+      const produces = document.getElementById('orgProducesInput').value.trim();
+      const provides = document.getElementById('orgProvidesInput').value.trim();
+
+      if (!name || !produces || !provides) {
+        alert('Please fill all organization profile fields!');
+        return;
+      }
+
+      const newOrg = {
+        id: `org-${Date.now()}`,
+        name: name,
+        type: type,
+        logo: uploadedOrgLogoData,
+        typicallyProduces: produces,
+        whatTheyProvide: provides
+      };
+
+      organizationsList.unshift(newOrg);
+      renderOrganizationsDirectory();
+      populateOrgSelectDropdown();
+      closeCreateOrgModal();
+      setOrgsView('directory');
+      alert(`🏢 Organization "${name}" registered successfully!`);
+    }
+
+    // Opportunity Posting Modal & Upload Handlers
+    function openCreateOpportunityModal() {
+      populateOrgSelectDropdown();
+      document.getElementById('createOpportunityModal').classList.add('active');
+    }
+    function closeCreateOpportunityModal() {
+      document.getElementById('createOpportunityModal').classList.remove('active');
+    }
+
+    function populateOrgSelectDropdown() {
+      const select = document.getElementById('oppOrgSelect');
+      select.innerHTML = organizationsList.map(org => `<option value="${org.id}">${org.name} (${org.type})</option>`).join('');
+    }
+
+    function handleOppPosterUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          uploadedOppPosterData = evt.target.result;
+          document.getElementById('oppPosterPreview').src = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function submitNewOpportunity() {
+      const orgId = document.getElementById('oppOrgSelect').value;
+      const org = organizationsList.find(o => o.id === orgId) || organizationsList[0];
+      const roles = document.getElementById('oppRolesInput').value.trim();
+      const location = document.getElementById('oppLocationInput').value.trim();
+      const budget = document.getElementById('oppBudgetInput').value.trim();
+      const desc = document.getElementById('oppDescInput').value.trim();
+
+      if (!roles || !location || !desc) {
+        alert('Please fill Roles, Location and Description fields!');
+        return;
+      }
+
+      const newOpp = {
+        id: `opp-${Date.now()}`,
+        orgId: org.id,
+        orgName: org.name,
+        orgLogo: org.logo,
+        rolesNeeded: roles,
+        description: desc,
+        budget: budget,
+        locations: location,
+        poster: uploadedOppPosterData,
+        postedAt: 'Just now'
+      };
+
+      opportunitiesList.unshift(newOpp);
+      renderOpportunitiesFeed();
+      closeCreateOpportunityModal();
+      setOrgsView('opportunities');
+      alert(`📢 Opportunity post by "${org.name}" is now live!`);
+    }
+
+    // ================= REPORT PROFILE =================
     function reportCrewProfile(crewId) {
       const crew = crewMembers.find(c => c.id === crewId);
       if (!crew) return;
 
       const reason = prompt(`⚠️ Report Profile for Misbehavior / Conduct:\nPlease enter reason for reporting ${crew.name}:`, "Inappropriate behavior / Misconduct");
-      if (reason === null) return; // cancelled
+      if (reason === null) return;
 
       crew.reportsCount = (crew.reportsCount || 0) + 1;
 
-      // 10 Reports Rule: Auto-Suspend & Delete
       if (crew.reportsCount >= 10) {
         alert(`🚫 PROFILE SUSPENDED & DELETED!\n\nUser '${crew.name}' has received 10 misconduct reports. Their account has been permanently SUSPENDED and removed from UNIT platform.`);
-        // Remove from crew list and chats
         crewMembers = crewMembers.filter(c => c.id !== crewId);
         activeChatThreads = activeChatThreads.filter(t => t.crewId !== crewId);
       } else {
@@ -1506,7 +1893,7 @@
       renderRadarPins();
     }
 
-    // ================= 3. REVIEWS & RATINGS SYSTEM =================
+    // ================= REVIEWS & RATINGS =================
     function openReviewsModal(crewId) {
       currentReviewedCrewId = crewId;
       const crew = crewMembers.find(c => c.id === crewId);
@@ -1532,7 +1919,7 @@
 
       list.innerHTML = crew.reviews.map(r => `
         <div class="review-bubble">
-          <div class="review-header">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
             <span style="font-size: 13px; font-weight: 700; color: #fff;">${r.reviewer}</span>
             <span style="color: #ffb703; font-weight: 800; font-size: 12px;">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
           </div>
@@ -1544,7 +1931,6 @@
     function setRatingScore(stars) {
       selectedRatingStars = stars;
       document.getElementById('starScoreDisplay').innerText = `${stars} Star${stars > 1 ? 's' : ''}`;
-      
       const starSpans = document.querySelectorAll('#starRatingPicker span');
       starSpans.forEach((span, idx) => {
         span.style.color = (idx < stars) ? '#ffb703' : '#4b5563';
@@ -1567,7 +1953,6 @@
           comment: comment
         });
 
-        // Recalculate Average Rating
         const totalRating = crew.reviews.reduce((acc, r) => acc + r.rating, 0);
         crew.rating = parseFloat((totalRating / crew.reviews.length).toFixed(1));
 
@@ -1785,7 +2170,6 @@
       renderThreads();
     }
 
-    // Discover Screen Render (With Reviews, Rating & Report Button)
     function renderCrewList() {
       const container = document.getElementById('crewFeedContainer');
       const withDistance = crewMembers.map(crew => {
@@ -1831,7 +2215,6 @@
               </div>
             </div>
 
-            <!-- Stats with Interactive Reviews Link -->
             <div class="crew-stats-strip">
               <div style="display: flex; align-items: center; gap: 6px;">
                 <span style="color: #ffb703; font-weight: 800;">★ ${crew.rating}</span>
@@ -1854,7 +2237,6 @@
 
             <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4;">${crew.bio}</p>
 
-            <!-- Actions (Connect + Report Profile) -->
             <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 8px;">
               <button class="btn-3d btn-3d-danger" style="padding: 5px 9px; font-size: 10px;" onclick="reportCrewProfile(${crew.id})" title="Report for Misconduct (10 reports = suspend)">
                 🚩 Report (${crew.reportsCount || 0}/10)
@@ -2155,7 +2537,7 @@
       reader.readAsDataURL(file);
     }
 
-    // Bottom Navigation
+    // Bottom Navigation (6 Tabs)
     function switchNavTab(tabKey) {
       document.querySelectorAll('.screen-view').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -2163,13 +2545,17 @@
       const target = document.getElementById(`screen-${tabKey}`);
       if (target) target.classList.add('active');
 
-      const idxMap = { discover: 0, projects: 1, requests: 2, messages: 3, profile: 4 };
+      const idxMap = { discover: 0, projects: 1, orgs: 2, requests: 3, messages: 4, profile: 5 };
       if (idxMap[tabKey] !== undefined) {
         document.querySelectorAll('.nav-btn')[idxMap[tabKey]].classList.add('active');
       }
 
       if (tabKey === 'discover') renderCrewList();
       if (tabKey === 'projects') renderProjectsFeed();
+      if (tabKey === 'orgs') {
+        renderOpportunitiesFeed();
+        renderOrganizationsDirectory();
+      }
       if (tabKey === 'requests') renderRequests();
       if (tabKey === 'messages') renderThreads();
       if (tabKey === 'profile') {
@@ -2183,6 +2569,8 @@
       populateProfileForm();
       renderCrewList();
       renderProjectsFeed();
+      renderOpportunitiesFeed();
+      renderOrganizationsDirectory();
       renderRequests();
       renderThreads();
       renderProfileLinksForm();
