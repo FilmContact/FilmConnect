@@ -32,7 +32,6 @@
       --neon-editor: #a855f7;
       --neon-editor-3d: #6b21a8;
       --neon-org: #10b981;
-      --neon-org-3d: #059669;
       
       --3d-cta-bg: #ffb703;
       --3d-cta-shadow: #b37d00;
@@ -193,7 +192,7 @@
     }
     .btn-3d-success:active { transform: translateY(2px); box-shadow: 0 1px 0 #059669; }
 
-    /* Screen Management */
+    /* Screen Views */
     .screen-view {
       display: none;
       padding: 16px;
@@ -248,7 +247,7 @@
       border: 1px solid var(--border-glow);
     }
 
-    /* Search & Filters */
+    /* Search & Filter Chips */
     .search-box {
       position: relative;
       margin-bottom: 12px;
@@ -296,13 +295,13 @@
       border-color: #fff;
     }
 
-    /* Crew Cards */
-    .crew-feed {
+    /* Crew & Project Cards */
+    .crew-feed, .projects-feed, .orgs-feed {
       display: flex;
       flex-direction: column;
       gap: 14px;
     }
-    .crew-card {
+    .crew-card, .project-card, .opportunity-card, .org-card {
       background: var(--bg-card);
       border: 1px solid var(--border-dim);
       border-radius: 14px;
@@ -310,11 +309,9 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
     }
-    .crew-top {
-      display: flex;
-      gap: 12px;
-    }
+    .crew-top { display: flex; gap: 12px; }
     .crew-avatar {
       width: 54px;
       height: 54px;
@@ -458,56 +455,13 @@
       object-fit: cover;
     }
 
-    /* Projects & Opportunities View */
-    .projects-feed, .orgs-feed {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .project-card, .org-card, .opportunity-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-dim);
-      border-radius: 14px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
-    }
-    .project-card-top, .opp-card-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
-    .project-title, .opp-title {
-      font-family: var(--font-title);
-      font-size: 18px;
-      font-weight: 800;
-      color: #fff;
-    }
-    .status-tag {
-      font-size: 10px;
-      font-weight: 800;
-      text-transform: uppercase;
-      padding: 4px 8px;
-      border-radius: 6px;
-      background: rgba(255, 183, 3, 0.15);
-      color: var(--neon-director);
-      border: 1px solid var(--neon-director);
-    }
+    /* Opportunities & Comments */
     .opp-poster-img {
       width: 100%;
       height: 180px;
       object-fit: cover;
       border-radius: 10px;
       border: 1px solid var(--border-glow);
-    }
-    .opp-meta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-      font-size: 11px;
     }
     .badge-budget {
       background: rgba(16, 185, 129, 0.15);
@@ -516,6 +470,7 @@
       padding: 2px 6px;
       border-radius: 4px;
       font-weight: 700;
+      font-size: 11px;
     }
     .badge-location {
       background: rgba(0, 240, 255, 0.15);
@@ -524,6 +479,7 @@
       padding: 2px 6px;
       border-radius: 4px;
       font-weight: 700;
+      font-size: 11px;
     }
     .org-profile-box {
       background: #0d1017;
@@ -533,54 +489,47 @@
       font-size: 12px;
       line-height: 1.4;
     }
-
-    /* Requests List */
-    .requests-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+    .opp-comments-box {
+      background: #090c12;
+      border: 1px solid #1b212f;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 6px;
     }
-    .request-item {
-      background: var(--bg-card);
-      border: 1px solid var(--border-dim);
-      border-radius: 12px;
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .req-top {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-    .req-avatar {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-    .req-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 8px;
-    }
-
-    /* Messages & Group Section */
-    .messages-section-title {
+    .comment-item {
+      border-bottom: 1px solid #181d29;
+      padding: 6px 0;
       font-size: 12px;
-      font-weight: 800;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      letter-spacing: 0.5px;
-      margin: 14px 0 8px 0;
     }
-    .threads-list {
+    .comment-item:last-child { border-bottom: none; }
+
+    /* Slot Booking List inside Projects */
+    .slot-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0c0f16;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #1c2130;
+      margin-bottom: 6px;
+    }
+    .applicants-drawer {
+      background: #0a0d14;
+      border: 1px dashed #283044;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 6px;
+      display: none;
+    }
+
+    /* Requests & Dispatch */
+    .requests-list, .threads-list {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
-    .thread-card {
+    .request-item, .thread-card {
       background: var(--bg-card);
       border: 1px solid var(--border-dim);
       border-radius: 12px;
@@ -589,7 +538,6 @@
       align-items: center;
       gap: 12px;
       cursor: pointer;
-      position: relative;
     }
     .group-avatar-stack {
       width: 44px;
@@ -837,10 +785,10 @@
       </div>
     </header>
 
-    <!-- ================= 1. DISCOVER SCREEN ================= -->
+    <!-- ================= 1. DISCOVER SCREEN (Rule 1 & 8: Open Profile Explore) ================= -->
     <section id="screen-discover" class="screen-view active">
       <h1 class="section-title">CREW RADAR & DISCOVER</h1>
-      <p class="section-desc">Find nearby film talent sorted by live GPS distance</p>
+      <p class="section-desc">Open directory: Browse all talent profiles freely</p>
 
       <div class="toggle-pill-wrap">
         <button class="toggle-pill-btn active" id="btnViewList" onclick="setDiscoverView('list')">📋 List View</button>
@@ -885,12 +833,12 @@
       </div>
     </section>
 
-    <!-- ================= 2. PROJECTS SCREEN ================= -->
+    <!-- ================= 2. PROJECTS SCREEN (Rule 3: Unlimited Slot Bookings & Direct Applicant View) ================= -->
     <section id="screen-projects" class="screen-view">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
         <div>
           <h1 class="section-title">PROJECTS FEED</h1>
-          <p class="section-desc" style="margin: 0;">Indie projects & open role slots</p>
+          <p class="section-desc" style="margin: 0;">Unlimited slot applications & immediate applicant review</p>
         </div>
         <button class="btn-3d btn-3d-primary" onclick="openCreateProjectModal()">
           + Create Project
@@ -900,72 +848,61 @@
       <div class="projects-feed" id="projectsFeedContainer"></div>
     </section>
 
-    <!-- ================= 3. ORGANIZATIONS & OPPORTUNITIES SCREEN (NEW) ================= -->
+    <!-- ================= 3. ORGANIZATIONS SCREEN (Rule 9: Posts, Comments & Connect Flow) ================= -->
     <section id="screen-orgs" class="screen-view">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
         <div>
           <h1 class="section-title">STUDIOS & ORGS</h1>
-          <p class="section-desc" style="margin: 0;">Production houses, YouTube channels & OTT calls</p>
+          <p class="section-desc" style="margin: 0;">Post opportunities, pitch interest & connect</p>
         </div>
         <div style="display: flex; gap: 6px;">
-          <button class="btn-3d btn-3d-success" onclick="openCreateOpportunityModal()">
-            📢 Post Call
-          </button>
-          <button class="btn-3d btn-3d-dark" onclick="openCreateOrgModal()">
-            🏢 + Add Org
-          </button>
+          <button class="btn-3d btn-3d-success" onclick="openCreateOpportunityModal()">📢 Post Call</button>
+          <button class="btn-3d btn-3d-dark" onclick="openCreateOrgModal()">🏢 + Add Org</button>
         </div>
       </div>
 
-      <!-- Toggle between Opportunities & Org Directory -->
       <div class="toggle-pill-wrap">
-        <button class="toggle-pill-btn active" id="btnViewOpps" onclick="setOrgsView('opportunities')">
-          📢 Opportunities Feed
-        </button>
-        <button class="toggle-pill-btn" id="btnViewDirectory" onclick="setOrgsView('directory')">
-          🏢 Studios Directory
-        </button>
+        <button class="toggle-pill-btn active" id="btnViewOpps" onclick="setOrgsView('opportunities')">📢 Opportunities Feed</button>
+        <button class="toggle-pill-btn" id="btnViewDirectory" onclick="setOrgsView('directory')">🏢 Studios Directory</button>
       </div>
 
-      <!-- Opportunities Feed View -->
       <div id="orgsOpportunitiesView">
         <div class="orgs-feed" id="opportunitiesFeedContainer"></div>
       </div>
 
-      <!-- Organizations Directory View -->
       <div id="orgsDirectoryView" style="display: none;">
         <div class="orgs-feed" id="orgsDirectoryContainer"></div>
       </div>
     </section>
 
-    <!-- ================= 4. CONNECT & SLOT REQUESTS ================= -->
+    <!-- ================= 4. CONNECT REQUESTS (Rule 2: Accept / Reject) ================= -->
     <section id="screen-requests" class="screen-view">
-      <h1 class="section-title">APPLICATIONS & REQUESTS</h1>
-      <p class="section-desc">Review crew slot applications: Choose OK (Accept) or Not Fit (Decline)</p>
+      <h1 class="section-title">CONNECT REQUESTS</h1>
+      <p class="section-desc">Accept or Reject connection requests to unlock chat & group additions</p>
 
       <div class="requests-list" id="requestsListContainer"></div>
     </section>
 
-    <!-- ================= 5. IN-APP MESSAGES & TEAMS ================= -->
+    <!-- ================= 5. IN-APP MESSAGES & TEAMS (Rule 5, 6, 7: Mutual Connects Only) ================= -->
     <section id="screen-messages" class="screen-view">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
         <div>
           <h1 class="section-title">UNIT DISPATCH</h1>
-          <p class="section-desc" style="margin: 0;">Direct chats & team group channels</p>
+          <p class="section-desc" style="margin: 0;">Direct chats & team group channels (Connected only)</p>
         </div>
         <button class="btn-3d btn-3d-primary" onclick="openCreateGroupModal()">
           👥 + Create Group
         </button>
       </div>
 
-      <div class="messages-section-title">👥 Team & Project Groups</div>
+      <div style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin: 14px 0 8px 0;">👥 Team & Project Groups</div>
       <div class="threads-list" id="groupThreadsContainer"></div>
 
-      <div class="messages-section-title" style="margin-top: 18px;">💬 1-on-1 Direct Messages</div>
+      <div style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin-top: 18px; margin-bottom: 8px;">💬 1-on-1 Direct Messages (Mutually Connected)</div>
       <div class="threads-list" id="threadsListContainer"></div>
     </section>
 
-    <!-- ================= 6. PROFILE SCREEN ================= -->
+    <!-- ================= 6. PROFILE SCREEN (Rule 1: All Role Types) ================= -->
     <section id="screen-profile" class="screen-view">
       <h1 class="section-title">CREW PROFILE</h1>
       <p class="section-desc">Manage your showreels, storytelling bio & GPS shoot location</p>
@@ -1037,7 +974,7 @@
       <button class="btn-3d btn-3d-primary" style="width: 100%; padding: 14px;" onclick="saveUserProfile()">Save Profile</button>
     </section>
 
-    <!-- ================= BOTTOM 6-TAB NAVIGATION ================= -->
+    <!-- ================= BOTTOM NAVIGATION (6 TABS) ================= -->
     <nav class="bottom-nav">
       <button class="nav-btn active" onclick="switchNavTab('discover')">
         <span class="nav-btn-icon">🔍</span><span class="nav-btn-label">Discover</span>
@@ -1060,7 +997,9 @@
       </button>
     </nav>
 
-    <!-- ================= CREATE ORGANIZATION PROFILE MODAL ================= -->
+    <!-- ================= MODALS ================= -->
+
+    <!-- CREATE ORG MODAL -->
     <div class="modal-overlay" id="createOrgModal">
       <div class="modal-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
@@ -1113,7 +1052,7 @@
       </div>
     </div>
 
-    <!-- ================= CREATE OPPORTUNITY POST MODAL ================= -->
+    <!-- CREATE OPPORTUNITY MODAL -->
     <div class="modal-overlay" id="createOpportunityModal">
       <div class="modal-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
@@ -1154,7 +1093,7 @@
 
         <div class="form-group">
           <label>Detailed Opportunity Description *</label>
-          <textarea id="oppDescInput" class="form-textarea" rows="3" placeholder="Describe the storyline, shoot dates, gear requirements, and audition criteria..."></textarea>
+          <textarea id="oppDescInput" class="form-textarea" rows="3" placeholder="Describe storyline, shoot dates, gear requirements, and audition criteria..."></textarea>
         </div>
 
         <button class="btn-3d btn-3d-primary" style="width: 100%; padding: 12px;" onclick="submitNewOpportunity()">
@@ -1163,37 +1102,7 @@
       </div>
     </div>
 
-    <!-- ================= REVIEWS & RATING MODAL ================= -->
-    <div class="modal-overlay" id="reviewsModal">
-      <div class="modal-card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-          <h2 class="section-title" style="font-size: 20px;" id="reviewModalTitle">CREW REVIEWS</h2>
-          <button style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;" onclick="closeReviewsModal()">✕</button>
-        </div>
-
-        <div id="crewReviewsList" style="max-height: 220px; overflow-y: auto; margin-bottom: 14px;"></div>
-
-        <div style="border-top: 1px solid var(--border-dim); padding-top: 12px;">
-          <div style="font-size: 12px; font-weight: 800; color: #fff; margin-bottom: 4px;">Leave a Rating & Review</div>
-          
-          <div class="star-rating-select" id="starRatingPicker">
-            <span onclick="setRatingScore(1)">★</span>
-            <span onclick="setRatingScore(2)">★</span>
-            <span onclick="setRatingScore(3)">★</span>
-            <span onclick="setRatingScore(4)">★</span>
-            <span onclick="setRatingScore(5)">★</span>
-          </div>
-          <div style="font-size: 11px; color: var(--neon-director); margin-bottom: 8px;">
-            Selected: <span id="starScoreDisplay">5 Stars</span>
-          </div>
-
-          <textarea id="newReviewComment" class="form-textarea" rows="2" placeholder="Write about their filmmaking skills, punctuality, collaboration..."></textarea>
-          <button class="btn-3d btn-3d-primary" style="width: 100%; margin-top: 8px;" onclick="submitCrewReview()">Post Review</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- ================= CREATE GROUP MODAL ================= -->
+    <!-- CREATE TEAM GROUP MODAL (Rule 6: Connected Members Only) -->
     <div class="modal-overlay" id="createGroupModal">
       <div class="modal-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
@@ -1207,17 +1116,17 @@
         </div>
 
         <div class="form-group">
-          <label>Select Connected Crew to Add</label>
+          <label>Select Connected Crew to Add (Rule 6: Must be mutually connected)</label>
           <div id="groupCrewSelectorList"></div>
         </div>
 
         <button class="btn-3d btn-3d-primary" style="width: 100%; padding: 12px;" onclick="submitCreateGroup()">
-          Create Group & Send Invites
+          Create Group & Add Members
         </button>
       </div>
     </div>
 
-    <!-- ================= CREATE PROJECT MODAL ================= -->
+    <!-- CREATE PROJECT MODAL -->
     <div class="modal-overlay" id="createProjectModal">
       <div class="modal-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
@@ -1264,7 +1173,7 @@
 
         <div class="form-group">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-            <label style="margin: 0;">Crew Roles Needed & Slots</label>
+            <label style="margin: 0;">Crew Roles Needed & Target Slots</label>
             <button type="button" class="btn-3d btn-3d-dark" style="padding: 4px 8px; font-size: 10px;" onclick="addCustomRoleSlotRow()">+ Add Custom Role</button>
           </div>
 
@@ -1297,7 +1206,37 @@
       </div>
     </div>
 
-    <!-- ================= CHAT & GROUP MODAL ================= -->
+    <!-- REVIEWS & RATING MODAL -->
+    <div class="modal-overlay" id="reviewsModal">
+      <div class="modal-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h2 class="section-title" style="font-size: 20px;" id="reviewModalTitle">CREW REVIEWS</h2>
+          <button style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;" onclick="closeReviewsModal()">✕</button>
+        </div>
+
+        <div id="crewReviewsList" style="max-height: 220px; overflow-y: auto; margin-bottom: 14px;"></div>
+
+        <div style="border-top: 1px solid var(--border-dim); padding-top: 12px;">
+          <div style="font-size: 12px; font-weight: 800; color: #fff; margin-bottom: 4px;">Leave a Rating & Review</div>
+          
+          <div style="display: flex; gap: 8px; margin: 8px 0; font-size: 24px; cursor: pointer;" id="starRatingPicker">
+            <span onclick="setRatingScore(1)">★</span>
+            <span onclick="setRatingScore(2)">★</span>
+            <span onclick="setRatingScore(3)">★</span>
+            <span onclick="setRatingScore(4)">★</span>
+            <span onclick="setRatingScore(5)">★</span>
+          </div>
+          <div style="font-size: 11px; color: var(--neon-director); margin-bottom: 8px;">
+            Selected: <span id="starScoreDisplay">5 Stars</span>
+          </div>
+
+          <textarea id="newReviewComment" class="form-textarea" rows="2" placeholder="Write about their filmmaking skills, punctuality, collaboration..."></textarea>
+          <button class="btn-3d btn-3d-primary" style="width: 100%; margin-top: 8px;" onclick="submitCrewReview()">Post Review</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAT & GROUP MODAL (Rules 5, 6, 7) -->
     <div class="chat-view-modal" id="chatViewModal">
       <div class="chat-top-header">
         <div class="chat-user-meta">
@@ -1331,7 +1270,8 @@
   </div>
 
   <script>
-    // Current User Profile State
+    // ================= APP STATE & DATA =================
+
     const currentUser = {
       name: "Kiran Varma",
       role: "Director",
@@ -1348,7 +1288,6 @@
       ]
     };
 
-    // Role Styling
     const roleMeta = {
       'Director': { color: '#ffb703', bg: 'rgba(255, 183, 3, 0.15)', border: '#ffb703' },
       'Cinematographer': { color: '#00f0ff', bg: 'rgba(0, 240, 255, 0.15)', border: '#00f0ff' },
@@ -1357,58 +1296,7 @@
       'Other': { color: '#10b981', bg: 'rgba(16, 185, 129, 0.15)', border: '#10b981' }
     };
 
-    // Mock Organizations Data
-    let organizationsList = [
-      {
-        id: 'org-1',
-        name: 'Chai Bisket Studios',
-        type: 'YouTube channel / Production House',
-        logo: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80',
-        typicallyProduces: 'Concept-driven digital web series, viral satirical sketches, and theatrical feature films.',
-        whatTheyProvide: 'Full funding budget, Sony FX6 / FX3 gear, professional sound stage, fast pay schedule, digital distribution.'
-      },
-      {
-        id: 'org-2',
-        name: 'Neon Frame Media & OTT',
-        type: 'OTT platform / Studio',
-        logo: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=150&auto=format&fit=crop&q=80',
-        typicallyProduces: 'Crime thriller mini-series, documentary short films & arthouse pilots.',
-        whatTheyProvide: 'Development funding (₹3L - ₹10L budget), editing & color grading suite access, direct OTT streaming contract.'
-      }
-    ];
-
-    // Mock Opportunities Feed Data
-    let opportunitiesList = [
-      {
-        id: 'opp-1',
-        orgId: 'org-1',
-        orgName: 'Chai Bisket Studios',
-        orgLogo: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80',
-        rolesNeeded: 'Director of Photography, Associate Director',
-        description: 'Casting and crew call for an upcoming 6-episode youth comedy-drama web series. Looking for an energetic DP with gimbal and low-light expertise.',
-        budget: '₹40,000 / episode (Negotiable)',
-        locations: 'Hyderabad & Vizag',
-        poster: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=500&auto=format&fit=crop&q=80',
-        postedAt: '1 day ago'
-      },
-      {
-        id: 'opp-2',
-        orgId: 'org-2',
-        orgName: 'Neon Frame Media & OTT',
-        orgLogo: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=150&auto=format&fit=crop&q=80',
-        rolesNeeded: 'Lead Female Actor (20-26y), Sound Designer / Foley',
-        description: 'Open auditions and crew requirement for a festival-bound psychological horror short film (22 Mins).',
-        budget: 'Production pay + Festival Profit Share',
-        locations: 'Araku Valley & Hyderabad',
-        poster: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=500&auto=format&fit=crop&q=80',
-        postedAt: 'Just now'
-      }
-    ];
-
-    let uploadedOrgLogoData = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80';
-    let uploadedOppPosterData = 'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=500&auto=format&fit=crop&q=80';
-
-    // Mock Crew Data
+    // Mock Crew Profiles
     let crewMembers = [
       {
         id: 101,
@@ -1432,7 +1320,7 @@
         ],
         skills: ["Sony FX3", "Anamorphic", "Gimbal Specialist"],
         bio: "Specialized in indie low-light aesthetic, moody lighting and handheld cinematic motion.",
-        connected: true
+        connected: true // Mutually connected with Current User
       },
       {
         id: 102,
@@ -1445,7 +1333,7 @@
         avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
         rating: 4.8,
         projectsCount: 6,
-        reportsCount: 1,
+        reportsCount: 0,
         portfolioLinks: [
           { platform: "YouTube", url: "https://youtube.com" },
           { platform: "Instagram", url: "https://instagram.com" }
@@ -1468,7 +1356,7 @@
         avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
         rating: 5.0,
         projectsCount: 14,
-        reportsCount: 8,
+        reportsCount: 8, // For easy testing of 10-report rule
         portfolioLinks: [
           { platform: "Drive", url: "https://drive.google.com" },
           { platform: "YouTube", url: "https://youtube.com" }
@@ -1482,7 +1370,18 @@
       }
     ];
 
-    // Live Projects Feed
+    // Connect Requests State (Rule 2)
+    let connectRequests = [
+      {
+        id: 401,
+        senderId: 102,
+        senderName: "Ananya Sharma",
+        senderRole: "Actor",
+        senderAvatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80"
+      }
+    ];
+
+    // Live Projects State (Rule 3: Unlimited applicants support)
     let projectsFeed = [
       {
         id: 301,
@@ -1494,27 +1393,72 @@
         isMine: true,
         desc: "A neo-noir crime thriller set in the underbelly of Begumpet during midnight.",
         slots: [
-          { role: "Cinematographer", needed: 1, filled: 1 },
-          { role: "Actor", needed: 2, filled: 1 },
-          { role: "Editor", needed: 1, filled: 0 }
+          { 
+            role: "Cinematographer", 
+            target: 1, 
+            applicants: [
+              { name: "Siddharth Rao", role: "Cinematographer", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80", status: "Selected" }
+            ] 
+          },
+          { 
+            role: "Actor", 
+            target: 2, 
+            applicants: [
+              { name: "Ananya Sharma", role: "Actor", avatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80", status: "Applied" },
+              { name: "Rohan Varma", role: "Actor", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80", status: "Applied" }
+            ] 
+          },
+          { 
+            role: "Editor", 
+            target: 1, 
+            applicants: [] 
+          }
         ]
       }
     ];
 
-    let slotApplications = [
+    // Organizations Directory & Opportunities (Rule 9)
+    let organizationsList = [
       {
-        id: 501,
-        projectId: 301,
-        projectTitle: "NIGHT RUN: HYDERABAD",
-        role: "Actor",
-        applicantName: "Ananya Sharma",
-        applicantRole: "Actor",
-        applicantAvatar: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80",
-        status: "pending",
-        appliedAt: "Just now"
+        id: 'org-1',
+        name: 'Chai Bisket Studios',
+        type: 'YouTube channel / Production House',
+        logo: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80',
+        typicallyProduces: 'Concept-driven digital web series, viral satirical sketches, and theatrical feature films.',
+        whatTheyProvide: 'Full funding budget, Sony FX6 / FX3 gear, professional sound stage, fast pay schedule, digital distribution.'
+      },
+      {
+        id: 'org-2',
+        name: 'Neon Frame Media & OTT',
+        type: 'OTT platform / Studio',
+        logo: 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=150&auto=format&fit=crop&q=80',
+        typicallyProduces: 'Crime thriller mini-series, documentary short films & arthouse pilots.',
+        whatTheyProvide: 'Development funding (₹3L - ₹10L budget), editing & color grading suite access, direct OTT streaming contract.'
       }
     ];
 
+    let opportunitiesList = [
+      {
+        id: 'opp-1',
+        orgId: 'org-1',
+        orgName: 'Chai Bisket Studios',
+        orgLogo: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80',
+        rolesNeeded: 'Director of Photography, Associate Director',
+        description: 'Casting and crew call for an upcoming 6-episode youth comedy-drama web series. Looking for an energetic DP with gimbal and low-light expertise.',
+        budget: '₹40,000 / episode (Negotiable)',
+        locations: 'Hyderabad & Vizag',
+        poster: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=500&auto=format&fit=crop&q=80',
+        postedAt: '1 day ago',
+        comments: [
+          { sender: 'Siddharth Rao (Cinematographer)', message: 'Interested! Check out my anamorphic showreel on profile.' }
+        ]
+      }
+    ];
+
+    let uploadedOrgLogoData = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80';
+    let uploadedOppPosterData = 'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=500&auto=format&fit=crop&q=80';
+
+    // Direct Chat & Group Threads (Rules 5, 6, 7)
     let activeChatThreads = [
       {
         crewId: 101,
@@ -1522,7 +1466,7 @@
         role: "Cinematographer",
         avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
         messages: [
-          { sender: 'them', text: "Hi Kiran! I am confirmed for 'Night Run'.", type: 'text' }
+          { sender: 'them', text: "Hi Kiran! Looking forward to the shoot schedule.", type: 'text' }
         ]
       }
     ];
@@ -1532,10 +1476,10 @@
         id: 901,
         name: "Night Run — Production Unit 🎬",
         creatorName: "Kiran Varma (You)",
-        membersCount: 3,
-        members: ["Kiran Varma", "Siddharth Rao", "Vivek Menon"],
+        membersCount: 2,
+        members: ["Kiran Varma", "Siddharth Rao"],
         messages: [
-          { senderName: "Kiran Varma", senderRole: "Director", isMe: true, type: 'text', text: "Welcome team! Let's finalize the Begumpet location photos here." }
+          { senderName: "Kiran Varma", senderRole: "Director", isMe: true, type: 'text', text: "Welcome to the official shoot group!" }
         ]
       }
     ];
@@ -1663,13 +1607,509 @@
       return (currentUser.name && currentUser.name.length > 1);
     }
 
-    // ================= ORGANIZATIONS & OPPORTUNITIES LOGIC =================
+    // ================= RULE 2: CONNECT REQUEST FLOW (Accept / Reject) =================
+
+    function sendConnectRequest(crewId) {
+      const crew = crewMembers.find(c => c.id === crewId);
+      if (!crew) return;
+
+      alert(`⚡ Connect request sent to ${crew.name}! Once they accept, you both can chat directly and add each other to project groups.`);
+    }
+
+    function renderRequests() {
+      const container = document.getElementById('requestsListContainer');
+      document.getElementById('connectsBadge').innerText = connectRequests.length;
+
+      if (connectRequests.length === 0) {
+        container.innerHTML = `<div style="text-align: center; padding: 30px; color: var(--text-muted);">No pending connect requests.</div>`;
+        return;
+      }
+
+      container.innerHTML = connectRequests.map(req => `
+        <div class="request-item">
+          <img src="${req.senderAvatar}" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+          <div style="flex: 1;">
+            <div style="font-size: 15px; font-weight: 800; color: #fff;">${req.senderName}</div>
+            <div style="font-size: 12px; color: var(--neon-cinema);">${req.senderRole} wants to connect with you</div>
+          </div>
+          <div style="display: flex; gap: 6px;">
+            <button class="btn-3d btn-3d-danger" onclick="respondConnectRequest(${req.id}, false)">Reject</button>
+            <button class="btn-3d btn-3d-success" onclick="respondConnectRequest(${req.id}, true)">Accept</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function respondConnectRequest(reqId, isAccepted) {
+      const req = connectRequests.find(r => r.id === reqId);
+      if (!req) return;
+
+      if (isAccepted) {
+        const target = crewMembers.find(c => c.id === req.senderId);
+        if (target) target.connected = true;
+
+        if (!activeChatThreads.some(t => t.crewId === req.senderId)) {
+          activeChatThreads.push({
+            crewId: req.senderId,
+            name: req.senderName,
+            role: req.senderRole,
+            avatar: req.senderAvatar,
+            messages: [{ sender: 'them', text: `Hi! We are now connected. Looking forward to collaborating!`, type: 'text' }]
+          });
+        }
+
+        alert(`✓ Accepted connection with ${req.senderName}! You can now 1-on-1 chat and add them to project teams.`);
+      } else {
+        alert(`✕ Rejected connection request.`);
+      }
+
+      connectRequests = connectRequests.filter(r => r.id !== reqId);
+      renderRequests();
+      renderCrewList();
+      renderThreads();
+    }
+
+    // ================= RULE 3: UNLIMITED PROJECT SLOT BOOKINGS & PERMISSION-FREE REVIEW =================
+
+    function renderProjectsFeed() {
+      const container = document.getElementById('projectsFeedContainer');
+      container.innerHTML = projectsFeed.map(proj => `
+        <div class="project-card">
+          <div class="project-card-top">
+            <div>
+              <span style="font-size: 11px; color: var(--neon-cinema); font-weight: 800; text-transform: uppercase;">${proj.type}</span>
+              <div class="project-title">${proj.title}</div>
+              ${proj.location ? `<div class="badge-location" style="margin-top: 4px; display: inline-block;">📍 ${proj.location}</div>` : ''}
+            </div>
+            <span class="status-tag">${proj.status}</span>
+          </div>
+
+          <div style="font-size: 12px; color: var(--text-muted);">
+            Created by: <strong>${proj.creatorName}</strong>
+          </div>
+
+          <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4;">${proj.desc}</p>
+
+          <div>
+            <div style="font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 6px;">Role Slots & Applications (No Limit on Booking):</div>
+            ${proj.slots.map((s, sIdx) => `
+              <div class="slot-row">
+                <div>
+                  <span style="font-size: 12px; font-weight: 700; color: ${roleMeta[s.role]?.color || '#00f0ff'};">${s.role}</span>
+                  <span style="font-size: 11px; color: var(--text-muted); margin-left: 6px;">(${s.applicants.length} Booked / Target: ${s.target})</span>
+                </div>
+                
+                <div style="display: flex; gap: 6px;">
+                  ${proj.isMine ? `
+                    <button class="btn-3d btn-3d-dark" style="padding: 4px 8px; font-size: 10px;" onclick="toggleApplicantsDrawer(${proj.id}, ${sIdx})">
+                      👁️ View Applicants (${s.applicants.length})
+                    </button>
+                  ` : `
+                    <button class="btn-3d btn-3d-connect" style="padding: 4px 10px; font-size: 10px;" onclick="bookProjectSlot(${proj.id}, '${s.role}')">
+                      ⚡ Book / Apply
+                    </button>
+                  `}
+                </div>
+              </div>
+
+              <!-- Rule 3: Direct Profile Access for all applicants without separate connect -->
+              <div class="applicants-drawer" id="drawer-${proj.id}-${sIdx}">
+                <div style="font-size: 11px; color: var(--neon-director); font-weight: 700; margin-bottom: 6px;">
+                  📋 Applicants for ${s.role} (Permission granted by booking):
+                </div>
+                ${s.applicants.length === 0 ? `<div style="font-size: 11px; color: var(--text-muted);">No one has applied for this slot yet.</div>` : `
+                  ${s.applicants.map(app => `
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: #131722; padding: 6px 8px; border-radius: 6px; margin-bottom: 4px;">
+                      <div style="display: flex; align-items: center; gap: 8px;">
+                        <img src="${app.avatar}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover;">
+                        <span style="font-size: 12px; font-weight: 700; color: #fff;">${app.name}</span>
+                        <span style="font-size: 10px; color: var(--neon-cinema);">${app.status}</span>
+                      </div>
+                      <button class="btn-3d btn-3d-primary" style="padding: 3px 6px; font-size: 9px;" onclick="selectApplicantForTeam('${app.name}', '${s.role}')">
+                        ✓ Select for Team
+                      </button>
+                    </div>
+                  `).join('')}
+                `}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleApplicantsDrawer(projId, sIdx) {
+      const drawer = document.getElementById(`drawer-${projId}-${sIdx}`);
+      drawer.style.display = (drawer.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function bookProjectSlot(projId, roleName) {
+      if (!isUserProfileComplete()) {
+        alert("⚠️ Please enter your name in Profile before booking slots!");
+        switchNavTab('profile');
+        return;
+      }
+
+      const proj = projectsFeed.find(p => p.id === projId);
+      if (!proj) return;
+
+      const slot = proj.slots.find(s => s.role === roleName);
+      if (slot) {
+        slot.applicants.push({
+          name: currentUser.name,
+          role: currentUser.role,
+          avatar: currentUser.avatar,
+          status: "Applied"
+        });
+
+        alert(`✅ You booked the slot for "${roleName}" on project "${proj.title}"!\n(Rule 3: By booking, permission is granted to project creator to view your full profile and showreel).`);
+        renderProjectsFeed();
+      }
+    }
+
+    function selectApplicantForTeam(name, role) {
+      alert(`🎬 Selected ${name} for ${role}! You can now create a Team Group Chat in the Messages tab.`);
+    }
+
+    // ================= RULE 4: ANONYMOUS REPORT & 10-REPORT AUTO-SUSPEND =================
+
+    function reportCrewProfile(crewId) {
+      const crew = crewMembers.find(c => c.id === crewId);
+      if (!crew) return;
+
+      const reason = prompt(`⚠️ Report Profile for Misbehavior / Conduct:\nPlease enter reason for reporting ${crew.name} (Rule 4: Your report is 100% anonymous):`, "Inappropriate conduct");
+      if (reason === null) return;
+
+      crew.reportsCount = (crew.reportsCount || 0) + 1;
+
+      // Automatic Suspension & Deletion at 10 reports
+      if (crew.reportsCount >= 10) {
+        alert(`🚫 PROFILE SUSPENDED & DELETED!\n\nUser '${crew.name}' has received 10 misconduct reports. Their profile has been permanently SUSPENDED & REMOVED from UNIT.`);
+        crewMembers = crewMembers.filter(c => c.id !== crewId);
+        activeChatThreads = activeChatThreads.filter(t => t.crewId !== crewId);
+      } else {
+        alert(`🚩 Report submitted anonymously. Thank you for keeping the platform safe.`);
+      }
+
+      renderCrewList();
+      renderRadarPins();
+    }
+
+    // ================= RULES 5, 6, 7 & 8: DISPATCH, GROUPS, MUTUAL CONNECT CHECK & EXIT =================
+
+    function openCreateGroupModal() {
+      const list = document.getElementById('groupCrewSelectorList');
+      // Rule 6: Filter only mutually connected crew
+      const connectedCrew = crewMembers.filter(c => c.connected);
+
+      if (connectedCrew.length === 0) {
+        list.innerHTML = `<div style="font-size: 12px; color: var(--text-muted); padding: 10px 0;">No connected crew members yet. Connect with members first to add them to your team group.</div>`;
+      } else {
+        list.innerHTML = connectedCrew.map(c => `
+          <label class="crew-select-row">
+            <input type="checkbox" value="${c.name}" class="group-crew-checkbox" checked />
+            <img src="${c.avatar}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover;">
+            <span style="font-size: 13px; font-weight: 700; color: #fff;">${c.name}</span>
+            <span style="font-size: 11px; color: var(--neon-cinema); margin-left: auto;">${c.role}</span>
+          </label>
+        `).join('');
+      }
+
+      document.getElementById('createGroupModal').classList.add('active');
+    }
+
+    function closeCreateGroupModal() {
+      document.getElementById('createGroupModal').classList.remove('active');
+    }
+
+    function submitCreateGroup() {
+      const name = document.getElementById('newGroupName').value.trim() || 'New Team Unit 🎬';
+      const selected = Array.from(document.querySelectorAll('.group-crew-checkbox:checked')).map(cb => cb.value);
+
+      const newGrp = {
+        id: Date.now(),
+        name: name,
+        creatorName: `${currentUser.name} (You)`,
+        membersCount: selected.length + 1,
+        members: [currentUser.name, ...selected],
+        messages: [
+          { senderName: currentUser.name, senderRole: currentUser.role, isMe: true, type: 'text', text: `Group "${name}" created! Team discussion active.` }
+        ]
+      };
+
+      teamGroups.unshift(newGrp);
+      closeCreateGroupModal();
+      renderThreads();
+      alert(`👥 Team Group "${name}" created with ${selected.length} connected members!`);
+    }
+
+    function renderThreads() {
+      const grpContainer = document.getElementById('groupThreadsContainer');
+      if (teamGroups.length === 0) {
+        grpContainer.innerHTML = `<div style="font-size: 12px; color: var(--text-muted); padding: 10px 0;">No active team groups. Click '+ Create Group' above.</div>`;
+      } else {
+        grpContainer.innerHTML = teamGroups.map(grp => `
+          <div class="thread-card" onclick="openGroupChat(${grp.id})">
+            <div class="group-avatar-stack">👥</div>
+            <div style="flex: 1;">
+              <div style="display: flex; justify-content: space-between;">
+                <span style="font-size: 14px; font-weight: 800; color: #fff;">${grp.name}</span>
+                <span style="font-size: 11px; color: var(--neon-director); font-weight: 700;">${grp.membersCount} Members</span>
+              </div>
+              <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
+                ${grp.messages[grp.messages.length - 1]?.text || 'Image attachment'}
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      const container = document.getElementById('threadsListContainer');
+      if (activeChatThreads.length === 0) {
+        container.innerHTML = `<div style="font-size: 12px; color: var(--text-muted); padding: 10px 0;">No 1-on-1 direct messages. Connect with someone to chat.</div>`;
+        return;
+      }
+      container.innerHTML = activeChatThreads.map(thread => `
+        <div class="thread-card" onclick="openDirectChat(${thread.crewId})">
+          <img src="${thread.avatar}" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+          <div style="flex: 1;">
+            <div style="display: flex; justify-content: space-between;">
+              <span style="font-size: 14px; font-weight: 800; color: #fff;">${thread.name}</span>
+              <span style="font-size: 11px; color: var(--neon-cinema);">${thread.role}</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
+              ${thread.messages[thread.messages.length - 1]?.text || 'Image attachment'}
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openDirectChat(crewId) {
+      const crew = crewMembers.find(c => c.id === crewId);
+      // Rules 7 & 8: Check if mutually connected
+      if (crew && !crew.connected) {
+        alert(`🔒 Chat Locked: You and ${crew.name} must both accept a Connect request before 1-on-1 chatting.`);
+        return;
+      }
+
+      currentChatMode = 'direct';
+      currentDirectChatId = crewId;
+      document.getElementById('groupActionWrap').style.display = 'none';
+
+      let thread = activeChatThreads.find(t => t.crewId === crewId);
+      if (!thread) {
+        thread = { crewId: crew.id, name: crew.name, role: crew.role, avatar: crew.avatar, messages: [] };
+        activeChatThreads.push(thread);
+      }
+
+      document.getElementById('chatHeaderName').innerText = thread.name;
+      document.getElementById('chatHeaderRole').innerText = thread.role;
+      document.getElementById('chatHeaderImg').src = thread.avatar;
+      document.getElementById('chatHeaderImg').style.display = 'block';
+
+      renderChatMessages();
+      document.getElementById('chatViewModal').classList.add('active');
+    }
+
+    function openGroupChat(groupId) {
+      currentChatMode = 'group';
+      currentGroupId = groupId;
+      document.getElementById('groupActionWrap').style.display = 'block';
+
+      const grp = teamGroups.find(g => g.id === groupId);
+      if (!grp) return;
+
+      document.getElementById('chatHeaderName').innerText = grp.name;
+      document.getElementById('chatHeaderRole').innerText = `${grp.membersCount} Crew Members`;
+      document.getElementById('chatHeaderImg').style.display = 'none';
+
+      renderChatMessages();
+      document.getElementById('chatViewModal').classList.add('active');
+    }
+
+    // Rule 5: Exit Group Option
+    function exitCurrentGroup() {
+      if (confirm("Rule 5: Are you sure you want to EXIT this project team group?")) {
+        teamGroups = teamGroups.filter(g => g.id !== currentGroupId);
+        closeChatModal();
+        alert("You have exited and left the group.");
+      }
+    }
+
+    function closeChatModal() {
+      document.getElementById('chatViewModal').classList.remove('active');
+      renderThreads();
+    }
+
+    function renderChatMessages() {
+      const area = document.getElementById('chatMessagesArea');
+      
+      if (currentChatMode === 'direct') {
+        const thread = activeChatThreads.find(t => t.crewId === currentDirectChatId);
+        if (!thread) return;
+
+        area.innerHTML = thread.messages.map(m => `
+          <div class="chat-bubble ${m.sender === 'me' ? 'mine' : 'theirs'}">
+            ${m.text ? `<div>${m.text}</div>` : ''}
+            ${m.type === 'image' ? `<img src="${m.imageSrc}" class="chat-image-content" onclick="window.open(this.src)">` : ''}
+          </div>
+        `).join('');
+      } else {
+        const grp = teamGroups.find(g => g.id === currentGroupId);
+        if (!grp) return;
+
+        area.innerHTML = grp.messages.map(m => `
+          <div class="chat-bubble ${m.isMe ? 'mine' : 'theirs'}">
+            ${!m.isMe ? `<span class="chat-sender-tag">${m.senderName} (${m.senderRole})</span>` : ''}
+            ${m.text ? `<div>${m.text}</div>` : ''}
+            ${m.type === 'image' ? `<img src="${m.imageSrc}" class="chat-image-content" onclick="window.open(this.src)">` : ''}
+          </div>
+        `).join('');
+      }
+
+      area.scrollTop = area.scrollHeight;
+    }
+
+    function sendChatMessage() {
+      const input = document.getElementById('chatTextInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      if (currentChatMode === 'direct') {
+        const thread = activeChatThreads.find(t => t.crewId === currentDirectChatId);
+        if (thread) {
+          thread.messages.push({ sender: 'me', text: text, type: 'text' });
+          input.value = '';
+          renderChatMessages();
+
+          setTimeout(() => {
+            thread.messages.push({ sender: 'them', text: `Got it Kiran! Ready for the production.`, type: 'text' });
+            renderChatMessages();
+          }, 1200);
+        }
+      } else {
+        const grp = teamGroups.find(g => g.id === currentGroupId);
+        if (grp) {
+          grp.messages.push({
+            senderName: currentUser.name,
+            senderRole: currentUser.role,
+            isMe: true,
+            type: 'text',
+            text: text
+          });
+          input.value = '';
+          renderChatMessages();
+        }
+      }
+    }
+
+    function handleChatImageUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const imgData = evt.target.result;
+
+        if (currentChatMode === 'direct') {
+          const thread = activeChatThreads.find(t => t.crewId === currentDirectChatId);
+          if (thread) {
+            thread.messages.push({ sender: 'me', type: 'image', imageSrc: imgData });
+            renderChatMessages();
+          }
+        } else {
+          const grp = teamGroups.find(g => g.id === currentGroupId);
+          if (grp) {
+            grp.messages.push({
+              senderName: currentUser.name,
+              senderRole: currentUser.role,
+              isMe: true,
+              type: 'image',
+              imageSrc: imgData
+            });
+            renderChatMessages();
+          }
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // ================= RULE 9: ORGANIZATIONS OPPORTUNITIES & COMMENT PITCHES =================
 
     function setOrgsView(view) {
       document.getElementById('orgsOpportunitiesView').style.display = (view === 'opportunities') ? 'block' : 'none';
       document.getElementById('orgsDirectoryView').style.display = (view === 'directory') ? 'block' : 'none';
       document.getElementById('btnViewOpps').classList.toggle('active', view === 'opportunities');
       document.getElementById('btnViewDirectory').classList.toggle('active', view === 'directory');
+    }
+
+    function renderOpportunitiesFeed() {
+      const container = document.getElementById('opportunitiesFeedContainer');
+      container.innerHTML = opportunitiesList.map(opp => `
+        <div class="opportunity-card">
+          <img src="${opp.poster}" class="opp-poster-img" alt="Poster">
+
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <img src="${opp.orgLogo}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #fff;">
+            <div>
+              <div style="font-size: 13px; font-weight: 800; color: #fff;">${opp.orgName}</div>
+              <div style="font-size: 10px; color: var(--text-muted);">Posted ${opp.postedAt}</div>
+            </div>
+          </div>
+
+          <div style="font-size: 14px; font-weight: 800; color: var(--neon-cinema);">
+            🎯 Roles Needed: <span style="color: #fff;">${opp.rolesNeeded}</span>
+          </div>
+
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <span class="badge-location">📍 ${opp.locations}</span>
+            ${opp.budget ? `<span class="badge-budget">💰 ${opp.budget}</span>` : ''}
+          </div>
+
+          <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4;">${opp.description}</p>
+
+          <!-- Rule 9: Comment / Pitch messages under Org post -->
+          <div class="opp-comments-box">
+            <div style="font-size: 11px; font-weight: 800; color: var(--neon-director); margin-bottom: 6px;">
+              💬 Pitches / Interested Messages (${opp.comments ? opp.comments.length : 0}):
+            </div>
+            
+            <div id="comments-list-${opp.id}">
+              ${(opp.comments || []).map(c => `
+                <div class="comment-item">
+                  <span style="font-weight: 700; color: #60a5fa;">${c.sender}:</span>
+                  <span style="color: #cbd5e1;">${c.message}</span>
+                </div>
+              `).join('')}
+            </div>
+
+            <div style="display: flex; gap: 6px; margin-top: 8px;">
+              <input type="text" id="input-pitch-${opp.id}" class="form-input" style="padding: 6px 10px; font-size: 12px; flex: 1;" placeholder="Drop 'Interested' pitch / query..." />
+              <button class="btn-3d btn-3d-primary" style="padding: 6px 10px; font-size: 10px;" onclick="postPitchMessage('${opp.id}')">Pitch</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function postPitchMessage(oppId) {
+      const input = document.getElementById(`input-pitch-${oppId}`);
+      const text = input.value.trim();
+      if (!text) return;
+
+      const opp = opportunitiesList.find(o => o.id === oppId);
+      if (opp) {
+        if (!opp.comments) opp.comments = [];
+        opp.comments.push({
+          sender: `${currentUser.name} (${currentUser.role})`,
+          message: text
+        });
+
+        input.value = '';
+        renderOpportunitiesFeed();
+        alert(`✓ Pitch posted to ${opp.orgName}! The organization can view your message & profile.`);
+      }
     }
 
     function renderOrganizationsDirectory() {
@@ -1691,83 +2131,13 @@
             <div style="color: var(--neon-cinema); font-weight: 700; margin-bottom: 2px;">🎁 What They Provide:</div>
             <div style="color: #cbd5e1;">${org.whatTheyProvide}</div>
           </div>
-
-          <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 4px;">
-            <button class="btn-3d btn-3d-dark" onclick="filterOppsByOrg('${org.name}')">View Open Calls</button>
-            <button class="btn-3d btn-3d-connect" onclick="alert('Contacted ${org.name} representatives!')">⚡ Connect Org</button>
-          </div>
         </div>
       `).join('');
     }
 
-    function renderOpportunitiesFeed() {
-      const container = document.getElementById('opportunitiesFeedContainer');
-      if (opportunitiesList.length === 0) {
-        container.innerHTML = `<div style="text-align: center; padding: 30px; color: var(--text-muted);">No open opportunities right now. Post one above!</div>`;
-        return;
-      }
-
-      container.innerHTML = opportunitiesList.map(opp => `
-        <div class="opportunity-card">
-          <img src="${opp.poster}" class="opp-poster-img" alt="Poster">
-
-          <div class="opp-card-top">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <img src="${opp.orgLogo}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #fff;">
-              <div>
-                <div style="font-size: 13px; font-weight: 800; color: #fff;">${opp.orgName}</div>
-                <div style="font-size: 10px; color: var(--text-muted);">Posted ${opp.postedAt}</div>
-              </div>
-            </div>
-          </div>
-
-          <div style="font-size: 14px; font-weight: 800; color: var(--neon-cinema);">
-            🎯 Roles Needed: <span style="color: #fff;">${opp.rolesNeeded}</span>
-          </div>
-
-          <div class="opp-meta-row">
-            <span class="badge-location">📍 ${opp.locations}</span>
-            ${opp.budget ? `<span class="badge-budget">💰 ${opp.budget}</span>` : ''}
-          </div>
-
-          <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4;">${opp.description}</p>
-
-          <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 8px;">
-            <button class="btn-3d btn-3d-dark" onclick="alert('Opportunity details copied to share!')">🔗 Share</button>
-            <button class="btn-3d btn-3d-primary" onclick="applyToOpportunity('${opp.orgName}', '${opp.rolesNeeded}')">
-              ⚡ Apply to Org
-            </button>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function applyToOpportunity(orgName, roles) {
-      if (!isUserProfileComplete()) {
-        alert("⚠️ Please enter your Name in Profile before applying!");
-        switchNavTab('profile');
-        return;
-      }
-
-      alert(`✅ Application sent to ${orgName} for "${roles}"!\nYour showreels and profile portfolio have been submitted for review.`);
-    }
-
-    function filterOppsByOrg(orgName) {
-      setOrgsView('opportunities');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    // Organization Creation Modal & Upload Handlers
-    function openCreateOrgModal() {
-      document.getElementById('createOrgModal').classList.add('active');
-    }
-    function closeCreateOrgModal() {
-      document.getElementById('createOrgModal').classList.remove('active');
-    }
-
-    function toggleOrgCustomType(val) {
-      document.getElementById('orgCustomTypeWrap').style.display = (val === 'Other') ? 'block' : 'none';
-    }
+    function openCreateOrgModal() { document.getElementById('createOrgModal').classList.add('active'); }
+    function closeCreateOrgModal() { document.getElementById('createOrgModal').classList.remove('active'); }
+    function toggleOrgCustomType(val) { document.getElementById('orgCustomTypeWrap').style.display = (val === 'Other') ? 'block' : 'none'; }
 
     function handleOrgLogoUpload(e) {
       const file = e.target.files[0];
@@ -1784,9 +2154,8 @@
     function submitNewOrganization() {
       const name = document.getElementById('orgNameInput').value.trim();
       let type = document.getElementById('orgTypeSelect').value;
-      if (type === 'Other') {
-        type = document.getElementById('orgCustomTypeInput').value.trim() || 'Custom Studio';
-      }
+      if (type === 'Other') type = document.getElementById('orgCustomTypeInput').value.trim() || 'Studio';
+
       const produces = document.getElementById('orgProducesInput').value.trim();
       const provides = document.getElementById('orgProvidesInput').value.trim();
 
@@ -1795,36 +2164,27 @@
         return;
       }
 
-      const newOrg = {
+      organizationsList.unshift({
         id: `org-${Date.now()}`,
         name: name,
         type: type,
         logo: uploadedOrgLogoData,
         typicallyProduces: produces,
         whatTheyProvide: provides
-      };
+      });
 
-      organizationsList.unshift(newOrg);
       renderOrganizationsDirectory();
-      populateOrgSelectDropdown();
       closeCreateOrgModal();
       setOrgsView('directory');
-      alert(`🏢 Organization "${name}" registered successfully!`);
+      alert(`🏢 Organization "${name}" registered!`);
     }
 
-    // Opportunity Posting Modal & Upload Handlers
     function openCreateOpportunityModal() {
-      populateOrgSelectDropdown();
-      document.getElementById('createOpportunityModal').classList.add('active');
-    }
-    function closeCreateOpportunityModal() {
-      document.getElementById('createOpportunityModal').classList.remove('active');
-    }
-
-    function populateOrgSelectDropdown() {
       const select = document.getElementById('oppOrgSelect');
       select.innerHTML = organizationsList.map(org => `<option value="${org.id}">${org.name} (${org.type})</option>`).join('');
+      document.getElementById('createOpportunityModal').classList.add('active');
     }
+    function closeCreateOpportunityModal() { document.getElementById('createOpportunityModal').classList.remove('active'); }
 
     function handleOppPosterUpload(e) {
       const file = e.target.files[0];
@@ -1851,7 +2211,7 @@
         return;
       }
 
-      const newOpp = {
+      opportunitiesList.unshift({
         id: `opp-${Date.now()}`,
         orgId: org.id,
         orgName: org.name,
@@ -1861,39 +2221,18 @@
         budget: budget,
         locations: location,
         poster: uploadedOppPosterData,
-        postedAt: 'Just now'
-      };
+        postedAt: 'Just now',
+        comments: []
+      });
 
-      opportunitiesList.unshift(newOpp);
       renderOpportunitiesFeed();
       closeCreateOpportunityModal();
       setOrgsView('opportunities');
-      alert(`📢 Opportunity post by "${org.name}" is now live!`);
-    }
-
-    // ================= REPORT PROFILE =================
-    function reportCrewProfile(crewId) {
-      const crew = crewMembers.find(c => c.id === crewId);
-      if (!crew) return;
-
-      const reason = prompt(`⚠️ Report Profile for Misbehavior / Conduct:\nPlease enter reason for reporting ${crew.name}:`, "Inappropriate behavior / Misconduct");
-      if (reason === null) return;
-
-      crew.reportsCount = (crew.reportsCount || 0) + 1;
-
-      if (crew.reportsCount >= 10) {
-        alert(`🚫 PROFILE SUSPENDED & DELETED!\n\nUser '${crew.name}' has received 10 misconduct reports. Their account has been permanently SUSPENDED and removed from UNIT platform.`);
-        crewMembers = crewMembers.filter(c => c.id !== crewId);
-        activeChatThreads = activeChatThreads.filter(t => t.crewId !== crewId);
-      } else {
-        alert(`🚩 Report submitted against ${crew.name}.\nCurrent Report Count: ${crew.reportsCount}/10.\n(Note: If 10 reports are reached, this profile will be automatically suspended).`);
-      }
-
-      renderCrewList();
-      renderRadarPins();
+      alert(`📢 Opportunity post is now live!`);
     }
 
     // ================= REVIEWS & RATINGS =================
+
     function openReviewsModal(crewId) {
       currentReviewedCrewId = crewId;
       const crew = crewMembers.find(c => c.id === crewId);
@@ -1906,19 +2245,17 @@
       document.getElementById('reviewsModal').classList.add('active');
     }
 
-    function closeReviewsModal() {
-      document.getElementById('reviewsModal').classList.remove('active');
-    }
+    function closeReviewsModal() { document.getElementById('reviewsModal').classList.remove('active'); }
 
     function renderReviewsList(crew) {
       const list = document.getElementById('crewReviewsList');
       if (!crew.reviews || crew.reviews.length === 0) {
-        list.innerHTML = `<div style="font-size: 12px; color: var(--text-muted); text-align: center; padding: 16px;">No reviews yet. Be the first to rate & review this crew member!</div>`;
+        list.innerHTML = `<div style="font-size: 12px; color: var(--text-muted); text-align: center; padding: 16px;">No reviews yet. Be the first to review!</div>`;
         return;
       }
 
       list.innerHTML = crew.reviews.map(r => `
-        <div class="review-bubble">
+        <div style="background: #0d1017; border: 1px solid #1e2433; padding: 10px 12px; border-radius: 8px; margin-bottom: 8px;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
             <span style="font-size: 13px; font-weight: 700; color: #fff;">${r.reviewer}</span>
             <span style="color: #ffb703; font-weight: 800; font-size: 12px;">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
@@ -1959,216 +2296,11 @@
         document.getElementById('newReviewComment').value = '';
         renderReviewsList(crew);
         renderCrewList();
-        alert('⭐ Thank you! Your review and rating have been posted.');
+        alert('⭐ Review posted successfully!');
       }
     }
 
-    // Projects & Slots
-    function toggleCustomTypeField(val) { document.getElementById('customTypeWrap').style.display = (val === 'Other') ? 'block' : 'none'; }
-    function toggleCustomStatusField(val) { document.getElementById('customStatusWrap').style.display = (val === 'Other') ? 'block' : 'none'; }
-
-    let customRoleCount = 0;
-    function addCustomRoleSlotRow() {
-      customRoleCount++;
-      const container = document.getElementById('customRolesContainer');
-      const div = document.createElement('div');
-      div.className = 'url-item-row';
-      div.id = `customRoleRow-${customRoleCount}`;
-      div.innerHTML = `
-        <input type="text" class="form-input custom-role-name" style="flex: 2; padding: 6px;" placeholder="Role Title (e.g. Art Director)" />
-        <input type="number" class="form-input custom-role-count" style="width: 70px; padding: 6px;" value="1" min="1" />
-        <button type="button" class="btn-3d btn-3d-danger" style="padding: 6px 8px; font-size: 10px;" onclick="this.parentElement.remove()">✕</button>
-      `;
-      container.appendChild(div);
-    }
-
-    function openCreateProjectModal() { document.getElementById('createProjectModal').classList.add('active'); }
-    function closeCreateProjectModal() { document.getElementById('createProjectModal').classList.remove('active'); }
-
-    function submitNewProject() {
-      const title = document.getElementById('newProjTitle').value.trim() || 'Untitled Short Film';
-      let type = document.getElementById('newProjType').value;
-      if (type === 'Other') type = document.getElementById('customProjTypeInput').value.trim() || 'Custom Project';
-
-      let status = document.getElementById('newProjStatus').value;
-      if (status === 'Other') status = document.getElementById('customProjStatusInput').value.trim() || 'Active';
-
-      const location = document.getElementById('newProjLocation').value.trim() || 'Location TBD';
-      const desc = document.getElementById('newProjDesc').value.trim() || 'Story pitch not specified.';
-
-      const slots = [
-        { role: 'Cinematographer', needed: parseInt(document.getElementById('slotDop').value) || 0, filled: 0 },
-        { role: 'Actor', needed: parseInt(document.getElementById('slotActor').value) || 0, filled: 0 },
-        { role: 'Editor', needed: parseInt(document.getElementById('slotEditor').value) || 0, filled: 0 }
-      ].filter(s => s.needed > 0);
-
-      document.querySelectorAll('#customRolesContainer .url-item-row').forEach(row => {
-        const name = row.querySelector('.custom-role-name').value.trim();
-        const count = parseInt(row.querySelector('.custom-role-count').value) || 1;
-        if (name) slots.push({ role: name, needed: count, filled: 0 });
-      });
-
-      const newProj = {
-        id: Date.now(),
-        title: title.toUpperCase(),
-        type: type,
-        status: status,
-        location: location,
-        creatorName: `${currentUser.name} (You)`,
-        isMine: true,
-        desc: desc,
-        slots: slots
-      };
-
-      projectsFeed.unshift(newProj);
-      renderProjectsFeed();
-      closeCreateProjectModal();
-      alert(`🎬 Project "${title}" is now LIVE to everyone!`);
-    }
-
-    function renderProjectsFeed() {
-      const container = document.getElementById('projectsFeedContainer');
-      container.innerHTML = projectsFeed.map(proj => `
-        <div class="project-card">
-          <div class="project-card-top">
-            <div>
-              <span style="font-size: 11px; color: var(--neon-cinema); font-weight: 800; text-transform: uppercase;">${proj.type}</span>
-              <div class="project-title">${proj.title}</div>
-              ${proj.location ? `<div class="project-location-badge">📍 ${proj.location}</div>` : ''}
-            </div>
-            <span class="status-tag">${proj.status}</span>
-          </div>
-
-          <div style="font-size: 12px; color: var(--text-muted);">
-            Created by: <strong>${proj.creatorName}</strong>
-          </div>
-
-          <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4;">${proj.desc}</p>
-
-          <div class="slot-table">
-            ${proj.slots.map(s => {
-              const roleColor = roleMeta[s.role]?.color || '#00f0ff';
-              const isFull = s.filled >= s.needed;
-              return `
-                <div class="slot-row">
-                  <div>
-                    <span style="font-size: 12px; font-weight: 700; color: ${roleColor};">${s.role}</span>
-                    <span style="font-size: 11px; color: var(--text-muted); margin-left: 6px;">(${s.filled} of ${s.needed} filled)</span>
-                  </div>
-                  ${!proj.isMine ? `
-                    <button class="btn-3d ${isFull ? 'btn-3d-dark' : 'btn-3d-connect'}" style="padding: 4px 10px; font-size: 10px;" ${isFull ? 'disabled' : ''} onclick="applyForSlot(${proj.id}, '${s.role}')">
-                      ${isFull ? 'Full' : '⚡ Apply for Slot'}
-                    </button>
-                  ` : `
-                    <span style="font-size: 11px; color: #10b981; font-weight: 700;">Your Project</span>
-                  `}
-                </div>
-              `;
-            }).join('')}
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function applyForSlot(projId, roleName) {
-      if (!isUserProfileComplete()) {
-        alert("⚠️ Slots book chese mundhu kachithanga mee Profile Name ni enter cheyali!");
-        switchNavTab('profile');
-        return;
-      }
-
-      const proj = projectsFeed.find(p => p.id === projId);
-      if (!proj) return;
-
-      slotApplications.push({
-        id: Date.now(),
-        projectId: proj.id,
-        projectTitle: proj.title,
-        role: roleName,
-        applicantName: currentUser.name,
-        applicantRole: currentUser.role,
-        applicantAvatar: currentUser.avatar,
-        status: "pending",
-        appliedAt: "Just now"
-      });
-
-      renderRequests();
-      alert(`✅ Application Submitted for "${roleName}" on project "${proj.title}"!\n\nAa project create chesina person nunchi reply vachedhaaka wait cheyandi.`);
-    }
-
-    function renderRequests() {
-      const container = document.getElementById('requestsListContainer');
-      const pending = slotApplications.filter(a => a.status === 'pending');
-      document.getElementById('connectsBadge').innerText = pending.length;
-
-      if (slotApplications.length === 0) {
-        container.innerHTML = `<div style="text-align: center; padding: 30px; color: var(--text-muted);">No applications or connect requests yet.</div>`;
-        return;
-      }
-
-      container.innerHTML = slotApplications.map(app => `
-        <div class="request-item">
-          <div class="req-top">
-            <img class="req-avatar" src="${app.applicantAvatar}">
-            <div style="flex: 1;">
-              <div style="font-size: 15px; font-weight: 800; color: #fff;">${app.applicantName}</div>
-              <div style="font-size: 12px; color: var(--neon-cinema);">Applied for: <strong>${app.role}</strong></div>
-              <div style="font-size: 11px; color: var(--text-muted);">Project: ${app.projectTitle}</div>
-            </div>
-            <div>
-              ${app.status === 'accepted' ? `<span style="color: #10b981; font-weight: 800; font-size: 11px;">✓ OK (Accepted)</span>` : ''}
-              ${app.status === 'rejected' ? `<span style="color: #ef4444; font-weight: 800; font-size: 11px;">✕ Not Fit</span>` : ''}
-            </div>
-          </div>
-
-          ${app.status === 'pending' ? `
-            <div class="req-actions">
-              <button class="btn-3d btn-3d-danger" onclick="reviewApplication(${app.id}, false)">
-                ✕ Not Fit
-              </button>
-              <button class="btn-3d btn-3d-success" onclick="reviewApplication(${app.id}, true)">
-                ✓ OK (Accept)
-              </button>
-            </div>
-          ` : ''}
-        </div>
-      `).join('');
-    }
-
-    function reviewApplication(appId, isAccepted) {
-      const app = slotApplications.find(a => a.id === appId);
-      if (!app) return;
-
-      if (isAccepted) {
-        app.status = 'accepted';
-        const proj = projectsFeed.find(p => p.id === app.projectId);
-        if (proj) {
-          const targetSlot = proj.slots.find(s => s.role === app.role);
-          if (targetSlot && targetSlot.filled < targetSlot.needed) {
-            targetSlot.filled++;
-          }
-        }
-
-        activeChatThreads.push({
-          crewId: Date.now(),
-          name: app.applicantName,
-          role: app.applicantRole,
-          avatar: app.applicantAvatar,
-          messages: [
-            { sender: 'them', text: `Hi! Thank you for accepting my slot application for '${app.projectTitle}'. Let's connect!`, type: 'text' }
-          ]
-        });
-
-        alert(`✓ Accepted! ${app.applicantName} has been assigned to '${app.role}'. In-app chat unlocked.`);
-      } else {
-        app.status = 'rejected';
-        alert(`✕ Application marked as 'Not Fit'.`);
-      }
-
-      renderRequests();
-      renderProjectsFeed();
-      renderThreads();
-    }
+    // ================= DISCOVER SCREEN RENDER (Rules 1, 4 & 8) =================
 
     function renderCrewList() {
       const container = document.getElementById('crewFeedContainer');
@@ -2215,16 +2347,15 @@
               </div>
             </div>
 
+            <!-- Stats & Open Showreel Access -->
             <div class="crew-stats-strip">
               <div style="display: flex; align-items: center; gap: 6px;">
                 <span style="color: #ffb703; font-weight: 800;">★ ${crew.rating}</span>
-                <span style="color: var(--text-muted); font-size: 11px;">(${reviewCount} review${reviewCount !== 1 ? 's' : ''})</span>
+                <span style="color: var(--text-muted); font-size: 11px;">(${reviewCount} reviews)</span>
               </div>
-              <div style="display: flex; gap: 6px;">
-                <button class="btn-3d btn-3d-dark" style="padding: 4px 8px; font-size: 10px;" onclick="openReviewsModal(${crew.id})">
-                  💬 Reviews / Rate
-                </button>
-              </div>
+              <button class="btn-3d btn-3d-dark" style="padding: 4px 8px; font-size: 10px;" onclick="openReviewsModal(${crew.id})">
+                💬 Reviews / Rate
+              </button>
             </div>
 
             <div class="links-tags-container">
@@ -2237,27 +2368,27 @@
 
             <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4;">${crew.bio}</p>
 
+            <!-- Actions (Rule 4: Anonymous report without public count, Rule 7 & 8: Connect before chat) -->
             <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 8px;">
-              <button class="btn-3d btn-3d-danger" style="padding: 5px 9px; font-size: 10px;" onclick="reportCrewProfile(${crew.id})" title="Report for Misconduct (10 reports = suspend)">
-                🚩 Report (${crew.reportsCount || 0}/10)
+              <button class="btn-3d btn-3d-danger" style="padding: 5px 9px; font-size: 10px;" onclick="reportCrewProfile(${crew.id})" title="Report for Misconduct (10 reports = auto suspend)">
+                🚩 Report
               </button>
-              <button class="btn-3d ${crew.connected ? 'btn-3d-primary' : 'btn-3d-connect'}" onclick="handleCrewConnectClick(${crew.id})">
-                ${crew.connected ? '💬 Chat' : '⚡ Connect'}
-              </button>
+              
+              <div style="display: flex; gap: 6px;">
+                ${crew.connected ? `
+                  <button class="btn-3d btn-3d-primary" onclick="openDirectChat(${crew.id})">
+                    💬 Chat
+                  </button>
+                ` : `
+                  <button class="btn-3d btn-3d-connect" onclick="sendConnectRequest(${crew.id})">
+                    ⚡ Connect
+                  </button>
+                `}
+              </div>
             </div>
           </div>
         `;
       }).join('');
-    }
-
-    function handleCrewConnectClick(id) {
-      const crew = crewMembers.find(c => c.id === id);
-      if (!crew) return;
-      if (crew.connected) {
-        openDirectChat(crew.id);
-      } else {
-        alert(`⚡ Connect request sent to ${crew.name}! Once accepted, you can chat directly inside the app.`);
-      }
     }
 
     function setDiscoverView(view) {
@@ -2312,229 +2443,66 @@
       renderCrewList();
     }
 
-    // Groups & Messaging
-    function openCreateGroupModal() {
-      const list = document.getElementById('groupCrewSelectorList');
-      list.innerHTML = crewMembers.map(c => `
-        <label class="crew-select-row">
-          <input type="checkbox" value="${c.name}" class="group-crew-checkbox" checked />
-          <img src="${c.avatar}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover;">
-          <span style="font-size: 13px; font-weight: 700; color: #fff;">${c.name}</span>
-          <span style="font-size: 11px; color: var(--neon-cinema); margin-left: auto;">${c.role}</span>
-        </label>
-      `).join('');
+    // Projects Helper
+    function toggleCustomTypeField(val) { document.getElementById('customTypeWrap').style.display = (val === 'Other') ? 'block' : 'none'; }
+    function toggleCustomStatusField(val) { document.getElementById('customStatusWrap').style.display = (val === 'Other') ? 'block' : 'none'; }
 
-      document.getElementById('createGroupModal').classList.add('active');
+    let customRoleCount = 0;
+    function addCustomRoleSlotRow() {
+      customRoleCount++;
+      const container = document.getElementById('customRolesContainer');
+      const div = document.createElement('div');
+      div.className = 'url-item-row';
+      div.id = `customRoleRow-${customRoleCount}`;
+      div.innerHTML = `
+        <input type="text" class="form-input custom-role-name" style="flex: 2; padding: 6px;" placeholder="Role Title (e.g. Art Director)" />
+        <input type="number" class="form-input custom-role-count" style="width: 70px; padding: 6px;" value="1" min="1" />
+        <button type="button" class="btn-3d btn-3d-danger" style="padding: 6px 8px; font-size: 10px;" onclick="this.parentElement.remove()">✕</button>
+      `;
+      container.appendChild(div);
     }
 
-    function closeCreateGroupModal() {
-      document.getElementById('createGroupModal').classList.remove('active');
-    }
+    function openCreateProjectModal() { document.getElementById('createProjectModal').classList.add('active'); }
+    function closeCreateProjectModal() { document.getElementById('createProjectModal').classList.remove('active'); }
 
-    function submitCreateGroup() {
-      const name = document.getElementById('newGroupName').value.trim() || 'New Team Unit 🎬';
-      const selected = Array.from(document.querySelectorAll('.group-crew-checkbox:checked')).map(cb => cb.value);
+    function submitNewProject() {
+      const title = document.getElementById('newProjTitle').value.trim() || 'Untitled Short Film';
+      let type = document.getElementById('newProjType').value;
+      if (type === 'Other') type = document.getElementById('customProjTypeInput').value.trim() || 'Custom Project';
 
-      const newGrp = {
+      let status = document.getElementById('newProjStatus').value;
+      if (status === 'Other') status = document.getElementById('customProjStatusInput').value.trim() || 'Active';
+
+      const location = document.getElementById('newProjLocation').value.trim() || 'Location TBD';
+      const desc = document.getElementById('newProjDesc').value.trim() || 'Story pitch not specified.';
+
+      const slots = [
+        { role: 'Cinematographer', target: parseInt(document.getElementById('slotDop').value) || 0, applicants: [] },
+        { role: 'Actor', target: parseInt(document.getElementById('slotActor').value) || 0, applicants: [] },
+        { role: 'Editor', target: parseInt(document.getElementById('slotEditor').value) || 0, applicants: [] }
+      ].filter(s => s.target > 0);
+
+      document.querySelectorAll('#customRolesContainer .url-item-row').forEach(row => {
+        const name = row.querySelector('.custom-role-name').value.trim();
+        const count = parseInt(row.querySelector('.custom-role-count').value) || 1;
+        if (name) slots.push({ role: name, target: count, applicants: [] });
+      });
+
+      projectsFeed.unshift({
         id: Date.now(),
-        name: name,
+        title: title.toUpperCase(),
+        type: type,
+        status: status,
+        location: location,
         creatorName: `${currentUser.name} (You)`,
-        membersCount: selected.length + 1,
-        members: [currentUser.name, ...selected],
-        messages: [
-          { senderName: currentUser.name, senderRole: currentUser.role, isMe: true, type: 'text', text: `Group "${name}" created! Welcome everyone.` }
-        ]
-      };
+        isMine: true,
+        desc: desc,
+        slots: slots
+      });
 
-      teamGroups.unshift(newGrp);
-      closeCreateGroupModal();
-      renderThreads();
-      alert(`👥 Group "${name}" created with ${selected.length} members!`);
-    }
-
-    function renderThreads() {
-      const grpContainer = document.getElementById('groupThreadsContainer');
-      if (teamGroups.length === 0) {
-        grpContainer.innerHTML = `<div style="font-size: 12px; color: var(--text-muted); padding: 10px 0;">No active team groups. Click '+ Create Group' above.</div>`;
-      } else {
-        grpContainer.innerHTML = teamGroups.map(grp => `
-          <div class="thread-card" onclick="openGroupChat(${grp.id})">
-            <div class="group-avatar-stack">👥</div>
-            <div style="flex: 1;">
-              <div style="display: flex; justify-content: space-between;">
-                <span style="font-size: 14px; font-weight: 800; color: #fff;">${grp.name}</span>
-                <span style="font-size: 11px; color: var(--neon-director); font-weight: 700;">${grp.membersCount} Members</span>
-              </div>
-              <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
-                ${grp.messages[grp.messages.length - 1]?.text || 'Image attachment'}
-              </div>
-            </div>
-          </div>
-        `).join('');
-      }
-
-      const container = document.getElementById('threadsListContainer');
-      if (activeChatThreads.length === 0) {
-        container.innerHTML = `<div style="font-size: 12px; color: var(--text-muted); padding: 10px 0;">No 1-on-1 direct messages yet.</div>`;
-        return;
-      }
-      container.innerHTML = activeChatThreads.map(thread => `
-        <div class="thread-card" onclick="openDirectChat(${thread.crewId})">
-          <img src="${thread.avatar}" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
-          <div style="flex: 1;">
-            <div style="display: flex; justify-content: space-between;">
-              <span style="font-size: 14px; font-weight: 800; color: #fff;">${thread.name}</span>
-              <span style="font-size: 11px; color: var(--neon-cinema);">${thread.role}</span>
-            </div>
-            <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
-              ${thread.messages[thread.messages.length - 1]?.text || 'Image attachment'}
-            </div>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function openDirectChat(crewId) {
-      currentChatMode = 'direct';
-      currentDirectChatId = crewId;
-      document.getElementById('groupActionWrap').style.display = 'none';
-
-      let thread = activeChatThreads.find(t => t.crewId === crewId);
-      if (!thread) {
-        const member = crewMembers.find(c => c.id === crewId);
-        thread = { crewId: member.id, name: member.name, role: member.role, avatar: member.avatar, messages: [] };
-        activeChatThreads.push(thread);
-      }
-
-      document.getElementById('chatHeaderName').innerText = thread.name;
-      document.getElementById('chatHeaderRole').innerText = thread.role;
-      document.getElementById('chatHeaderImg').src = thread.avatar;
-      document.getElementById('chatHeaderImg').style.display = 'block';
-
-      renderChatMessages();
-      document.getElementById('chatViewModal').classList.add('active');
-    }
-
-    function openGroupChat(groupId) {
-      currentChatMode = 'group';
-      currentGroupId = groupId;
-      document.getElementById('groupActionWrap').style.display = 'block';
-
-      const grp = teamGroups.find(g => g.id === groupId);
-      if (!grp) return;
-
-      document.getElementById('chatHeaderName').innerText = grp.name;
-      document.getElementById('chatHeaderRole').innerText = `${grp.membersCount} Crew Members`;
-      document.getElementById('chatHeaderImg').style.display = 'none';
-
-      renderChatMessages();
-      document.getElementById('chatViewModal').classList.add('active');
-    }
-
-    function exitCurrentGroup() {
-      if (confirm("Are you sure you want to exit this team group?")) {
-        teamGroups = teamGroups.filter(g => g.id !== currentGroupId);
-        closeChatModal();
-        alert("You have exited the group.");
-      }
-    }
-
-    function closeChatModal() {
-      document.getElementById('chatViewModal').classList.remove('active');
-      renderThreads();
-    }
-
-    function renderChatMessages() {
-      const area = document.getElementById('chatMessagesArea');
-      
-      if (currentChatMode === 'direct') {
-        const thread = activeChatThreads.find(t => t.crewId === currentDirectChatId);
-        if (!thread) return;
-
-        area.innerHTML = thread.messages.map(m => `
-          <div class="chat-bubble ${m.sender === 'me' ? 'mine' : 'theirs'}">
-            ${m.text ? `<div>${m.text}</div>` : ''}
-            ${m.type === 'image' ? `<img src="${m.imageSrc}" class="chat-image-content" onclick="window.open(this.src)">` : ''}
-          </div>
-        `).join('');
-      } else {
-        const grp = teamGroups.find(g => g.id === currentGroupId);
-        if (!grp) return;
-
-        area.innerHTML = grp.messages.map(m => `
-          <div class="chat-bubble ${m.isMe ? 'mine' : 'theirs'}">
-            ${!m.isMe ? `<span class="chat-sender-tag">${m.senderName} (${m.senderRole})</span>` : ''}
-            ${m.text ? `<div>${m.text}</div>` : ''}
-            ${m.type === 'image' ? `<img src="${m.imageSrc}" class="chat-image-content" onclick="window.open(this.src)">` : ''}
-          </div>
-        `).join('');
-      }
-
-      area.scrollTop = area.scrollHeight;
-    }
-
-    function sendChatMessage() {
-      const input = document.getElementById('chatTextInput');
-      const text = input.value.trim();
-      if (!text) return;
-
-      if (currentChatMode === 'direct') {
-        const thread = activeChatThreads.find(t => t.crewId === currentDirectChatId);
-        if (thread) {
-          thread.messages.push({ sender: 'me', text: text, type: 'text' });
-          input.value = '';
-          renderChatMessages();
-
-          setTimeout(() => {
-            thread.messages.push({ sender: 'them', text: `Noted Kiran! Let's make this short film huge 🎬`, type: 'text' });
-            renderChatMessages();
-          }, 1200);
-        }
-      } else {
-        const grp = teamGroups.find(g => g.id === currentGroupId);
-        if (grp) {
-          grp.messages.push({
-            senderName: currentUser.name,
-            senderRole: currentUser.role,
-            isMe: true,
-            type: 'text',
-            text: text
-          });
-          input.value = '';
-          renderChatMessages();
-        }
-      }
-    }
-
-    function handleChatImageUpload(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      const reader = new FileReader();
-      reader.onload = function(evt) {
-        const imgData = evt.target.result;
-
-        if (currentChatMode === 'direct') {
-          const thread = activeChatThreads.find(t => t.crewId === currentDirectChatId);
-          if (thread) {
-            thread.messages.push({ sender: 'me', type: 'image', imageSrc: imgData });
-            renderChatMessages();
-          }
-        } else {
-          const grp = teamGroups.find(g => g.id === currentGroupId);
-          if (grp) {
-            grp.messages.push({
-              senderName: currentUser.name,
-              senderRole: currentUser.role,
-              isMe: true,
-              type: 'image',
-              imageSrc: imgData
-            });
-            renderChatMessages();
-          }
-        }
-      };
-      reader.readAsDataURL(file);
+      renderProjectsFeed();
+      closeCreateProjectModal();
+      alert(`🎬 Project "${title}" is now LIVE!`);
     }
 
     // Bottom Navigation (6 Tabs)
@@ -2564,7 +2532,6 @@
       }
     }
 
-    // Initial Load
     window.addEventListener('DOMContentLoaded', () => {
       populateProfileForm();
       renderCrewList();
