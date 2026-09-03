@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>UNIT — Short Film & Studio Network</title>
   
   <!-- Cinematic Google Fonts -->
@@ -13,10 +13,10 @@
   <style>
     :root {
       --bg-darkest: #07080b;
-      --bg-main: #0e1017;
-      --bg-card: #151822;
+      --bg-main: #0c0e14;
+      --bg-card: #141720;
       --bg-card-hover: #1c202d;
-      --border-dim: #252a3a;
+      --border-dim: #232736;
       --border-glow: #38425d;
       
       --text-main: #f8fafc;
@@ -35,12 +35,14 @@
       
       --3d-cta-bg: #ffb703;
       --3d-cta-shadow: #b37d00;
-      --3d-btn-dark: #222736;
-      --3d-btn-dark-shadow: #11141c;
+      --3d-btn-dark: #202432;
+      --3d-btn-dark-shadow: #10121a;
       
       --font-poster: 'Bebas Neue', cursive;
       --font-title: 'Syne', sans-serif;
       --font-body: 'Plus Jakarta Sans', sans-serif;
+      
+      --app-max-width: 1240px;
     }
 
     * {
@@ -51,70 +53,85 @@
       font-family: var(--font-body);
     }
 
-    body {
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
       background-color: var(--bg-darkest);
       color: var(--text-main);
-      display: flex;
-      justify-content: center;
-      min-height: 100vh;
       overflow-x: hidden;
-      background-image: 
-        radial-gradient(circle at 10% 20%, rgba(255, 0, 85, 0.08) 0%, transparent 35%),
-        radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.07) 0%, transparent 40%),
-        radial-gradient(circle at 50% 50%, rgba(255, 183, 3, 0.04) 0%, transparent 50%);
-      background-attachment: fixed;
     }
 
-    .app-container {
-      width: 100%;
-      max-width: 480px;
-      min-height: 100vh;
-      background-color: var(--bg-main);
-      position: relative;
+    body {
+      background-image: 
+        radial-gradient(circle at 10% 15%, rgba(255, 0, 85, 0.08) 0%, transparent 35%),
+        radial-gradient(circle at 90% 85%, rgba(0, 240, 255, 0.07) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(255, 183, 3, 0.04) 0%, transparent 50%);
+      background-attachment: fixed;
       display: flex;
       flex-direction: column;
-      border-left: 1px solid var(--border-dim);
-      border-right: 1px solid var(--border-dim);
-      box-shadow: 0 0 70px rgba(0, 0, 0, 0.9);
-      padding-bottom: 82px;
+    }
+
+    /* Responsive App Full-Width Shell */
+    .app-shell {
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
     }
 
     /* Film Perforation Header */
     .film-perforation {
       background: #040507;
-      padding: 6px 14px;
+      padding: 6px 16px;
+      padding-top: max(6px, env(safe-area-inset-top));
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       border-bottom: 1px dashed #262b3b;
       position: sticky;
       top: 0;
-      z-index: 90;
+      z-index: 100;
+      width: 100%;
     }
     .sprocket-holes {
       display: flex;
       width: 100%;
+      max-width: var(--app-max-width);
       justify-content: space-between;
+      gap: 8px;
     }
     .sprocket {
-      width: 12px;
+      width: 14px;
       height: 7px;
       background: #141720;
       border-radius: 2px;
       border: 1px solid #232736;
+      flex-shrink: 0;
     }
 
     /* Top Brand Bar */
+    .brand-bar-outer {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-dim);
+      width: 100%;
+      position: sticky;
+      top: 20px;
+      z-index: 90;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
     .brand-bar {
-      padding: 12px 18px;
+      max-width: var(--app-max-width);
+      margin: 0 auto;
+      padding: 12px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: var(--bg-card);
-      border-bottom: 1px solid var(--border-dim);
     }
     .brand-title {
       font-family: var(--font-poster);
-      font-size: 30px;
+      font-size: 32px;
       letter-spacing: 2px;
       color: #fff;
       display: flex;
@@ -122,11 +139,11 @@
       gap: 10px;
     }
     .live-rec {
-      width: 11px;
-      height: 11px;
+      width: 12px;
+      height: 12px;
       background: #ff0055;
       border-radius: 50%;
-      box-shadow: 0 0 10px #ff0055;
+      box-shadow: 0 0 12px #ff0055;
       animation: pulseRec 1.6s infinite ease-in-out;
     }
     @keyframes pulseRec {
@@ -135,12 +152,64 @@
     }
     .user-mini-avatar { cursor: pointer; }
     .avatar-img-circle {
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid var(--neon-director);
-      box-shadow: 0 0 8px rgba(255, 183, 3, 0.4);
+      box-shadow: 0 0 10px rgba(255, 183, 3, 0.4);
+    }
+
+    /* Main Scrollable Content Area */
+    .main-content {
+      flex: 1;
+      width: 100%;
+      max-width: var(--app-max-width);
+      margin: 0 auto;
+      padding: 16px 16px 100px 16px;
+    }
+
+    @media (min-width: 768px) {
+      .main-content {
+        padding: 24px 24px 110px 24px;
+      }
+    }
+
+    /* Screen Views */
+    .screen-view {
+      display: none;
+      animation: screenFade 0.2s ease-out;
+      width: 100%;
+    }
+    .screen-view.active { display: block; }
+    @keyframes screenFade {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-header-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 16px;
+    }
+    @media (min-width: 640px) {
+      .section-header-row {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+    }
+    .section-title {
+      font-family: var(--font-poster);
+      font-size: 32px;
+      letter-spacing: 1.5px;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+    .section-desc {
+      font-size: 13px;
+      color: var(--text-muted);
     }
 
     /* 3D Tactile Buttons */
@@ -148,17 +217,18 @@
       border: none;
       outline: none;
       font-weight: 700;
-      font-size: 11px;
+      font-size: 12px;
       cursor: pointer;
       border-radius: 8px;
-      padding: 8px 12px;
+      padding: 10px 15px;
       transition: transform 0.08s ease, box-shadow 0.08s ease;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
+      gap: 6px;
       text-transform: uppercase;
       letter-spacing: 0.3px;
+      white-space: nowrap;
     }
     .btn-3d-primary {
       background: var(--3d-cta-bg);
@@ -192,43 +262,30 @@
     }
     .btn-3d-success:active { transform: translateY(2px); box-shadow: 0 1px 0 #059669; }
 
-    /* Screen Views */
-    .screen-view {
-      display: none;
-      padding: 16px;
-      animation: screenFade 0.2s ease-out;
+    /* Controls Bar & Toggles */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
     }
-    .screen-view.active { display: block; }
-    @keyframes screenFade {
-      from { opacity: 0; transform: translateY(5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .section-title {
-      font-family: var(--font-poster);
-      font-size: 28px;
-      letter-spacing: 1.5px;
-      color: #fff;
-      margin-bottom: 2px;
-    }
-    .section-desc {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 14px;
+    @media (min-width: 768px) {
+      .controls-grid {
+        grid-template-columns: 280px 1fr;
+        align-items: center;
+      }
     }
 
-    /* Toggle Views */
     .toggle-pill-wrap {
       display: flex;
       background: #080a0f;
       padding: 4px;
       border-radius: 30px;
       border: 1px solid var(--border-dim);
-      margin-bottom: 14px;
     }
     .toggle-pill-btn {
       flex: 1;
-      padding: 8px 12px;
+      padding: 8px 14px;
       border-radius: 25px;
       border: none;
       background: transparent;
@@ -240,6 +297,7 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
+      transition: all 0.2s;
     }
     .toggle-pill-btn.active {
       background: var(--bg-card-hover);
@@ -247,27 +305,27 @@
       border: 1px solid var(--border-glow);
     }
 
-    /* Search & Filter Chips */
     .search-box {
       position: relative;
-      margin-bottom: 12px;
+      width: 100%;
     }
     .search-input {
       width: 100%;
       background: var(--bg-card);
       border: 1px solid var(--border-dim);
       border-radius: 10px;
-      padding: 11px 14px 11px 38px;
+      padding: 12px 14px 12px 42px;
       color: #fff;
       font-size: 14px;
+      transition: border-color 0.2s;
     }
     .search-input:focus { outline: none; border-color: var(--neon-cinema); }
     .search-icon-fixed {
       position: absolute;
-      left: 12px;
+      left: 14px;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 15px;
+      font-size: 16px;
       color: var(--text-muted);
     }
 
@@ -275,32 +333,50 @@
       display: flex;
       gap: 8px;
       overflow-x: auto;
-      padding-bottom: 12px;
+      padding-bottom: 14px;
       scrollbar-width: none;
     }
+    .filter-scroll::-webkit-scrollbar { display: none; }
     .role-filter-chip {
       background: var(--bg-card);
       border: 1px solid var(--border-dim);
       color: var(--text-muted);
-      padding: 6px 14px;
+      padding: 7px 16px;
       border-radius: 20px;
       font-size: 12px;
       font-weight: 700;
       white-space: nowrap;
       cursor: pointer;
+      transition: all 0.2s;
     }
     .role-filter-chip.active {
       background: #fff;
       color: #000;
       border-color: #fff;
+      box-shadow: 0 2px 8px rgba(255,255,255,0.2);
     }
 
-    /* Crew & Project Cards */
-    .crew-feed, .projects-feed, .orgs-feed {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+    /* Responsive Multi-Column Grids for Feeds */
+    .responsive-card-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      width: 100%;
     }
+    @media (min-width: 680px) {
+      .responsive-card-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+      }
+    }
+    @media (min-width: 1100px) {
+      .responsive-card-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+    }
+
+    /* Cards Styling */
     .crew-card, .project-card, .opportunity-card, .org-card {
       background: var(--bg-card);
       border: 1px solid var(--border-dim);
@@ -310,14 +386,21 @@
       flex-direction: column;
       gap: 12px;
       box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      height: 100%;
     }
+    .crew-card:hover, .project-card:hover, .opportunity-card:hover, .org-card:hover {
+      border-color: var(--border-glow);
+    }
+
     .crew-top { display: flex; gap: 12px; }
     .crew-avatar {
-      width: 54px;
-      height: 54px;
+      width: 56px;
+      height: 56px;
       border-radius: 12px;
       object-fit: cover;
       border: 2px solid #333;
+      flex-shrink: 0;
     }
     .crew-info { flex: 1; }
     .crew-name-row {
@@ -327,7 +410,7 @@
       flex-wrap: wrap;
     }
     .crew-name {
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 800;
       color: #fff;
     }
@@ -354,7 +437,7 @@
       align-items: center;
       font-size: 12px;
       background: #0d1017;
-      padding: 6px 10px;
+      padding: 7px 10px;
       border-radius: 8px;
       border: 1px solid #1f2331;
     }
@@ -372,7 +455,7 @@
       text-decoration: none;
       font-size: 11px;
       font-weight: 600;
-      padding: 3px 8px;
+      padding: 4px 8px;
       border-radius: 6px;
       border: 1px solid #2b3652;
     }
@@ -382,14 +465,16 @@
       background: var(--bg-card);
       border: 1px solid var(--border-dim);
       border-radius: 16px;
-      padding: 16px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      max-width: 520px;
+      margin: 0 auto;
     }
     .radar-visual {
       width: 100%;
-      max-width: 340px;
+      max-width: 380px;
       aspect-ratio: 1 / 1;
       background: radial-gradient(circle, #0e1726 0%, #060910 100%);
       border: 2px solid var(--border-glow);
@@ -399,7 +484,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
     }
     .radar-ring {
       position: absolute;
@@ -413,11 +498,11 @@
     .ring-label {
       position: absolute;
       top: 4px;
-      font-size: 9px;
+      font-size: 10px;
       font-weight: 700;
       color: var(--neon-cinema);
       background: #040508;
-      padding: 1px 4px;
+      padding: 1px 5px;
       border-radius: 4px;
     }
     .radar-sweep-beam {
@@ -445,20 +530,24 @@
     }
     .radar-pin {
       position: absolute;
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
       border-radius: 50%;
       transform: translate(-50%, -50%);
       border: 2px solid #fff;
       cursor: pointer;
       z-index: 12;
       object-fit: cover;
+      transition: transform 0.2s;
+    }
+    .radar-pin:hover {
+      transform: translate(-50%, -50%) scale(1.3);
     }
 
-    /* Opportunities & Comments */
+    /* Opportunity & Org Card Media */
     .opp-poster-img {
       width: 100%;
-      height: 180px;
+      height: 190px;
       object-fit: cover;
       border-radius: 10px;
       border: 1px solid var(--border-glow);
@@ -467,7 +556,7 @@
       background: rgba(16, 185, 129, 0.15);
       color: #10b981;
       border: 1px solid #10b981;
-      padding: 2px 6px;
+      padding: 2px 7px;
       border-radius: 4px;
       font-weight: 700;
       font-size: 11px;
@@ -476,15 +565,25 @@
       background: rgba(0, 240, 255, 0.15);
       color: var(--neon-cinema);
       border: 1px solid var(--neon-cinema);
-      padding: 2px 6px;
+      padding: 2px 7px;
       border-radius: 4px;
       font-weight: 700;
       font-size: 11px;
     }
+    .status-tag {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: rgba(255, 183, 3, 0.15);
+      color: var(--neon-director);
+      border: 1px solid var(--neon-director);
+    }
     .org-profile-box {
       background: #0d1017;
       border: 1px solid #1f2331;
-      padding: 10px 12px;
+      padding: 12px;
       border-radius: 8px;
       font-size: 12px;
       line-height: 1.4;
@@ -494,7 +593,7 @@
       border: 1px solid #1b212f;
       border-radius: 8px;
       padding: 10px;
-      margin-top: 6px;
+      margin-top: auto;
     }
     .comment-item {
       border-bottom: 1px solid #181d29;
@@ -503,13 +602,13 @@
     }
     .comment-item:last-child { border-bottom: none; }
 
-    /* Slot Booking List inside Projects */
+    /* Slots and Drawers */
     .slot-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
       background: #0c0f16;
-      padding: 8px 12px;
+      padding: 9px 12px;
       border-radius: 8px;
       border: 1px solid #1c2130;
       margin-bottom: 6px;
@@ -520,28 +619,43 @@
       border-radius: 8px;
       padding: 10px;
       margin-top: 6px;
+      margin-bottom: 8px;
       display: none;
     }
 
-    /* Requests & Dispatch */
+    /* Centered Container for Forms & Profile */
+    .centered-form-layout {
+      max-width: 680px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Requests & Threads */
     .requests-list, .threads-list {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
+    }
+    @media (min-width: 768px) {
+      .requests-list, .threads-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
     }
     .request-item, .thread-card {
       background: var(--bg-card);
       border: 1px solid var(--border-dim);
       border-radius: 12px;
-      padding: 12px 14px;
+      padding: 14px;
       display: flex;
       align-items: center;
       gap: 12px;
       cursor: pointer;
     }
     .group-avatar-stack {
-      width: 44px;
-      height: 44px;
+      width: 46px;
+      height: 46px;
       border-radius: 12px;
       background: linear-gradient(135deg, #2a1b4e, #14283c);
       display: flex;
@@ -549,46 +663,144 @@
       justify-content: center;
       font-size: 20px;
       border: 1px solid var(--border-glow);
+      flex-shrink: 0;
     }
 
-    /* In-App Chat Modal */
+    /* Form Fields */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .form-group label {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .form-input, .form-select, .form-textarea {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: 8px;
+      padding: 11px 13px;
+      color: #fff;
+      font-size: 14px;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--neon-director);
+    }
+    .url-item-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+    .crew-select-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #0e121a;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      border: 1px solid #1f2536;
+    }
+    .preview-box {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid var(--border-glow);
+    }
+
+    /* Modal Overlay & Responsive Popups */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+      padding: 16px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-card {
+      background: var(--bg-main);
+      border: 1px solid var(--border-glow);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      max-height: 90dvh;
+      overflow-y: auto;
+      padding: 24px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.9);
+    }
+
+    /* Full-Screen / Floating Chat View */
     .chat-view-modal {
       position: fixed;
       top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 480px;
+      left: 0;
+      width: 100vw;
       height: 100vh;
-      background: var(--bg-main);
-      z-index: 200;
+      height: 100dvh;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+      z-index: 250;
       display: none;
-      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
     }
     .chat-view-modal.active { display: flex; }
+    .chat-box-inner {
+      width: 100%;
+      max-width: 600px;
+      height: 100%;
+      max-height: 100dvh;
+      background: var(--bg-main);
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid var(--border-dim);
+      border-right: 1px solid var(--border-dim);
+    }
+    @media (min-width: 640px) {
+      .chat-view-modal { padding: 20px; }
+      .chat-box-inner {
+        max-height: 85vh;
+        border-radius: 16px;
+        border: 1px solid var(--border-glow);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.8);
+      }
+    }
     .chat-top-header {
-      padding: 12px 16px;
+      padding: 14px 18px;
       background: var(--bg-card);
       border-bottom: 1px solid var(--border-dim);
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
-    .chat-user-meta {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
     .chat-messages-area {
       flex: 1;
-      padding: 16px;
+      padding: 18px;
       overflow-y: auto;
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
     .chat-bubble {
-      max-width: 82%;
+      max-width: 80%;
       padding: 10px 14px;
       border-radius: 12px;
       font-size: 13px;
@@ -613,17 +825,17 @@
       font-size: 10px;
       font-weight: 800;
       color: var(--neon-cinema);
-      margin-bottom: 2px;
     }
     .chat-image-content {
       width: 100%;
-      max-width: 220px;
+      max-width: 260px;
       border-radius: 8px;
       margin-top: 4px;
       border: 1px solid rgba(255,255,255,0.2);
     }
     .chat-input-bar {
-      padding: 10px 14px;
+      padding: 12px 16px;
+      padding-bottom: max(12px, env(safe-area-inset-bottom));
       background: var(--bg-card);
       border-top: 1px solid var(--border-dim);
       display: flex;
@@ -631,98 +843,26 @@
       gap: 8px;
     }
 
-    /* Modal Overlay & Card */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 300;
-      padding: 16px;
-    }
-    .modal-overlay.active { display: flex; }
-    .modal-card {
-      background: var(--bg-main);
-      border: 1px solid var(--border-glow);
-      border-radius: 16px;
-      width: 100%;
-      max-width: 430px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-    }
-
-    /* Form UI */
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 12px;
-    }
-    .form-group label {
-      font-size: 11px;
-      font-weight: 800;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .form-input, .form-select, .form-textarea {
-      background: var(--bg-card);
-      border: 1px solid var(--border-dim);
-      border-radius: 8px;
-      padding: 10px 12px;
-      color: #fff;
-      font-size: 13px;
-    }
-    .form-input:focus, .form-select:focus, .form-textarea:focus {
-      outline: none;
-      border-color: var(--neon-director);
-    }
-
-    .url-item-row {
-      display: flex;
-      gap: 6px;
-      margin-bottom: 6px;
-      align-items: center;
-    }
-
-    .crew-select-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: #0e121a;
-      padding: 8px 10px;
-      border-radius: 8px;
-      margin-bottom: 6px;
-      border: 1px solid #1f2536;
-    }
-
-    .preview-box {
-      width: 60px;
-      height: 60px;
-      border-radius: 8px;
-      object-fit: cover;
-      border: 1px solid var(--border-glow);
-    }
-
-    /* Bottom 6-Tab Navigation */
-    .bottom-nav {
+    /* Fixed Bottom Navigation Dock */
+    .bottom-nav-outer {
       position: fixed;
       bottom: 0;
+      left: 0;
       width: 100%;
-      max-width: 480px;
-      background: #090b10;
+      background: rgba(9, 11, 16, 0.94);
+      backdrop-filter: blur(12px);
       border-top: 1px solid var(--border-dim);
+      z-index: 100;
+      padding-bottom: env(safe-area-inset-bottom);
+      box-shadow: 0 -6px 25px rgba(0, 0, 0, 0.6);
+    }
+    .bottom-nav {
+      max-width: var(--app-max-width);
+      margin: 0 auto;
       display: grid;
       grid-template-columns: repeat(6, 1fr);
-      height: 68px;
-      z-index: 100;
+      height: 64px;
+      align-items: center;
     }
     .nav-btn {
       background: transparent;
@@ -731,278 +871,308 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 2px;
+      gap: 3px;
       color: var(--text-muted);
       cursor: pointer;
       position: relative;
+      height: 100%;
+      transition: color 0.15s;
     }
     .nav-btn.active { color: #fff; }
     .nav-btn.active::after {
       content: "";
       position: absolute;
       top: 0;
-      width: 20px;
+      width: 24px;
       height: 3px;
       background: var(--neon-director);
       border-radius: 0 0 4px 4px;
+      box-shadow: 0 0 8px var(--neon-director);
     }
-    .nav-btn-icon { font-size: 17px; }
-    .nav-btn-label { font-size: 9px; font-weight: 800; text-transform: uppercase; }
+    .nav-btn-icon { font-size: 18px; }
+    .nav-btn-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.3px; }
     .nav-badge-count {
       position: absolute;
-      top: 6px;
-      right: 12px;
+      top: 8px;
+      right: 18%;
       background: var(--neon-actor);
       color: #fff;
       font-size: 9px;
       font-weight: 800;
-      padding: 1px 4px;
+      padding: 1px 5px;
       border-radius: 8px;
     }
   </style>
 </head>
 <body>
 
-  <div class="app-container">
+  <div class="app-shell">
     
-    <!-- Film Perforation -->
+    <!-- Film Perforation Edge -->
     <div class="film-perforation">
       <div class="sprocket-holes">
+        <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
         <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
         <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
         <div class="sprocket"></div><div class="sprocket"></div><div class="sprocket"></div>
       </div>
     </div>
 
-    <!-- Header -->
-    <header class="brand-bar">
-      <div class="brand-title">
-        <div class="live-rec"></div>
-        UNIT
-      </div>
-      <div class="user-mini-avatar" onclick="switchNavTab('profile')">
-        <img id="headerAvatar" class="avatar-img-circle" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Avatar">
-      </div>
-    </header>
+    <!-- Top Brand Header Bar -->
+    <div class="brand-bar-outer">
+      <header class="brand-bar">
+        <div class="brand-title">
+          <div class="live-rec"></div>
+          UNIT
+        </div>
+        <div class="user-mini-avatar" onclick="switchNavTab('profile')" title="View Your Profile">
+          <img id="headerAvatar" class="avatar-img-circle" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Avatar">
+        </div>
+      </header>
+    </div>
 
-    <!-- ================= 1. DISCOVER SCREEN (Rule 1 & 8: Open Profile Explore) ================= -->
-    <section id="screen-discover" class="screen-view active">
-      <h1 class="section-title">CREW RADAR & DISCOVER</h1>
-      <p class="section-desc">Open directory: Browse all talent profiles freely</p>
+    <!-- Main Content Container (Full Width Responsive) -->
+    <main class="main-content">
 
-      <div class="toggle-pill-wrap">
-        <button class="toggle-pill-btn active" id="btnViewList" onclick="setDiscoverView('list')">📋 List View</button>
-        <button class="toggle-pill-btn" id="btnViewRadar" onclick="setDiscoverView('radar')">📡 Radar View</button>
-      </div>
-
-      <div class="search-box">
-        <span class="search-icon-fixed">🔍</span>
-        <input 
-          type="text" 
-          id="discoverSearchInput" 
-          class="search-input" 
-          placeholder="Search by name, 'drone', 'DaVinci Resolve', 'RED'..."
-          oninput="handleSearchFilter()"
-        />
-      </div>
-
-      <div class="filter-scroll">
-        <button class="role-filter-chip active" onclick="filterRole('All', this)">All Crew</button>
-        <button class="role-filter-chip" onclick="filterRole('Cinematographer', this)">Cinematographers</button>
-        <button class="role-filter-chip" onclick="filterRole('Actor', this)">Actors</button>
-        <button class="role-filter-chip" onclick="filterRole('Editor', this)">Editors</button>
-      </div>
-
-      <div id="discoverListView">
-        <div class="crew-feed" id="crewFeedContainer"></div>
-      </div>
-
-      <div id="discoverRadarView" style="display: none;">
-        <div class="radar-container-card">
-          <div class="radar-visual" id="radarVisualBox">
-            <div class="radar-ring ring-km-5" onclick="filterByDistanceRadius(5)" title="Within 5 km"><span class="ring-label">5km</span></div>
-            <div class="radar-ring ring-km-15" onclick="filterByDistanceRadius(15)" title="Within 15 km"><span class="ring-label">15km</span></div>
-            <div class="radar-ring ring-km-30" onclick="filterByDistanceRadius(30)" title="Within 30 km"><span class="ring-label">30km</span></div>
-            <div class="radar-sweep-beam"></div>
-            <div class="radar-user-center"></div>
-          </div>
-          <div style="font-size: 11px; color: var(--text-muted); text-align: center;">
-            💡 Tap rings to filter radius (5km / 15km / 30km) or click any avatar pin
+      <!-- ================= 1. DISCOVER SCREEN ================= -->
+      <section id="screen-discover" class="screen-view active">
+        <div class="section-header-row">
+          <div>
+            <h1 class="section-title">CREW RADAR & DISCOVER</h1>
+            <p class="section-desc">Open directory: Browse all film talent sorted by GPS distance</p>
           </div>
         </div>
-      </div>
-    </section>
 
-    <!-- ================= 2. PROJECTS SCREEN (Rule 3: Unlimited Slot Bookings & Direct Applicant View) ================= -->
-    <section id="screen-projects" class="screen-view">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-        <div>
-          <h1 class="section-title">PROJECTS FEED</h1>
-          <p class="section-desc" style="margin: 0;">Unlimited slot applications & immediate applicant review</p>
+        <div class="controls-grid">
+          <div class="toggle-pill-wrap">
+            <button class="toggle-pill-btn active" id="btnViewList" onclick="setDiscoverView('list')">📋 List View</button>
+            <button class="toggle-pill-btn" id="btnViewRadar" onclick="setDiscoverView('radar')">📡 Radar View</button>
+          </div>
+          <div class="search-box">
+            <span class="search-icon-fixed">🔍</span>
+            <input 
+              type="text" 
+              id="discoverSearchInput" 
+              class="search-input" 
+              placeholder="Search crew by name, 'drone', 'DaVinci Resolve', 'RED'..."
+              oninput="handleSearchFilter()"
+            />
+          </div>
         </div>
-        <button class="btn-3d btn-3d-primary" onclick="openCreateProjectModal()">
-          + Create Project
+
+        <div class="filter-scroll">
+          <button class="role-filter-chip active" onclick="filterRole('All', this)">All Crew</button>
+          <button class="role-filter-chip" onclick="filterRole('Cinematographer', this)">Cinematographers</button>
+          <button class="role-filter-chip" onclick="filterRole('Actor', this)">Actors</button>
+          <button class="role-filter-chip" onclick="filterRole('Editor', this)">Editors</button>
+        </div>
+
+        <div id="discoverListView">
+          <div class="responsive-card-grid" id="crewFeedContainer"></div>
+        </div>
+
+        <div id="discoverRadarView" style="display: none;">
+          <div class="radar-container-card">
+            <div class="radar-visual" id="radarVisualBox">
+              <div class="radar-ring ring-km-5" onclick="filterByDistanceRadius(5)" title="Within 5 km"><span class="ring-label">5km</span></div>
+              <div class="radar-ring ring-km-15" onclick="filterByDistanceRadius(15)" title="Within 15 km"><span class="ring-label">15km</span></div>
+              <div class="radar-ring ring-km-30" onclick="filterByDistanceRadius(30)" title="Within 30 km"><span class="ring-label">30km</span></div>
+              <div class="radar-sweep-beam"></div>
+              <div class="radar-user-center"></div>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted); text-align: center;">
+              💡 Tap rings to filter radius (5km / 15km / 30km) or click any crew pin
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 2. PROJECTS SCREEN ================= -->
+      <section id="screen-projects" class="screen-view">
+        <div class="section-header-row">
+          <div>
+            <h1 class="section-title">PROJECTS FEED</h1>
+            <p class="section-desc">Short films & open role slots (Unlimited slot bookings)</p>
+          </div>
+          <button class="btn-3d btn-3d-primary" onclick="openCreateProjectModal()">
+            + Create Project
+          </button>
+        </div>
+
+        <div class="responsive-card-grid" id="projectsFeedContainer"></div>
+      </section>
+
+      <!-- ================= 3. ORGANIZATIONS SCREEN ================= -->
+      <section id="screen-orgs" class="screen-view">
+        <div class="section-header-row">
+          <div>
+            <h1 class="section-title">STUDIOS & ORGS</h1>
+            <p class="section-desc">Production houses, OTT platforms & open opportunity calls</p>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn-3d btn-3d-success" onclick="openCreateOpportunityModal()">📢 Post Call</button>
+            <button class="btn-3d btn-3d-dark" onclick="openCreateOrgModal()">🏢 + Add Org</button>
+          </div>
+        </div>
+
+        <div class="controls-grid" style="grid-template-columns: 1fr; max-width: 400px; margin-bottom: 16px;">
+          <div class="toggle-pill-wrap">
+            <button class="toggle-pill-btn active" id="btnViewOpps" onclick="setOrgsView('opportunities')">📢 Opportunities Feed</button>
+            <button class="toggle-pill-btn" id="btnViewDirectory" onclick="setOrgsView('directory')">🏢 Studios Directory</button>
+          </div>
+        </div>
+
+        <div id="orgsOpportunitiesView">
+          <div class="responsive-card-grid" id="opportunitiesFeedContainer"></div>
+        </div>
+
+        <div id="orgsDirectoryView" style="display: none;">
+          <div class="responsive-card-grid" id="orgsDirectoryContainer"></div>
+        </div>
+      </section>
+
+      <!-- ================= 4. CONNECT REQUESTS SCREEN ================= -->
+      <section id="screen-requests" class="screen-view">
+        <div class="section-header-row">
+          <div>
+            <h1 class="section-title">CONNECT REQUESTS</h1>
+            <p class="section-desc">Accept or Reject connection requests to unlock chat & group additions</p>
+          </div>
+        </div>
+
+        <div class="requests-list" id="requestsListContainer"></div>
+      </section>
+
+      <!-- ================= 5. MESSAGES & TEAMS SCREEN ================= -->
+      <section id="screen-messages" class="screen-view">
+        <div class="section-header-row">
+          <div>
+            <h1 class="section-title">UNIT DISPATCH</h1>
+            <p class="section-desc">Direct chats & project team group channels (Connected only)</p>
+          </div>
+          <button class="btn-3d btn-3d-primary" onclick="openCreateGroupModal()">
+            👥 + Create Group
+          </button>
+        </div>
+
+        <div style="font-size: 13px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin: 12px 0 10px 0;">👥 Team & Project Groups</div>
+        <div class="threads-list" id="groupThreadsContainer"></div>
+
+        <div style="font-size: 13px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin: 24px 0 10px 0;">💬 1-on-1 Direct Messages</div>
+        <div class="threads-list" id="threadsListContainer"></div>
+      </section>
+
+      <!-- ================= 6. PROFILE SCREEN ================= -->
+      <section id="screen-profile" class="screen-view">
+        <div class="centered-form-layout">
+          <div class="section-header-row">
+            <div>
+              <h1 class="section-title">CREW PROFILE</h1>
+              <p class="section-desc">Manage your showreels, storytelling bio & GPS shoot coordinates</p>
+            </div>
+          </div>
+
+          <div style="background: var(--bg-card); padding: 18px; border-radius: 14px; border: 1px solid var(--border-dim); margin-bottom: 16px; display: flex; align-items: center; gap: 16px;">
+            <img id="profilePhotoDisplay" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" style="width: 72px; height: 72px; border-radius: 50%; object-fit: cover; border: 3px solid var(--neon-director);">
+            <div>
+              <div style="font-size: 14px; font-weight: 700; margin-bottom: 6px;">Profile Avatar</div>
+              <label class="btn-3d btn-3d-dark" style="padding: 7px 12px; font-size: 11px;">
+                📷 Upload Photo
+                <input type="file" id="avatarFileInput" accept="image/*" style="display: none;" onchange="handlePhotoUpload(event)" />
+              </label>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group">
+              <label>Your Name *</label>
+              <input type="text" id="profName" class="form-input" value="Kiran Varma" />
+            </div>
+            <div class="form-group">
+              <label>Age</label>
+              <input type="number" id="profAge" class="form-input" value="28" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Primary Role *</label>
+            <select id="profRole" class="form-select" onchange="handleProfileRoleChange(this.value)">
+              <option value="Director" selected>Director</option>
+              <option value="Cinematographer">Cinematographer</option>
+              <option value="Actor">Actor</option>
+              <option value="Editor">Editor</option>
+              <option value="Sound Engineer">Sound Engineer</option>
+              <option value="Music Director">Music Director</option>
+              <option value="Other">Others (Type Below)</option>
+            </select>
+            <div id="customRoleWrap" style="display: none; margin-top: 6px;">
+              <input type="text" id="customProfRoleInput" class="form-input" placeholder="Enter custom role (e.g. Art Director / Drone Pilot)" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>About You / Bio (Describe your experience)</label>
+            <textarea id="profBio" class="form-textarea" rows="3" placeholder="Tell directors and crew about your experience, past short films, storytelling vision..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Readable Location (City/Area)</label>
+            <input type="text" id="profLocationText" class="form-input" value="Jubilee Hills, Hyderabad" />
+          </div>
+
+          <div class="form-group">
+            <label>Google Maps Link (Regex Lat/Lng extraction)</label>
+            <input type="text" id="profMapsLink" class="form-input" value="https://maps.google.com/?q=17.4325,78.4070" oninput="handleUserMapsLinkInput(this.value)" />
+            <div style="font-size: 11px; color: #10b981; margin-top: 2px;">
+              ✓ GPS Detected: <span id="userCoordsDisplay">17.4325, 78.4070</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label style="margin: 0;">Showreel & Portfolio URLs</label>
+              <button type="button" class="btn-3d btn-3d-dark" style="padding: 4px 8px; font-size: 10px;" onclick="addProfileLinkField()">+ Add URL</button>
+            </div>
+            <div id="profileLinksList"></div>
+          </div>
+
+          <button class="btn-3d btn-3d-primary" style="width: 100%; padding: 14px;" onclick="saveUserProfile()">Save Profile</button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ================= FIXED BOTTOM NAVIGATION DOCK ================= -->
+    <div class="bottom-nav-outer">
+      <nav class="bottom-nav">
+        <button class="nav-btn active" onclick="switchNavTab('discover')">
+          <span class="nav-btn-icon">🔍</span><span class="nav-btn-label">Discover</span>
         </button>
-      </div>
-
-      <div class="projects-feed" id="projectsFeedContainer"></div>
-    </section>
-
-    <!-- ================= 3. ORGANIZATIONS SCREEN (Rule 9: Posts, Comments & Connect Flow) ================= -->
-    <section id="screen-orgs" class="screen-view">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-        <div>
-          <h1 class="section-title">STUDIOS & ORGS</h1>
-          <p class="section-desc" style="margin: 0;">Post opportunities, pitch interest & connect</p>
-        </div>
-        <div style="display: flex; gap: 6px;">
-          <button class="btn-3d btn-3d-success" onclick="openCreateOpportunityModal()">📢 Post Call</button>
-          <button class="btn-3d btn-3d-dark" onclick="openCreateOrgModal()">🏢 + Add Org</button>
-        </div>
-      </div>
-
-      <div class="toggle-pill-wrap">
-        <button class="toggle-pill-btn active" id="btnViewOpps" onclick="setOrgsView('opportunities')">📢 Opportunities Feed</button>
-        <button class="toggle-pill-btn" id="btnViewDirectory" onclick="setOrgsView('directory')">🏢 Studios Directory</button>
-      </div>
-
-      <div id="orgsOpportunitiesView">
-        <div class="orgs-feed" id="opportunitiesFeedContainer"></div>
-      </div>
-
-      <div id="orgsDirectoryView" style="display: none;">
-        <div class="orgs-feed" id="orgsDirectoryContainer"></div>
-      </div>
-    </section>
-
-    <!-- ================= 4. CONNECT REQUESTS (Rule 2: Accept / Reject) ================= -->
-    <section id="screen-requests" class="screen-view">
-      <h1 class="section-title">CONNECT REQUESTS</h1>
-      <p class="section-desc">Accept or Reject connection requests to unlock chat & group additions</p>
-
-      <div class="requests-list" id="requestsListContainer"></div>
-    </section>
-
-    <!-- ================= 5. IN-APP MESSAGES & TEAMS (Rule 5, 6, 7: Mutual Connects Only) ================= -->
-    <section id="screen-messages" class="screen-view">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-        <div>
-          <h1 class="section-title">UNIT DISPATCH</h1>
-          <p class="section-desc" style="margin: 0;">Direct chats & team group channels (Connected only)</p>
-        </div>
-        <button class="btn-3d btn-3d-primary" onclick="openCreateGroupModal()">
-          👥 + Create Group
+        <button class="nav-btn" onclick="switchNavTab('projects')">
+          <span class="nav-btn-icon">🎬</span><span class="nav-btn-label">Projects</span>
         </button>
-      </div>
+        <button class="nav-btn" onclick="switchNavTab('orgs')">
+          <span class="nav-btn-icon">🏢</span><span class="nav-btn-label">Orgs</span>
+        </button>
+        <button class="nav-btn" onclick="switchNavTab('requests')">
+          <span class="nav-btn-icon">⚡</span><span class="nav-btn-label">Requests</span>
+          <span class="nav-badge-count" id="connectsBadge">1</span>
+        </button>
+        <button class="nav-btn" onclick="switchNavTab('messages')">
+          <span class="nav-btn-icon">💬</span><span class="nav-btn-label">Messages</span>
+        </button>
+        <button class="nav-btn" onclick="switchNavTab('profile')">
+          <span class="nav-btn-icon">👤</span><span class="nav-btn-label">Profile</span>
+        </button>
+      </nav>
+    </div>
 
-      <div style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin: 14px 0 8px 0;">👥 Team & Project Groups</div>
-      <div class="threads-list" id="groupThreadsContainer"></div>
-
-      <div style="font-size: 12px; font-weight: 800; text-transform: uppercase; color: var(--text-muted); margin-top: 18px; margin-bottom: 8px;">💬 1-on-1 Direct Messages (Mutually Connected)</div>
-      <div class="threads-list" id="threadsListContainer"></div>
-    </section>
-
-    <!-- ================= 6. PROFILE SCREEN (Rule 1: All Role Types) ================= -->
-    <section id="screen-profile" class="screen-view">
-      <h1 class="section-title">CREW PROFILE</h1>
-      <p class="section-desc">Manage your showreels, storytelling bio & GPS shoot location</p>
-
-      <div style="background: var(--bg-card); padding: 14px; border-radius: 12px; border: 1px solid var(--border-dim); margin-bottom: 14px; display: flex; align-items: center; gap: 14px;">
-        <img id="profilePhotoDisplay" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" style="width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 3px solid var(--neon-director);">
-        <div>
-          <div style="font-size: 13px; font-weight: 700; margin-bottom: 4px;">Upload Profile Avatar</div>
-          <label class="btn-3d btn-3d-dark" style="padding: 6px 10px; font-size: 11px;">
-            📷 Choose Photo
-            <input type="file" id="avatarFileInput" accept="image/*" style="display: none;" onchange="handlePhotoUpload(event)" />
-          </label>
-        </div>
-      </div>
-
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-        <div class="form-group">
-          <label>Your Name *</label>
-          <input type="text" id="profName" class="form-input" value="Kiran Varma" />
-        </div>
-        <div class="form-group">
-          <label>Age</label>
-          <input type="number" id="profAge" class="form-input" value="28" />
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>Primary Role *</label>
-        <select id="profRole" class="form-select" onchange="handleProfileRoleChange(this.value)">
-          <option value="Director" selected>Director</option>
-          <option value="Cinematographer">Cinematographer</option>
-          <option value="Actor">Actor</option>
-          <option value="Editor">Editor</option>
-          <option value="Sound Engineer">Sound Engineer</option>
-          <option value="Music Director">Music Director</option>
-          <option value="Other">Others (Type Below)</option>
-        </select>
-        <div id="customRoleWrap" style="display: none; margin-top: 6px;">
-          <input type="text" id="customProfRoleInput" class="form-input" placeholder="Enter your custom role (e.g. Art Director / Drone Pilot / Stylist)" />
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>About You / Bio (Describe yourself & your work)</label>
-        <textarea id="profBio" class="form-textarea" rows="3" placeholder="Tell directors and crew about your experience, past short films, storytelling vision, etc."></textarea>
-      </div>
-
-      <div class="form-group">
-        <label>Readable Location (City/Area)</label>
-        <input type="text" id="profLocationText" class="form-input" value="Jubilee Hills, Hyderabad" />
-      </div>
-
-      <div class="form-group">
-        <label>Google Maps Link (Regex Lat/Lng)</label>
-        <input type="text" id="profMapsLink" class="form-input" value="https://maps.google.com/?q=17.4325,78.4070" oninput="handleUserMapsLinkInput(this.value)" />
-        <div style="font-size: 11px; color: #10b981; margin-top: 2px;">
-          ✓ GPS: <span id="userCoordsDisplay">17.4325, 78.4070</span>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-          <label style="margin: 0;">Showreel & Portfolio URLs (Multiple)</label>
-          <button type="button" class="btn-3d btn-3d-dark" style="padding: 4px 8px; font-size: 10px;" onclick="addProfileLinkField()">+ Add URL</button>
-        </div>
-        <div id="profileLinksList"></div>
-      </div>
-
-      <button class="btn-3d btn-3d-primary" style="width: 100%; padding: 14px;" onclick="saveUserProfile()">Save Profile</button>
-    </section>
-
-    <!-- ================= BOTTOM NAVIGATION (6 TABS) ================= -->
-    <nav class="bottom-nav">
-      <button class="nav-btn active" onclick="switchNavTab('discover')">
-        <span class="nav-btn-icon">🔍</span><span class="nav-btn-label">Discover</span>
-      </button>
-      <button class="nav-btn" onclick="switchNavTab('projects')">
-        <span class="nav-btn-icon">🎬</span><span class="nav-btn-label">Projects</span>
-      </button>
-      <button class="nav-btn" onclick="switchNavTab('orgs')">
-        <span class="nav-btn-icon">🏢</span><span class="nav-btn-label">Orgs</span>
-      </button>
-      <button class="nav-btn" onclick="switchNavTab('requests')">
-        <span class="nav-btn-icon">⚡</span><span class="nav-btn-label">Requests</span>
-        <span class="nav-badge-count" id="connectsBadge">1</span>
-      </button>
-      <button class="nav-btn" onclick="switchNavTab('messages')">
-        <span class="nav-btn-icon">💬</span><span class="nav-btn-label">Messages</span>
-      </button>
-      <button class="nav-btn" onclick="switchNavTab('profile')">
-        <span class="nav-btn-icon">👤</span><span class="nav-btn-label">Profile</span>
-      </button>
-    </nav>
-
-    <!-- ================= MODALS ================= -->
+    <!-- ================= RESPONSIVE MODALS ================= -->
 
     <!-- CREATE ORG MODAL -->
     <div class="modal-overlay" id="createOrgModal">
       <div class="modal-card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
           <h2 class="section-title" style="font-size: 22px;">REGISTER ORGANIZATION</h2>
           <button style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;" onclick="closeCreateOrgModal()">✕</button>
         </div>
@@ -1016,7 +1186,7 @@
             <option value="Other">Other (Custom)</option>
           </select>
           <div id="orgCustomTypeWrap" style="display: none; margin-top: 6px;">
-            <input type="text" id="orgCustomTypeInput" class="form-input" placeholder="Enter custom type (e.g. Talent Agency, VFX Studio)" />
+            <input type="text" id="orgCustomTypeInput" class="form-input" placeholder="Enter custom type (e.g. Talent Agency)" />
           </div>
         </div>
 
@@ -1026,8 +1196,8 @@
         </div>
 
         <div class="form-group">
-          <label>Organization Logo (Upload from Storage) *</label>
-          <div style="display: flex; align-items: center; gap: 10px;">
+          <label>Logo (Upload from Storage) *</label>
+          <div style="display: flex; align-items: center; gap: 12px;">
             <img id="orgLogoPreview" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80" class="preview-box">
             <label class="btn-3d btn-3d-dark" style="cursor: pointer;">
               📷 Choose Logo
@@ -1038,12 +1208,12 @@
 
         <div class="form-group">
           <label>What They Typically Produce *</label>
-          <textarea id="orgProducesInput" class="form-textarea" rows="2" placeholder="e.g. Digital web series, feature films, viral sketch comedy, music videos..."></textarea>
+          <textarea id="orgProducesInput" class="form-textarea" rows="2" placeholder="e.g. Web series, feature films, viral sketch comedy..."></textarea>
         </div>
 
         <div class="form-group">
           <label>What They Provide *</label>
-          <textarea id="orgProvidesInput" class="form-textarea" rows="2" placeholder="e.g. Budget (₹2L - ₹10L), Camera gear (FX6/RED), editing studio, fast payment..."></textarea>
+          <textarea id="orgProvidesInput" class="form-textarea" rows="2" placeholder="e.g. Funding budget, Sony FX6 gear, studio access, pay..."></textarea>
         </div>
 
         <button class="btn-3d btn-3d-success" style="width: 100%; padding: 12px;" onclick="submitNewOrganization()">
@@ -1055,24 +1225,24 @@
     <!-- CREATE OPPORTUNITY MODAL -->
     <div class="modal-overlay" id="createOpportunityModal">
       <div class="modal-card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
           <h2 class="section-title" style="font-size: 22px;">POST OPPORTUNITY</h2>
           <button style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;" onclick="closeCreateOpportunityModal()">✕</button>
         </div>
 
         <div class="form-group">
-          <label>Posting As (Select Organization) *</label>
+          <label>Posting As (Select Org) *</label>
           <select id="oppOrgSelect" class="form-select"></select>
         </div>
 
         <div class="form-group">
           <label>Role(s) Needed *</label>
-          <input type="text" id="oppRolesInput" class="form-input" placeholder="e.g. Lead Cinematographer, Female Lead Actor (20-25y), Sound Recordist" />
+          <input type="text" id="oppRolesInput" class="form-input" placeholder="e.g. Lead Cinematographer, Lead Actor" />
         </div>
 
         <div class="form-group">
-          <label>Poster / Cover Image (Upload from Storage) *</label>
-          <div style="display: flex; align-items: center; gap: 10px;">
+          <label>Poster / Cover Image *</label>
+          <div style="display: flex; align-items: center; gap: 12px;">
             <img id="oppPosterPreview" src="https://images.unsplash.com/photo-1485846234645-a62644f84728?w=500&auto=format&fit=crop&q=80" class="preview-box" style="width: 80px; height: 60px;">
             <label class="btn-3d btn-3d-dark" style="cursor: pointer;">
               🖼️ Upload Poster
@@ -1088,12 +1258,12 @@
 
         <div class="form-group">
           <label>Budget / Pay Scale (Optional)</label>
-          <input type="text" id="oppBudgetInput" class="form-input" placeholder="e.g. ₹35,000 / episode or ₹1.5L project pay (or leave empty)" />
+          <input type="text" id="oppBudgetInput" class="form-input" placeholder="e.g. ₹35,000 / episode or leave empty" />
         </div>
 
         <div class="form-group">
-          <label>Detailed Opportunity Description *</label>
-          <textarea id="oppDescInput" class="form-textarea" rows="3" placeholder="Describe storyline, shoot dates, gear requirements, and audition criteria..."></textarea>
+          <label>Detailed Description *</label>
+          <textarea id="oppDescInput" class="form-textarea" rows="3" placeholder="Describe story, shoot schedule, gear requirements..."></textarea>
         </div>
 
         <button class="btn-3d btn-3d-primary" style="width: 100%; padding: 12px;" onclick="submitNewOpportunity()">
@@ -1102,21 +1272,21 @@
       </div>
     </div>
 
-    <!-- CREATE TEAM GROUP MODAL (Rule 6: Connected Members Only) -->
+    <!-- CREATE TEAM GROUP MODAL -->
     <div class="modal-overlay" id="createGroupModal">
       <div class="modal-card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
           <h2 class="section-title" style="font-size: 22px;">CREATE TEAM GROUP</h2>
           <button style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;" onclick="closeCreateGroupModal()">✕</button>
         </div>
 
         <div class="form-group">
-          <label>Group / Team Name *</label>
+          <label>Group Name *</label>
           <input type="text" id="newGroupName" class="form-input" placeholder="e.g. 'Night Run — Core Unit 🎬'" />
         </div>
 
         <div class="form-group">
-          <label>Select Connected Crew to Add (Rule 6: Must be mutually connected)</label>
+          <label>Select Connected Crew to Add</label>
           <div id="groupCrewSelectorList"></div>
         </div>
 
@@ -1129,7 +1299,7 @@
     <!-- CREATE PROJECT MODAL -->
     <div class="modal-overlay" id="createProjectModal">
       <div class="modal-card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
           <h2 class="section-title" style="font-size: 22px;">CREATE NEW PROJECT</h2>
           <button style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;" onclick="closeCreateProjectModal()">✕</button>
         </div>
@@ -1148,7 +1318,7 @@
             <option value="Other">Others (Type Below)</option>
           </select>
           <div id="customTypeWrap" style="display: none; margin-top: 6px;">
-            <input type="text" id="customProjTypeInput" class="form-input" placeholder="Enter custom project type (e.g. Pilot / Ad Film / Music Video)" />
+            <input type="text" id="customProjTypeInput" class="form-input" placeholder="Enter custom type" />
           </div>
         </div>
 
@@ -1162,18 +1332,18 @@
             <option value="Other">Others (Type Below)</option>
           </select>
           <div id="customStatusWrap" style="display: none; margin-top: 6px;">
-            <input type="text" id="customProjStatusInput" class="form-input" placeholder="Enter custom status (e.g. Scripting / Crowdfunding / Festival Run)" />
+            <input type="text" id="customProjStatusInput" class="form-input" placeholder="Enter custom status" />
           </div>
         </div>
 
         <div class="form-group">
           <label>Project Shoot Location (Optional)</label>
-          <input type="text" id="newProjLocation" class="form-input" placeholder="e.g. Ramoji Film City, Hyderabad or Araku Valley" />
+          <input type="text" id="newProjLocation" class="form-input" placeholder="e.g. Film Nagar, Hyderabad" />
         </div>
 
         <div class="form-group">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-            <label style="margin: 0;">Crew Roles Needed & Target Slots</label>
+            <label style="margin: 0;">Roles Needed & Target Slots</label>
             <button type="button" class="btn-3d btn-3d-dark" style="padding: 4px 8px; font-size: 10px;" onclick="addCustomRoleSlotRow()">+ Add Custom Role</button>
           </div>
 
@@ -1196,8 +1366,8 @@
         </div>
 
         <div class="form-group">
-          <label>Detailed Requirements / Story Pitch</label>
-          <textarea id="newProjDesc" class="form-textarea" rows="3" placeholder="Describe storyline, shoot schedule, required camera gear, etc."></textarea>
+          <label>Detailed Pitch</label>
+          <textarea id="newProjDesc" class="form-textarea" rows="3" placeholder="Describe storyline, shoot schedule, required camera gear..."></textarea>
         </div>
 
         <button class="btn-3d btn-3d-primary" style="width: 100%; padding: 12px;" onclick="submitNewProject()">
@@ -1236,42 +1406,43 @@
       </div>
     </div>
 
-    <!-- CHAT & GROUP MODAL (Rules 5, 6, 7) -->
+    <!-- RESPONSIVE CHAT MODAL -->
     <div class="chat-view-modal" id="chatViewModal">
-      <div class="chat-top-header">
-        <div class="chat-user-meta">
-          <button class="btn-3d btn-3d-dark" style="padding: 6px 10px; font-size: 11px;" onclick="closeChatModal()">← Back</button>
-          <img id="chatHeaderImg" src="" style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover;">
-          <div>
-            <div id="chatHeaderName" style="font-size: 14px; font-weight: 800; color: #fff;">User</div>
-            <div id="chatHeaderRole" style="font-size: 11px; color: var(--neon-cinema);">Role</div>
+      <div class="chat-box-inner">
+        <div class="chat-top-header">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <button class="btn-3d btn-3d-dark" style="padding: 6px 10px; font-size: 11px;" onclick="closeChatModal()">← Back</button>
+            <img id="chatHeaderImg" src="" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover;">
+            <div>
+              <div id="chatHeaderName" style="font-size: 14px; font-weight: 800; color: #fff;">User</div>
+              <div id="chatHeaderRole" style="font-size: 11px; color: var(--neon-cinema);">Role</div>
+            </div>
+          </div>
+
+          <div id="groupActionWrap" style="display: none;">
+            <button class="btn-3d btn-3d-danger" style="padding: 5px 8px; font-size: 10px;" onclick="exitCurrentGroup()">
+              🚪 Exit Group
+            </button>
           </div>
         </div>
 
-        <div id="groupActionWrap" style="display: none;">
-          <button class="btn-3d btn-3d-danger" style="padding: 5px 8px; font-size: 10px;" onclick="exitCurrentGroup()">
-            🚪 Exit Group
-          </button>
+        <div class="chat-messages-area" id="chatMessagesArea"></div>
+
+        <div class="chat-input-bar">
+          <label class="btn-3d btn-3d-dark" style="padding: 8px 11px; font-size: 15px; cursor: pointer;" title="Share Image">
+            📷
+            <input type="file" accept="image/*" style="display: none;" onchange="handleChatImageUpload(event)" />
+          </label>
+          <input type="text" id="chatTextInput" class="form-input" style="flex: 1;" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendChatMessage()" />
+          <button class="btn-3d btn-3d-primary" onclick="sendChatMessage()">Send</button>
         </div>
-      </div>
-
-      <div class="chat-messages-area" id="chatMessagesArea"></div>
-
-      <div class="chat-input-bar">
-        <label class="btn-3d btn-3d-dark" style="padding: 8px 11px; font-size: 14px; cursor: pointer;" title="Share Image from Camera or Gallery">
-          📷
-          <input type="file" accept="image/*" style="display: none;" onchange="handleChatImageUpload(event)" />
-        </label>
-        <input type="text" id="chatTextInput" class="form-input" style="flex: 1;" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendChatMessage()" />
-        <button class="btn-3d btn-3d-primary" onclick="sendChatMessage()">Send</button>
       </div>
     </div>
 
   </div>
 
   <script>
-    // ================= APP STATE & DATA =================
-
+    // ================= STATE MANAGEMENT =================
     const currentUser = {
       name: "Kiran Varma",
       role: "Director",
@@ -1296,7 +1467,6 @@
       'Other': { color: '#10b981', bg: 'rgba(16, 185, 129, 0.15)', border: '#10b981' }
     };
 
-    // Mock Crew Profiles
     let crewMembers = [
       {
         id: 101,
@@ -1320,7 +1490,7 @@
         ],
         skills: ["Sony FX3", "Anamorphic", "Gimbal Specialist"],
         bio: "Specialized in indie low-light aesthetic, moody lighting and handheld cinematic motion.",
-        connected: true // Mutually connected with Current User
+        connected: true
       },
       {
         id: 102,
@@ -1356,7 +1526,7 @@
         avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80",
         rating: 5.0,
         projectsCount: 14,
-        reportsCount: 8, // For easy testing of 10-report rule
+        reportsCount: 8,
         portfolioLinks: [
           { platform: "Drive", url: "https://drive.google.com" },
           { platform: "YouTube", url: "https://youtube.com" }
@@ -1370,7 +1540,6 @@
       }
     ];
 
-    // Connect Requests State (Rule 2)
     let connectRequests = [
       {
         id: 401,
@@ -1381,7 +1550,6 @@
       }
     ];
 
-    // Live Projects State (Rule 3: Unlimited applicants support)
     let projectsFeed = [
       {
         id: 301,
@@ -1417,12 +1585,11 @@
       }
     ];
 
-    // Organizations Directory & Opportunities (Rule 9)
     let organizationsList = [
       {
         id: 'org-1',
         name: 'Chai Bisket Studios',
-        type: 'YouTube channel / Production House',
+        type: 'YouTube channel / Studio',
         logo: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80',
         typicallyProduces: 'Concept-driven digital web series, viral satirical sketches, and theatrical feature films.',
         whatTheyProvide: 'Full funding budget, Sony FX6 / FX3 gear, professional sound stage, fast pay schedule, digital distribution.'
@@ -1458,7 +1625,6 @@
     let uploadedOrgLogoData = 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150&auto=format&fit=crop&q=80';
     let uploadedOppPosterData = 'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=500&auto=format&fit=crop&q=80';
 
-    // Direct Chat & Group Threads (Rules 5, 6, 7)
     let activeChatThreads = [
       {
         crewId: 101,
@@ -1544,15 +1710,15 @@
       const container = document.getElementById('profileLinksList');
       container.innerHTML = currentUser.portfolioLinks.map((link, idx) => `
         <div class="url-item-row" id="linkRow-${idx}">
-          <select class="form-select" style="width: 110px; padding: 6px;" onchange="currentUser.portfolioLinks[${idx}].platform = this.value">
+          <select class="form-select" style="width: 120px; padding: 7px;" onchange="currentUser.portfolioLinks[${idx}].platform = this.value">
             <option value="YouTube" ${link.platform === 'YouTube' ? 'selected' : ''}>YouTube</option>
             <option value="Instagram" ${link.platform === 'Instagram' ? 'selected' : ''}>Instagram</option>
             <option value="Vimeo" ${link.platform === 'Vimeo' ? 'selected' : ''}>Vimeo</option>
             <option value="Drive" ${link.platform === 'Drive' ? 'selected' : ''}>Drive/Cloud</option>
             <option value="Website" ${link.platform === 'Website' ? 'selected' : ''}>Portfolio</option>
           </select>
-          <input type="text" class="form-input" style="flex: 1; padding: 6px;" value="${link.url}" placeholder="https://..." oninput="currentUser.portfolioLinks[${idx}].url = this.value" />
-          <button type="button" class="btn-3d btn-3d-danger" style="padding: 6px 8px; font-size: 10px;" onclick="removeProfileLink(${idx})">✕</button>
+          <input type="text" class="form-input" style="flex: 1; padding: 7px;" value="${link.url}" placeholder="https://..." oninput="currentUser.portfolioLinks[${idx}].url = this.value" />
+          <button type="button" class="btn-3d btn-3d-danger" style="padding: 7px 10px; font-size: 11px;" onclick="removeProfileLink(${idx})">✕</button>
         </div>
       `).join('');
     }
@@ -1607,13 +1773,11 @@
       return (currentUser.name && currentUser.name.length > 1);
     }
 
-    // ================= RULE 2: CONNECT REQUEST FLOW (Accept / Reject) =================
-
+    // ================= CONNECT FLOW =================
     function sendConnectRequest(crewId) {
       const crew = crewMembers.find(c => c.id === crewId);
       if (!crew) return;
-
-      alert(`⚡ Connect request sent to ${crew.name}! Once they accept, you both can chat directly and add each other to project groups.`);
+      alert(`⚡ Connect request sent to ${crew.name}! Once they accept, you can 1-on-1 chat and add them to project teams.`);
     }
 
     function renderRequests() {
@@ -1627,7 +1791,7 @@
 
       container.innerHTML = connectRequests.map(req => `
         <div class="request-item">
-          <img src="${req.senderAvatar}" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+          <img src="${req.senderAvatar}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">
           <div style="flex: 1;">
             <div style="font-size: 15px; font-weight: 800; color: #fff;">${req.senderName}</div>
             <div style="font-size: 12px; color: var(--neon-cinema);">${req.senderRole} wants to connect with you</div>
@@ -1657,8 +1821,7 @@
             messages: [{ sender: 'them', text: `Hi! We are now connected. Looking forward to collaborating!`, type: 'text' }]
           });
         }
-
-        alert(`✓ Accepted connection with ${req.senderName}! You can now 1-on-1 chat and add them to project teams.`);
+        alert(`✓ Accepted connection with ${req.senderName}!`);
       } else {
         alert(`✕ Rejected connection request.`);
       }
@@ -1669,16 +1832,15 @@
       renderThreads();
     }
 
-    // ================= RULE 3: UNLIMITED PROJECT SLOT BOOKINGS & PERMISSION-FREE REVIEW =================
-
+    // ================= PROJECTS FEED =================
     function renderProjectsFeed() {
       const container = document.getElementById('projectsFeedContainer');
       container.innerHTML = projectsFeed.map(proj => `
         <div class="project-card">
-          <div class="project-card-top">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
             <div>
               <span style="font-size: 11px; color: var(--neon-cinema); font-weight: 800; text-transform: uppercase;">${proj.type}</span>
-              <div class="project-title">${proj.title}</div>
+              <div class="project-title" style="font-size: 19px; color: #fff;">${proj.title}</div>
               ${proj.location ? `<div class="badge-location" style="margin-top: 4px; display: inline-block;">📍 ${proj.location}</div>` : ''}
             </div>
             <span class="status-tag">${proj.status}</span>
@@ -1691,7 +1853,7 @@
           <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4;">${proj.desc}</p>
 
           <div>
-            <div style="font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 6px;">Role Slots & Applications (No Limit on Booking):</div>
+            <div style="font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 6px;">Role Slots & Bookings:</div>
             ${proj.slots.map((s, sIdx) => `
               <div class="slot-row">
                 <div>
@@ -1712,12 +1874,11 @@
                 </div>
               </div>
 
-              <!-- Rule 3: Direct Profile Access for all applicants without separate connect -->
               <div class="applicants-drawer" id="drawer-${proj.id}-${sIdx}">
                 <div style="font-size: 11px; color: var(--neon-director); font-weight: 700; margin-bottom: 6px;">
-                  📋 Applicants for ${s.role} (Permission granted by booking):
+                  📋 Applicants (Permission granted by booking):
                 </div>
-                ${s.applicants.length === 0 ? `<div style="font-size: 11px; color: var(--text-muted);">No one has applied for this slot yet.</div>` : `
+                ${s.applicants.length === 0 ? `<div style="font-size: 11px; color: var(--text-muted);">No one has applied yet.</div>` : `
                   ${s.applicants.map(app => `
                     <div style="display: flex; justify-content: space-between; align-items: center; background: #131722; padding: 6px 8px; border-radius: 6px; margin-bottom: 4px;">
                       <div style="display: flex; align-items: center; gap: 8px;">
@@ -1762,44 +1923,40 @@
           status: "Applied"
         });
 
-        alert(`✅ You booked the slot for "${roleName}" on project "${proj.title}"!\n(Rule 3: By booking, permission is granted to project creator to view your full profile and showreel).`);
+        alert(`✅ You booked the slot for "${roleName}" on project "${proj.title}"!\nProject creator can now view your full profile and showreel.`);
         renderProjectsFeed();
       }
     }
 
     function selectApplicantForTeam(name, role) {
-      alert(`🎬 Selected ${name} for ${role}! You can now create a Team Group Chat in the Messages tab.`);
+      alert(`🎬 Selected ${name} for ${role}! You can create a Team Group Chat in Messages.`);
     }
 
-    // ================= RULE 4: ANONYMOUS REPORT & 10-REPORT AUTO-SUSPEND =================
-
+    // ================= REPORT PROFILE =================
     function reportCrewProfile(crewId) {
       const crew = crewMembers.find(c => c.id === crewId);
       if (!crew) return;
 
-      const reason = prompt(`⚠️ Report Profile for Misbehavior / Conduct:\nPlease enter reason for reporting ${crew.name} (Rule 4: Your report is 100% anonymous):`, "Inappropriate conduct");
+      const reason = prompt(`⚠️ Report Profile for Misconduct:\nPlease enter reason for reporting ${crew.name} (100% Anonymous):`, "Inappropriate conduct");
       if (reason === null) return;
 
       crew.reportsCount = (crew.reportsCount || 0) + 1;
 
-      // Automatic Suspension & Deletion at 10 reports
       if (crew.reportsCount >= 10) {
-        alert(`🚫 PROFILE SUSPENDED & DELETED!\n\nUser '${crew.name}' has received 10 misconduct reports. Their profile has been permanently SUSPENDED & REMOVED from UNIT.`);
+        alert(`🚫 PROFILE SUSPENDED & DELETED!\n\nUser '${crew.name}' has received 10 misconduct reports. Their profile has been permanently removed.`);
         crewMembers = crewMembers.filter(c => c.id !== crewId);
         activeChatThreads = activeChatThreads.filter(t => t.crewId !== crewId);
       } else {
-        alert(`🚩 Report submitted anonymously. Thank you for keeping the platform safe.`);
+        alert(`🚩 Report submitted anonymously. Thank you for keeping the community safe.`);
       }
 
       renderCrewList();
       renderRadarPins();
     }
 
-    // ================= RULES 5, 6, 7 & 8: DISPATCH, GROUPS, MUTUAL CONNECT CHECK & EXIT =================
-
+    // ================= GROUP CHAT & DISPATCH =================
     function openCreateGroupModal() {
       const list = document.getElementById('groupCrewSelectorList');
-      // Rule 6: Filter only mutually connected crew
       const connectedCrew = crewMembers.filter(c => c.connected);
 
       if (connectedCrew.length === 0) {
@@ -1808,7 +1965,7 @@
         list.innerHTML = connectedCrew.map(c => `
           <label class="crew-select-row">
             <input type="checkbox" value="${c.name}" class="group-crew-checkbox" checked />
-            <img src="${c.avatar}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover;">
+            <img src="${c.avatar}" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;">
             <span style="font-size: 13px; font-weight: 700; color: #fff;">${c.name}</span>
             <span style="font-size: 11px; color: var(--neon-cinema); margin-left: auto;">${c.role}</span>
           </label>
@@ -1871,7 +2028,7 @@
       }
       container.innerHTML = activeChatThreads.map(thread => `
         <div class="thread-card" onclick="openDirectChat(${thread.crewId})">
-          <img src="${thread.avatar}" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover;">
+          <img src="${thread.avatar}" style="width: 46px; height: 46px; border-radius: 50%; object-fit: cover;">
           <div style="flex: 1;">
             <div style="display: flex; justify-content: space-between;">
               <span style="font-size: 14px; font-weight: 800; color: #fff;">${thread.name}</span>
@@ -1887,7 +2044,6 @@
 
     function openDirectChat(crewId) {
       const crew = crewMembers.find(c => c.id === crewId);
-      // Rules 7 & 8: Check if mutually connected
       if (crew && !crew.connected) {
         alert(`🔒 Chat Locked: You and ${crew.name} must both accept a Connect request before 1-on-1 chatting.`);
         return;
@@ -1928,12 +2084,11 @@
       document.getElementById('chatViewModal').classList.add('active');
     }
 
-    // Rule 5: Exit Group Option
     function exitCurrentGroup() {
-      if (confirm("Rule 5: Are you sure you want to EXIT this project team group?")) {
+      if (confirm("Are you sure you want to EXIT this project team group?")) {
         teamGroups = teamGroups.filter(g => g.id !== currentGroupId);
         closeChatModal();
-        alert("You have exited and left the group.");
+        alert("You have exited the group.");
       }
     }
 
@@ -1944,7 +2099,6 @@
 
     function renderChatMessages() {
       const area = document.getElementById('chatMessagesArea');
-      
       if (currentChatMode === 'direct') {
         const thread = activeChatThreads.find(t => t.crewId === currentDirectChatId);
         if (!thread) return;
@@ -1984,7 +2138,7 @@
           renderChatMessages();
 
           setTimeout(() => {
-            thread.messages.push({ sender: 'them', text: `Got it Kiran! Ready for the production.`, type: 'text' });
+            thread.messages.push({ sender: 'them', text: `Got it Kiran! Ready for production.`, type: 'text' });
             renderChatMessages();
           }, 1200);
         }
@@ -2011,7 +2165,6 @@
       const reader = new FileReader();
       reader.onload = function(evt) {
         const imgData = evt.target.result;
-
         if (currentChatMode === 'direct') {
           const thread = activeChatThreads.find(t => t.crewId === currentDirectChatId);
           if (thread) {
@@ -2035,8 +2188,7 @@
       reader.readAsDataURL(file);
     }
 
-    // ================= RULE 9: ORGANIZATIONS OPPORTUNITIES & COMMENT PITCHES =================
-
+    // ================= ORGANIZATIONS & OPPORTUNITIES =================
     function setOrgsView(view) {
       document.getElementById('orgsOpportunitiesView').style.display = (view === 'opportunities') ? 'block' : 'none';
       document.getElementById('orgsDirectoryView').style.display = (view === 'directory') ? 'block' : 'none';
@@ -2051,7 +2203,7 @@
           <img src="${opp.poster}" class="opp-poster-img" alt="Poster">
 
           <div style="display: flex; align-items: center; gap: 8px;">
-            <img src="${opp.orgLogo}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #fff;">
+            <img src="${opp.orgLogo}" style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 1px solid #fff;">
             <div>
               <div style="font-size: 13px; font-weight: 800; color: #fff;">${opp.orgName}</div>
               <div style="font-size: 10px; color: var(--text-muted);">Posted ${opp.postedAt}</div>
@@ -2069,7 +2221,6 @@
 
           <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4;">${opp.description}</p>
 
-          <!-- Rule 9: Comment / Pitch messages under Org post -->
           <div class="opp-comments-box">
             <div style="font-size: 11px; font-weight: 800; color: var(--neon-director); margin-bottom: 6px;">
               💬 Pitches / Interested Messages (${opp.comments ? opp.comments.length : 0}):
@@ -2085,8 +2236,8 @@
             </div>
 
             <div style="display: flex; gap: 6px; margin-top: 8px;">
-              <input type="text" id="input-pitch-${opp.id}" class="form-input" style="padding: 6px 10px; font-size: 12px; flex: 1;" placeholder="Drop 'Interested' pitch / query..." />
-              <button class="btn-3d btn-3d-primary" style="padding: 6px 10px; font-size: 10px;" onclick="postPitchMessage('${opp.id}')">Pitch</button>
+              <input type="text" id="input-pitch-${opp.id}" class="form-input" style="padding: 7px 10px; font-size: 12px; flex: 1;" placeholder="Drop 'Interested' pitch / query..." />
+              <button class="btn-3d btn-3d-primary" style="padding: 7px 12px; font-size: 10px;" onclick="postPitchMessage('${opp.id}')">Pitch</button>
             </div>
           </div>
         </div>
@@ -2105,10 +2256,9 @@
           sender: `${currentUser.name} (${currentUser.role})`,
           message: text
         });
-
         input.value = '';
         renderOpportunitiesFeed();
-        alert(`✓ Pitch posted to ${opp.orgName}! The organization can view your message & profile.`);
+        alert(`✓ Pitch posted to ${opp.orgName}!`);
       }
     }
 
@@ -2117,7 +2267,7 @@
       container.innerHTML = organizationsList.map(org => `
         <div class="org-card">
           <div style="display: flex; gap: 12px; align-items: center;">
-            <img src="${org.logo}" style="width: 52px; height: 52px; border-radius: 10px; object-fit: cover; border: 2px solid var(--border-glow);">
+            <img src="${org.logo}" style="width: 56px; height: 56px; border-radius: 12px; object-fit: cover; border: 2px solid var(--border-glow);">
             <div style="flex: 1;">
               <div style="font-size: 17px; font-weight: 800; color: #fff;">${org.name}</div>
               <span class="badge-budget" style="font-size: 10px;">${org.type}</span>
@@ -2232,7 +2382,6 @@
     }
 
     // ================= REVIEWS & RATINGS =================
-
     function openReviewsModal(crewId) {
       currentReviewedCrewId = crewId;
       const crew = crewMembers.find(c => c.id === crewId);
@@ -2241,7 +2390,6 @@
       document.getElementById('reviewModalTitle').innerText = `${crew.name.toUpperCase()} — REVIEWS`;
       setRatingScore(5);
       renderReviewsList(crew);
-
       document.getElementById('reviewsModal').classList.add('active');
     }
 
@@ -2300,8 +2448,7 @@
       }
     }
 
-    // ================= DISCOVER SCREEN RENDER (Rules 1, 4 & 8) =================
-
+    // ================= DISCOVER SCREEN RENDER =================
     function renderCrewList() {
       const container = document.getElementById('crewFeedContainer');
       const withDistance = crewMembers.map(crew => {
@@ -2320,7 +2467,7 @@
       });
 
       if (filtered.length === 0) {
-        container.innerHTML = `<div style="text-align: center; padding: 30px; color: var(--text-muted);">No crew matching filters.</div>`;
+        container.innerHTML = `<div style="text-align: center; padding: 30px; color: var(--text-muted); grid-column: 1 / -1;">No crew matching filters.</div>`;
         return;
       }
 
@@ -2347,7 +2494,6 @@
               </div>
             </div>
 
-            <!-- Stats & Open Showreel Access -->
             <div class="crew-stats-strip">
               <div style="display: flex; align-items: center; gap: 6px;">
                 <span style="color: #ffb703; font-weight: 800;">★ ${crew.rating}</span>
@@ -2366,11 +2512,10 @@
               `).join('')}
             </div>
 
-            <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4;">${crew.bio}</p>
+            <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4; flex: 1;">${crew.bio}</p>
 
-            <!-- Actions (Rule 4: Anonymous report without public count, Rule 7 & 8: Connect before chat) -->
-            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 8px;">
-              <button class="btn-3d btn-3d-danger" style="padding: 5px 9px; font-size: 10px;" onclick="reportCrewProfile(${crew.id})" title="Report for Misconduct (10 reports = auto suspend)">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; margin-top: auto;">
+              <button class="btn-3d btn-3d-danger" style="padding: 6px 10px; font-size: 10px;" onclick="reportCrewProfile(${crew.id})" title="Report Profile (Anonymous)">
                 🚩 Report
               </button>
               
@@ -2455,9 +2600,9 @@
       div.className = 'url-item-row';
       div.id = `customRoleRow-${customRoleCount}`;
       div.innerHTML = `
-        <input type="text" class="form-input custom-role-name" style="flex: 2; padding: 6px;" placeholder="Role Title (e.g. Art Director)" />
-        <input type="number" class="form-input custom-role-count" style="width: 70px; padding: 6px;" value="1" min="1" />
-        <button type="button" class="btn-3d btn-3d-danger" style="padding: 6px 8px; font-size: 10px;" onclick="this.parentElement.remove()">✕</button>
+        <input type="text" class="form-input custom-role-name" style="flex: 2; padding: 7px;" placeholder="Role Title (e.g. Art Director)" />
+        <input type="number" class="form-input custom-role-count" style="width: 70px; padding: 7px;" value="1" min="1" />
+        <button type="button" class="btn-3d btn-3d-danger" style="padding: 7px 10px; font-size: 10px;" onclick="this.parentElement.remove()">✕</button>
       `;
       container.appendChild(div);
     }
@@ -2517,6 +2662,8 @@
       if (idxMap[tabKey] !== undefined) {
         document.querySelectorAll('.nav-btn')[idxMap[tabKey]].classList.add('active');
       }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
 
       if (tabKey === 'discover') renderCrewList();
       if (tabKey === 'projects') renderProjectsFeed();
