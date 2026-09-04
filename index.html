@@ -3,8 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>UNIT — Short Film & Studio Network</title>
+  <title>UNIT — Short Film, Studio & Festival Network</title>
   
+  <!-- PWA Web App Manifest (Embedded Data URL) -->
+  <link rel="manifest" id="pwaManifest" />
+  <meta name="theme-color" content="#0c0e14" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="UNIT" />
+
   <!-- Cinematic Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,6 +39,7 @@
       --neon-editor: #a855f7;
       --neon-editor-3d: #6b21a8;
       --neon-org: #10b981;
+      --neon-fest: #ec4899;
       
       --3d-cta-bg: #ffb703;
       --3d-cta-shadow: #b37d00;
@@ -149,7 +157,12 @@
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.3; transform: scale(0.8); }
     }
-    .user-mini-avatar { cursor: pointer; }
+    
+    .brand-right-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
     .avatar-img-circle {
       width: 40px;
       height: 40px;
@@ -158,6 +171,7 @@
       border: 2px solid var(--neon-director);
       box-shadow: 0 0 10px rgba(255, 183, 3, 0.4);
       background: #1c202d;
+      cursor: pointer;
     }
 
     /* Main Content Area */
@@ -257,6 +271,11 @@
       box-shadow: 0 3px 0 #059669;
     }
     .btn-3d-success:active { transform: translateY(2px); box-shadow: 0 1px 0 #059669; }
+    .btn-3d-fest {
+      background: #ec4899;
+      color: #fff;
+      box-shadow: 0 3px 0 #9d174d;
+    }
 
     /* Controls Grid */
     .controls-grid {
@@ -278,6 +297,7 @@
       padding: 4px;
       border-radius: 30px;
       border: 1px solid var(--border-dim);
+      overflow-x: auto;
     }
     .toggle-pill-btn {
       flex: 1;
@@ -294,6 +314,7 @@
       justify-content: center;
       gap: 6px;
       transition: all 0.2s;
+      white-space: nowrap;
     }
     .toggle-pill-btn.active {
       background: var(--bg-card-hover);
@@ -352,7 +373,7 @@
       box-shadow: 0 2px 8px rgba(255,255,255,0.2);
     }
 
-    /* Responsive Multi-Column Grids */
+    /* Responsive Grids */
     .responsive-card-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -367,7 +388,7 @@
     }
 
     /* Cards */
-    .crew-card, .project-card, .opportunity-card, .org-card {
+    .crew-card, .project-card, .opportunity-card, .org-card, .festival-card {
       background: var(--bg-card);
       border: 1px solid var(--border-dim);
       border-radius: 14px;
@@ -379,7 +400,7 @@
       transition: transform 0.2s ease, border-color 0.2s ease;
       height: 100%;
     }
-    .crew-card:hover, .project-card:hover, .opportunity-card:hover, .org-card:hover {
+    .crew-card:hover, .project-card:hover, .opportunity-card:hover, .org-card:hover, .festival-card:hover {
       border-color: var(--border-glow);
     }
 
@@ -404,15 +425,6 @@
       font-size: 17px;
       font-weight: 800;
       color: #fff;
-    }
-    .badge-verified {
-      background: rgba(0, 240, 255, 0.15);
-      color: var(--neon-cinema);
-      border: 1px solid var(--neon-cinema);
-      font-size: 10px;
-      font-weight: 800;
-      padding: 2px 6px;
-      border-radius: 12px;
     }
     .role-badge {
       font-size: 10px;
@@ -533,7 +545,7 @@
     }
     .radar-pin:hover { transform: translate(-50%, -50%) scale(1.3); }
 
-    /* Opportunities & Org Cards */
+    /* Media Elements */
     .opp-poster-img {
       width: 100%;
       height: 190px;
@@ -555,6 +567,15 @@
       background: rgba(0, 240, 255, 0.15);
       color: var(--neon-cinema);
       border: 1px solid var(--neon-cinema);
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 11px;
+    }
+    .badge-deadline {
+      background: rgba(236, 72, 153, 0.15);
+      color: #ec4899;
+      border: 1px solid #ec4899;
       padding: 2px 7px;
       border-radius: 4px;
       font-weight: 700;
@@ -823,6 +844,29 @@
       margin-top: 4px;
       border: 1px solid rgba(255,255,255,0.2);
     }
+    
+    /* Voice Audio Element Styling */
+    .voice-msg-player {
+      width: 100%;
+      min-width: 200px;
+      height: 38px;
+      border-radius: 20px;
+      margin-top: 4px;
+    }
+    .recording-live-bar {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid #ef4444;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      color: #ef4444;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
     .chat-input-bar {
       padding: 12px 16px;
       padding-bottom: max(12px, env(safe-area-inset-bottom));
@@ -918,15 +962,20 @@
       </div>
     </div>
 
-    <!-- Top Brand Header Bar -->
+    <!-- Top Brand Header Bar with PWA Install Button -->
     <div class="brand-bar-outer">
       <header class="brand-bar">
         <div class="brand-title">
           <div class="live-rec"></div>
           UNIT
         </div>
-        <div class="user-mini-avatar" onclick="switchNavTab('profile')" title="View Profile">
-          <img id="headerAvatar" class="avatar-img-circle" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%238e98b0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'%3E%3C/path%3E%3Ccircle cx='12' cy='7' r='4'%3E%3C/circle%3E%3C/svg%3E" alt="Avatar">
+        <div class="brand-right-actions">
+          <button id="pwaInstallBtn" class="btn-3d btn-3d-primary" style="padding: 6px 10px; font-size: 10px; display: none;" onclick="triggerPWAInstall()">
+            📲 Install App
+          </button>
+          <div class="user-mini-avatar" onclick="switchNavTab('profile')" title="View Profile">
+            <img id="headerAvatar" class="avatar-img-circle" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%238e98b0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'%3E%3C/path%3E%3Ccircle cx='12' cy='7' r='4'%3E%3C/circle%3E%3C/svg%3E" alt="Avatar">
+          </div>
         </div>
       </header>
     </div>
@@ -1002,30 +1051,39 @@
         <div class="responsive-card-grid" id="projectsFeedContainer"></div>
       </section>
 
-      <!-- ================= 3. ORGANIZATIONS SCREEN ================= -->
+      <!-- ================= 3. ORGS & FESTIVALS SCREEN (Feature 2: Festivals Radar) ================= -->
       <section id="screen-orgs" class="screen-view">
         <div class="section-header-row">
           <div>
-            <h1 class="section-title">STUDIOS & ORGS</h1>
-            <p class="section-desc">Production houses, OTT platforms & open opportunity calls</p>
+            <h1 class="section-title">STUDIOS, ORGS & FESTIVALS</h1>
+            <p class="section-desc">Production houses, opportunity calls & short film awards radar</p>
           </div>
           <div style="display: flex; gap: 8px;">
+            <button class="btn-3d btn-3d-fest" onclick="openCreateFestivalModal()">🏆 + Post Festival</button>
             <button class="btn-3d btn-3d-success" onclick="openCreateOpportunityModal()">📢 Post Call</button>
             <button class="btn-3d btn-3d-dark" onclick="openCreateOrgModal()">🏢 + Add Org</button>
           </div>
         </div>
 
-        <div class="controls-grid" style="grid-template-columns: 1fr; max-width: 400px; margin-bottom: 16px;">
+        <div class="controls-grid" style="grid-template-columns: 1fr; max-width: 500px; margin-bottom: 16px;">
           <div class="toggle-pill-wrap">
-            <button class="toggle-pill-btn active" id="btnViewOpps" onclick="setOrgsView('opportunities')">📢 Opportunities Feed</button>
-            <button class="toggle-pill-btn" id="btnViewDirectory" onclick="setOrgsView('directory')">🏢 Studios Directory</button>
+            <button class="toggle-pill-btn active" id="btnViewOpps" onclick="setOrgsView('opportunities')">📢 Opportunities</button>
+            <button class="toggle-pill-btn" id="btnViewFestivals" onclick="setOrgsView('festivals')">🏆 Festivals Radar</button>
+            <button class="toggle-pill-btn" id="btnViewDirectory" onclick="setOrgsView('directory')">🏢 Studios</button>
           </div>
         </div>
 
+        <!-- Opportunities Feed View -->
         <div id="orgsOpportunitiesView">
           <div class="responsive-card-grid" id="opportunitiesFeedContainer"></div>
         </div>
 
+        <!-- 2. Festivals Radar Feed View -->
+        <div id="orgsFestivalsView" style="display: none;">
+          <div class="responsive-card-grid" id="festivalsFeedContainer"></div>
+        </div>
+
+        <!-- Organizations Directory View -->
         <div id="orgsDirectoryView" style="display: none;">
           <div class="responsive-card-grid" id="orgsDirectoryContainer"></div>
         </div>
@@ -1070,6 +1128,10 @@
               <h1 class="section-title">CREW PROFILE</h1>
               <p class="section-desc">Manage your showreels, storytelling bio & GPS shoot coordinates</p>
             </div>
+            <!-- PWA Install option inside profile -->
+            <button class="btn-3d btn-3d-primary" style="font-size: 11px;" onclick="triggerPWAInstall()">
+              📲 Install App to Home Screen
+            </button>
           </div>
 
           <div style="background: var(--bg-card); padding: 18px; border-radius: 14px; border: 1px solid var(--border-dim); margin-bottom: 16px; display: flex; align-items: center; gap: 16px;">
@@ -1169,6 +1231,61 @@
 
     <!-- ================= MODALS ================= -->
 
+    <!-- CREATE FESTIVAL ALERT MODAL (Feature 2) -->
+    <div class="modal-overlay" id="createFestivalModal">
+      <div class="modal-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <h2 class="section-title" style="font-size: 22px;">POST FESTIVAL ALERT</h2>
+          <button style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;" onclick="closeCreateFestivalModal()">✕</button>
+        </div>
+
+        <div class="form-group">
+          <label>Festival / Contest Name *</label>
+          <input type="text" id="festNameInput" class="form-input" placeholder="e.g. SIIMA Short Film Awards 2026 / Hyderabad Indie Fest" />
+        </div>
+
+        <div class="form-group">
+          <label>Organizer / Platform Name *</label>
+          <input type="text" id="festOrgInput" class="form-input" placeholder="e.g. SIIMA Awards / Indie Cinema Society" />
+        </div>
+
+        <div class="form-group">
+          <label>Submission Deadline *</label>
+          <input type="text" id="festDeadlineInput" class="form-input" placeholder="e.g. October 30, 2026" />
+        </div>
+
+        <div class="form-group">
+          <label>Awards / Cash Prize / Benefits *</label>
+          <input type="text" id="festPrizeInput" class="form-input" placeholder="e.g. ₹2,00,000 Cash Prize + OTT Screening" />
+        </div>
+
+        <div class="form-group">
+          <label>Official Submission Link / URL *</label>
+          <input type="text" id="festLinkInput" class="form-input" placeholder="https://filmfreeway.com/... or official portal" />
+        </div>
+
+        <div class="form-group">
+          <label>Poster / Banner Image *</label>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <img id="festPosterPreview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23ec4899' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9H4.5a2.5 2.5 0 0 1 0-5H6'%3E%3C/path%3E%3Cpath d='M18 9h1.5a2.5 2.5 0 0 0 0-5H18'%3E%3C/path%3E%3Cpath d='M4 22h16'%3E%3C/path%3E%3Cpath d='M10 14.66V17c0 .55-.45 1-1 1H7'%3E%3C/path%3E%3Cpath d='M14 14.66V17c0 .55.45 1 1 1h2'%3E%3C/path%3E%3Cpath d='M18 2H6v7a6 6 0 0 0 12 0V2Z'%3E%3C/path%3E%3C/svg%3E" class="preview-box" style="width: 80px; height: 60px;">
+            <label class="btn-3d btn-3d-dark" style="cursor: pointer;">
+              🖼️ Upload Banner
+              <input type="file" accept="image/*" style="display: none;" onchange="handleFestPosterUpload(event)" />
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Rules & Guidelines *</label>
+          <textarea id="festDescInput" class="form-textarea" rows="3" placeholder="Max runtime (e.g. under 20 mins), allowed languages, subtitles requirement..."></textarea>
+        </div>
+
+        <button class="btn-3d btn-3d-fest" style="width: 100%; padding: 12px;" onclick="submitNewFestival()">
+          Publish Festival Alert
+        </button>
+      </div>
+    </div>
+
     <!-- CREATE ORG MODAL -->
     <div class="modal-overlay" id="createOrgModal">
       <div class="modal-card">
@@ -1222,7 +1339,7 @@
       </div>
     </div>
 
-    <!-- CREATE OPPORTUNITY MODAL (With 'Others' Org Support) -->
+    <!-- CREATE OPPORTUNITY MODAL -->
     <div class="modal-overlay" id="createOpportunityModal">
       <div class="modal-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
@@ -1230,7 +1347,6 @@
           <button style="background:none; border:none; color:#fff; font-size:20px; cursor:pointer;" onclick="closeCreateOpportunityModal()">✕</button>
         </div>
 
-        <!-- 2. Posting As with Others Support -->
         <div class="form-group">
           <label>Posting As (Select Organization) *</label>
           <select id="oppOrgSelect" class="form-select" onchange="togglePostingOrgCustom(this.value)"></select>
@@ -1412,7 +1528,7 @@
       </div>
     </div>
 
-    <!-- RESPONSIVE CHAT MODAL -->
+    <!-- RESPONSIVE CHAT MODAL (Feature 1: Voice Notes & Media) -->
     <div class="chat-view-modal" id="chatViewModal">
       <div class="chat-box-inner">
         <div class="chat-top-header">
@@ -1434,11 +1550,26 @@
 
         <div class="chat-messages-area" id="chatMessagesArea"></div>
 
+        <!-- Live Audio Recording Status Indicator -->
+        <div class="recording-live-bar" id="recordingLiveBar">
+          <div class="live-rec"></div>
+          <span>Recording Voice Note... (<span id="recordingTimer">0:00</span>)</span>
+          <button class="btn-3d btn-3d-danger" style="padding: 3px 8px; font-size: 10px; margin-left: auto;" onclick="cancelVoiceRecording()">Cancel</button>
+          <button class="btn-3d btn-3d-success" style="padding: 3px 8px; font-size: 10px;" onclick="stopAndSendVoiceRecording()">Send</button>
+        </div>
+
         <div class="chat-input-bar">
+          <!-- Camera Image Button -->
           <label class="btn-3d btn-3d-dark" style="padding: 8px 11px; font-size: 15px; cursor: pointer;" title="Share Image">
             📷
             <input type="file" accept="image/*" style="display: none;" onchange="handleChatImageUpload(event)" />
           </label>
+
+          <!-- 1. Voice Note Recording Button -->
+          <button class="btn-3d btn-3d-dark" id="btnMicRecord" style="padding: 8px 11px; font-size: 15px;" title="Record Voice Note" onclick="toggleVoiceRecording()">
+            🎙️
+          </button>
+
           <input type="text" id="chatTextInput" class="form-input" style="flex: 1;" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendChatMessage()" />
           <button class="btn-3d btn-3d-primary" onclick="sendChatMessage()">Send</button>
         </div>
@@ -1448,11 +1579,67 @@
   </div>
 
   <script>
-    // ================= CLEAN STATE MANAGEMENT (NO FAKE DATA) =================
+    // ================= 3. PWA SETUP (MANIFEST & INSTALL BANNER) =================
+
+    const manifestData = {
+      name: "UNIT — Short Film & Studio Network",
+      short_name: "UNIT",
+      description: "Find crew, short film projects, studios & festival alerts.",
+      start_url: ".",
+      display: "standalone",
+      background_color: "#07080b",
+      theme_color: "#0c0e14",
+      icons: [
+        {
+          src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='192' height='192' viewBox='0 0 24 24' fill='%23ffb703'%3E%3Ccircle cx='12' cy='12' r='10' fill='%2307080b' stroke='%23ffb703' stroke-width='2'/%3E%3Ccircle cx='12' cy='12' r='4' fill='%23ff0055'/%3E%3C/svg%3E",
+          sizes: "192x192 512x512",
+          type: "image/svg+xml"
+        }
+      ]
+    };
+
+    const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
+    document.getElementById('pwaManifest').setAttribute('href', URL.createObjectURL(manifestBlob));
+
+    // Register Service Worker via Blob for PWA Criteria
+    if ('serviceWorker' in navigator) {
+      const swCode = `
+        self.addEventListener('install', (e) => self.skipWaiting());
+        self.addEventListener('activate', (e) => clients.claim());
+        self.addEventListener('fetch', (e) => e.respondWith(fetch(e.request).catch(() => new Response('Offline'))));
+      `;
+      const swBlob = new Blob([swCode], { type: 'text/javascript' });
+      navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(() => {});
+    }
+
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const btn = document.getElementById('pwaInstallBtn');
+      if (btn) btn.style.display = 'inline-flex';
+    });
+
+    function triggerPWAInstall() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((res) => {
+          if (res.outcome === 'accepted') {
+            document.getElementById('pwaInstallBtn').style.display = 'none';
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        alert("📲 To Install on iPhone / Safari:\n1. Tap the 'Share' (⎙) button at the bottom\n2. Scroll and select 'Add to Home Screen'\n\nOn Chrome/Android: Tap three dots ➔ 'Install App'");
+      }
+    }
+
+    // ================= STATE MANAGEMENT =================
 
     const defaultAvatar = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%238e98b0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'%3E%3C/path%3E%3Ccircle cx='12' cy='7' r='4'%3E%3C/circle%3E%3C/svg%3E";
     const defaultOrgLogo = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%238e98b0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='2' width='20' height='20' rx='5'%3E%3C/rect%3E%3Cpath d='M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z'%3E%3C/path%3E%3C/svg%3E";
     const defaultPoster = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%238e98b0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'%3E%3C/rect%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'%3E%3C/circle%3E%3Cpolyline points='21 15 16 10 5 21'%3E%3C/polyline%3E%3C/svg%3E";
+    const defaultFestBanner = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23ec4899' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9H4.5a2.5 2.5 0 0 1 0-5H6'%3E%3C/path%3E%3Cpath d='M18 9h1.5a2.5 2.5 0 0 0 0-5H18'%3E%3C/path%3E%3Cpath d='M4 22h16'%3E%3C/path%3E%3Cpath d='M10 14.66V17c0 .55-.45 1-1 1H7'%3E%3C/path%3E%3Cpath d='M14 14.66V17c0 .55.45 1 1 1h2'%3E%3C/path%3E%3Cpath d='M18 2H6v7a6 6 0 0 0 12 0V2Z'%3E%3C/path%3E%3C/svg%3E";
 
     const currentUser = {
       name: "",
@@ -1474,17 +1661,18 @@
       'Other': { color: '#10b981', bg: 'rgba(16, 185, 129, 0.15)', border: '#10b981' }
     };
 
-    // Clean Empty Data Arrays (Populated via user actions)
     let crewMembers = [];
     let connectRequests = [];
     let projectsFeed = [];
     let organizationsList = [];
     let opportunitiesList = [];
+    let festivalsList = []; // Feature 2
     let activeChatThreads = [];
     let teamGroups = [];
 
     let uploadedOrgLogoData = defaultOrgLogo;
     let uploadedOppPosterData = defaultPoster;
+    let uploadedFestBannerData = defaultFestBanner;
 
     let currentChatMode = 'direct';
     let currentDirectChatId = null;
@@ -1507,7 +1695,6 @@
       return parseFloat((R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).toFixed(1));
     }
 
-    // Google Maps Regex
     function parseGoogleMapsRegex(url) {
       const regex = /(?:@|q=|ll=)(-?\d+\.\d+),(-?\d+\.\d+)/;
       const match = url.match(regex);
@@ -1593,7 +1780,6 @@
       currentUser.bio = document.getElementById('profBio').value.trim();
       currentUser.locationName = document.getElementById('profLocationText').value.trim() || 'India';
       
-      // Update or add own profile to crew list
       const existingIdx = crewMembers.findIndex(c => c.id === 'user-self');
       const selfProfile = {
         id: 'user-self',
@@ -1651,7 +1837,7 @@
     function sendConnectRequest(crewId) {
       const crew = crewMembers.find(c => c.id === crewId);
       if (!crew) return;
-      alert(`⚡ Connect request sent to ${crew.name}! Once they accept, you both can chat and report if any misconduct occurs.`);
+      alert(`⚡ Connect request sent to ${crew.name}! Once accepted, you both can chat.`);
     }
 
     function renderRequests() {
@@ -1755,7 +1941,7 @@
 
               <div class="applicants-drawer" id="drawer-${proj.id}-${sIdx}">
                 <div style="font-size: 11px; color: var(--neon-director); font-weight: 700; margin-bottom: 6px;">
-                  📋 Applicants (Permission granted by booking):
+                  📋 Applicants:
                 </div>
                 ${s.applicants.length === 0 ? `<div style="font-size: 11px; color: var(--text-muted);">No one has applied yet.</div>` : `
                   ${s.applicants.map(app => `
@@ -1802,16 +1988,16 @@
           status: "Applied"
         });
 
-        alert(`✅ You booked the slot for "${roleName}" on project "${proj.title}"!\nProject creator can now view your full profile and showreel.`);
+        alert(`✅ Slot booked for "${roleName}" on "${proj.title}"!`);
         renderProjectsFeed();
       }
     }
 
     function selectApplicantForTeam(name, role) {
-      alert(`🎬 Selected ${name} for ${role}! You can create a Team Group Chat in Messages.`);
+      alert(`🎬 Selected ${name} for ${role}! You can now create a Team Group in Messages.`);
     }
 
-    // ================= 1. REPORT PROFILE (ONLY CONNECTED USERS) =================
+    // ================= REPORT PROFILE (CONNECTED ONLY) =================
     function reportCrewProfile(crewId) {
       const crew = crewMembers.find(c => c.id === crewId);
       if (!crew) return;
@@ -1827,18 +2013,114 @@
       crew.reportsCount = (crew.reportsCount || 0) + 1;
 
       if (crew.reportsCount >= 10) {
-        alert(`🚫 PROFILE SUSPENDED & DELETED!\n\nUser '${crew.name}' has received 10 misconduct reports. Their profile has been permanently removed.`);
+        alert(`🚫 PROFILE SUSPENDED & DELETED!\n\nUser '${crew.name}' has received 10 misconduct reports. Their profile has been removed.`);
         crewMembers = crewMembers.filter(c => c.id !== crewId);
         activeChatThreads = activeChatThreads.filter(t => t.crewId !== crewId);
       } else {
-        alert(`🚩 Report submitted anonymously. Thank you for keeping the community safe.`);
+        alert(`🚩 Report submitted anonymously. Thank you for keeping UNIT safe.`);
       }
 
       renderCrewList();
       renderRadarPins();
     }
 
-    // ================= GROUP CHAT & DISPATCH =================
+    // ================= 1. VOICE RECORDING & CHAT DISPATCH =================
+
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let recordInterval = null;
+    let recordSeconds = 0;
+
+    async function toggleVoiceRecording() {
+      if (mediaRecorder && mediaRecorder.state === 'recording') {
+        stopAndSendVoiceRecording();
+        return;
+      }
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+
+        mediaRecorder.ondataavailable = (e) => {
+          if (e.data.size > 0) audioChunks.push(e.data);
+        };
+
+        mediaRecorder.onstop = () => {
+          const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+          const audioUrl = URL.createObjectURL(audioBlob);
+          sendAudioMessage(audioUrl, formatTime(recordSeconds));
+          stream.getTracks().forEach(track => track.stop());
+        };
+
+        mediaRecorder.start();
+        recordSeconds = 0;
+        document.getElementById('recordingLiveBar').style.display = 'flex';
+        document.getElementById('recordingTimer').innerText = '0:00';
+        document.getElementById('btnMicRecord').style.background = '#ef4444';
+
+        recordInterval = setInterval(() => {
+          recordSeconds++;
+          document.getElementById('recordingTimer').innerText = formatTime(recordSeconds);
+          if (recordSeconds >= 60) stopAndSendVoiceRecording(); // Max 1 min
+        }, 1000);
+
+      } catch (err) {
+        alert("🎙️ Microphone Access:\nPlease allow microphone access to record voice notes, or use text chat.");
+      }
+    }
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+
+    function stopAndSendVoiceRecording() {
+      if (mediaRecorder && mediaRecorder.state === 'recording') {
+        mediaRecorder.stop();
+      }
+      cleanupRecordUI();
+    }
+
+    function cancelVoiceRecording() {
+      if (mediaRecorder && mediaRecorder.state === 'recording') {
+        mediaRecorder.ondataavailable = null;
+        mediaRecorder.onstop = null;
+        mediaRecorder.stop();
+      }
+      cleanupRecordUI();
+    }
+
+    function cleanupRecordUI() {
+      clearInterval(recordInterval);
+      document.getElementById('recordingLiveBar').style.display = 'none';
+      document.getElementById('btnMicRecord').style.background = '';
+    }
+
+    function sendAudioMessage(audioSrc, duration) {
+      if (currentChatMode === 'direct') {
+        const thread = activeChatThreads.find(t => t.crewId === currentDirectChatId);
+        if (thread) {
+          thread.messages.push({ sender: 'me', type: 'audio', audioSrc: audioSrc, duration: duration });
+          renderChatMessages();
+        }
+      } else {
+        const grp = teamGroups.find(g => g.id === currentGroupId);
+        if (grp) {
+          grp.messages.push({
+            senderName: currentUser.name || 'User',
+            senderRole: currentUser.role,
+            isMe: true,
+            type: 'audio',
+            audioSrc: audioSrc,
+            duration: duration
+          });
+          renderChatMessages();
+        }
+      }
+    }
+
     function openCreateGroupModal() {
       const list = document.getElementById('groupCrewSelectorList');
       const connectedCrew = crewMembers.filter(c => c.connected);
@@ -1898,7 +2180,7 @@
                 <span style="font-size: 11px; color: var(--neon-director); font-weight: 700;">${grp.membersCount} Members</span>
               </div>
               <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
-                ${grp.messages[grp.messages.length - 1]?.text || 'Image attachment'}
+                ${grp.messages[grp.messages.length - 1]?.text || 'Media attachment'}
               </div>
             </div>
           </div>
@@ -1919,7 +2201,7 @@
               <span style="font-size: 11px; color: var(--neon-cinema);">${thread.role}</span>
             </div>
             <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
-              ${thread.messages[thread.messages.length - 1]?.text || 'Image attachment'}
+              ${thread.messages[thread.messages.length - 1]?.text || 'Media attachment'}
             </div>
           </div>
         </div>
@@ -1977,6 +2259,7 @@
     }
 
     function closeChatModal() {
+      cleanupRecordUI();
       document.getElementById('chatViewModal').classList.remove('active');
       renderThreads();
     }
@@ -1991,6 +2274,10 @@
           <div class="chat-bubble ${m.sender === 'me' ? 'mine' : 'theirs'}">
             ${m.text ? `<div>${m.text}</div>` : ''}
             ${m.type === 'image' ? `<img src="${m.imageSrc}" class="chat-image-content" onclick="window.open(this.src)">` : ''}
+            ${m.type === 'audio' ? `
+              <div style="font-size:11px; font-weight:700;">🎙️ Voice Note (${m.duration || '0:05'})</div>
+              <audio class="voice-msg-player" controls src="${m.audioSrc}"></audio>
+            ` : ''}
           </div>
         `).join('');
       } else {
@@ -2002,6 +2289,10 @@
             ${!m.isMe ? `<span class="chat-sender-tag">${m.senderName} (${m.senderRole})</span>` : ''}
             ${m.text ? `<div>${m.text}</div>` : ''}
             ${m.type === 'image' ? `<img src="${m.imageSrc}" class="chat-image-content" onclick="window.open(this.src)">` : ''}
+            ${m.type === 'audio' ? `
+              <div style="font-size:11px; font-weight:700;">🎙️ Voice Note (${m.duration || '0:05'})</div>
+              <audio class="voice-msg-player" controls src="${m.audioSrc}"></audio>
+            ` : ''}
           </div>
         `).join('');
       }
@@ -2022,7 +2313,7 @@
           renderChatMessages();
 
           setTimeout(() => {
-            thread.messages.push({ sender: 'them', text: `Got it! Let's discuss further.`, type: 'text' });
+            thread.messages.push({ sender: 'them', text: `Got it! Looking forward to production.`, type: 'text' });
             renderChatMessages();
           }, 1200);
         }
@@ -2072,11 +2363,15 @@
       reader.readAsDataURL(file);
     }
 
-    // ================= 2. ORGANIZATIONS & OPPORTUNITIES WITH OTHERS SUPPORT =================
+    // ================= 2. ORGANIZATIONS & FESTIVALS RADAR =================
+
     function setOrgsView(view) {
       document.getElementById('orgsOpportunitiesView').style.display = (view === 'opportunities') ? 'block' : 'none';
+      document.getElementById('orgsFestivalsView').style.display = (view === 'festivals') ? 'block' : 'none';
       document.getElementById('orgsDirectoryView').style.display = (view === 'directory') ? 'block' : 'none';
+
       document.getElementById('btnViewOpps').classList.toggle('active', view === 'opportunities');
+      document.getElementById('btnViewFestivals').classList.toggle('active', view === 'festivals');
       document.getElementById('btnViewDirectory').classList.toggle('active', view === 'directory');
     }
 
@@ -2157,6 +2452,43 @@
       }
     }
 
+    // 2. Render Festivals Radar
+    function renderFestivalsFeed() {
+      const container = document.getElementById('festivalsFeedContainer');
+      if (festivalsList.length === 0) {
+        container.innerHTML = `<div class="empty-state-box">No festivals listed yet. Click <strong>'🏆 + Post Festival'</strong> above to share an alert with the filmmaking community!</div>`;
+        return;
+      }
+
+      container.innerHTML = festivalsList.map(fest => `
+        <div class="festival-card">
+          <img src="${fest.banner}" class="opp-poster-img" alt="Festival Banner">
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="badge-deadline">⏳ Deadline: ${fest.deadline}</span>
+              <div style="font-size: 18px; font-weight: 800; color: #fff; margin-top: 4px;">${fest.name}</div>
+              <div style="font-size: 12px; color: var(--neon-fest);">Organized by: ${fest.organizer}</div>
+            </div>
+          </div>
+
+          <div style="background: #0d1017; border: 1px solid #1f2331; padding: 10px; border-radius: 8px; font-size: 12px;">
+            <div style="color: var(--neon-director); font-weight: 700;">🎁 Awards & Perks:</div>
+            <div style="color: #cbd5e1; margin-bottom: 6px;">${fest.prize}</div>
+
+            <div style="color: var(--neon-cinema); font-weight: 700;">📜 Rules & Criteria:</div>
+            <div style="color: #cbd5e1;">${fest.desc}</div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; margin-top: auto; padding-top: 8px;">
+            <a href="${fest.link}" target="_blank" class="btn-3d btn-3d-fest" style="text-decoration: none;">
+              🏆 Submit Film / Official Portal ↗
+            </a>
+          </div>
+        </div>
+      `).join('');
+    }
+
     function renderOrganizationsDirectory() {
       const container = document.getElementById('orgsDirectoryContainer');
       if (organizationsList.length === 0) {
@@ -2183,6 +2515,52 @@
           </div>
         </div>
       `).join('');
+    }
+
+    // Festival Creation Modal
+    function openCreateFestivalModal() { document.getElementById('createFestivalModal').classList.add('active'); }
+    function closeCreateFestivalModal() { document.getElementById('createFestivalModal').classList.remove('active'); }
+
+    function handleFestPosterUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          uploadedFestBannerData = evt.target.result;
+          document.getElementById('festPosterPreview').src = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function submitNewFestival() {
+      const name = document.getElementById('festNameInput').value.trim();
+      const org = document.getElementById('festOrgInput').value.trim();
+      const deadline = document.getElementById('festDeadlineInput').value.trim();
+      const prize = document.getElementById('festPrizeInput').value.trim();
+      const link = document.getElementById('festLinkInput').value.trim() || 'https://filmfreeway.com';
+      const desc = document.getElementById('festDescInput').value.trim();
+
+      if (!name || !deadline || !prize || !desc) {
+        alert('Please fill Festival Name, Deadline, Prize, and Rules fields!');
+        return;
+      }
+
+      festivalsList.unshift({
+        id: `fest-${Date.now()}`,
+        name: name,
+        organizer: org || 'Festival Committee',
+        deadline: deadline,
+        prize: prize,
+        link: link,
+        desc: desc,
+        banner: uploadedFestBannerData
+      });
+
+      renderFestivalsFeed();
+      closeCreateFestivalModal();
+      setOrgsView('festivals');
+      alert(`🏆 Festival Alert for "${name}" is now live!`);
     }
 
     function openCreateOrgModal() { document.getElementById('createOrgModal').classList.add('active'); }
@@ -2229,7 +2607,6 @@
       alert(`🏢 Organization "${name}" registered!`);
     }
 
-    // 2. Organization Dropdown with "Others" in Opportunity Post
     function populateOrgSelectDropdown() {
       const select = document.getElementById('oppOrgSelect');
       let optionsHtml = organizationsList.map(org => `<option value="${org.id}">${org.name} (${org.type})</option>`).join('');
@@ -2378,7 +2755,7 @@
       }
     }
 
-    // ================= 1. DISCOVER SCREEN RENDER (REPORT ONLY AFTER CONNECT) =================
+    // ================= DISCOVER SCREEN RENDER =================
     function renderCrewList() {
       const container = document.getElementById('crewFeedContainer');
       
@@ -2450,7 +2827,6 @@
 
             <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4; flex: 1;">${crew.bio}</p>
 
-            <!-- 1. Report button ONLY visible after connect -->
             <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; margin-top: auto;">
               ${crew.isSelf ? `
                 <span style="font-size: 11px; color: var(--neon-director); font-weight: 700;">Your Profile</span>
@@ -2608,6 +2984,7 @@
       if (tabKey === 'projects') renderProjectsFeed();
       if (tabKey === 'orgs') {
         renderOpportunitiesFeed();
+        renderFestivalsFeed();
         renderOrganizationsDirectory();
       }
       if (tabKey === 'requests') renderRequests();
@@ -2623,6 +3000,7 @@
       renderCrewList();
       renderProjectsFeed();
       renderOpportunitiesFeed();
+      renderFestivalsFeed();
       renderOrganizationsDirectory();
       renderRequests();
       renderThreads();
