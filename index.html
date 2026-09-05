@@ -1,15 +1,3 @@
-ఎర్రర్ రావడానికి రెండు ముఖ్య కారణాలు ఉన్నాయి:
-
-1.  రెస్పాన్స్ కట్ అవ్వడం (Max Token Truncation): మన సింగిల్-ఫైల్ కోడ్ చాలా
-    పెద్దది (1500+ లైన్లు) అవ్వడం వల్ల, మునుపటి మెసేజ్ చివర్లో టోకెన్ లిమిట్
-    రీచ్ అయ్యి కోడ్ సడన్‌గా ఆగిపోయింది (జావాస్క్రిప్ట్ ట్యాగ్‌లు సరిగ్గా క్లోజ్
-    కాలేదు).
-2.  manifestData వేరియబుల్ లోపం: అంతకుముందు కోడ్‌లో PWA manifestData ఆబ్జెక్ట్
-    డిఫైన్ చేయకముందే కాల్ చేయడం వల్ల ReferenceError వచ్చి స్క్రిప్ట్ ఆగిపోయింది.
-
-ఇప్పుడు కోడ్‌ను పూర్తిగా ఆప్టిమైజ్ చేసి, ఎక్కడా కట్ అవ్వకుండా 100% పూర్తయిన
-సింగిల్-ఫైల్ కోడ్ కింద ఇస్తున్నాను:
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,52 +5,135 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Film Connect — Make your film projects easy</title>
   
+  <!-- PWA Web App Manifest -->
   <link rel="manifest" id="pwaManifest" />
   <meta name="theme-color" content="#0c0e14" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Film Connect" />
 
+  <!-- Cinematic Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
+  <!-- Firebase SDKs (v10 Compat) -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
   <style>
+    /* ================= THEMES & COLOR MODES ================= */
     :root, [data-theme="neon-night"] {
-      --bg-darkest: #07080b; --bg-main: #0c0e14; --bg-card: #141720; --bg-card-hover: #1c202d;
-      --border-dim: #232736; --border-glow: #38425d; --text-main: #f8fafc; --text-muted: #8e98b0;
-      --neon-director: #ffb703; --neon-cinema: #00f0ff; --neon-cinema-3d: #008f99;
-      --neon-actor: #ff0055; --neon-editor: #a855f7; --neon-org: #10b981; --neon-fest: #ec4899;
-      --3d-cta-bg: #ffb703; --3d-cta-shadow: #b37d00; --3d-btn-dark: #202432; --3d-btn-dark-shadow: #10121a;
-      --bg-gradient-1: rgba(255, 0, 85, 0.08); --bg-gradient-2: rgba(0, 240, 255, 0.07); --bg-gradient-3: rgba(255, 183, 3, 0.04);
+      --bg-darkest: #07080b;
+      --bg-main: #0c0e14;
+      --bg-card: #141720;
+      --bg-card-hover: #1c202d;
+      --border-dim: #232736;
+      --border-glow: #38425d;
+      --text-main: #f8fafc;
+      --text-muted: #8e98b0;
+      --neon-director: #ffb703;
+      --neon-director-3d: #b37d00;
+      --neon-cinema: #00f0ff;
+      --neon-cinema-3d: #008f99;
+      --neon-actor: #ff0055;
+      --neon-actor-3d: #990033;
+      --neon-editor: #a855f7;
+      --neon-editor-3d: #6b21a8;
+      --neon-org: #10b981;
+      --neon-fest: #ec4899;
+      --3d-cta-bg: #ffb703;
+      --3d-cta-shadow: #b37d00;
+      --3d-btn-dark: #202432;
+      --3d-btn-dark-shadow: #10121a;
+      --bg-gradient-1: rgba(255, 0, 85, 0.08);
+      --bg-gradient-2: rgba(0, 240, 255, 0.07);
+      --bg-gradient-3: rgba(255, 183, 3, 0.04);
     }
+
     [data-theme="golden-hour"] {
-      --bg-darkest: #0e0906; --bg-main: #17100b; --bg-card: #221812; --bg-card-hover: #2e2018;
-      --border-dim: #3d2b20; --border-glow: #634330; --text-main: #fff6ee; --text-muted: #b89f8f;
-      --neon-director: #f59e0b; --neon-cinema: #fb923c; --neon-cinema-3d: #c2410c;
-      --neon-actor: #f43f5e; --neon-editor: #eab308; --neon-org: #84cc16; --neon-fest: #f97316;
-      --3d-cta-bg: #f59e0b; --3d-cta-shadow: #92400e; --3d-btn-dark: #2c1e16; --3d-btn-dark-shadow: #180f0a;
-      --bg-gradient-1: rgba(245, 158, 11, 0.12); --bg-gradient-2: rgba(251, 146, 60, 0.08); --bg-gradient-3: rgba(244, 63, 94, 0.05);
+      --bg-darkest: #0e0906;
+      --bg-main: #17100b;
+      --bg-card: #221812;
+      --bg-card-hover: #2e2018;
+      --border-dim: #3d2b20;
+      --border-glow: #634330;
+      --text-main: #fff6ee;
+      --text-muted: #b89f8f;
+      --neon-director: #f59e0b;
+      --neon-director-3d: #b45309;
+      --neon-cinema: #fb923c;
+      --neon-cinema-3d: #c2410c;
+      --neon-actor: #f43f5e;
+      --neon-actor-3d: #9f1239;
+      --neon-editor: #eab308;
+      --neon-editor-3d: #a16207;
+      --neon-org: #84cc16;
+      --neon-fest: #f97316;
+      --3d-cta-bg: #f59e0b;
+      --3d-cta-shadow: #92400e;
+      --3d-btn-dark: #2c1e16;
+      --3d-btn-dark-shadow: #180f0a;
+      --bg-gradient-1: rgba(245, 158, 11, 0.12);
+      --bg-gradient-2: rgba(251, 146, 60, 0.08);
+      --bg-gradient-3: rgba(244, 63, 94, 0.05);
     }
+
     [data-theme="monsoon-blue"] {
-      --bg-darkest: #050b14; --bg-main: #091322; --bg-card: #101f35; --bg-card-hover: #182c4a;
-      --border-dim: #1e395f; --border-glow: #2d558a; --text-main: #edf5ff; --text-muted: #85a3c9;
-      --neon-director: #38bdf8; --neon-cinema: #06b6d4; --neon-cinema-3d: #0891b2;
-      --neon-actor: #818cf8; --neon-editor: #a78bfa; --neon-org: #2dd4bf; --neon-fest: #60a5fa;
-      --3d-cta-bg: #38bdf8; --3d-cta-shadow: #0369a1; --3d-btn-dark: #152742; --3d-btn-dark-shadow: #091322;
-      --bg-gradient-1: rgba(56, 189, 248, 0.10); --bg-gradient-2: rgba(6, 182, 212, 0.08); --bg-gradient-3: rgba(129, 140, 248, 0.06);
+      --bg-darkest: #050b14;
+      --bg-main: #091322;
+      --bg-card: #101f35;
+      --bg-card-hover: #182c4a;
+      --border-dim: #1e395f;
+      --border-glow: #2d558a;
+      --text-main: #edf5ff;
+      --text-muted: #85a3c9;
+      --neon-director: #38bdf8;
+      --neon-director-3d: #0284c7;
+      --neon-cinema: #06b6d4;
+      --neon-cinema-3d: #0891b2;
+      --neon-actor: #818cf8;
+      --neon-actor-3d: #4f46e5;
+      --neon-editor: #a78bfa;
+      --neon-editor-3d: #7c3aed;
+      --neon-org: #2dd4bf;
+      --neon-fest: #60a5fa;
+      --3d-cta-bg: #38bdf8;
+      --3d-cta-shadow: #0369a1;
+      --3d-btn-dark: #152742;
+      --3d-btn-dark-shadow: #091322;
+      --bg-gradient-1: rgba(56, 189, 248, 0.10);
+      --bg-gradient-2: rgba(6, 182, 212, 0.08);
+      --bg-gradient-3: rgba(129, 140, 248, 0.06);
     }
+
     [data-theme="emerald-matrix"] {
-      --bg-darkest: #040d08; --bg-main: #07170f; --bg-card: #0d261a; --bg-card-hover: #133625;
-      --border-dim: #1b4d35; --border-glow: #28734f; --text-main: #ecfdf5; --text-muted: #86bfa3;
-      --neon-director: #10b981; --neon-cinema: #34d399; --neon-cinema-3d: #059669;
-      --neon-actor: #f59e0b; --neon-editor: #6ee7b7; --neon-org: #10b981; --neon-fest: #a7f3d0;
-      --3d-cta-bg: #10b981; --3d-cta-shadow: #065f46; --3d-btn-dark: #113122; --3d-btn-dark-shadow: #07170f;
-      --bg-gradient-1: rgba(16, 185, 129, 0.12); --bg-gradient-2: rgba(52, 211, 153, 0.08); --bg-gradient-3: rgba(245, 158, 11, 0.04);
+      --bg-darkest: #040d08;
+      --bg-main: #07170f;
+      --bg-card: #0d261a;
+      --bg-card-hover: #133625;
+      --border-dim: #1b4d35;
+      --border-glow: #28734f;
+      --text-main: #ecfdf5;
+      --text-muted: #86bfa3;
+      --neon-director: #10b981;
+      --neon-director-3d: #047857;
+      --neon-cinema: #34d399;
+      --neon-cinema-3d: #059669;
+      --neon-actor: #f59e0b;
+      --neon-actor-3d: #b45309;
+      --neon-editor: #6ee7b7;
+      --neon-editor-3d: #059669;
+      --neon-org: #10b981;
+      --neon-fest: #a7f3d0;
+      --3d-cta-bg: #10b981;
+      --3d-cta-shadow: #065f46;
+      --3d-btn-dark: #113122;
+      --3d-btn-dark-shadow: #07170f;
+      --bg-gradient-1: rgba(16, 185, 129, 0.12);
+      --bg-gradient-2: rgba(52, 211, 153, 0.08);
+      --bg-gradient-3: rgba(245, 158, 11, 0.04);
     }
 
     :root {
@@ -72,151 +143,1016 @@
       --app-max-width: 1240px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; font-family: var(--font-body); }
-    html, body { width: 100%; min-height: 100vh; min-height: 100dvh; background-color: var(--bg-darkest); color: var(--text-main); overflow-x: hidden; transition: background-color 0.3s ease, color 0.3s ease; }
-    body { background-image: radial-gradient(circle at 10% 15%, var(--bg-gradient-1) 0%, transparent 35%), radial-gradient(circle at 90% 85%, var(--bg-gradient-2) 0%, transparent 40%), radial-gradient(circle at 50% 50%, var(--bg-gradient-3) 0%, transparent 50%); background-attachment: fixed; display: flex; flex-direction: column; }
-    .app-shell { width: 100%; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; position: relative; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      font-family: var(--font-body);
+    }
 
-    .app-top-header { position: sticky; top: 0; left: 0; width: 100%; z-index: 100; background: var(--bg-card); border-bottom: 1px solid var(--border-dim); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); }
-    .film-perforation { background: #040507; padding: 6px 16px; padding-top: max(6px, env(safe-area-inset-top)); display: flex; justify-content: center; border-bottom: 1px dashed #262b3b; width: 100%; }
-    .sprocket-holes { display: flex; width: 100%; max-width: var(--app-max-width); justify-content: space-between; gap: 8px; }
-    .sprocket { width: 14px; height: 7px; background: #141720; border-radius: 2px; border: 1px solid #232736; flex-shrink: 0; }
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      background-color: var(--bg-darkest);
+      color: var(--text-main);
+      overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    body {
+      background-image: 
+        radial-gradient(circle at 10% 15%, var(--bg-gradient-1) 0%, transparent 35%),
+        radial-gradient(circle at 90% 85%, var(--bg-gradient-2) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, var(--bg-gradient-3) 0%, transparent 50%);
+      background-attachment: fixed;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .app-shell {
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .app-top-header {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-dim);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .film-perforation {
+      background: #040507;
+      padding: 6px 16px;
+      padding-top: max(6px, env(safe-area-inset-top));
+      display: flex;
+      justify-content: center;
+      border-bottom: 1px dashed #262b3b;
+      width: 100%;
+    }
+    .sprocket-holes {
+      display: flex;
+      width: 100%;
+      max-width: var(--app-max-width);
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .sprocket {
+      width: 14px;
+      height: 7px;
+      background: #141720;
+      border-radius: 2px;
+      border: 1px solid #232736;
+      flex-shrink: 0;
+    }
+
     .brand-bar-wrap { width: 100%; }
-    .brand-bar { max-width: var(--app-max-width); margin: 0 auto; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
-    .brand-title-wrap { display: flex; flex-direction: column; cursor: pointer; }
-    .brand-title { font-family: var(--font-poster); font-size: 30px; letter-spacing: 2px; color: #fff; display: flex; align-items: center; gap: 8px; line-height: 1; }
-    .brand-tagline { font-size: 10px; font-weight: 700; color: var(--neon-director); letter-spacing: 0.5px; margin-top: 3px; text-transform: uppercase; }
-    @media (max-width: 480px) { .brand-title { font-size: 24px; } .brand-tagline { font-size: 9px; } }
-    .live-rec { width: 11px; height: 11px; background: #ff0055; border-radius: 50%; box-shadow: 0 0 12px #ff0055; animation: pulseRec 1.6s infinite ease-in-out; }
-    @keyframes pulseRec { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(0.8); } }
+    .brand-bar {
+      max-width: var(--app-max-width);
+      margin: 0 auto;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
     
-    .brand-right-actions { display: flex; align-items: center; gap: 8px; }
-    .avatar-img-circle { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid var(--neon-director); box-shadow: 0 0 10px rgba(255, 183, 3, 0.4); background: #1c202d; cursor: pointer; }
-    .compression-toast { position: fixed; top: 85px; left: 50%; transform: translateX(-50%); background: rgba(20, 23, 32, 0.96); border: 1px solid var(--neon-cinema); color: #fff; padding: 8px 18px; border-radius: 30px; font-size: 12px; font-weight: 700; z-index: 999; display: none; align-items: center; gap: 10px; box-shadow: 0 6px 25px rgba(0, 240, 255, 0.3); backdrop-filter: blur(10px); }
+    .brand-title-wrap {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    .brand-title {
+      font-family: var(--font-poster);
+      font-size: 30px;
+      letter-spacing: 2px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      line-height: 1;
+    }
+    .brand-tagline {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--neon-director);
+      letter-spacing: 0.5px;
+      margin-top: 3px;
+      text-transform: uppercase;
+    }
+    @media (max-width: 480px) {
+      .brand-title { font-size: 24px; }
+      .brand-tagline { font-size: 9px; }
+    }
 
-    .main-content { flex: 1; width: 100%; max-width: var(--app-max-width); margin: 0 auto; padding: 16px 16px 100px 16px; }
-    @media (min-width: 768px) { .main-content { padding: 24px 24px 110px 24px; } }
-    .screen-view { display: none; width: 100%; }
+    .live-rec {
+      width: 11px;
+      height: 11px;
+      background: #ff0055;
+      border-radius: 50%;
+      box-shadow: 0 0 12px #ff0055;
+      animation: pulseRec 1.6s infinite ease-in-out;
+    }
+    @keyframes pulseRec {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.8); }
+    }
+    
+    .brand-right-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .avatar-img-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--neon-director);
+      box-shadow: 0 0 10px rgba(255, 183, 3, 0.4);
+      background: #1c202d;
+      cursor: pointer;
+    }
+
+    .compression-toast {
+      position: fixed;
+      top: 85px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(20, 23, 32, 0.96);
+      border: 1px solid var(--neon-cinema);
+      color: #fff;
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 700;
+      z-index: 999;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 6px 25px rgba(0, 240, 255, 0.3);
+      backdrop-filter: blur(10px);
+      animation: toastSlide 0.2s ease-out;
+    }
+    @keyframes toastSlide {
+      from { opacity: 0; transform: translate(-50%, -10px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+
+    .main-content {
+      flex: 1;
+      width: 100%;
+      max-width: var(--app-max-width);
+      margin: 0 auto;
+      padding: 16px 16px 100px 16px;
+    }
+    @media (min-width: 768px) {
+      .main-content { padding: 24px 24px 110px 24px; }
+    }
+
+    .screen-view {
+      display: none;
+      animation: screenFade 0.2s ease-out;
+      width: 100%;
+    }
     .screen-view.active { display: block; }
-    .section-header-row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
-    @media (min-width: 640px) { .section-header-row { flex-direction: row; justify-content: space-between; align-items: flex-end; } }
-    .section-title { font-family: var(--font-poster); font-size: 32px; letter-spacing: 1.5px; color: #fff; margin-bottom: 2px; }
-    .section-desc { font-size: 13px; color: var(--text-muted); }
+    @keyframes screenFade {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-    .btn-3d { border: none; outline: none; font-weight: 700; font-size: 12px; cursor: pointer; border-radius: 8px; padding: 10px 15px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-transform: uppercase; letter-spacing: 0.3px; white-space: nowrap; }
-    .btn-3d-primary { background: var(--3d-cta-bg); color: #000; box-shadow: 0 4px 0 var(--3d-cta-shadow); }
-    .btn-3d-dark { background: var(--3d-btn-dark); color: var(--text-main); border: 1px solid var(--border-glow); box-shadow: 0 4px 0 var(--3d-btn-dark-shadow); }
-    .btn-3d-connect { background: var(--neon-cinema); color: #000; box-shadow: 0 4px 0 var(--neon-cinema-3d); }
-    .btn-3d-danger { background: #ef4444; color: #fff; box-shadow: 0 3px 0 #991b1b; }
-    .btn-3d-success { background: #10b981; color: #000; box-shadow: 0 3px 0 #059669; }
-    .btn-3d-fest { background: #ec4899; color: #fff; box-shadow: 0 3px 0 #9d174d; }
-    .btn-3d-playstore { background: #00c1a2; color: #000; box-shadow: 0 4px 0 #00806b; }
+    .section-header-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    @media (min-width: 640px) {
+      .section-header-row {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+    }
+    .section-title {
+      font-family: var(--font-poster);
+      font-size: 32px;
+      letter-spacing: 1.5px;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+    .section-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
 
-    .controls-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 16px; }
-    @media (min-width: 768px) { .controls-grid { grid-template-columns: 280px 1fr; align-items: center; } }
-    .toggle-pill-wrap { display: flex; background: #080a0f; padding: 4px; border-radius: 30px; border: 1px solid var(--border-dim); overflow-x: auto; }
-    .toggle-pill-btn { flex: 1; padding: 8px 14px; border-radius: 25px; border: none; background: transparent; color: var(--text-muted); font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; }
-    .toggle-pill-btn.active { background: var(--bg-card-hover); color: #fff; border: 1px solid var(--border-glow); }
-    .search-box { position: relative; width: 100%; }
-    .search-input { width: 100%; background: var(--bg-card); border: 1px solid var(--border-dim); border-radius: 10px; padding: 12px 14px 12px 42px; color: #fff; font-size: 14px; }
+    .btn-3d {
+      border: none;
+      outline: none;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      border-radius: 8px;
+      padding: 10px 15px;
+      transition: transform 0.08s ease, box-shadow 0.08s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+    .btn-3d-primary {
+      background: var(--3d-cta-bg);
+      color: #000;
+      box-shadow: 0 4px 0 var(--3d-cta-shadow), 0 6px 12px rgba(255, 183, 3, 0.35);
+    }
+    .btn-3d-primary:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--3d-cta-shadow); }
+    .btn-3d-dark {
+      background: var(--3d-btn-dark);
+      color: var(--text-main);
+      border: 1px solid var(--border-glow);
+      box-shadow: 0 4px 0 var(--3d-btn-dark-shadow);
+    }
+    .btn-3d-dark:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--3d-btn-dark-shadow); }
+    .btn-3d-connect {
+      background: var(--neon-cinema);
+      color: #000;
+      box-shadow: 0 4px 0 var(--neon-cinema-3d), 0 6px 12px rgba(0, 240, 255, 0.3);
+    }
+    .btn-3d-connect:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--neon-cinema-3d); }
+    .btn-3d-danger {
+      background: #ef4444;
+      color: #fff;
+      box-shadow: 0 3px 0 #991b1b;
+    }
+    .btn-3d-danger:active { transform: translateY(2px); box-shadow: 0 1px 0 #991b1b; }
+    .btn-3d-success {
+      background: #10b981;
+      color: #000;
+      box-shadow: 0 3px 0 #059669;
+    }
+    .btn-3d-success:active { transform: translateY(2px); box-shadow: 0 1px 0 #059669; }
+    .btn-3d-fest {
+      background: #ec4899;
+      color: #fff;
+      box-shadow: 0 3px 0 #9d174d;
+    }
+    .btn-3d-playstore {
+      background: #00c1a2;
+      color: #000;
+      box-shadow: 0 4px 0 #00806b, 0 6px 14px rgba(0, 193, 162, 0.35);
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    @media (min-width: 768px) {
+      .controls-grid {
+        grid-template-columns: 280px 1fr;
+        align-items: center;
+      }
+    }
+
+    .toggle-pill-wrap {
+      display: flex;
+      background: #080a0f;
+      padding: 4px;
+      border-radius: 30px;
+      border: 1px solid var(--border-dim);
+      overflow-x: auto;
+    }
+    .toggle-pill-btn {
+      flex: 1;
+      padding: 8px 14px;
+      border-radius: 25px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .toggle-pill-btn.active {
+      background: var(--bg-card-hover);
+      color: #fff;
+      border: 1px solid var(--border-glow);
+    }
+
+    .search-box {
+      position: relative;
+      width: 100%;
+    }
+    .search-input {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: 10px;
+      padding: 12px 14px 12px 42px;
+      color: #fff;
+      font-size: 14px;
+      transition: border-color 0.2s;
+    }
     .search-input:focus { outline: none; border-color: var(--neon-cinema); }
-    .search-icon-fixed { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); font-size: 16px; color: var(--text-muted); }
+    .search-icon-fixed {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: var(--text-muted);
+    }
 
-    .filter-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 14px; scrollbar-width: none; }
-    .role-filter-chip { background: var(--bg-card); border: 1px solid var(--border-dim); color: var(--text-muted); padding: 7px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; white-space: nowrap; cursor: pointer; }
-    .role-filter-chip.active { background: #fff; color: #000; border-color: #fff; }
+    .filter-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 14px;
+      scrollbar-width: none;
+    }
+    .filter-scroll::-webkit-scrollbar { display: none; }
+    .role-filter-chip {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      color: var(--text-muted);
+      padding: 7px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .role-filter-chip.active {
+      background: #fff;
+      color: #000;
+      border-color: #fff;
+      box-shadow: 0 2px 8px rgba(255,255,255,0.2);
+    }
 
-    .responsive-card-grid { display: grid; grid-template-columns: 1fr; gap: 16px; width: 100%; }
-    @media (min-width: 680px) { .responsive-card-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; } }
-    @media (min-width: 1100px) { .responsive-card-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+    .responsive-card-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      width: 100%;
+    }
+    @media (min-width: 680px) {
+      .responsive-card-grid { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    }
+    @media (min-width: 1100px) {
+      .responsive-card-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    }
 
-    .crew-card, .project-card, .opportunity-card, .org-card, .festival-card { background: var(--bg-card); border: 1px solid var(--border-dim); border-radius: 14px; padding: 16px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 6px 18px rgba(0,0,0,0.3); height: 100%; }
+    .crew-card, .project-card, .opportunity-card, .org-card, .festival-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+      height: 100%;
+    }
+    .crew-card:hover, .project-card:hover, .opportunity-card:hover, .org-card:hover, .festival-card:hover {
+      border-color: var(--border-glow);
+    }
+
     .crew-top { display: flex; gap: 12px; }
-    .crew-avatar { width: 56px; height: 56px; border-radius: 12px; object-fit: cover; border: 2px solid #333; flex-shrink: 0; background: #1c202d; }
+    .crew-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 2px solid #333;
+      flex-shrink: 0;
+      background: #1c202d;
+    }
     .crew-info { flex: 1; }
-    .crew-name-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-    .crew-name { font-size: 17px; font-weight: 800; color: #fff; }
-    .role-badge { font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 3px 8px; border-radius: 6px; margin-left: auto; max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .crew-stats-strip { display: flex; justify-content: space-between; align-items: center; font-size: 12px; background: #0d1017; padding: 7px 10px; border-radius: 8px; border: 1px solid #1f2331; }
+    .crew-name-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .crew-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .role-badge {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-left: auto;
+      max-width: 160px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .crew-stats-strip {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      background: #0d1017;
+      padding: 7px 10px;
+      border-radius: 8px;
+      border: 1px solid #1f2331;
+    }
 
-    .links-tags-container { display: flex; flex-wrap: wrap; gap: 8px; }
-    .link-badge-group { display: inline-flex; align-items: center; background: #192030; border-radius: 6px; border: 1px solid #2b3652; overflow: hidden; }
-    .link-badge-main { color: #60a5fa; text-decoration: none; font-size: 11px; font-weight: 600; padding: 4px 8px; display: inline-flex; align-items: center; gap: 4px; }
-    .link-badge-report-btn { background: none; border: none; border-left: 1px solid #2b3652; color: #ef4444; padding: 4px 7px; cursor: pointer; font-size: 10px; }
+    .links-tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .link-badge-group {
+      display: inline-flex;
+      align-items: center;
+      background: #192030;
+      border-radius: 6px;
+      border: 1px solid #2b3652;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .link-badge-group:hover { border-color: var(--neon-cinema); }
+    .link-badge-main {
+      color: #60a5fa;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .link-badge-report-btn {
+      background: none;
+      border: none;
+      border-left: 1px solid #2b3652;
+      color: #ef4444;
+      padding: 4px 7px;
+      cursor: pointer;
+      font-size: 10px;
+      transition: background 0.15s;
+    }
+    .link-badge-report-btn:hover { background: rgba(239, 68, 68, 0.2); }
 
-    .radar-container-card { background: var(--bg-card); border: 1px solid var(--border-dim); border-radius: 16px; padding: 20px; display: flex; flex-direction: column; align-items: center; max-width: 520px; margin: 0 auto; }
-    .radar-visual { width: 100%; max-width: 380px; aspect-ratio: 1 / 1; background: radial-gradient(circle, #0e1726 0%, #060910 100%); border: 2px solid var(--border-glow); border-radius: 50%; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
-    .radar-ring { position: absolute; border: 1px dashed rgba(0, 240, 255, 0.25); border-radius: 50%; cursor: pointer; }
-    .ring-km-5 { width: 32%; height: 32%; } .ring-km-15 { width: 62%; height: 62%; } .ring-km-30 { width: 92%; height: 92%; }
-    .ring-label { position: absolute; top: 4px; font-size: 10px; font-weight: 700; color: var(--neon-cinema); background: #040508; padding: 1px 5px; border-radius: 4px; }
-    .radar-sweep-beam { position: absolute; width: 50%; height: 50%; top: 0; right: 0; transform-origin: bottom left; background: linear-gradient(45deg, rgba(0, 240, 255, 0.3) 0%, transparent 60%); animation: sweepAnim 4s linear infinite; border-radius: 100% 0 0 0; }
-    @keyframes sweepAnim { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    .radar-user-center { width: 12px; height: 12px; background: #fff; border-radius: 50%; box-shadow: 0 0 10px #fff; z-index: 10; }
-    .radar-pin { position: absolute; width: 24px; height: 24px; border-radius: 50%; transform: translate(-50%, -50%); border: 2px solid #fff; cursor: pointer; z-index: 12; object-fit: cover; }
+    .radar-container-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .radar-visual {
+      width: 100%;
+      max-width: 380px;
+      aspect-ratio: 1 / 1;
+      background: radial-gradient(circle, #0e1726 0%, #060910 100%);
+      border: 2px solid var(--border-glow);
+      border-radius: 50%;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .radar-ring {
+      position: absolute;
+      border: 1px dashed rgba(0, 240, 255, 0.25);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .ring-km-5 { width: 32%; height: 32%; }
+    .ring-km-15 { width: 62%; height: 62%; }
+    .ring-km-30 { width: 92%; height: 92%; }
+    .ring-label {
+      position: absolute;
+      top: 4px;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--neon-cinema);
+      background: #040508;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+    .radar-sweep-beam {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      top: 0;
+      right: 0;
+      transform-origin: bottom left;
+      background: linear-gradient(45deg, rgba(0, 240, 255, 0.3) 0%, transparent 60%);
+      animation: sweepAnim 4s linear infinite;
+      border-radius: 100% 0 0 0;
+    }
+    @keyframes sweepAnim {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .radar-user-center {
+      width: 12px;
+      height: 12px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #fff;
+      z-index: 10;
+    }
+    .radar-pin {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      border: 2px solid #fff;
+      cursor: pointer;
+      z-index: 12;
+      object-fit: cover;
+      transition: transform 0.2s;
+    }
+    .radar-pin:hover { transform: translate(-50%, -50%) scale(1.3); }
 
-    .opp-poster-img { width: 100%; height: 190px; object-fit: cover; border-radius: 10px; border: 1px solid var(--border-glow); background: #10131a; }
-    .badge-budget { background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid #10b981; padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 11px; }
-    .badge-location { background: rgba(0, 240, 255, 0.15); color: var(--neon-cinema); border: 1px solid var(--neon-cinema); padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 11px; }
-    .badge-deadline { background: rgba(236, 72, 153, 0.15); color: #ec4899; border: 1px solid #ec4899; padding: 2px 7px; border-radius: 4px; font-weight: 700; font-size: 11px; }
-    .status-tag { font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 4px 8px; border-radius: 6px; background: rgba(255, 183, 3, 0.15); color: var(--neon-director); border: 1px solid var(--neon-director); }
-    .org-profile-box { background: #0d1017; border: 1px solid #1f2331; padding: 12px; border-radius: 8px; font-size: 12px; line-height: 1.4; }
-    .opp-comments-box { background: #090c12; border: 1px solid #1b212f; border-radius: 8px; padding: 10px; margin-top: auto; }
-    .comment-item { border-bottom: 1px solid #181d29; padding: 6px 0; font-size: 12px; }
+    .opp-poster-img {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid var(--border-glow);
+      background: #10131a;
+    }
+    .badge-budget {
+      background: rgba(16, 185, 129, 0.15);
+      color: #10b981;
+      border: 1px solid #10b981;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 11px;
+    }
+    .badge-location {
+      background: rgba(0, 240, 255, 0.15);
+      color: var(--neon-cinema);
+      border: 1px solid var(--neon-cinema);
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 11px;
+    }
+    .badge-deadline {
+      background: rgba(236, 72, 153, 0.15);
+      color: #ec4899;
+      border: 1px solid #ec4899;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 11px;
+    }
+    .status-tag {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: rgba(255, 183, 3, 0.15);
+      color: var(--neon-director);
+      border: 1px solid var(--neon-director);
+    }
+    .org-profile-box {
+      background: #0d1017;
+      border: 1px solid #1f2331;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .opp-comments-box {
+      background: #090c12;
+      border: 1px solid #1b212f;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: auto;
+    }
+    .comment-item {
+      border-bottom: 1px solid #181d29;
+      padding: 6px 0;
+      font-size: 12px;
+    }
     .comment-item:last-child { border-bottom: none; }
 
-    .slot-row { display: flex; justify-content: space-between; align-items: center; background: #0c0f16; padding: 9px 12px; border-radius: 8px; border: 1px solid #1c2130; margin-bottom: 6px; }
-    .applicants-drawer { background: #0a0d14; border: 1px dashed #283044; border-radius: 8px; padding: 10px; margin-top: 6px; margin-bottom: 8px; display: none; }
-    .centered-form-layout { max-width: 680px; margin: 0 auto; width: 100%; }
+    .slot-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #0c0f16;
+      padding: 9px 12px;
+      border-radius: 8px;
+      border: 1px solid #1c2130;
+      margin-bottom: 6px;
+    }
+    .applicants-drawer {
+      background: #0a0d14;
+      border: 1px dashed #283044;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 6px;
+      margin-bottom: 8px;
+      display: none;
+    }
 
-    .app-distribution-card { background: linear-gradient(135deg, #161b26, #0e121a); border: 1px solid var(--border-glow); border-radius: 14px; padding: 16px; margin-bottom: 16px; display: flex; flex-direction: column; gap: 12px; }
-    .theme-picker-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 6px; }
-    @media (min-width: 480px) { .theme-picker-grid { grid-template-columns: repeat(4, 1fr); } }
-    .theme-choice-btn { padding: 8px; border-radius: 8px; border: 1px solid var(--border-dim); background: var(--bg-card); color: #fff; font-size: 11px; font-weight: 700; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-    .theme-choice-btn.active { border-color: var(--neon-cinema); background: var(--bg-card-hover); }
-    .theme-color-preview { width: 16px; height: 16px; border-radius: 50%; }
+    .centered-form-layout {
+      max-width: 680px;
+      margin: 0 auto;
+      width: 100%;
+    }
 
-    .requests-list, .threads-list { display: flex; flex-direction: column; gap: 12px; }
-    @media (min-width: 768px) { .requests-list, .threads-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; } }
-    .request-item, .thread-card { background: var(--bg-card); border: 1px solid var(--border-dim); border-radius: 12px; padding: 14px; display: flex; align-items: center; gap: 12px; cursor: pointer; }
-    .group-avatar-stack { width: 46px; height: 46px; border-radius: 12px; background: linear-gradient(135deg, #2a1b4e, #14283c); display: flex; align-items: center; justify-content: center; font-size: 20px; border: 1px solid var(--border-glow); flex-shrink: 0; }
+    .app-distribution-card {
+      background: linear-gradient(135deg, #161b26, #0e121a);
+      border: 1px solid var(--border-glow);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
 
-    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
-    .form-group label { font-size: 11px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-    .form-input, .form-select, .form-textarea { background: var(--bg-card); border: 1px solid var(--border-dim); border-radius: 8px; padding: 11px 13px; color: #fff; font-size: 14px; }
-    .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--neon-director); }
-    .url-item-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
-    .crew-select-row { display: flex; align-items: center; gap: 10px; background: #0e121a; padding: 8px 12px; border-radius: 8px; margin-bottom: 6px; border: 1px solid #1f2536; }
-    .preview-box { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border-glow); background: #11141c; }
+    .theme-picker-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 6px;
+    }
+    @media (min-width: 480px) {
+      .theme-picker-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    .theme-choice-btn {
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid var(--border-dim);
+      background: var(--bg-card);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+    .theme-choice-btn.active {
+      border-color: var(--neon-cinema);
+      background: var(--bg-card-hover);
+      box-shadow: 0 0 10px rgba(0,240,255,0.3);
+    }
+    .theme-color-preview {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+    }
 
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; z-index: 300; padding: 16px; }
+    .requests-list, .threads-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    @media (min-width: 768px) {
+      .requests-list, .threads-list {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+    }
+    .request-item, .thread-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+    .group-avatar-stack {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #2a1b4e, #14283c);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      border: 1px solid var(--border-glow);
+      flex-shrink: 0;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .form-group label {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .form-input, .form-select, .form-textarea {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: 8px;
+      padding: 11px 13px;
+      color: #fff;
+      font-size: 14px;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--neon-director);
+    }
+    .url-item-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+    .crew-select-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #0e121a;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      border: 1px solid #1f2536;
+    }
+    .preview-box {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid var(--border-glow);
+      background: #11141c;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+      padding: 16px;
+    }
     .modal-overlay.active { display: flex; }
-    .modal-card { background: var(--bg-main); border: 1px solid var(--border-glow); border-radius: 16px; width: 100%; max-width: 520px; max-height: 90vh; max-height: 90dvh; overflow-y: auto; padding: 24px; box-shadow: 0 16px 40px rgba(0,0,0,0.9); }
+    .modal-card {
+      background: var(--bg-main);
+      border: 1px solid var(--border-glow);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 520px;
+      max-height: 90vh;
+      max-height: 90dvh;
+      overflow-y: auto;
+      padding: 24px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.9);
+    }
 
-    .chat-view-modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; height: 100dvh; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px); z-index: 250; display: none; align-items: center; justify-content: center; padding: 0; }
+    .chat-view-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+      z-index: 250;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+    }
     .chat-view-modal.active { display: flex; }
-    .chat-box-inner { width: 100%; max-width: 600px; height: 100%; max-height: 100dvh; background: var(--bg-main); display: flex; flex-direction: column; border-left: 1px solid var(--border-dim); border-right: 1px solid var(--border-dim); }
-    @media (min-width: 640px) { .chat-view-modal { padding: 20px; } .chat-box-inner { max-height: 85vh; border-radius: 16px; border: 1px solid var(--border-glow); } }
-    .chat-top-header { padding: 14px 18px; background: var(--bg-card); border-bottom: 1px solid var(--border-dim); display: flex; align-items: center; justify-content: space-between; }
-    .chat-messages-area { flex: 1; padding: 18px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
-    .chat-bubble { max-width: 80%; padding: 10px 14px; border-radius: 12px; font-size: 13px; line-height: 1.4; display: flex; flex-direction: column; gap: 4px; }
-    .chat-bubble.mine { align-self: flex-end; background: var(--neon-director); color: #000; font-weight: 600; }
-    .chat-bubble.theirs { align-self: flex-start; background: var(--bg-card-hover); color: #fff; border: 1px solid var(--border-dim); }
-    .chat-sender-tag { font-size: 10px; font-weight: 800; color: var(--neon-cinema); }
-    .chat-image-content { width: 100%; max-width: 260px; border-radius: 8px; margin-top: 4px; border: 1px solid rgba(255,255,255,0.2); }
-    .voice-msg-player { width: 100%; min-width: 200px; height: 38px; border-radius: 20px; margin-top: 4px; }
-    .recording-live-bar { display: none; align-items: center; gap: 8px; background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; padding: 6px 12px; border-radius: 8px; font-size: 12px; color: #ef4444; font-weight: 700; margin-bottom: 6px; }
-    .chat-input-bar { padding: 12px 16px; padding-bottom: max(12px, env(safe-area-inset-bottom)); background: var(--bg-card); border-top: 1px solid var(--border-dim); display: flex; align-items: center; gap: 8px; }
+    .chat-box-inner {
+      width: 100%;
+      max-width: 600px;
+      height: 100%;
+      max-height: 100dvh;
+      background: var(--bg-main);
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid var(--border-dim);
+      border-right: 1px solid var(--border-dim);
+    }
+    @media (min-width: 640px) {
+      .chat-view-modal { padding: 20px; }
+      .chat-box-inner {
+        max-height: 85vh;
+        border-radius: 16px;
+        border: 1px solid var(--border-glow);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.8);
+      }
+    }
+    .chat-top-header {
+      padding: 14px 18px;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border-dim);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .chat-messages-area {
+      flex: 1;
+      padding: 18px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .chat-bubble {
+      max-width: 80%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .chat-bubble.mine {
+      align-self: flex-end;
+      background: var(--neon-director);
+      color: #000;
+      font-weight: 600;
+    }
+    .chat-bubble.theirs {
+      align-self: flex-start;
+      background: var(--bg-card-hover);
+      color: #fff;
+      border: 1px solid var(--border-dim);
+    }
+    .chat-sender-tag {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--neon-cinema);
+    }
+    .chat-image-content {
+      width: 100%;
+      max-width: 260px;
+      border-radius: 8px;
+      margin-top: 4px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .voice-msg-player {
+      width: 100%;
+      min-width: 200px;
+      height: 38px;
+      border-radius: 20px;
+      margin-top: 4px;
+    }
+    .recording-live-bar {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid #ef4444;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      color: #ef4444;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
 
-    .bottom-nav-outer { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(9, 11, 16, 0.94); backdrop-filter: blur(12px); border-top: 1px solid var(--border-dim); z-index: 90; padding-bottom: env(safe-area-inset-bottom); box-shadow: 0 -6px 25px rgba(0, 0, 0, 0.6); }
-    .bottom-nav { max-width: var(--app-max-width); margin: 0 auto; display: grid; grid-template-columns: repeat(6, 1fr); height: 64px; align-items: center; }
-    .nav-btn { background: transparent; border: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: var(--text-muted); cursor: pointer; position: relative; height: 100%; }
+    .chat-input-bar {
+      padding: 12px 16px;
+      padding-bottom: max(12px, env(safe-area-inset-bottom));
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-dim);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bottom-nav-outer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(9, 11, 16, 0.94);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border-dim);
+      z-index: 90;
+      padding-bottom: env(safe-area-inset-bottom);
+      box-shadow: 0 -6px 25px rgba(0, 0, 0, 0.6);
+    }
+    .bottom-nav {
+      max-width: var(--app-max-width);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      height: 64px;
+      align-items: center;
+    }
+    .nav-btn {
+      background: transparent;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      color: var(--text-muted);
+      cursor: pointer;
+      position: relative;
+      height: 100%;
+      transition: color 0.15s;
+    }
     .nav-btn.active { color: #fff; }
-    .nav-btn.active::after { content: ""; position: absolute; top: 0; width: 24px; height: 3px; background: var(--neon-director); border-radius: 0 0 4px 4px; box-shadow: 0 0 8px var(--neon-director); }
+    .nav-btn.active::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      width: 24px;
+      height: 3px;
+      background: var(--neon-director);
+      border-radius: 0 0 4px 4px;
+      box-shadow: 0 0 8px var(--neon-director);
+    }
     .nav-btn-icon { font-size: 18px; }
     .nav-btn-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.3px; }
-    .nav-badge-count { position: absolute; top: 8px; right: 18%; background: var(--neon-actor); color: #fff; font-size: 9px; font-weight: 800; padding: 1px 5px; border-radius: 8px; }
-    .empty-state-box { text-align: center; padding: 40px 20px; color: var(--text-muted); grid-column: 1 / -1; background: var(--bg-card); border: 1px dashed var(--border-dim); border-radius: 12px; }
-    .visibility-toggle-box { background: var(--bg-card); border: 1px solid var(--border-dim); padding: 14px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .nav-badge-count {
+      position: absolute;
+      top: 8px;
+      right: 18%;
+      background: var(--neon-actor);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 8px;
+    }
+
+    .empty-state-box {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+      grid-column: 1 / -1;
+      background: var(--bg-card);
+      border: 1px dashed var(--border-dim);
+      border-radius: 12px;
+    }
+
+    /* Privacy / Visibility Switcher in Profile */
+    .visibility-toggle-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      padding: 14px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
   </style>
 </head>
 <body>
@@ -262,12 +1198,13 @@
       </div>
     </header>
 
+    <!-- Image Compression Loading Toast -->
     <div class="compression-toast" id="compressionToast">
       <div class="live-rec" style="background: var(--neon-cinema); box-shadow: 0 0 10px var(--neon-cinema);"></div>
       <span id="compressionToastText">Compressing & optimizing photo...</span>
     </div>
 
-    <!-- Main Content -->
+    <!-- Main Content Container -->
     <main class="main-content">
 
       <!-- ================= 1. DISCOVER SCREEN ================= -->
@@ -421,6 +1358,7 @@
       <section id="screen-profile" class="screen-view">
         <div class="centered-form-layout">
           
+          <!-- Color Modes / Theme Switcher Card -->
           <div class="app-distribution-card">
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <div>
@@ -450,6 +1388,7 @@
             </div>
           </div>
 
+          <!-- App Platforms Hub -->
           <div class="app-distribution-card">
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <div>
@@ -472,6 +1411,7 @@
             </div>
           </div>
 
+          <!-- Hide / Public Visibility Toggle for Own Profile -->
           <div class="visibility-toggle-box" id="profileVisibilityCard" style="display: none;">
             <div>
               <div style="font-size: 13px; font-weight: 800; color: #fff;">👁️ Profile Visibility in Discover & Radar</div>
@@ -559,6 +1499,7 @@
             <input type="text" id="profLocationText" class="form-input" placeholder="e.g. Film Nagar, Hyderabad" />
           </div>
 
+          <!-- Google Maps Link with Accurate Parsing & Error Handling -->
           <div class="form-group">
             <label>Google Maps Link / Embed URL / Iframe / Lat,Lng</label>
             <input 
@@ -584,6 +1525,7 @@
             <div id="profileLinksList"></div>
           </div>
 
+          <!-- Action Buttons: Save Profile + Delete Profile -->
           <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 10px;">
             <button class="btn-3d btn-3d-primary" style="width: 100%; padding: 14px;" onclick="saveUserProfile()">
               💾 Save Profile & Go to Discover
@@ -597,7 +1539,7 @@
 
     </main>
 
-    <!-- Fixed Bottom Navigation Dock -->
+    <!-- ================= FIXED BOTTOM NAVIGATION DOCK ================= -->
     <div class="bottom-nav-outer">
       <nav class="bottom-nav">
         <button class="nav-btn active" onclick="switchNavTab('discover')">
@@ -622,7 +1564,9 @@
       </nav>
     </div>
 
-    <!-- Modals -->
+    <!-- ================= MODALS ================= -->
+
+    <!-- CREATE FESTIVAL ALERT MODAL -->
     <div class="modal-overlay" id="createFestivalModal">
       <div class="modal-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
@@ -677,6 +1621,7 @@
       </div>
     </div>
 
+    <!-- CREATE ORG MODAL -->
     <div class="modal-overlay" id="createOrgModal">
       <div class="modal-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
@@ -729,6 +1674,7 @@
       </div>
     </div>
 
+    <!-- CREATE OPPORTUNITY MODAL -->
     <div class="modal-overlay" id="createOpportunityModal">
       <div class="modal-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
@@ -783,6 +1729,7 @@
       </div>
     </div>
 
+    <!-- CREATE TEAM GROUP MODAL -->
     <div class="modal-overlay" id="createGroupModal">
       <div class="modal-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
@@ -806,6 +1753,7 @@
       </div>
     </div>
 
+    <!-- CREATE PROJECT MODAL -->
     <div class="modal-overlay" id="createProjectModal">
       <div class="modal-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
@@ -885,6 +1833,7 @@
       </div>
     </div>
 
+    <!-- REVIEWS & RATING MODAL -->
     <div class="modal-overlay" id="reviewsModal">
       <div class="modal-card">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
@@ -914,6 +1863,7 @@
       </div>
     </div>
 
+    <!-- RESPONSIVE CHAT MODAL -->
     <div class="chat-view-modal" id="chatViewModal">
       <div class="chat-box-inner">
         <div class="chat-top-header">
@@ -961,6 +1911,1781 @@
   </div>
 
   <script>
+    // ================= COLOR THEMES ENGINE =================
+    const THEMES = [
+      { id: 'neon-night', name: 'Neon Night' },
+      { id: 'golden-hour', name: 'Golden Hour' },
+      { id: 'monsoon-blue', name: 'Monsoon Blue' },
+      { id: 'emerald-matrix', name: 'Emerald Studio' }
+    ];
+
+    function setAppTheme(themeId) {
+      document.documentElement.setAttribute('data-theme', themeId);
+      localStorage.setItem('filmConnectTheme', themeId);
+      
+      const themeObj = THEMES.find(t => t.id === themeId) || THEMES[0];
+      const label = document.getElementById('currentThemeLabel');
+      if (label) label.innerText = themeObj.name;
+
+      document.querySelectorAll('.theme-choice-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.id === `themeBtn-${themeId}`);
+      });
+    }
+
+    function cycleAppTheme() {
+      const current = document.documentElement.getAttribute('data-theme') || 'neon-night';
+      const idx = THEMES.findIndex(t => t.id === current);
+      const nextTheme = THEMES[(idx + 1) % THEMES.length];
+      setAppTheme(nextTheme.id);
+    }
+
+    function initSavedTheme() {
+      const saved = localStorage.getItem('filmConnectTheme') || 'neon-night';
+      setAppTheme(saved);
+    }
+
+    // ================= APP CONFIGURATION & DISTRIBUTION =================
+    const GOOGLE_PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.filmconnect.app";
+    const WEB_APP_URL = window.location.href.split('#')[0];
+
+    function openGooglePlayStore() {
+      window.open(GOOGLE_PLAY_STORE_URL, '_blank');
+    }
+
+    async function shareWebAppUrl() {
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: "Film Connect — Make your film projects easy",
+            text: "Join Film Connect to collaborate with short-film directors, cinematographers, actors & studios!",
+            url: WEB_APP_URL
+          });
+        } catch (err) {}
+      } else {
+        await navigator.clipboard.writeText(WEB_APP_URL);
+        alert("🔗 Web App Link copied to clipboard!\n" + WEB_APP_URL);
+      }
+    }
+
+    // ================= EXACT FIREBASE & R2 CONFIGURATION =================
+    const firebaseConfig = {
+      apiKey: "AIzaSyDla3G4QjOOpYemNcyTgQT-aq_fXoIRfas",
+      authDomain: "film-connect-a8829.firebaseapp.com",
+      projectId: "film-connect-a8829",
+      storageBucket: "film-connect-a8829.firebasestorage.app",
+      messagingSenderId: "600722456812",
+      appId: "1:600722456812:web:d2a8d471e193bf3c3725c9"
+    };
+
+    const R2_CONFIG = {
+      uploadWorkerUrl: "https://your-r2-worker.workers.dev/upload",
+      publicBaseUrl: "https://pub-r2.yourdomain.com"
+    };
+
+    let auth = null;
+    let db = null;
+    let isFirebaseReady = false;
+
+    try {
+      if (!firebase.apps.length && firebaseConfig.apiKey) {
+        firebase.initializeApp(firebaseConfig);
+        auth = firebase.auth();
+        db = firebase.firestore();
+        isFirebaseReady = true;
+      }
+    } catch (e) {
+      console.warn("Firebase initialization:", e);
+    }
+
+    // ================= 24 CRAFTS OF INDIAN CINEMA =================
+    const indianCinema24Crafts = [
+      "Director",
+      "Cinematographer",
+      "Editor",
+      "Writer (Story / Screenplay / Dialogue)",
+      "Music Director",
+      "Actor (Cine Artist)",
+      "Character Artist",
+      "Dubbing Artist",
+      "Stunt Director / Team",
+      "Choreographer",
+      "Art Director",
+      "Costume Designer",
+      "Makeup Artist",
+      "Audiographer (Sound Recording / Re-recording)",
+      "Still Photographer",
+      "Publicity Designer",
+      "Outdoor Unit Technician",
+      "Junior Artist Agent",
+      "Studio Worker",
+      "Production Executive",
+      "Production Assistant",
+      "Production Women",
+      "Outdoor Lighting Unit",
+      "Cinema Driver"
+    ];
+
+    function getCraftMeta(role) {
+      if (!role) return { color: '#10b981', bg: 'rgba(16, 185, 129, 0.15)', border: '#10b981' };
+      const r = role.toLowerCase();
+      if (r.includes('director') && !r.includes('music') && !r.includes('stunt') && !r.includes('art')) {
+        return { color: '#ffb703', bg: 'rgba(255, 183, 3, 0.15)', border: '#ffb703' };
+      }
+      if (r.includes('writer')) {
+        return { color: '#ffb703', bg: 'rgba(255, 183, 3, 0.15)', border: '#ffb703' };
+      }
+      if (r.includes('cinematographer') || r.includes('photographer') || r.includes('lighting')) {
+        return { color: '#00f0ff', bg: 'rgba(0, 240, 255, 0.15)', border: '#00f0ff' };
+      }
+      if (r.includes('actor') || r.includes('artist') || r.includes('dubbing') || r.includes('stunt') || r.includes('choreographer')) {
+        return { color: '#ff0055', bg: 'rgba(255, 0, 85, 0.15)', border: '#ff0055' };
+      }
+      if (r.includes('editor') || r.includes('audiographer') || r.includes('sound') || r.includes('music') || r.includes('art') || r.includes('costume') || r.includes('makeup') || r.includes('publicity')) {
+        return { color: '#a855f7', bg: 'rgba(168, 85, 247, 0.15)', border: '#a855f7' };
+      }
+      return { color: '#10b981', bg: 'rgba(16, 185, 129, 0.15)', border: '#10b981' };
+    }
+
+    const allowedPlatformDomains = [
+      'youtube.com',
+      'youtu.be',
+      'vimeo.com',
+      'instagram.com',
+      'drive.google.com',
+      'behance.net',
+      'artstation.com',
+      'soundcloud.com',
+      'imdb.com',
+      'filmfreeway.com'
+    ];
+
+    function isValidPlatformUrl(urlString) {
+      if (!urlString || !urlString.trim()) return false;
+      let trimmed = urlString.trim();
+      if (!/^https?:\/\//i.test(trimmed)) {
+        trimmed = 'https://' + trimmed;
+      }
+      try {
+        const parsed = new URL(trimmed);
+        const hostname = parsed.hostname.toLowerCase().replace(/^www\./, '');
+        return allowedPlatformDomains.some(domain => hostname === domain || hostname.endsWith('.' + domain));
+      } catch (e) {
+        return false;
+      }
+    }
+
+    // ================= CLIENT-SIDE COMPRESSION & R2 UPLOAD =================
+    let compressionToastTimeout = null;
+
+    function showCompressionToast(message, autoHideMs = 0) {
+      const toast = document.getElementById('compressionToast');
+      const text = document.getElementById('compressionToastText');
+      if (toast && text) {
+        text.innerText = message;
+        toast.style.display = 'inline-flex';
+        if (compressionToastTimeout) clearTimeout(compressionToastTimeout);
+        if (autoHideMs > 0) {
+          compressionToastTimeout = setTimeout(() => {
+            toast.style.display = 'none';
+          }, autoHideMs);
+        }
+      }
+    }
+
+    function hideCompressionToast() {
+      const toast = document.getElementById('compressionToast');
+      if (toast) toast.style.display = 'none';
+    }
+
+    async function compressAndOptimizeImage(file, options = {}) {
+      const {
+        maxDimension = 900,
+        quality = 0.78,
+        targetMaxKB = 450,
+        strictMaxKB = 1024
+      } = options;
+
+      showCompressionToast('⚡ Optimizing & compressing image for R2...');
+
+      return new Promise((resolve, reject) => {
+        if (!file || !file.type.startsWith('image/')) {
+          hideCompressionToast();
+          alert('Selected file is not an image!');
+          reject(new Error('Not an image file'));
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onerror = () => {
+          hideCompressionToast();
+          alert('Failed to read file from device storage.');
+          reject(new Error('FileReader error'));
+        };
+
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onerror = () => {
+            hideCompressionToast();
+            alert('Failed to process image for compression.');
+            reject(new Error('Image load error'));
+          };
+
+          img.onload = () => {
+            let width = img.width;
+            let height = img.height;
+
+            if (width > maxDimension || height > maxDimension) {
+              if (width > height) {
+                height = Math.round((height * maxDimension) / width);
+                width = maxDimension;
+              } else {
+                width = Math.round((width * maxDimension) / height);
+                height = maxDimension;
+              }
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, width, height);
+            ctx.drawImage(img, 0, 0, width, height);
+
+            let dataUrl = canvas.toDataURL('image/jpeg', quality);
+            let sizeInBytes = Math.round((dataUrl.length - (dataUrl.indexOf(',') + 1)) * 0.75);
+            let sizeInKB = Math.round(sizeInBytes / 1024);
+
+            if (sizeInKB > targetMaxKB) {
+              dataUrl = canvas.toDataURL('image/jpeg', 0.65);
+              sizeInBytes = Math.round((dataUrl.length - (dataUrl.indexOf(',') + 1)) * 0.75);
+              sizeInKB = Math.round(sizeInBytes / 1024);
+            }
+
+            hideCompressionToast();
+
+            if (sizeInKB > strictMaxKB) {
+              alert(`⚠️ Image is too large (${sizeInKB} KB after optimization).\nPlease pick a smaller image under ${strictMaxKB} KB.`);
+              reject(new Error('Image exceeds 1MB limit'));
+              return;
+            }
+
+            showCompressionToast(`✓ Optimized to ${sizeInKB} KB`, 2000);
+            resolve({ dataUrl, sizeInKB });
+          };
+
+          img.src = e.target.result;
+        };
+
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function uploadToCloudflareR2(file, folder = 'avatars', options = {}) {
+      const compressed = await compressAndOptimizeImage(file, options);
+      const filename = `${folder}/${Date.now()}-${Math.random().toString(36).substring(7)}.jpg`;
+
+      try {
+        if (R2_CONFIG.uploadWorkerUrl && !R2_CONFIG.uploadWorkerUrl.includes('your-r2-worker')) {
+          showCompressionToast('☁️ Uploading directly to Cloudflare R2...');
+          const blob = await (await fetch(compressed.dataUrl)).blob();
+          const formData = new FormData();
+          formData.append('file', blob, filename);
+          
+          const res = await fetch(R2_CONFIG.uploadWorkerUrl, { method: 'POST', body: formData });
+          const data = await res.json();
+          hideCompressionToast();
+          return data.url || `${R2_CONFIG.publicBaseUrl}/${filename}`;
+        } else {
+          return compressed.dataUrl;
+        }
+      } catch (err) {
+        console.warn("R2 upload fallback to optimized payload:", err);
+        hideCompressionToast();
+        return compressed.dataUrl;
+      }
+    }
+
+    // ================= PWA SETUP (FIXED MANIFEST DEFINITION) =================
+    const manifestData = {
+      name: "Film Connect — Make your film projects easy",
+      short_name: "FilmConnect",
+      description: "Indian Cinema 24 Crafts Collaboration, Radar & Opportunities Platform",
+      start_url: ".",
+      scope: ".",
+      display: "standalone",
+      background_color: "#0c0e14",
+      theme_color: "#0c0e14",
+      orientation: "portrait",
+      icons: [
+        {
+          src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192' width='192' height='192'%3E%3Crect width='192' height='192' rx='36' fill='%230c0e14'/%3E%3Ccircle cx='96' cy='96' r='58' fill='%23141720' stroke='%23ffb703' stroke-width='6'/%3E%3Cpolygon points='82,70 126,96 82,122' fill='%23ffb703'/%3E%3Ccircle cx='140' cy='52' r='10' fill='%23ff0055'/%3E%3C/svg%3E",
+          sizes: "192x192",
+          type: "image/svg+xml",
+          purpose: "any maskable"
+        },
+        {
+          src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='512' height='512'%3E%3Crect width='512' height='512' rx='96' fill='%230c0e14'/%3E%3Ccircle cx='256' cy='256' r='156' fill='%23141720' stroke='%23ffb703' stroke-width='16'/%3E%3Cpolygon points='220,186 338,256 220,326' fill='%23ffb703'/%3E%3Ccircle cx='374' cy='138' r='26' fill='%23ff0055'/%3E%3C/svg%3E",
+          sizes: "512x512",
+          type: "image/svg+xml",
+          purpose: "any maskable"
+        }
+      ]
+    };
+
+    const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
+    document.getElementById('pwaManifest').setAttribute('href', URL.createObjectURL(manifestBlob));
+
+    if ('serviceWorker' in navigator) {
+      const swCode = `
+        self.addEventListener('install', (e) => self.skipWaiting());
+        self.addEventListener('activate', (e) => clients.claim());
+        self.addEventListener('fetch', (e) => e.respondWith(fetch(e.request).catch(() => new Response('Offline'))));
+      `;
+      const swBlob = new Blob([swCode], { type: 'text/javascript' });
+      navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(() => {});
+    }
+
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const btn = document.getElementById('pwaInstallBtn');
+      if (btn) btn.style.display = 'inline-flex';
+    });
+
+    function triggerPWAInstall() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((res) => {
+          if (res.outcome === 'accepted') {
+            document.getElementById('pwaInstallBtn').style.display = 'none';
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        alert("📲 To Install on iPhone / Safari:\n1. Tap the 'Share' (⎙) icon\n2. Select 'Add to Home Screen'\n\nOn Chrome/Android: Tap three dots ➔ 'Install App'");
+      }
+    }
+
+    // ================= STATE & REAL-TIME DATA =================
+    const defaultAvatar = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%238e98b0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'%3E%3C/path%3E%3Ccircle cx='12' cy='7' r='4'%3E%3C/circle%3E%3C/svg%3E";
+    const defaultOrgLogo = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%238e98b0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='2' width='20' height='20' rx='5'%3E%3C/rect%3E%3Cpath d='M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z'%3E%3C/path%3E%3C/svg%3E";
+    const defaultPoster = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%238e98b0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='18' height='18' rx='2' ry='2'%3E%3Ccircle cx='8.5' cy='8.5' r='1.5'%3E%3Cpolyline points='21 15 16 10 5 21'%3E%3C/svg%3E";
+    const defaultFestBanner = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%23ec4899' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9H4.5a2.5 2.5 0 0 1 0-5H6'%3E%3Cpath d='M18 9h1.5a2.5 2.5 0 0 0 0-5H18'%3E%3Cpath d='M4 22h16'%3E%3Cpath d='M10 14.66V17c0 .55-.45 1-1 1H7'%3E%3Cpath d='M14 14.66V17c0 .55.45 1 1 1h2'%3E%3Cpath d='M18 2H6v7a6 6 0 0 0 12 0V2Z'%3E%3C/svg%3E";
+
+    let currentUser = {
+      uid: null,
+      name: "",
+      email: "",
+      role: "Director",
+      age: "",
+      bio: "",
+      locationName: "",
+      mapsLink: "",
+      lat: 17.4486,
+      lng: 78.3908,
+      avatar: defaultAvatar,
+      portfolioLinks: [],
+      connectedUsers: [],
+      hidden: false
+    };
+
+    let crewMembers = [];
+    let connectRequests = [];
+    let projectsFeed = [];
+    let organizationsList = [];
+    let opportunitiesList = [];
+    let festivalsList = [];
+    let activeChatThreads = [];
+    let teamGroups = [];
+
+    let uploadedOrgLogoData = defaultOrgLogo;
+    let uploadedOppPosterData = defaultPoster;
+    let uploadedFestBannerData = defaultFestBanner;
+
+    let currentChatMode = 'direct';
+    let currentDirectChatId = null;
+    let currentGroupId = null;
+    let currentReviewedCrewId = null;
+    let selectedRatingStars = 5;
+
+    let currentSelectedRole = 'All';
+    let currentSearchTerm = '';
+    let currentRadiusFilter = null;
+
+    let unsubscribeChatListener = null;
+
+    // ================= GOOGLE AUTH WITH ACCOUNT SELECTOR =================
+    async function handleAuthAction() {
+      if (!isFirebaseReady) {
+        alert("⚠️ Please verify your Firebase configuration keys.");
+        return;
+      }
+
+      if (auth.currentUser) {
+        if (confirm("Do you want to Sign Out of Film Connect?")) {
+          await auth.signOut();
+          currentUser.uid = null;
+          currentUser.name = "";
+          currentUser.avatar = defaultAvatar;
+          currentUser.hidden = false;
+          document.getElementById('headerAvatar').src = defaultAvatar;
+          document.getElementById('authActionBtn').innerText = "🔑 Sign In With Google";
+          document.getElementById('profileVisibilityCard').style.display = "none";
+          document.getElementById('btnDeleteProfile').style.display = "none";
+          populateProfileForm();
+          renderCrewList();
+        }
+      } else {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        provider.setCustomParameters({ prompt: 'select_account' });
+
+        try {
+          const res = await auth.signInWithPopup(provider);
+          await syncUserWithFirestore(res.user);
+        } catch (err) {
+          console.error("Google Auth error:", err);
+          alert("Sign in error: " + err.message);
+        }
+      }
+    }
+
+    async function syncUserWithFirestore(firebaseUser) {
+      if (!db) return;
+      const userRef = db.collection('users').doc(firebaseUser.uid);
+      const doc = await userRef.get();
+
+      if (doc.exists) {
+        const data = doc.data();
+        currentUser = { ...currentUser, ...data, uid: firebaseUser.uid };
+      } else {
+        currentUser.uid = firebaseUser.uid;
+        currentUser.name = firebaseUser.displayName || "Filmmaker";
+        currentUser.email = firebaseUser.email || "";
+        currentUser.avatar = firebaseUser.photoURL || defaultAvatar;
+        currentUser.role = "Director";
+        currentUser.connectedUsers = [];
+        currentUser.hidden = false;
+        await userRef.set(currentUser);
+      }
+
+      document.getElementById('headerAvatar').src = currentUser.avatar;
+      document.getElementById('authActionBtn').innerText = "🚪 Sign Out (" + (currentUser.name.split(' ')[0]) + ")";
+      document.getElementById('profileVisibilityCard').style.display = "flex";
+      document.getElementById('btnDeleteProfile').style.display = "inline-flex";
+      updateVisibilityUI();
+      populateProfileForm();
+      initFirestoreListeners();
+    }
+
+    // ================= HIDE / UNHIDE PROFILE =================
+    async function toggleProfileHiddenState() {
+      if (!currentUser.uid || !db) {
+        alert("Please sign in with Google to adjust profile visibility.");
+        return;
+      }
+
+      const newHiddenState = !currentUser.hidden;
+      currentUser.hidden = newHiddenState;
+
+      await db.collection('users').doc(currentUser.uid).update({
+        hidden: newHiddenState
+      });
+
+      updateVisibilityUI();
+      alert(newHiddenState ? "🙈 Profile is now Hidden from Discover & Radar for others." : "👁️ Profile is now Public and visible on Discover & Radar.");
+    }
+
+    function updateVisibilityUI() {
+      const statusText = document.getElementById('visibilityStatusText');
+      const toggleBtn = document.getElementById('btnToggleHide');
+      if (statusText && toggleBtn) {
+        if (currentUser.hidden) {
+          statusText.innerText = "Status: Hidden (Not shown on Discover/Radar for others)";
+          statusText.style.color = "#f59e0b";
+          toggleBtn.innerText = "Unhide Profile";
+          toggleBtn.className = "btn-3d btn-3d-success";
+        } else {
+          statusText.innerText = "Status: Public (Visible to all filmmakers)";
+          statusText.style.color = "#10b981";
+          toggleBtn.innerText = "Hide Profile";
+          toggleBtn.className = "btn-3d btn-3d-dark";
+        }
+      }
+    }
+
+    // ================= CASCADE DELETE PROFILE =================
+    async function deleteUserAccountCascade() {
+      if (!currentUser.uid || !db || !auth) return;
+
+      const confirmed = confirm("⚠️ PERMANENT ACCOUNT DELETION:\n\nAre you sure you want to delete your profile? This will permanently delete your account, projects, connect requests, chat threads, and reviews. This action cannot be undone.");
+      if (!confirmed) return;
+
+      showCompressionToast("🗑️ Deleting all profile data permanently...");
+
+      try {
+        const uid = currentUser.uid;
+
+        const projSnap = await db.collection('projects').where('creatorUid', '==', uid).get();
+        const projDeletes = projSnap.docs.map(doc => doc.ref.delete());
+        await Promise.all(projDeletes);
+
+        const reqSnap1 = await db.collection('connectRequests').where('senderUid', '==', uid).get();
+        const reqSnap2 = await db.collection('connectRequests').where('receiverUid', '==', uid).get();
+        const reqDeletes = [...reqSnap1.docs, ...reqSnap2.docs].map(doc => doc.ref.delete());
+        await Promise.all(reqDeletes);
+
+        const chatSnap = await db.collection('chats').get();
+        for (const doc of chatSnap.docs) {
+          if (doc.id.includes(uid)) {
+            const msgSnap = await doc.ref.collection('messages').get();
+            const msgDeletes = msgSnap.docs.map(m => m.ref.delete());
+            await Promise.all(msgDeletes);
+            await doc.ref.delete();
+          }
+        }
+
+        const usersSnap = await db.collection('users').get();
+        for (const userDoc of usersSnap.docs) {
+          const uData = userDoc.data();
+          if (uData.reviews && Array.isArray(uData.reviews)) {
+            const filteredReviews = uData.reviews.filter(r => !r.reviewer?.includes(currentUser.name));
+            if (filteredReviews.length !== uData.reviews.length) {
+              await userDoc.ref.update({ reviews: filteredReviews });
+            }
+          }
+        }
+
+        await db.collection('users').doc(uid).delete();
+        await auth.signOut();
+
+        hideCompressionToast();
+
+        currentUser = {
+          uid: null,
+          name: "",
+          email: "",
+          role: "Director",
+          age: "",
+          bio: "",
+          locationName: "",
+          mapsLink: "",
+          lat: 17.4486,
+          lng: 78.3908,
+          avatar: defaultAvatar,
+          portfolioLinks: [],
+          connectedUsers: [],
+          hidden: false
+        };
+
+        document.getElementById('headerAvatar').src = defaultAvatar;
+        document.getElementById('authActionBtn').innerText = "🔑 Sign In With Google";
+        document.getElementById('profileVisibilityCard').style.display = "none";
+        document.getElementById('btnDeleteProfile').style.display = "none";
+
+        populateProfileForm();
+        switchNavTab('discover');
+
+        alert("✓ Your profile and all associated data have been permanently deleted.");
+      } catch (err) {
+        hideCompressionToast();
+        console.error("Cascade deletion error:", err);
+        alert("Error deleting account: " + err.message);
+      }
+    }
+
+    // ================= FIRESTORE REAL-TIME LISTENERS =================
+    function initFirestoreListeners() {
+      if (!isFirebaseReady || !db) return;
+
+      db.collection('users').onSnapshot(snap => {
+        crewMembers = [];
+        snap.forEach(doc => {
+          const data = doc.data();
+          const isSelf = (currentUser.uid && doc.id === currentUser.uid);
+
+          if (isSelf) return;
+          if (data.hidden === true) return;
+
+          const isConnected = currentUser.connectedUsers && currentUser.connectedUsers.includes(doc.id);
+
+          if ((data.reportsCount || 0) < 10) {
+            crewMembers.push({
+              id: doc.id,
+              name: data.name || 'Filmmaker',
+              role: data.role || 'Director',
+              age: data.age || 25,
+              locationName: data.locationName || 'India',
+              lat: typeof data.lat === 'number' ? data.lat : 17.4486,
+              lng: typeof data.lng === 'number' ? data.lng : 78.3908,
+              avatar: data.avatar || defaultAvatar,
+              rating: data.rating || 5.0,
+              projectsCount: data.projectsCount || 1,
+              reportsCount: data.reportsCount || 0,
+              portfolioLinks: data.portfolioLinks || [],
+              reviews: data.reviews || [],
+              skills: data.skills || [data.role || 'Director'],
+              bio: data.bio || '',
+              connected: isConnected,
+              isSelf: false
+            });
+          }
+        });
+        renderCrewList();
+        renderRadarPins();
+      });
+
+      db.collection('projects').orderBy('createdAt', 'desc').onSnapshot(snap => {
+        projectsFeed = [];
+        snap.forEach(doc => {
+          const p = doc.data();
+          projectsFeed.push({
+            id: doc.id,
+            ...p,
+            isMine: (currentUser.uid && p.creatorUid === currentUser.uid)
+          });
+        });
+        renderProjectsFeed();
+      });
+
+      db.collection('organizations').orderBy('createdAt', 'desc').onSnapshot(snap => {
+        organizationsList = [];
+        snap.forEach(doc => {
+          organizationsList.push({ id: doc.id, ...doc.data() });
+        });
+        renderOrganizationsDirectory();
+      });
+
+      db.collection('opportunities').orderBy('createdAt', 'desc').onSnapshot(snap => {
+        opportunitiesList = [];
+        snap.forEach(doc => {
+          opportunitiesList.push({ id: doc.id, ...doc.data() });
+        });
+        renderOpportunitiesFeed();
+      });
+
+      db.collection('festivals').orderBy('createdAt', 'desc').onSnapshot(snap => {
+        festivalsList = [];
+        snap.forEach(doc => {
+          festivalsList.push({ id: doc.id, ...doc.data() });
+        });
+        renderFestivalsFeed();
+      });
+
+      if (currentUser.uid) {
+        db.collection('connectRequests')
+          .where('receiverUid', '==', currentUser.uid)
+          .where('status', '==', 'pending')
+          .onSnapshot(snap => {
+            connectRequests = [];
+            snap.forEach(doc => {
+              connectRequests.push({ id: doc.id, ...doc.data() });
+            });
+            renderRequests();
+          });
+      }
+    }
+
+    function calculateRealDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * (Math.PI / 180);
+      const dLon = (lon2 - lon1) * (Math.PI / 180);
+      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      return parseFloat((R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).toFixed(1));
+    }
+
+    // ================= GOOGLE MAPS MULTI-FORMAT PARSER =================
+    function parseGoogleMapsRegex(input) {
+      if (!input || !input.trim()) return null;
+      let str = input.trim();
+
+      const iframeMatch = str.match(/src=["']([^"']+)["']/i);
+      if (iframeMatch) {
+        str = iframeMatch[1];
+      }
+
+      try {
+        str = decodeURIComponent(str);
+      } catch (e) {}
+
+      const embed2d3d = str.match(/!2d(-?\d+\.\d+)!3d(-?\d+\.\d+)/);
+      if (embed2d3d) {
+        const lng = parseFloat(embed2d3d[1]);
+        const lat = parseFloat(embed2d3d[2]);
+        if (!isNaN(lat) && !isNaN(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+          return { lat, lng };
+        }
+      }
+
+      const place3d4d = str.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/);
+      if (place3d4d) {
+        const lat = parseFloat(place3d4d[1]);
+        const lng = parseFloat(place3d4d[2]);
+        if (!isNaN(lat) && !isNaN(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+          return { lat, lng };
+        }
+      }
+
+      const standardMatch = str.match(/(?:@|q=|query=|ll=|\/dir\/\/|loc:)(-?\d+\.\d+)[,\s]+(-?\d+\.\d+)/);
+      if (standardMatch) {
+        const lat = parseFloat(standardMatch[1]);
+        const lng = parseFloat(standardMatch[2]);
+        if (!isNaN(lat) && !isNaN(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+          return { lat, lng };
+        }
+      }
+
+      const rawMatch = str.match(/^(-?\d+\.\d+)[,\s]+(-?\d+\.\d+)$/);
+      if (rawMatch) {
+        const lat = parseFloat(rawMatch[1]);
+        const lng = parseFloat(rawMatch[2]);
+        if (!isNaN(lat) && !isNaN(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+          return { lat, lng };
+        }
+      }
+
+      return null;
+    }
+
+    function handleUserMapsLinkInput(val) {
+      const display = document.getElementById('userCoordsDisplay');
+      currentUser.mapsLink = val;
+
+      if (!val || !val.trim()) {
+        if (display) {
+          display.innerText = "No location link set";
+          display.style.color = "var(--text-muted)";
+        }
+        return;
+      }
+
+      const parsed = parseGoogleMapsRegex(val);
+      if (parsed) {
+        currentUser.lat = parsed.lat;
+        currentUser.lng = parsed.lng;
+        if (display) {
+          display.innerText = `${parsed.lat.toFixed(4)}, ${parsed.lng.toFixed(4)}`;
+          display.style.color = "#10b981";
+        }
+        renderCrewList();
+        renderRadarPins();
+      } else {
+        if (display) {
+          display.innerText = "❌ Coordinates not found! Please paste a valid Google Maps link, iframe, or lat,lng.";
+          display.style.color = "#ef4444";
+        }
+      }
+    }
+
+    async function handlePhotoUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        try {
+          const r2Url = await uploadToCloudflareR2(file, 'avatars', { maxDimension: 800, quality: 0.8, targetMaxKB: 350 });
+          currentUser.avatar = r2Url;
+          document.getElementById('profilePhotoDisplay').src = r2Url;
+          document.getElementById('headerAvatar').src = r2Url;
+        } catch (err) {
+          console.error("R2 Avatar upload error:", err);
+        }
+      }
+    }
+
+    function handleProfileRoleChange(val) {
+      document.getElementById('customRoleWrap').style.display = (val === 'Other') ? 'block' : 'none';
+    }
+
+    function renderProfileLinksForm() {
+      const container = document.getElementById('profileLinksList');
+      if (currentUser.portfolioLinks.length === 0) {
+        container.innerHTML = `<div style="font-size: 12px; color: var(--text-muted);">No portfolio links added. Tap '+ Add URL' above.</div>`;
+        return;
+      }
+      container.innerHTML = currentUser.portfolioLinks.map((link, idx) => `
+        <div class="url-item-row" id="linkRow-${idx}">
+          <select class="form-select" style="width: 120px; padding: 7px;" onchange="currentUser.portfolioLinks[${idx}].platform = this.value">
+            <option value="YouTube" ${link.platform === 'YouTube' ? 'selected' : ''}>YouTube</option>
+            <option value="Instagram" ${link.platform === 'Instagram' ? 'selected' : ''}>Instagram</option>
+            <option value="Vimeo" ${link.platform === 'Vimeo' ? 'selected' : ''}>Vimeo</option>
+            <option value="Drive" ${link.platform === 'Drive' ? 'selected' : ''}>Drive/Cloud</option>
+            <option value="Behance" ${link.platform === 'Behance' ? 'selected' : ''}>Behance</option>
+            <option value="ArtStation" ${link.platform === 'ArtStation' ? 'selected' : ''}>ArtStation</option>
+            <option value="SoundCloud" ${link.platform === 'SoundCloud' ? 'selected' : ''}>SoundCloud</option>
+            <option value="IMDb" ${link.platform === 'IMDb' ? 'selected' : ''}>IMDb</option>
+            <option value="FilmFreeway" ${link.platform === 'FilmFreeway' ? 'selected' : ''}>FilmFreeway</option>
+          </select>
+          <input type="text" class="form-input" style="flex: 1; padding: 7px;" value="${link.url}" placeholder="https://..." oninput="currentUser.portfolioLinks[${idx}].url = this.value" />
+          <button type="button" class="btn-3d btn-3d-danger" style="padding: 7px 10px; font-size: 11px;" onclick="removeProfileLink(${idx})">✕</button>
+        </div>
+      `).join('');
+    }
+
+    function addProfileLinkField() {
+      currentUser.portfolioLinks.push({ platform: "YouTube", url: "" });
+      renderProfileLinksForm();
+    }
+
+    function removeProfileLink(idx) {
+      currentUser.portfolioLinks.splice(idx, 1);
+      renderProfileLinksForm();
+    }
+
+    // ================= SAVE PROFILE & CONFIRMATION =================
+    async function saveUserProfile() {
+      const nameVal = document.getElementById('profName').value.trim();
+      if (!nameVal) {
+        alert('Please enter your name to save your profile!');
+        return;
+      }
+
+      for (let i = 0; i < currentUser.portfolioLinks.length; i++) {
+        const linkObj = currentUser.portfolioLinks[i];
+        if (linkObj.url && linkObj.url.trim()) {
+          if (!isValidPlatformUrl(linkObj.url)) {
+            alert(`⚠️ Invalid URL Detected for ${linkObj.platform}!\n\n"${linkObj.url}"\n\nOnly verified links from YouTube, Vimeo, Instagram, Google Drive, Behance, ArtStation, SoundCloud, IMDb, or FilmFreeway are accepted.`);
+            return;
+          }
+        }
+      }
+
+      currentUser.name = nameVal;
+      currentUser.age = document.getElementById('profAge').value;
+      
+      const roleVal = document.getElementById('profRole').value;
+      if (roleVal === 'Other') {
+        currentUser.role = document.getElementById('customProfRoleInput').value.trim() || 'Film Craft Practitioner';
+      } else {
+        currentUser.role = roleVal;
+      }
+
+      currentUser.bio = document.getElementById('profBio').value.trim();
+      currentUser.locationName = document.getElementById('profLocationText').value.trim() || 'India';
+      currentUser.mapsLink = document.getElementById('profMapsLink').value.trim();
+      currentUser.portfolioLinks = currentUser.portfolioLinks.filter(l => l.url && l.url.trim());
+
+      if (currentUser.mapsLink) {
+        const parsed = parseGoogleMapsRegex(currentUser.mapsLink);
+        if (parsed) {
+          currentUser.lat = parsed.lat;
+          currentUser.lng = parsed.lng;
+        }
+      }
+
+      if (isFirebaseReady && db && currentUser.uid) {
+        await db.collection('users').doc(currentUser.uid).set(currentUser, { merge: true });
+      }
+
+      showCompressionToast("✓ Profile created & saved successfully!", 2000);
+
+      setTimeout(() => {
+        switchNavTab('discover');
+      }, 500);
+    }
+
+    function populateProfileForm() {
+      document.getElementById('profName').value = currentUser.name || "";
+      document.getElementById('profAge').value = currentUser.age || "";
+      
+      if (indianCinema24Crafts.includes(currentUser.role)) {
+        document.getElementById('profRole').value = currentUser.role;
+        document.getElementById('customRoleWrap').style.display = 'none';
+      } else {
+        document.getElementById('profRole').value = 'Other';
+        document.getElementById('customRoleWrap').style.display = 'block';
+        document.getElementById('customProfRoleInput').value = currentUser.role || "";
+      }
+
+      document.getElementById('profBio').value = currentUser.bio || "";
+      document.getElementById('profLocationText').value = currentUser.locationName || "";
+      document.getElementById('profMapsLink').value = currentUser.mapsLink || "";
+      
+      const display = document.getElementById('userCoordsDisplay');
+      if (display) {
+        if (typeof currentUser.lat === 'number' && typeof currentUser.lng === 'number') {
+          display.innerText = `${currentUser.lat.toFixed(4)}, ${currentUser.lng.toFixed(4)}`;
+          display.style.color = "#10b981";
+        } else {
+          display.innerText = "No coordinates detected";
+          display.style.color = "var(--text-muted)";
+        }
+      }
+
+      document.getElementById('profilePhotoDisplay').src = currentUser.avatar || defaultAvatar;
+      renderProfileLinksForm();
+    }
+
+    function isUserProfileComplete() {
+      return (currentUser.name && currentUser.name.trim().length > 0);
+    }
+
+    // ================= CONNECT FLOW IN FIRESTORE =================
+    async function sendConnectRequest(crewId) {
+      if (!currentUser.uid) {
+        alert("Please Sign In with Google on the Profile tab to send connect requests!");
+        switchNavTab('profile');
+        return;
+      }
+
+      const crew = crewMembers.find(c => c.id === crewId);
+      if (!crew) return;
+
+      if (isFirebaseReady && db) {
+        await db.collection('connectRequests').add({
+          senderUid: currentUser.uid,
+          senderName: currentUser.name || 'Filmmaker',
+          senderRole: currentUser.role || 'Director',
+          senderAvatar: currentUser.avatar || defaultAvatar,
+          receiverUid: crewId,
+          status: 'pending',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }
+
+      alert(`⚡ Connect request sent to ${crew.name}!`);
+    }
+
+    function renderRequests() {
+      const container = document.getElementById('requestsListContainer');
+      document.getElementById('connectsBadge').innerText = connectRequests.length;
+
+      if (connectRequests.length === 0) {
+        container.innerHTML = `<div class="empty-state-box">No pending connect requests at the moment.</div>`;
+        return;
+      }
+
+      container.innerHTML = connectRequests.map(req => `
+        <div class="request-item">
+          <img src="${req.senderAvatar}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">
+          <div style="flex: 1;">
+            <div style="font-size: 15px; font-weight: 800; color: #fff;">${req.senderName}</div>
+            <div style="font-size: 12px; color: var(--neon-cinema);">${req.senderRole} wants to connect with you</div>
+          </div>
+          <div style="display: flex; gap: 6px;">
+            <button class="btn-3d btn-3d-danger" onclick="respondConnectRequest('${req.id}', false, '${req.senderUid}')">Reject</button>
+            <button class="btn-3d btn-3d-success" onclick="respondConnectRequest('${req.id}', true, '${req.senderUid}')">Accept</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function respondConnectRequest(reqId, isAccepted, senderUid) {
+      if (isFirebaseReady && db) {
+        if (isAccepted) {
+          await db.collection('connectRequests').doc(reqId).update({ status: 'accepted' });
+          
+          await db.collection('users').doc(currentUser.uid).update({
+            connectedUsers: firebase.firestore.FieldValue.arrayUnion(senderUid)
+          });
+          await db.collection('users').doc(senderUid).update({
+            connectedUsers: firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
+          });
+
+          alert("✓ Accepted connection! You both can now chat.");
+        } else {
+          await db.collection('connectRequests').doc(reqId).update({ status: 'rejected' });
+          alert("✕ Rejected connection request.");
+        }
+      }
+    }
+
+    // ================= PROJECTS FEED IN FIRESTORE =================
+    function renderProjectsFeed() {
+      const container = document.getElementById('projectsFeedContainer');
+      if (projectsFeed.length === 0) {
+        container.innerHTML = `<div class="empty-state-box">No projects posted yet. Click <strong>'+ Create Project'</strong> above to post your short film requirements.</div>`;
+        return;
+      }
+
+      container.innerHTML = projectsFeed.map(proj => `
+        <div class="project-card">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span style="font-size: 11px; color: var(--neon-cinema); font-weight: 800; text-transform: uppercase;">${proj.type}</span>
+              <div class="project-title" style="font-size: 19px; color: #fff;">${proj.title}</div>
+              ${proj.location ? `<div class="badge-location" style="margin-top: 4px; display: inline-block;">📍 ${proj.location}</div>` : ''}
+            </div>
+            <span class="status-tag">${proj.status}</span>
+          </div>
+
+          <div style="font-size: 12px; color: var(--text-muted);">
+            Created by: <strong>${proj.creatorName}</strong>
+          </div>
+
+          <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4;">${proj.desc}</p>
+
+          <div>
+            <div style="font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 6px;">Role Slots & Bookings:</div>
+            ${(proj.slots || []).map((s, sIdx) => {
+              const meta = getCraftMeta(s.role);
+              const applicantsCount = s.applicants ? s.applicants.length : 0;
+              return `
+                <div class="slot-row">
+                  <div>
+                    <span style="font-size: 12px; font-weight: 700; color: ${meta.color};">${s.role}</span>
+                    <span style="font-size: 11px; color: var(--text-muted); margin-left: 6px;">(${applicantsCount} Booked / Target: ${s.target})</span>
+                  </div>
+                  
+                  <div style="display: flex; gap: 6px;">
+                    ${proj.isMine ? `
+                      <button class="btn-3d btn-3d-dark" style="padding: 4px 8px; font-size: 10px;" onclick="toggleApplicantsDrawer('${proj.id}', ${sIdx})">
+                        👁️ View Applicants (${applicantsCount})
+                      </button>
+                    ` : `
+                      <button class="btn-3d btn-3d-connect" style="padding: 4px 10px; font-size: 10px;" onclick="bookProjectSlot('${proj.id}', '${s.role}', ${sIdx})">
+                        ⚡ Book / Apply
+                      </button>
+                    `}
+                  </div>
+                </div>
+
+                <div class="applicants-drawer" id="drawer-${proj.id}-${sIdx}">
+                  <div style="font-size: 11px; color: var(--neon-director); font-weight: 700; margin-bottom: 6px;">
+                    📋 Applicants:
+                  </div>
+                  ${(!s.applicants || s.applicants.length === 0) ? `<div style="font-size: 11px; color: var(--text-muted);">No one has applied yet.</div>` : `
+                    ${s.applicants.map(app => `
+                      <div style="display: flex; justify-content: space-between; align-items: center; background: #131722; padding: 6px 8px; border-radius: 6px; margin-bottom: 4px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                          <img src="${app.avatar}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover;">
+                          <span style="font-size: 12px; font-weight: 700; color: #fff;">${app.name}</span>
+                          <span style="font-size: 10px; color: var(--neon-cinema);">${app.status}</span>
+                        </div>
+                        <button class="btn-3d btn-3d-primary" style="padding: 3px 6px; font-size: 9px;" onclick="selectApplicantForTeam('${app.name}', '${s.role}')">
+                          ✓ Select for Team
+                        </button>
+                      </div>
+                    `).join('')}
+                  `}
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleApplicantsDrawer(projId, sIdx) {
+      const drawer = document.getElementById(`drawer-${projId}-${sIdx}`);
+      drawer.style.display = (drawer.style.display === 'block') ? 'none' : 'block';
+    }
+
+    async function bookProjectSlot(projId, roleName, sIdx) {
+      if (!isUserProfileComplete()) {
+        alert("⚠️ Please fill your Name in Profile before booking slots!");
+        switchNavTab('profile');
+        return;
+      }
+
+      if (isFirebaseReady && db) {
+        const projRef = db.collection('projects').doc(projId);
+        const doc = await projRef.get();
+        if (doc.exists) {
+          const slots = doc.data().slots;
+          if (slots[sIdx]) {
+            if (!slots[sIdx].applicants) slots[sIdx].applicants = [];
+            slots[sIdx].applicants.push({
+              uid: currentUser.uid || 'anon',
+              name: currentUser.name,
+              role: currentUser.role,
+              avatar: currentUser.avatar,
+              status: "Applied"
+            });
+            await projRef.update({ slots: slots });
+            alert(`✅ Slot booked for "${roleName}" on Firestore!`);
+          }
+        }
+      }
+    }
+
+    function selectApplicantForTeam(name, role) {
+      alert(`🎬 Selected ${name} for ${role}! You can now create a Team Group in Messages.`);
+    }
+
+    // ================= REPORT PROFILE =================
+    async function reportCrewProfile(crewId, customReason) {
+      const crew = crewMembers.find(c => c.id === crewId);
+      if (!crew) return;
+
+      if (!crew.connected) {
+        alert("⚠️ You can only report profiles you are connected with.");
+        return;
+      }
+
+      let reason = customReason;
+      if (!reason) {
+        reason = prompt(`⚠️ Report Connected User for Misconduct:\nPlease enter reason for reporting ${crew.name} (100% Anonymous):`, "Inappropriate conduct");
+      }
+      if (reason === null) return;
+
+      if (isFirebaseReady && db) {
+        const userRef = db.collection('users').doc(crewId);
+        await userRef.update({
+          reportsCount: firebase.firestore.FieldValue.increment(1)
+        });
+      }
+
+      alert(`🚩 Report submitted anonymously. Thank you for keeping Film Connect safe.`);
+    }
+
+    function reportInappropriateLink(crewId, linkUrl) {
+      if (confirm(`⚠️ Report Link Content:\n\nAre you sure you want to flag and report this link for inappropriate or unrelated content?\n\nLink: ${linkUrl}`)) {
+        reportCrewProfile(crewId, `Inappropriate link: ${linkUrl}`);
+      }
+    }
+
+    // ================= VOICE RECORDING & LIVE CHAT =================
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let recordInterval = null;
+    let recordSeconds = 0;
+
+    async function toggleVoiceRecording() {
+      if (mediaRecorder && mediaRecorder.state === 'recording') {
+        stopAndSendVoiceRecording();
+        return;
+      }
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+
+        mediaRecorder.ondataavailable = (e) => {
+          if (e.data.size > 0) audioChunks.push(e.data);
+        };
+
+        mediaRecorder.onstop = async () => {
+          const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+          const audioUrl = URL.createObjectURL(audioBlob);
+          sendAudioMessage(audioUrl, formatTime(recordSeconds));
+          stream.getTracks().forEach(track => track.stop());
+        };
+
+        mediaRecorder.start();
+        recordSeconds = 0;
+        document.getElementById('recordingLiveBar').style.display = 'flex';
+        document.getElementById('recordingTimer').innerText = '0:00';
+        document.getElementById('btnMicRecord').style.background = '#ef4444';
+
+        recordInterval = setInterval(() => {
+          recordSeconds++;
+          document.getElementById('recordingTimer').innerText = formatTime(recordSeconds);
+          if (recordSeconds >= 60) stopAndSendVoiceRecording();
+        }, 1000);
+
+      } catch (err) {
+        alert("🎙️ Microphone Access:\nPlease allow microphone access to record voice notes.");
+      }
+    }
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+
+    function stopAndSendVoiceRecording() {
+      if (mediaRecorder && mediaRecorder.state === 'recording') {
+        mediaRecorder.stop();
+      }
+      cleanupRecordUI();
+    }
+
+    function cancelVoiceRecording() {
+      if (mediaRecorder && mediaRecorder.state === 'recording') {
+        mediaRecorder.ondataavailable = null;
+        mediaRecorder.onstop = null;
+        mediaRecorder.stop();
+      }
+      cleanupRecordUI();
+    }
+
+    function cleanupRecordUI() {
+      clearInterval(recordInterval);
+      document.getElementById('recordingLiveBar').style.display = 'none';
+      document.getElementById('btnMicRecord').style.background = '';
+    }
+
+    async function sendAudioMessage(audioSrc, duration) {
+      if (currentChatMode === 'direct') {
+        if (isFirebaseReady && db && currentUser.uid && currentDirectChatId) {
+          const chatId = [currentUser.uid, currentDirectChatId].sort().join('_');
+          await db.collection('chats').doc(chatId).collection('messages').add({
+            senderUid: currentUser.uid,
+            type: 'audio',
+            audioSrc: audioSrc,
+            duration: duration,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }
+      }
+    }
+
+    function openCreateGroupModal() {
+      const list = document.getElementById('groupCrewSelectorList');
+      const connectedCrew = crewMembers.filter(c => c.connected);
+
+      if (connectedCrew.length === 0) {
+        list.innerHTML = `<div style="font-size: 12px; color: var(--text-muted); padding: 10px 0;">No connected crew members yet. Connect with members first to add them to your team group.</div>`;
+      } else {
+        list.innerHTML = connectedCrew.map(c => `
+          <label class="crew-select-row">
+            <input type="checkbox" value="${c.id}" class="group-crew-checkbox" checked />
+            <img src="${c.avatar}" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;">
+            <span style="font-size: 13px; font-weight: 700; color: #fff;">${c.name}</span>
+            <span style="font-size: 11px; color: var(--neon-cinema); margin-left: auto;">${c.role}</span>
+          </label>
+        `).join('');
+      }
+
+      document.getElementById('createGroupModal').classList.add('active');
+    }
+
+    function closeCreateGroupModal() {
+      document.getElementById('createGroupModal').classList.remove('active');
+    }
+
+    async function submitCreateGroup() {
+      const name = document.getElementById('newGroupName').value.trim() || 'New Team Unit 🎬';
+      const selected = Array.from(document.querySelectorAll('.group-crew-checkbox:checked')).map(cb => cb.value);
+
+      if (isFirebaseReady && db && currentUser.uid) {
+        await db.collection('groups').add({
+          name: name,
+          creatorUid: currentUser.uid,
+          creatorName: currentUser.name || 'Filmmaker',
+          membersCount: selected.length + 1,
+          members: [currentUser.uid, ...selected],
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }
+
+      closeCreateGroupModal();
+      alert(`👥 Team Group "${name}" created in Firestore!`);
+    }
+
+    function renderThreads() {
+      const grpContainer = document.getElementById('groupThreadsContainer');
+      grpContainer.innerHTML = `<div style="font-size: 12px; color: var(--text-muted); padding: 10px 0;">No active team groups. Click '+ Create Group' above.</div>`;
+
+      const container = document.getElementById('threadsListContainer');
+      const connectedOnes = crewMembers.filter(c => c.connected);
+
+      if (connectedOnes.length === 0) {
+        container.innerHTML = `<div style="font-size: 12px; color: var(--text-muted); padding: 10px 0;">No 1-on-1 direct messages. Connect with someone in Discover to chat.</div>`;
+        return;
+      }
+      container.innerHTML = connectedOnes.map(thread => `
+        <div class="thread-card" onclick="openDirectChat('${thread.id}')">
+          <img src="${thread.avatar}" style="width: 46px; height: 46px; border-radius: 50%; object-fit: cover;">
+          <div style="flex: 1;">
+            <div style="display: flex; justify-content: space-between;">
+              <span style="font-size: 14px; font-weight: 800; color: #fff;">${thread.name}</span>
+              <span style="font-size: 11px; color: var(--neon-cinema);">${thread.role}</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Tap to open live encrypted chat</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openDirectChat(crewId) {
+      const crew = crewMembers.find(c => c.id === crewId);
+      if (crew && !crew.connected) {
+        alert(`🔒 Chat Locked: You and ${crew.name} must both accept a Connect request before 1-on-1 chatting.`);
+        return;
+      }
+
+      currentChatMode = 'direct';
+      currentDirectChatId = crewId;
+      document.getElementById('groupActionWrap').style.display = 'none';
+
+      document.getElementById('chatHeaderName').innerText = crew ? crew.name : 'User';
+      document.getElementById('chatHeaderRole').innerText = crew ? crew.role : 'Role';
+      document.getElementById('chatHeaderImg').src = crew ? crew.avatar : defaultAvatar;
+      document.getElementById('chatHeaderImg').style.display = 'block';
+
+      listenToLiveChat(crewId);
+      document.getElementById('chatViewModal').classList.add('active');
+    }
+
+    function listenToLiveChat(targetUid) {
+      if (unsubscribeChatListener) unsubscribeChatListener();
+
+      const area = document.getElementById('chatMessagesArea');
+      area.innerHTML = `<div style="text-align:center; font-size:12px; color:var(--text-muted); padding:10px;">Connecting to real-time chat...</div>`;
+
+      if (isFirebaseReady && db && currentUser.uid && targetUid) {
+        const chatId = [currentUser.uid, targetUid].sort().join('_');
+        unsubscribeChatListener = db.collection('chats').doc(chatId).collection('messages')
+          .orderBy('createdAt', 'asc')
+          .onSnapshot(snap => {
+            area.innerHTML = '';
+            snap.forEach(doc => {
+              const m = doc.data();
+              const isMine = (m.senderUid === currentUser.uid);
+              const bubble = document.createElement('div');
+              bubble.className = `chat-bubble ${isMine ? 'mine' : 'theirs'}`;
+              
+              if (m.text) bubble.innerHTML += `<div>${m.text}</div>`;
+              if (m.type === 'image') bubble.innerHTML += `<img src="${m.imageSrc}" class="chat-image-content" onclick="window.open(this.src)">`;
+              if (m.type === 'audio') bubble.innerHTML += `
+                <div style="font-size:11px; font-weight:700;">🎙️ Voice Note (${m.duration || '0:05'})</div>
+                <audio class="voice-msg-player" controls src="${m.audioSrc}"></audio>
+              `;
+
+              area.appendChild(bubble);
+            });
+            area.scrollTop = area.scrollHeight;
+          });
+      }
+    }
+
+    function closeChatModal() {
+      if (unsubscribeChatListener) unsubscribeChatListener();
+      cleanupRecordUI();
+      document.getElementById('chatViewModal').classList.remove('active');
+    }
+
+    async function sendChatMessage() {
+      const input = document.getElementById('chatTextInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      if (currentChatMode === 'direct') {
+        if (isFirebaseReady && db && currentUser.uid && currentDirectChatId) {
+          const chatId = [currentUser.uid, currentDirectChatId].sort().join('_');
+          await db.collection('chats').doc(chatId).collection('messages').add({
+            senderUid: currentUser.uid,
+            text: text,
+            type: 'text',
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          input.value = '';
+        }
+      }
+    }
+
+    async function handleChatImageUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        try {
+          const r2Url = await uploadToCloudflareR2(file, 'chat', { maxDimension: 900, quality: 0.75, targetMaxKB: 300 });
+          if (isFirebaseReady && db && currentUser.uid && currentDirectChatId) {
+            const chatId = [currentUser.uid, currentDirectChatId].sort().join('_');
+            await db.collection('chats').doc(chatId).collection('messages').add({
+              senderUid: currentUser.uid,
+              type: 'image',
+              imageSrc: r2Url,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          }
+        } catch (err) {
+          console.error("Chat image upload error:", err);
+        }
+      }
+    }
+
+    // ================= ORGANIZATIONS & FESTIVALS RADAR =================
+    function setOrgsView(view) {
+      document.getElementById('orgsOpportunitiesView').style.display = (view === 'opportunities') ? 'block' : 'none';
+      document.getElementById('orgsFestivalsView').style.display = (view === 'festivals') ? 'block' : 'none';
+      document.getElementById('orgsDirectoryView').style.display = (view === 'directory') ? 'block' : 'none';
+
+      document.getElementById('btnViewOpps').classList.toggle('active', view === 'opportunities');
+      document.getElementById('btnViewFestivals').classList.toggle('active', view === 'festivals');
+      document.getElementById('btnViewDirectory').classList.toggle('active', view === 'directory');
+    }
+
+    function renderOpportunitiesFeed() {
+      const container = document.getElementById('opportunitiesFeedContainer');
+      if (opportunitiesList.length === 0) {
+        container.innerHTML = `<div class="empty-state-box">No opportunity calls posted yet. Click <strong>'📢 Post Call'</strong> above to create one.</div>`;
+        return;
+      }
+
+      container.innerHTML = opportunitiesList.map(opp => `
+        <div class="opportunity-card">
+          <img src="${opp.poster}" class="opp-poster-img" alt="Poster">
+
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <img src="${opp.orgLogo}" style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 1px solid #fff;">
+            <div>
+              <div style="font-size: 13px; font-weight: 800; color: #fff;">${opp.orgName}</div>
+            </div>
+          </div>
+
+          <div style="font-size: 14px; font-weight: 800; color: var(--neon-cinema);">
+            🎯 Roles Needed: <span style="color: #fff;">${opp.rolesNeeded}</span>
+          </div>
+
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <span class="badge-location">📍 ${opp.locations}</span>
+            ${opp.budget ? `<span class="badge-budget">💰 ${opp.budget}</span>` : ''}
+          </div>
+
+          <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4;">${opp.description}</p>
+
+          <div class="opp-comments-box">
+            <div style="font-size: 11px; font-weight: 800; color: var(--neon-director); margin-bottom: 6px;">
+              💬 Pitches / Interested Messages (${opp.comments ? opp.comments.length : 0}):
+            </div>
+            
+            <div id="comments-list-${opp.id}">
+              ${(opp.comments || []).map(c => `
+                <div class="comment-item">
+                  <span style="font-weight: 700; color: #60a5fa;">${c.sender}:</span>
+                  <span style="color: #cbd5e1;">${c.message}</span>
+                </div>
+              `).join('')}
+            </div>
+
+            <div style="display: flex; gap: 6px; margin-top: 8px;">
+              <input type="text" id="input-pitch-${opp.id}" class="form-input" style="padding: 7px 10px; font-size: 12px; flex: 1;" placeholder="Drop 'Interested' pitch / query..." />
+              <button class="btn-3d btn-3d-primary" style="padding: 7px 12px; font-size: 10px;" onclick="postPitchMessage('${opp.id}')">Pitch</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function postPitchMessage(oppId) {
+      if (!isUserProfileComplete()) {
+        alert("⚠️ Please enter your Name in Profile before pitching!");
+        switchNavTab('profile');
+        return;
+      }
+
+      const input = document.getElementById(`input-pitch-${oppId}`);
+      const text = input.value.trim();
+      if (!text) return;
+
+      if (isFirebaseReady && db) {
+        await db.collection('opportunities').doc(oppId).update({
+          comments: firebase.firestore.FieldValue.arrayUnion({
+            sender: `${currentUser.name} (${currentUser.role})`,
+            message: text
+          })
+        });
+        input.value = '';
+        alert("✓ Pitch posted to Firestore!");
+      }
+    }
+
+    function renderFestivalsFeed() {
+      const container = document.getElementById('festivalsFeedContainer');
+      if (festivalsList.length === 0) {
+        container.innerHTML = `<div class="empty-state-box">No festivals listed yet. Click <strong>'🏆 + Post Festival'</strong> above to share an alert with the filmmaking community!</div>`;
+        return;
+      }
+
+      container.innerHTML = festivalsList.map(fest => `
+        <div class="festival-card">
+          <img src="${fest.banner}" class="opp-poster-img" alt="Festival Banner">
+
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <div>
+              <span class="badge-deadline">⏳ Deadline: ${fest.deadline}</span>
+              <div style="font-size: 18px; font-weight: 800; color: #fff; margin-top: 4px;">${fest.name}</div>
+              <div style="font-size: 12px; color: var(--neon-fest);">Organized by: ${fest.organizer}</div>
+            </div>
+          </div>
+
+          <div style="background: #0d1017; border: 1px solid #1f2331; padding: 10px; border-radius: 8px; font-size: 12px;">
+            <div style="color: var(--neon-director); font-weight: 700;">🎁 Awards & Perks:</div>
+            <div style="color: #cbd5e1; margin-bottom: 6px;">${fest.prize}</div>
+
+            <div style="color: var(--neon-cinema); font-weight: 700;">📜 Rules & Criteria:</div>
+            <div style="color: #cbd5e1;">${fest.desc}</div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; margin-top: auto; padding-top: 8px;">
+            <a href="${fest.link}" target="_blank" class="btn-3d btn-3d-fest" style="text-decoration: none;">
+              🏆 Submit Film / Official Portal ↗
+            </a>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderOrganizationsDirectory() {
+      const container = document.getElementById('orgsDirectoryContainer');
+      if (organizationsList.length === 0) {
+        container.innerHTML = `<div class="empty-state-box">No organizations registered yet. Click <strong>'🏢 + Add Org'</strong> above to add your studio or channel.</div>`;
+        return;
+      }
+
+      container.innerHTML = organizationsList.map(org => `
+        <div class="org-card">
+          <div style="display: flex; gap: 12px; align-items: center;">
+            <img src="${org.logo}" style="width: 56px; height: 56px; border-radius: 12px; object-fit: cover; border: 2px solid var(--border-glow);">
+            <div style="flex: 1;">
+              <div style="font-size: 17px; font-weight: 800; color: #fff;">${org.name}</div>
+              <span class="badge-budget" style="font-size: 10px;">${org.type}</span>
+            </div>
+          </div>
+
+          <div class="org-profile-box">
+            <div style="color: var(--neon-director); font-weight: 700; margin-bottom: 2px;">🎬 Typically Produces:</div>
+            <div style="color: #cbd5e1; margin-bottom: 8px;">${org.typicallyProduces}</div>
+
+            <div style="color: var(--neon-cinema); font-weight: 700; margin-bottom: 2px;">🎁 What They Provide:</div>
+            <div style="color: #cbd5e1;">${org.whatTheyProvide}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openCreateFestivalModal() { document.getElementById('createFestivalModal').classList.add('active'); }
+    function closeCreateFestivalModal() { document.getElementById('createFestivalModal').classList.remove('active'); }
+
+    async function handleFestPosterUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        try {
+          const r2Url = await uploadToCloudflareR2(file, 'festivals', { maxDimension: 1080, quality: 0.8, targetMaxKB: 450 });
+          uploadedFestBannerData = r2Url;
+          document.getElementById('festPosterPreview').src = r2Url;
+        } catch (err) {
+          console.error("Banner R2 upload error:", err);
+        }
+      }
+    }
+
+    async function submitNewFestival() {
+      const name = document.getElementById('festNameInput').value.trim();
+      const org = document.getElementById('festOrgInput').value.trim();
+      const deadline = document.getElementById('festDeadlineInput').value.trim();
+      const prize = document.getElementById('festPrizeInput').value.trim();
+      const link = document.getElementById('festLinkInput').value.trim() || 'https://filmfreeway.com';
+      const desc = document.getElementById('festDescInput').value.trim();
+
+      if (!name || !deadline || !prize || !desc) {
+        alert('Please fill Festival Name, Deadline, Prize, and Rules fields!');
+        return;
+      }
+
+      if (!isValidPlatformUrl(link)) {
+        alert(`⚠️ Please provide a verified festival portal URL.`);
+        return;
+      }
+
+      if (isFirebaseReady && db) {
+        await db.collection('festivals').add({
+          name: name,
+          organizer: org || 'Festival Committee',
+          deadline: deadline,
+          prize: prize,
+          link: link,
+          desc: desc,
+          banner: uploadedFestBannerData,
+          creatorUid: currentUser.uid || 'anon',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }
+
+      closeCreateFestivalModal();
+      setOrgsView('festivals');
+      alert(`🏆 Festival Alert for "${name}" published to Firestore!`);
+    }
+
+    function openCreateOrgModal() { document.getElementById('createOrgModal').classList.add('active'); }
+    function closeCreateOrgModal() { document.getElementById('createOrgModal').classList.remove('active'); }
+    function toggleOrgCustomType(val) { document.getElementById('orgCustomTypeWrap').style.display = (val === 'Other') ? 'block' : 'none'; }
+
+    async function handleOrgLogoUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        try {
+          const r2Url = await uploadToCloudflareR2(file, 'logos', { maxDimension: 600, quality: 0.8, targetMaxKB: 250 });
+          uploadedOrgLogoData = r2Url;
+          document.getElementById('orgLogoPreview').src = r2Url;
+        } catch (err) {
+          console.error("Logo R2 upload error:", err);
+        }
+      }
+    }
+
+    async function submitNewOrganization() {
+      const name = document.getElementById('orgNameInput').value.trim();
+      let type = document.getElementById('orgTypeSelect').value;
+      if (type === 'Other') type = document.getElementById('orgCustomTypeInput').value.trim() || 'Studio';
+
+      const produces = document.getElementById('orgProducesInput').value.trim();
+      const provides = document.getElementById('orgProvidesInput').value.trim();
+
+      if (!name || !produces || !provides) {
+        alert('Please fill all organization profile fields!');
+        return;
+      }
+
+      if (isFirebaseReady && db) {
+        await db.collection('organizations').add({
+          name: name,
+          type: type,
+          logo: uploadedOrgLogoData,
+          typicallyProduces: produces,
+          whatTheyProvide: provides,
+          creatorUid: currentUser.uid || 'anon',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }
+
+      closeCreateOrgModal();
+      setOrgsView('directory');
+      alert(`🏢 Organization "${name}" registered in Firestore!`);
+    }
+
+    function populateOrgSelectDropdown() {
+      const select = document.getElementById('oppOrgSelect');
+      let optionsHtml = organizationsList.map(org => `<option value="${org.id}">${org.name} (${org.type})</option>`).join('');
+      optionsHtml += `<option value="Other">Others (Enter Organization Name Below)</option>`;
+      select.innerHTML = optionsHtml;
+      togglePostingOrgCustom(select.value);
+    }
+
+    function togglePostingOrgCustom(val) {
+      document.getElementById('customPostingOrgWrap').style.display = (val === 'Other') ? 'block' : 'none';
+    }
+
+    function openCreateOpportunityModal() {
+      populateOrgSelectDropdown();
+      document.getElementById('createOpportunityModal').classList.add('active');
+    }
+    function closeCreateOpportunityModal() { document.getElementById('createOpportunityModal').classList.remove('active'); }
+
+    async function handleOppPosterUpload(e) {
+      const file = e.target.files[0];
+      if (file) {
+        try {
+          const r2Url = await uploadToCloudflareR2(file, 'posters', { maxDimension: 1080, quality: 0.8, targetMaxKB: 450 });
+          uploadedOppPosterData = r2Url;
+          document.getElementById('oppPosterPreview').src = r2Url;
+        } catch (err) {
+          console.error("Poster R2 upload error:", err);
+        }
+      }
+    }
+
+    async function submitNewOpportunity() {
+      const orgId = document.getElementById('oppOrgSelect').value;
+      let orgName = '';
+      let orgLogo = defaultOrgLogo;
+
+      if (orgId === 'Other') {
+        orgName = document.getElementById('customPostingOrgName').value.trim();
+        if (!orgName) {
+          alert('Please enter Organization Name!');
+          return;
+        }
+      } else {
+        const org = organizationsList.find(o => o.id === orgId);
+        if (org) {
+          orgName = org.name;
+          orgLogo = org.logo;
+        } else {
+          orgName = 'Production Unit';
+        }
+      }
+
+      const roles = document.getElementById('oppRolesInput').value.trim();
+      const location = document.getElementById('oppLocationInput').value.trim();
+      const budget = document.getElementById('oppBudgetInput').value.trim();
+      const desc = document.getElementById('oppDescInput').value.trim();
+
+      if (!roles || !location || !desc) {
+        alert('Please fill Roles, Location and Description fields!');
+        return;
+      }
+
+      if (isFirebaseReady && db) {
+        await db.collection('opportunities').add({
+          orgId: orgId,
+          orgName: orgName,
+          orgLogo: orgLogo,
+          rolesNeeded: roles,
+          description: desc,
+          budget: budget,
+          locations: location,
+          poster: uploadedOppPosterData,
+          comments: [],
+          creatorUid: currentUser.uid || 'anon',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }
+
+      closeCreateOpportunityModal();
+      setOrgsView('opportunities');
+      alert(`📢 Opportunity post by "${orgName}" published to Firestore!`);
+    }
+
+    // ================= REVIEWS & RATINGS =================
+    function openReviewsModal(crewId) {
+      currentReviewedCrewId = crewId;
+      const crew = crewMembers.find(c => c.id === crewId);
+      if (!crew) return;
+
+      document.getElementById('reviewModalTitle').innerText = `${crew.name.toUpperCase()} — REVIEWS`;
+      setRatingScore(5);
+      renderReviewsList(crew);
+      document.getElementById('reviewsModal').classList.add('active');
+    }
+
+    function closeReviewsModal() { document.getElementById('reviewsModal').classList.remove('active'); }
+
+    function renderReviewsList(crew) {
+      const list = document.getElementById('crewReviewsList');
+      if (!crew.reviews || crew.reviews.length === 0) {
+        list.innerHTML = `<div style="font-size: 12px; color: var(--text-muted); text-align: center; padding: 16px;">No reviews yet. Be the first to review!</div>`;
+        return;
+      }
+
+      list.innerHTML = crew.reviews.map(r => `
+        <div style="background: #0d1017; border: 1px solid #1e2433; padding: 10px 12px; border-radius: 8px; margin-bottom: 8px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+            <span style="font-size: 13px; font-weight: 700; color: #fff;">${r.reviewer}</span>
+            <span style="color: #ffb703; font-weight: 800; font-size: 12px;">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+          </div>
+          <p style="font-size: 12px; color: #cbd5e1; line-height: 1.3;">"${r.comment}"</p>
+        </div>
+      `).join('');
+    }
+
+    function setRatingScore(stars) {
+      selectedRatingStars = stars;
+      document.getElementById('starScoreDisplay').innerText = `${stars} Star${stars > 1 ? 's' : ''}`;
+      const starSpans = document.querySelectorAll('#starRatingPicker span');
+      starSpans.forEach((span, idx) => {
+        span.style.color = (idx < stars) ? '#ffb703' : '#4b5563';
+      });
+    }
+
+    async function submitCrewReview() {
+      const comment = document.getElementById('newReviewComment').value.trim();
+      if (!comment) {
+        alert('Please enter a short review comment before submitting!');
+        return;
+      }
+
+      if (isFirebaseReady && db && currentReviewedCrewId) {
+        const userRef = db.collection('users').doc(currentReviewedCrewId);
+        await userRef.update({
+          reviews: firebase.firestore.FieldValue.arrayUnion({
+            reviewer: `${currentUser.name || 'Filmmaker'} (${currentUser.role})`,
+            rating: selectedRatingStars,
+            comment: comment
+          })
+        });
+        document.getElementById('newReviewComment').value = '';
+        closeReviewsModal();
+        alert('⭐ Review posted to Firestore!');
+      }
+    }
+
     // ================= DISCOVER SCREEN RENDER =================
     function renderCrewList() {
       const container = document.getElementById('crewFeedContainer');
@@ -1218,6 +3943,7 @@
       }
     }
 
+    // ================= INITIALIZE APP ON LOAD =================
     window.addEventListener('DOMContentLoaded', () => {
       initSavedTheme();
 
@@ -1226,6 +3952,13 @@
           if (user) {
             syncUserWithFirestore(user);
           } else {
+            currentUser.uid = null;
+            currentUser.name = "";
+            currentUser.avatar = defaultAvatar;
+            document.getElementById('headerAvatar').src = defaultAvatar;
+            document.getElementById('authActionBtn').innerText = "🔑 Sign In With Google";
+            document.getElementById('profileVisibilityCard').style.display = "none";
+            document.getElementById('btnDeleteProfile').style.display = "none";
             populateProfileForm();
             initFirestoreListeners();
           }
