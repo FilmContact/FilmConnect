@@ -1363,7 +1363,7 @@
         <div class="threads-list" id="threadsListContainer"></div>
       </section>
 
-      <!-- ================= 6. PROFILE SCREEN (Theme Selector + Platforms) ================= -->
+      <!-- ================= 6. PROFILE SCREEN ================= -->
       <section id="screen-profile" class="screen-view">
         <div class="centered-form-layout">
           
@@ -1397,7 +1397,7 @@
             </div>
           </div>
 
-          <!-- App Platforms Hub (Android Play Store + Web App Link) -->
+          <!-- App Platforms Hub -->
           <div class="app-distribution-card">
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <div>
@@ -1951,13 +1951,14 @@
       }
     }
 
+    // ================= FIREBASE & CLOUDFLARE R2 CONFIGURATION =================
     const firebaseConfig = {
-      apiKey: "మీ actual apiKey ఇక్కడ",
-      authDomain: "మీ actual authDomain ఇక్కడ",
-      projectId: "మీ actual projectId ఇక్కడ",
-      storageBucket: "మీ actual storageBucket ఇక్కడ",
-      messagingSenderId: "మీ actual messagingSenderId ఇక్కడ",
-      appId: "మీ actual appId ఇక్కడ"
+      apiKey: "AIzaSy... (మీ అసలు value ఇక్కడ paste చేయండి)",
+      authDomain: "film-connect-a8829.firebaseapp.com",
+      projectId: "film-connect-a8829",
+      storageBucket: "film-connect-a8829.appspot.com",
+      messagingSenderId: "మీ అసలు value ఇక్కడ",
+      appId: "మీ అసలు value ఇక్కడ"
     };
 
     // Cloudflare R2 Upload Config
@@ -1971,7 +1972,7 @@
     let isFirebaseReady = false;
 
     try {
-      if (!firebase.apps.length && firebaseConfig.apiKey !== "మీ actual apiKey ఇక్కడ") {
+      if (!firebase.apps.length && firebaseConfig.apiKey && !firebaseConfig.apiKey.includes("మీ అసలు value")) {
         firebase.initializeApp(firebaseConfig);
         auth = firebase.auth();
         db = firebase.firestore();
@@ -2192,42 +2193,6 @@
       }
     }
 
-    // ================= PWA SETUP =================
-    const manifestBlob = new Blob([JSON.stringify(manifestData)], { type: 'application/json' });
-    document.getElementById('pwaManifest').setAttribute('href', URL.createObjectURL(manifestBlob));
-
-    if ('serviceWorker' in navigator) {
-      const swCode = `
-        self.addEventListener('install', (e) => self.skipWaiting());
-        self.addEventListener('activate', (e) => clients.claim());
-        self.addEventListener('fetch', (e) => e.respondWith(fetch(e.request).catch(() => new Response('Offline'))));
-      `;
-      const swBlob = new Blob([swCode], { type: 'text/javascript' });
-      navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(() => {});
-    }
-
-    let deferredPrompt = null;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      const btn = document.getElementById('pwaInstallBtn');
-      if (btn) btn.style.display = 'inline-flex';
-    });
-
-    function triggerPWAInstall() {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((res) => {
-          if (res.outcome === 'accepted') {
-            document.getElementById('pwaInstallBtn').style.display = 'none';
-          }
-          deferredPrompt = null;
-        });
-      } else {
-        alert("📲 To Install on iPhone / Safari:\n1. Tap the 'Share' (⎙) icon\n2. Select 'Add to Home Screen'\n\nOn Chrome/Android: Tap three dots ➔ 'Install App'");
-      }
-    }
-
     // ================= STATE & FIRESTORE REAL-TIME DATA =================
     const defaultAvatar = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%238e98b0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2'%3E%3C/path%3E%3Ccircle cx='12' cy='7' r='4'%3E%3C/circle%3E%3C/svg%3E";
     const defaultOrgLogo = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 24 24' fill='none' stroke='%238e98b0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='2' width='20' height='20' rx='5'%3E%3C/rect%3E%3Cpath d='M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z'%3E%3C/path%3E%3C/svg%3E";
@@ -2274,10 +2239,10 @@
 
     let unsubscribeChatListener = null;
 
-    // ================= GOOGLE AUTH (FIREBASE AUTH) =================
+    // ================= GOOGLE AUTH =================
     async function handleAuthAction() {
       if (!isFirebaseReady) {
-        alert("⚠️ Please paste your actual Firebase config keys in firebaseConfig object at the top of the script.");
+        alert("⚠️ Please paste your actual Firebase apiKey in firebaseConfig object at the top of the script.");
         return;
       }
 
