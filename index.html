@@ -1201,7 +1201,7 @@
       </div>
     </header>
 
-    <!-- Image Compression Loading Toast -->
+    <!-- Image Optimization Toast -->
     <div class="compression-toast" id="compressionToast">
       <div class="live-rec" style="background: var(--neon-cinema); box-shadow: 0 0 10px var(--neon-cinema);"></div>
       <span id="compressionToastText">Optimizing photo...</span>
@@ -1502,7 +1502,7 @@
             <input type="text" id="profLocationText" class="form-input" placeholder="e.g. Film Nagar, Hyderabad" />
           </div>
 
-          <!-- Google Maps Link with Accurate Parsing & GPS Detection -->
+          <!-- Google Maps Link with Auto Short-Link Resolver & GPS Detection -->
           <div class="form-group">
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <label style="margin: 0;">Google Maps Link / Lat,Lng</label>
@@ -1514,7 +1514,7 @@
               type="text" 
               id="profMapsLink" 
               class="form-input" 
-              placeholder="Paste Google Maps URL, embed link, short link, or 17.4486, 78.3908..." 
+              placeholder="Paste Google Maps URL, short link (maps.app.goo.gl), or coordinates..." 
               oninput="handleUserMapsLinkInput(this.value)" 
             />
             <div style="font-size: 11px; margin-top: 4px;" id="userCoordsContainer">
@@ -1807,8 +1807,9 @@
         </div>
 
         <div class="form-group">
+          <label>Roles Needed & Target Slots</label>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-            <label style="margin: 0;">Roles Needed & Target Slots</label>
+            <span style="font-size: 11px; color: var(--text-muted);">Configure crew requirements</span>
             <button type="button" class="btn-3d btn-3d-dark" style="padding: 4px 8px; font-size: 10px;" onclick="addCustomRoleSlotRow()">+ Add Craft Slot</button>
           </div>
 
@@ -1976,7 +1977,7 @@
       }
     }
 
-    // ================= FIREBASE & BACKEND CONFIGURATION =================
+    // ================= FIREBASE INITIALIZATION =================
     const firebaseConfig = {
       apiKey: "AIzaSyDla3G4QjOOpYemNcyTgQT-aq_fXoIRfas",
       authDomain: "film-connect-a8829.firebaseapp.com",
@@ -2191,7 +2192,7 @@
       return compressed.dataUrl;
     }
 
-    // ================= PWA SETUP =================
+    // ================= PWA MANIFEST DEFINITION =================
     const manifestData = {
       name: "Film Connect — Make your film projects easy",
       short_name: "FilmConnect",
@@ -2578,7 +2579,7 @@
             renderRequests();
           });
 
-        // 7. Team Groups Live Listener (Members contains currentUser.uid)
+        // 7. Team Groups Live Listener
         db.collection('groups')
           .where('members', 'array-contains', currentUser.uid)
           .onSnapshot(snap => {
@@ -2606,7 +2607,6 @@
       if (!input || !input.trim()) return null;
       let str = input.trim();
 
-      // Extract from iframe src if provided
       const iframeMatch = str.match(/src=["']([^"']+)["']/i);
       if (iframeMatch) {
         str = iframeMatch[1];
@@ -2663,7 +2663,8 @@
       return !isNaN(lat) && !isNaN(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180;
     }
 
-    function handleUserMapsLinkInput(val) {
+    // ASYNC GOOGLE MAPS RESOLVER (SUPPORTS SHORT LINKS AUTO-UNSHORTENING)
+    async function handleUserMapsLinkInput(val) {
       const display = document.getElementById('userCoordsDisplay');
       currentUser.mapsLink = val;
 
@@ -2675,19 +2676,54 @@
         return;
       }
 
-      const parsed = parseGoogleMapsRegex(val);
+      // 1. First, check direct regex (for long URLs or direct 17.44, 78.54 coordinates)
+      let parsed = parseGoogleMapsRegex(val);
+
+      // 2. If it is a short link (maps.app.goo.gl or goo.gl/maps), unshorten automatically
+      if (!parsed && (val.includes('maps.app.goo.gl') || val.includes('goo.gl/maps'))) {
+        if (display) {
+          display.innerText = "⏳ Resolving Google Maps short link...";
+          display.style.color = "#ffb703";
+        }
+
+        try {
+          const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(val.trim())}`);
+          const data = await res.json();
+          
+          const finalUrl = data.status?.url || data.status?.response_url || "";
+          parsed = parseGoogleMapsRegex(finalUrl);
+
+          if (!parsed && data.contents) {
+            const contentMatch = data.contents.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/) ||
+                                 data.contents.match(/center=(-?\d+\.\d+)%2C(-?\d+\.\d+)/) ||
+                                 data.contents.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/) ||
+                                 data.contents.match(/\[(-?\d+\.\d+),\s*(-?\d+\.\d+)\]/);
+            if (contentMatch) {
+              const lat = parseFloat(contentMatch[1]);
+              const lng = parseFloat(contentMatch[2]);
+              if (isValidCoordinate(lat, lng)) {
+                parsed = { lat, lng };
+              }
+            }
+          }
+        } catch (err) {
+          console.warn("Short link unshortening error:", err);
+        }
+      }
+
+      // 3. Update Coordinates Status in UI
       if (parsed) {
         currentUser.lat = parsed.lat;
         currentUser.lng = parsed.lng;
         if (display) {
-          display.innerText = `${parsed.lat.toFixed(4)}, ${parsed.lng.toFixed(4)}`;
+          display.innerText = `${parsed.lat.toFixed(6)}, ${parsed.lng.toFixed(6)} ✓`;
           display.style.color = "#10b981";
         }
         renderCrewList();
         renderRadarPins();
       } else {
         if (display) {
-          display.innerText = "❌ Coordinates not recognized. Paste standard link, coordinates (lat,lng), or tap 'Use Live GPS'.";
+          display.innerText = "❌ Coordinates not recognized. Paste standard link, coordinates, or tap 'Use Live GPS'.";
           display.style.color = "#ef4444";
         }
       }
@@ -2704,8 +2740,8 @@
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           hideCompressionToast();
-          const lat = parseFloat(pos.coords.latitude.toFixed(4));
-          const lng = parseFloat(pos.coords.longitude.toFixed(4));
+          const lat = parseFloat(pos.coords.latitude.toFixed(6));
+          const lng = parseFloat(pos.coords.longitude.toFixed(6));
           currentUser.lat = lat;
           currentUser.lng = lng;
           currentUser.mapsLink = `${lat}, ${lng}`;
@@ -2713,7 +2749,7 @@
           document.getElementById('profMapsLink').value = `${lat}, ${lng}`;
           const display = document.getElementById('userCoordsDisplay');
           if (display) {
-            display.innerText = `${lat}, ${lng} (Live GPS)`;
+            display.innerText = `${lat}, ${lng} (Live GPS) ✓`;
             display.style.color = "#10b981";
           }
           renderCrewList();
@@ -2853,7 +2889,7 @@
       const display = document.getElementById('userCoordsDisplay');
       if (display) {
         if (typeof currentUser.lat === 'number' && typeof currentUser.lng === 'number') {
-          display.innerText = `${currentUser.lat.toFixed(4)}, ${currentUser.lng.toFixed(4)}`;
+          display.innerText = `${currentUser.lat.toFixed(6)}, ${currentUser.lng.toFixed(6)}`;
           display.style.color = "#10b981";
         } else {
           display.innerText = "No coordinates detected";
@@ -3221,7 +3257,6 @@
       alert(`👥 Team Group "${name}" created successfully!`);
     }
 
-    // GAP 1: Added Missing exitCurrentGroup() Function
     async function exitCurrentGroup() {
       if (!currentGroupId || !currentUser.uid) return;
 
@@ -3243,7 +3278,6 @@
       }
     }
 
-    // GAP 2: Completed Dynamic Rendering for Team Groups
     function renderThreads() {
       const grpContainer = document.getElementById('groupThreadsContainer');
       
@@ -3288,7 +3322,6 @@
       `).join('');
     }
 
-    // GAP 2: Open Group Chat & Listen to subcollection `groups/{groupId}/messages`
     function openGroupChat(groupId) {
       const grp = teamGroups.find(g => g.id === groupId);
       if (!grp) return;
@@ -3302,7 +3335,6 @@
       document.getElementById('chatHeaderImg').style.display = 'none';
       document.getElementById('chatHeaderIconGroup').style.display = 'flex';
       
-      // Reveal Exit Group button
       document.getElementById('groupActionWrap').style.display = 'block';
 
       listenToLiveGroupChat(groupId);
@@ -3355,7 +3387,6 @@
       currentDirectChatId = crewId;
       currentGroupId = null;
 
-      // Hide Exit Group button for direct chat
       document.getElementById('groupActionWrap').style.display = 'none';
 
       document.getElementById('chatHeaderName').innerText = crew ? crew.name : 'User';
