@@ -1953,12 +1953,12 @@
 
     // ================= FIREBASE & CLOUDFLARE R2 CONFIGURATION =================
     const firebaseConfig = {
-      apiKey: "AIzaSy... (మీ అసలు value ఇక్కడ paste చేయండి)",
+      apiKey: "AIzaSyDla3G4QjOOpYemNcyTgQT-aq_fXoIRfas",
       authDomain: "film-connect-a8829.firebaseapp.com",
       projectId: "film-connect-a8829",
-      storageBucket: "film-connect-a8829.appspot.com",
-      messagingSenderId: "మీ అసలు value ఇక్కడ",
-      appId: "మీ అసలు value ఇక్కడ"
+      storageBucket: "film-connect-a8829.firebasestorage.app",
+      messagingSenderId: "600722456812",
+      appId: "1:600722456812:web:d2a8d471e193bf3c3725c9"
     };
 
     // Cloudflare R2 Upload Config
@@ -1972,7 +1972,7 @@
     let isFirebaseReady = false;
 
     try {
-      if (!firebase.apps.length && firebaseConfig.apiKey && !firebaseConfig.apiKey.includes("మీ అసలు value")) {
+      if (!firebase.apps.length && firebaseConfig.apiKey) {
         firebase.initializeApp(firebaseConfig);
         auth = firebase.auth();
         db = firebase.firestore();
@@ -2759,10 +2759,7 @@
 
         mediaRecorder.onstop = async () => {
           const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-          const audioFile = new File([audioBlob], `voice-${Date.now()}.webm`, { type: 'audio/webm' });
-          showCompressionToast('☁️ Uploading voice note to R2...');
           const audioUrl = URL.createObjectURL(audioBlob);
-          hideCompressionToast();
           sendAudioMessage(audioUrl, formatTime(recordSeconds));
           stream.getTracks().forEach(track => track.stop());
         };
