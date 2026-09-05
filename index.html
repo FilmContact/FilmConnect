@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>UNIT — 24 Crafts of Cinema Network</title>
+  <title>Film Connect — Make your film projects easy</title>
   
   <!-- PWA Web App Manifest -->
   <link rel="manifest" id="pwaManifest" />
   <meta name="theme-color" content="#0c0e14" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="UNIT" />
+  <meta name="apple-mobile-web-app-title" content="Film Connect" />
 
   <!-- Cinematic Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,18 +23,18 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
   <style>
-    :root {
+    /* ================= 1. THEMES & COLOR MODES ================= */
+    
+    /* Mode A: Neon Night Shoot (Default Dark Cinema) */
+    :root, [data-theme="neon-night"] {
       --bg-darkest: #07080b;
       --bg-main: #0c0e14;
       --bg-card: #141720;
       --bg-card-hover: #1c202d;
       --border-dim: #232736;
       --border-glow: #38425d;
-      
       --text-main: #f8fafc;
       --text-muted: #8e98b0;
-      
-      /* 3D Vibrant Craft Accents */
       --neon-director: #ffb703;
       --neon-director-3d: #b37d00;
       --neon-cinema: #00f0ff;
@@ -45,16 +45,106 @@
       --neon-editor-3d: #6b21a8;
       --neon-org: #10b981;
       --neon-fest: #ec4899;
-      
       --3d-cta-bg: #ffb703;
       --3d-cta-shadow: #b37d00;
       --3d-btn-dark: #202432;
       --3d-btn-dark-shadow: #10121a;
-      
+      --bg-gradient-1: rgba(255, 0, 85, 0.08);
+      --bg-gradient-2: rgba(0, 240, 255, 0.07);
+      --bg-gradient-3: rgba(255, 183, 3, 0.04);
+    }
+
+    /* Mode B: Golden Hour / Warm Sunset (Film Gold) */
+    [data-theme="golden-hour"] {
+      --bg-darkest: #0e0906;
+      --bg-main: #17100b;
+      --bg-card: #221812;
+      --bg-card-hover: #2e2018;
+      --border-dim: #3d2b20;
+      --border-glow: #634330;
+      --text-main: #fff6ee;
+      --text-muted: #b89f8f;
+      --neon-director: #f59e0b;
+      --neon-director-3d: #b45309;
+      --neon-cinema: #fb923c;
+      --neon-cinema-3d: #c2410c;
+      --neon-actor: #f43f5e;
+      --neon-actor-3d: #9f1239;
+      --neon-editor: #eab308;
+      --neon-editor-3d: #a16207;
+      --neon-org: #84cc16;
+      --neon-fest: #f97316;
+      --3d-cta-bg: #f59e0b;
+      --3d-cta-shadow: #92400e;
+      --3d-btn-dark: #2c1e16;
+      --3d-btn-dark-shadow: #180f0a;
+      --bg-gradient-1: rgba(245, 158, 11, 0.12);
+      --bg-gradient-2: rgba(251, 146, 60, 0.08);
+      --bg-gradient-3: rgba(244, 63, 94, 0.05);
+    }
+
+    /* Mode C: Monsoon Blue / Neo-Noir (Ocean Teal) */
+    [data-theme="monsoon-blue"] {
+      --bg-darkest: #050b14;
+      --bg-main: #091322;
+      --bg-card: #101f35;
+      --bg-card-hover: #182c4a;
+      --border-dim: #1e395f;
+      --border-glow: #2d558a;
+      --text-main: #edf5ff;
+      --text-muted: #85a3c9;
+      --neon-director: #38bdf8;
+      --neon-director-3d: #0284c7;
+      --neon-cinema: #06b6d4;
+      --neon-cinema-3d: #0891b2;
+      --neon-actor: #818cf8;
+      --neon-actor-3d: #4f46e5;
+      --neon-editor: #a78bfa;
+      --neon-editor-3d: #7c3aed;
+      --neon-org: #2dd4bf;
+      --neon-fest: #60a5fa;
+      --3d-cta-bg: #38bdf8;
+      --3d-cta-shadow: #0369a1;
+      --3d-btn-dark: #152742;
+      --3d-btn-dark-shadow: #091322;
+      --bg-gradient-1: rgba(56, 189, 248, 0.10);
+      --bg-gradient-2: rgba(6, 182, 212, 0.08);
+      --bg-gradient-3: rgba(129, 140, 248, 0.06);
+    }
+
+    /* Mode D: Emerald Matrix (Studio Green) */
+    [data-theme="emerald-matrix"] {
+      --bg-darkest: #040d08;
+      --bg-main: #07170f;
+      --bg-card: #0d261a;
+      --bg-card-hover: #133625;
+      --border-dim: #1b4d35;
+      --border-glow: #28734f;
+      --text-main: #ecfdf5;
+      --text-muted: #86bfa3;
+      --neon-director: #10b981;
+      --neon-director-3d: #047857;
+      --neon-cinema: #34d399;
+      --neon-cinema-3d: #059669;
+      --neon-actor: #f59e0b;
+      --neon-actor-3d: #b45309;
+      --neon-editor: #6ee7b7;
+      --neon-editor-3d: #059669;
+      --neon-org: #10b981;
+      --neon-fest: #a7f3d0;
+      --3d-cta-bg: #10b981;
+      --3d-cta-shadow: #065f46;
+      --3d-btn-dark: #113122;
+      --3d-btn-dark-shadow: #07170f;
+      --bg-gradient-1: rgba(16, 185, 129, 0.12);
+      --bg-gradient-2: rgba(52, 211, 153, 0.08);
+      --bg-gradient-3: rgba(245, 158, 11, 0.04);
+    }
+
+    :root {
       --font-poster: 'Bebas Neue', cursive;
       --font-title: 'Syne', sans-serif;
       --font-body: 'Plus Jakarta Sans', sans-serif;
-      
       --app-max-width: 1240px;
     }
 
@@ -73,13 +163,14 @@
       background-color: var(--bg-darkest);
       color: var(--text-main);
       overflow-x: hidden;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
 
     body {
       background-image: 
-        radial-gradient(circle at 10% 15%, rgba(255, 0, 85, 0.08) 0%, transparent 35%),
-        radial-gradient(circle at 90% 85%, rgba(0, 240, 255, 0.07) 0%, transparent 40%),
-        radial-gradient(circle at 50% 50%, rgba(255, 183, 3, 0.04) 0%, transparent 50%);
+        radial-gradient(circle at 10% 15%, var(--bg-gradient-1) 0%, transparent 35%),
+        radial-gradient(circle at 90% 85%, var(--bg-gradient-2) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, var(--bg-gradient-3) 0%, transparent 50%);
       background-attachment: fixed;
       display: flex;
       flex-direction: column;
@@ -140,18 +231,38 @@
       justify-content: space-between;
       align-items: center;
     }
+    
+    .brand-title-wrap {
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
     .brand-title {
       font-family: var(--font-poster);
-      font-size: 32px;
+      font-size: 30px;
       letter-spacing: 2px;
       color: #fff;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+      line-height: 1;
     }
+    .brand-tagline {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--neon-director);
+      letter-spacing: 0.5px;
+      margin-top: 3px;
+      text-transform: uppercase;
+    }
+    @media (max-width: 480px) {
+      .brand-title { font-size: 24px; }
+      .brand-tagline { font-size: 9px; }
+    }
+
     .live-rec {
-      width: 12px;
-      height: 12px;
+      width: 11px;
+      height: 11px;
       background: #ff0055;
       border-radius: 50%;
       box-shadow: 0 0 12px #ff0055;
@@ -168,8 +279,8 @@
       gap: 8px;
     }
     .avatar-img-circle {
-      width: 40px;
-      height: 40px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid var(--neon-director);
@@ -178,7 +289,7 @@
       cursor: pointer;
     }
 
-    /* Live Toast */
+    /* Compression Loading Toast */
     .compression-toast {
       position: fixed;
       top: 85px;
@@ -284,11 +395,11 @@
     }
     .btn-3d-dark:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--3d-btn-dark-shadow); }
     .btn-3d-connect {
-      background: #00f0ff;
+      background: var(--neon-cinema);
       color: #000;
-      box-shadow: 0 4px 0 #008f99, 0 6px 12px rgba(0, 240, 255, 0.3);
+      box-shadow: 0 4px 0 var(--neon-cinema-3d), 0 6px 12px rgba(0, 240, 255, 0.3);
     }
-    .btn-3d-connect:active { transform: translateY(3px); box-shadow: 0 1px 0 #008f99; }
+    .btn-3d-connect:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--neon-cinema-3d); }
     .btn-3d-danger {
       background: #ef4444;
       color: #fff;
@@ -699,7 +810,7 @@
       width: 100%;
     }
 
-    /* App Distribution Card in Profile */
+    /* Distribution & Theme Cards in Profile */
     .app-distribution-card {
       background: linear-gradient(135deg, #161b26, #0e121a);
       border: 1px solid var(--border-glow);
@@ -710,6 +821,41 @@
       flex-direction: column;
       gap: 12px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+
+    .theme-picker-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-top: 6px;
+    }
+    @media (min-width: 480px) {
+      .theme-picker-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    .theme-choice-btn {
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid var(--border-dim);
+      background: var(--bg-card);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+    .theme-choice-btn.active {
+      border-color: var(--neon-cinema);
+      background: var(--bg-card-hover);
+      box-shadow: 0 0 10px rgba(0,240,255,0.3);
+    }
+    .theme-color-preview {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
     }
 
     /* Requests & Threads */
@@ -1036,14 +1182,18 @@
       
       <div class="brand-bar-wrap">
         <div class="brand-bar">
-          <div class="brand-title">
-            <div class="live-rec"></div>
-            UNIT
+          <div class="brand-title-wrap" onclick="switchNavTab('discover')">
+            <div class="brand-title">
+              <div class="live-rec"></div>
+              FILM CONNECT
+            </div>
+            <div class="brand-tagline">Make your film projects easy</div>
           </div>
+
           <div class="brand-right-actions">
-            <!-- Google Play Store Install Link -->
-            <button class="btn-3d btn-3d-playstore" style="padding: 6px 10px; font-size: 10px;" onclick="openGooglePlayStore()">
-              ▶ Play Store
+            <!-- Theme Color Mode Switcher -->
+            <button class="btn-3d btn-3d-dark" style="padding: 6px 9px; font-size: 12px;" onclick="cycleAppTheme()" title="Switch Color Theme">
+              🎨
             </button>
             <button id="pwaInstallBtn" class="btn-3d btn-3d-primary" style="padding: 6px 10px; font-size: 10px; display: none;" onclick="triggerPWAInstall()">
               📲 Install App
@@ -1198,7 +1348,7 @@
       <section id="screen-messages" class="screen-view">
         <div class="section-header-row">
           <div>
-            <h1 class="section-title">UNIT DISPATCH</h1>
+            <h1 class="section-title">FILM CONNECT DISPATCH</h1>
             <p class="section-desc">Direct chats & project team group channels (Connected only)</p>
           </div>
           <button class="btn-3d btn-3d-primary" onclick="openCreateGroupModal()">
@@ -1213,18 +1363,48 @@
         <div class="threads-list" id="threadsListContainer"></div>
       </section>
 
-      <!-- ================= 6. PROFILE SCREEN (Auth + Android + Web App Hub) ================= -->
+      <!-- ================= 6. PROFILE SCREEN (Theme Selector + Platforms) ================= -->
       <section id="screen-profile" class="screen-view">
         <div class="centered-form-layout">
           
+          <!-- Color Modes / Theme Switcher Card -->
+          <div class="app-distribution-card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <div style="font-size: 14px; font-weight: 800; color: #fff;">🎨 Cinema Color Themes</div>
+                <div style="font-size: 12px; color: var(--text-muted);">Choose your visual tone / editing-room atmosphere</div>
+              </div>
+              <span class="badge-location" id="currentThemeLabel">Neon Night</span>
+            </div>
+
+            <div class="theme-picker-grid">
+              <button class="theme-choice-btn active" id="themeBtn-neon-night" onclick="setAppTheme('neon-night')">
+                <div class="theme-color-preview" style="background: linear-gradient(135deg, #00f0ff, #ff0055);"></div>
+                <span>Neon Night</span>
+              </button>
+              <button class="theme-choice-btn" id="themeBtn-golden-hour" onclick="setAppTheme('golden-hour')">
+                <div class="theme-color-preview" style="background: linear-gradient(135deg, #f59e0b, #fb923c);"></div>
+                <span>Golden Hour</span>
+              </button>
+              <button class="theme-choice-btn" id="themeBtn-monsoon-blue" onclick="setAppTheme('monsoon-blue')">
+                <div class="theme-color-preview" style="background: linear-gradient(135deg, #38bdf8, #818cf8);"></div>
+                <span>Monsoon Blue</span>
+              </button>
+              <button class="theme-choice-btn" id="themeBtn-emerald-matrix" onclick="setAppTheme('emerald-matrix')">
+                <div class="theme-color-preview" style="background: linear-gradient(135deg, #10b981, #34d399);"></div>
+                <span>Emerald Studio</span>
+              </button>
+            </div>
+          </div>
+
           <!-- App Platforms Hub (Android Play Store + Web App Link) -->
           <div class="app-distribution-card">
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <div>
-                <div style="font-size: 14px; font-weight: 800; color: #fff;">📱 UNIT on Android & Web</div>
-                <div style="font-size: 12px; color: var(--text-muted);">Access everywhere: Google Play Store, Android APK & Web App</div>
+                <div style="font-size: 14px; font-weight: 800; color: #fff;">📱 Film Connect Everywhere</div>
+                <div style="font-size: 12px; color: var(--text-muted);">Google Play Store, Android APK & Web App</div>
               </div>
-              <span class="badge-budget">Cross-Platform</span>
+              <span class="badge-budget">Multi-Platform</span>
             </div>
             
             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
@@ -1714,9 +1894,42 @@
   </div>
 
   <script>
+    // ================= COLOR THEMES / MODES ENGINE =================
+    const THEMES = [
+      { id: 'neon-night', name: 'Neon Night' },
+      { id: 'golden-hour', name: 'Golden Hour' },
+      { id: 'monsoon-blue', name: 'Monsoon Blue' },
+      { id: 'emerald-matrix', name: 'Emerald Studio' }
+    ];
+
+    function setAppTheme(themeId) {
+      document.documentElement.setAttribute('data-theme', themeId);
+      localStorage.setItem('filmConnectTheme', themeId);
+      
+      const themeObj = THEMES.find(t => t.id === themeId) || THEMES[0];
+      const label = document.getElementById('currentThemeLabel');
+      if (label) label.innerText = themeObj.name;
+
+      document.querySelectorAll('.theme-choice-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.id === `themeBtn-${themeId}`);
+      });
+    }
+
+    function cycleAppTheme() {
+      const current = document.documentElement.getAttribute('data-theme') || 'neon-night';
+      const idx = THEMES.findIndex(t => t.id === current);
+      const nextTheme = THEMES[(idx + 1) % THEMES.length];
+      setAppTheme(nextTheme.id);
+    }
+
+    function initSavedTheme() {
+      const saved = localStorage.getItem('filmConnectTheme') || 'neon-night';
+      setAppTheme(saved);
+    }
+
     // ================= APP CONFIGURATION & DISTRIBUTION =================
 
-    const GOOGLE_PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.unit.cinema.network";
+    const GOOGLE_PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.filmconnect.app";
     const WEB_APP_URL = window.location.href.split('#')[0];
 
     function openGooglePlayStore() {
@@ -1727,8 +1940,8 @@
       if (navigator.share) {
         try {
           await navigator.share({
-            title: "UNIT — 24 Crafts Cinema Network",
-            text: "Connect with Indian short-film directors, cinematographers, actors & studios on UNIT!",
+            title: "Film Connect — Make your film projects easy",
+            text: "Join Film Connect to collaborate with short-film directors, cinematographers, actors & studios!",
             url: WEB_APP_URL
           });
         } catch (err) {}
@@ -1749,7 +1962,7 @@
 
     // Cloudflare R2 Upload Config
     const R2_CONFIG = {
-      uploadWorkerUrl: "https://your-r2-worker.workers.dev/upload", // Replace with your Cloudflare R2 Worker endpoint
+      uploadWorkerUrl: "https://your-r2-worker.workers.dev/upload",
       publicBaseUrl: "https://pub-r2.yourdomain.com"
     };
 
@@ -2069,7 +2282,7 @@
       }
 
       if (auth.currentUser) {
-        if (confirm("Do you want to Sign Out?")) {
+        if (confirm("Do you want to Sign Out of Film Connect?")) {
           await auth.signOut();
           currentUser.uid = null;
           currentUser.name = "";
@@ -2549,7 +2762,7 @@
         });
       }
 
-      alert(`🚩 Report submitted anonymously. Thank you for keeping UNIT safe.`);
+      alert(`🚩 Report submitted anonymously. Thank you for keeping Film Connect safe.`);
     }
 
     function reportInappropriateLink(crewId, linkUrl) {
@@ -2581,7 +2794,10 @@
 
         mediaRecorder.onstop = async () => {
           const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+          const audioFile = new File([audioBlob], `voice-${Date.now()}.webm`, { type: 'audio/webm' });
+          showCompressionToast('☁️ Uploading voice note to R2...');
           const audioUrl = URL.createObjectURL(audioBlob);
+          hideCompressionToast();
           sendAudioMessage(audioUrl, formatTime(recordSeconds));
           stream.getTracks().forEach(track => track.stop());
         };
@@ -3291,7 +3507,7 @@
               ` : `
                 ${crew.connected ? `
                   <button class="btn-3d btn-3d-danger" style="padding: 6px 10px; font-size: 10px;" onclick="reportCrewProfile('${crew.id}')" title="Report for Misconduct">
-                    🚩 Report Profile
+                    🚩 Report
                   </button>
                   <button class="btn-3d btn-3d-primary" onclick="openDirectChat('${crew.id}')">
                     💬 Chat
@@ -3460,8 +3676,10 @@
       }
     }
 
-    // Initialize Auth & Firestore Listeners on Load
+    // Initialize Auth, Themes & Listeners on Load
     window.addEventListener('DOMContentLoaded', () => {
+      initSavedTheme();
+
       if (isFirebaseReady && auth) {
         auth.onAuthStateChanged(user => {
           if (user) {
