@@ -1201,7 +1201,7 @@
       </div>
     </header>
 
-    <!-- Image Optimization Toast -->
+    <!-- Image Optimization Loading Toast -->
     <div class="compression-toast" id="compressionToast">
       <div class="live-rec" style="background: var(--neon-cinema); box-shadow: 0 0 10px var(--neon-cinema);"></div>
       <span id="compressionToastText">Optimizing photo...</span>
@@ -2602,11 +2602,22 @@
       return parseFloat((R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).toFixed(1));
     }
 
-    // ================= ENHANCED COORDINATES & MAPS PARSER =================
+    // ================= ENHANCED COORDINATES & MAPS RESOLVER =================
+    let mapsInputSequence = 0;
+    let mapsInputAbortController = null;
+
+    function isValidCoordinate(lat, lng) {
+      return typeof lat === 'number' && typeof lng === 'number' &&
+             !isNaN(lat) && !isNaN(lng) &&
+             lat >= -90 && lat <= 90 &&
+             lng >= -180 && lng <= 180;
+    }
+
     function parseGoogleMapsRegex(input) {
-      if (!input || !input.trim()) return null;
+      if (!input || typeof input !== 'string' || !input.trim()) return null;
       let str = input.trim();
 
+      // If iframe snippet was pasted, extract src
       const iframeMatch = str.match(/src=["']([^"']+)["']/i);
       if (iframeMatch) {
         str = iframeMatch[1];
@@ -2616,57 +2627,183 @@
         str = decodeURIComponent(str);
       } catch (e) {}
 
-      // 1. Coordinates directly: "17.4486, 78.3908" or "17.4486,78.3908"
-      const rawMatch = str.match(/^(-?\d+\.\d+)[,\s]+(-?\d+\.\d+)$/);
+      // 1. Direct coordinate input: "17.444656, 78.545274", "17.444656,78.545274", "17.444656 78.545274"
+      const rawMatch = str.match(/^(-?\d+(?:\.\d+)?)[,\s]+(-?\d+(?:\.\d+)?)$/);
       if (rawMatch) {
         const lat = parseFloat(rawMatch[1]);
         const lng = parseFloat(rawMatch[2]);
         if (isValidCoordinate(lat, lng)) return { lat, lng };
       }
 
-      // 2. Embed URLs: !2d<lng>!3d<lat> (Longitude comes first)
-      const embedMatch = str.match(/!2d(-?\d+\.\d+)!3d(-?\d+\.\d+)/);
-      if (embedMatch) {
-        const lng = parseFloat(embedMatch[1]);
-        const lat = parseFloat(embedMatch[2]);
+      // 2. Embed / Maps URL with !2d<lng>!3d<lat> (Longitude comes first)
+      const embed2d3d = str.match(/!2d(-?\d+(?:\.\d+)?)(?:!3d|\/!3d)(-?\d+(?:\.\d+)?)/);
+      if (embed2d3d) {
+        const lng = parseFloat(embed2d3d[1]);
+        const lat = parseFloat(embed2d3d[2]);
         if (isValidCoordinate(lat, lng)) return { lat, lng };
       }
 
-      // 3. Place / Navigation URLs: !3d<lat>!4d<lng> (Latitude comes first)
-      const placeMatch = str.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/);
+      // 3. Embed / Maps URL with !3d<lat>!2d<lng>
+      const embed3d2d = str.match(/!3d(-?\d+(?:\.\d+)?)(?:!2d|\/!2d)(-?\d+(?:\.\d+)?)/);
+      if (embed3d2d) {
+        const lat = parseFloat(embed3d2d[1]);
+        const lng = parseFloat(embed3d2d[2]);
+        if (isValidCoordinate(lat, lng)) return { lat, lng };
+      }
+
+      // 4. Place / CID URLs: !3d<lat>!4d<lng>
+      const place3d4d = str.match(/!3d(-?\d+(?:\.\d+)?)(?:!4d|\/!4d)(-?\d+(?:\.\d+)?)/);
+      if (place3d4d) {
+        const lat = parseFloat(place3d4d[1]);
+        const lng = parseFloat(place3d4d[2]);
+        if (isValidCoordinate(lat, lng)) return { lat, lng };
+      }
+
+      // 5. Explicit /maps/place/lat,lng or /place/lat,lng (e.g. /maps/place/17.444656,78.545274/)
+      const placeMatch = str.match(/(?:\/maps\/place|\/place)\/(-?\d+(?:\.\d+)?)(?:[,\s\+]|%2C)+(-?\d+(?:\.\d+)?)/i);
       if (placeMatch) {
         const lat = parseFloat(placeMatch[1]);
         const lng = parseFloat(placeMatch[2]);
         if (isValidCoordinate(lat, lng)) return { lat, lng };
       }
 
-      // 4. Standard Map Params: @lat,lng, /place/lat,lng, q=lat,lng, query=lat,lng, ll=lat,lng, loc:lat,lng
-      const standardMatch = str.match(/(?:@|\/place\/|q=|query=|ll=|\/dir\/\/|loc:)(-?\d+\.\d+)[,\s]+(-?\d+\.\d+)/);
-      if (standardMatch) {
-        const lat = parseFloat(standardMatch[1]);
-        const lng = parseFloat(standardMatch[2]);
+      // 6. Viewport / Center: @lat,lng
+      const atMatch = str.match(/@(-?\d+(?:\.\d+)?)(?:[,\s\+]|%2C)+(-?\d+(?:\.\d+)?)/);
+      if (atMatch) {
+        const lat = parseFloat(atMatch[1]);
+        const lng = parseFloat(atMatch[2]);
         if (isValidCoordinate(lat, lng)) return { lat, lng };
       }
 
-      // 5. Short link pattern or search query fallback
-      const floatMatches = str.match(/-?\d{1,3}\.\d{4,}/g);
-      if (floatMatches && floatMatches.length >= 2) {
-        const lat = parseFloat(floatMatches[0]);
-        const lng = parseFloat(floatMatches[1]);
+      // 7. Query parameters & prefixes: q=, query=, ll=, loc:, center=, destination=, saddr=, daddr=, /dir//, /search/
+      const queryMatch = str.match(/(?:[?&](?:q|query|ll|center|destination|saddr|daddr)=|loc:|\/search\/|\/dir\/\/)(-?\d+(?:\.\d+)?)(?:[,\s\+]|%2C)+(-?\d+(?:\.\d+)?)/i);
+      if (queryMatch) {
+        const lat = parseFloat(queryMatch[1]);
+        const lng = parseFloat(queryMatch[2]);
         if (isValidCoordinate(lat, lng)) return { lat, lng };
+      }
+
+      // 8. Degrees Minutes Seconds (DMS) format: 17°26'40.8"N 78°32'43.0"E
+      const dmsMatch = str.match(/(\d+)[°\s]+(\d+)['\s]+(\d+(?:\.\d+)?)"?\s*([NSns])[,\s]+(\d+)[°\s]+(\d+)['\s]+(\d+(?:\.\d+)?)"?\s*([EWew])/);
+      if (dmsMatch) {
+        let lat = parseFloat(dmsMatch[1]) + parseFloat(dmsMatch[2]) / 60 + parseFloat(dmsMatch[3]) / 3600;
+        if (dmsMatch[4].toUpperCase() === 'S') lat = -lat;
+        let lng = parseFloat(dmsMatch[5]) + parseFloat(dmsMatch[6]) / 60 + parseFloat(dmsMatch[7]) / 3600;
+        if (dmsMatch[8].toUpperCase() === 'W') lng = -lng;
+        if (isValidCoordinate(lat, lng)) return { lat: parseFloat(lat.toFixed(6)), lng: parseFloat(lng.toFixed(6)) };
+      }
+
+      // 9. When given an HTML document or rich text (e.g. from redirect responses)
+      const urlCandidates = str.match(/https?:\/\/(?:www\.)?google\.[a-z.]+\/maps\/[^\s"'<>\\]+/gi);
+      if (urlCandidates) {
+        for (const candidate of urlCandidates) {
+          if (candidate !== input) {
+            const sub = parseGoogleMapsRegex(candidate);
+            if (sub) return sub;
+          }
+        }
+      }
+
+      // Meta refresh tag fallback (e.g. <meta content="0;url=..." http-equiv="refresh">)
+      const metaRefresh = str.match(/content=["']\d+;\s*url=([^"']+)["']/i);
+      if (metaRefresh && metaRefresh[1] !== input) {
+        const sub = parseGoogleMapsRegex(metaRefresh[1]);
+        if (sub) return sub;
+      }
+
+      // Canonical link fallback
+      const canonicalLink = str.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i);
+      if (canonicalLink && canonicalLink[1] !== input) {
+        const sub = parseGoogleMapsRegex(canonicalLink[1]);
+        if (sub) return sub;
+      }
+
+      // Internal JSON coordinate arrays (e.g. [null,null,17.444656,78.545274])
+      const jsonCoordMatch = str.match(/\[null,null,(-?\d+\.\d+),(-?\d+\.\d+)\]/);
+      if (jsonCoordMatch) {
+        const lat = parseFloat(jsonCoordMatch[1]);
+        const lng = parseFloat(jsonCoordMatch[2]);
+        if (isValidCoordinate(lat, lng)) return { lat, lng };
+      }
+
+      // Short raw string fallback (only for brief text to prevent false positives in large HTML)
+      if (str.length < 100) {
+        const floatMatches = str.match(/-?\d{1,3}\.\d{3,}/g);
+        if (floatMatches && floatMatches.length >= 2) {
+          const lat = parseFloat(floatMatches[0]);
+          const lng = parseFloat(floatMatches[1]);
+          if (isValidCoordinate(lat, lng)) return { lat, lng };
+        }
       }
 
       return null;
     }
 
-    function isValidCoordinate(lat, lng) {
-      return !isNaN(lat) && !isNaN(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180;
+    // Resolves Google Maps short links (maps.app.goo.gl, goo.gl/maps) via fast, redundant proxy endpoints
+    async function resolveGoogleMapsShortLink(shortUrl, signal) {
+      const trimmed = shortUrl.trim();
+      const cleanUrl = trimmed
+        .replace(/[?&](?:g_st|utm_[^&=]+)=[^&#]*/gi, '')
+        .replace(/\?&/, '?')
+        .replace(/[?&]$/, '');
+
+      const targets = [trimmed];
+      if (cleanUrl !== trimmed) {
+        targets.unshift(cleanUrl);
+      }
+
+      const endpoints = [];
+      for (const target of targets) {
+        const enc = encodeURIComponent(target);
+        endpoints.push(`https://api.codetabs.com/v1/proxy?quest=${enc}`);
+        endpoints.push(`https://api.allorigins.win/raw?url=${enc}`);
+        endpoints.push(`https://api.allorigins.win/get?url=${enc}`);
+        endpoints.push(`https://corsproxy.io/?url=${enc}`);
+      }
+
+      const attemptFetch = async (endpoint) => {
+        const res = await fetch(endpoint, { signal });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const text = await res.text();
+        let content = text;
+        if (text.startsWith('{') && text.includes('"contents"')) {
+          try {
+            const json = JSON.parse(text);
+            if (json.contents) content = json.contents;
+          } catch (e) {}
+        }
+        const coords = parseGoogleMapsRegex(content);
+        if (coords && isValidCoordinate(coords.lat, coords.lng)) {
+          return coords;
+        }
+        throw new Error('No coordinates in response');
+      };
+
+      const raceAny = Promise.any ? Promise.any.bind(Promise) : (promises) => {
+        return new Promise((resolve, reject) => {
+          let errors = [];
+          promises.forEach(p => Promise.resolve(p).then(resolve).catch(err => {
+            errors.push(err);
+            if (errors.length === promises.length) reject(new Error('All resolvers failed'));
+          }));
+        });
+      };
+
+      return await raceAny(endpoints.map(ep => attemptFetch(ep)));
     }
 
-    // ASYNC GOOGLE MAPS RESOLVER (SUPPORTS SHORT LINKS AUTO-UNSHORTENING)
     async function handleUserMapsLinkInput(val) {
       const display = document.getElementById('userCoordsDisplay');
       currentUser.mapsLink = val;
+
+      // Prevent race conditions on fast typing/pasting
+      mapsInputSequence++;
+      const currentSeq = mapsInputSequence;
+
+      if (mapsInputAbortController) {
+        mapsInputAbortController.abort();
+        mapsInputAbortController = null;
+      }
 
       if (!val || !val.trim()) {
         if (display) {
@@ -2676,56 +2813,58 @@
         return;
       }
 
-      // 1. First, check direct regex (for long URLs or direct 17.44, 78.54 coordinates)
+      // 1. Check direct regex synchronously (instant for plain coords, embed iframes, long URLs)
       let parsed = parseGoogleMapsRegex(val);
 
-      // 2. If it is a short link (maps.app.goo.gl or goo.gl/maps), unshorten automatically
-      if (!parsed && (val.includes('maps.app.goo.gl') || val.includes('goo.gl/maps'))) {
-        if (display) {
-          display.innerText = "⏳ Resolving Google Maps short link...";
-          display.style.color = "#ffb703";
-        }
-
-        try {
-          const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(val.trim())}`);
-          const data = await res.json();
-          
-          const finalUrl = data.status?.url || data.status?.response_url || "";
-          parsed = parseGoogleMapsRegex(finalUrl);
-
-          if (!parsed && data.contents) {
-            const contentMatch = data.contents.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/) ||
-                                 data.contents.match(/center=(-?\d+\.\d+)%2C(-?\d+\.\d+)/) ||
-                                 data.contents.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/) ||
-                                 data.contents.match(/\[(-?\d+\.\d+),\s*(-?\d+\.\d+)\]/);
-            if (contentMatch) {
-              const lat = parseFloat(contentMatch[1]);
-              const lng = parseFloat(contentMatch[2]);
-              if (isValidCoordinate(lat, lng)) {
-                parsed = { lat, lng };
-              }
-            }
-          }
-        } catch (err) {
-          console.warn("Short link unshortening error:", err);
-        }
-      }
-
-      // 3. Update Coordinates Status in UI
-      if (parsed) {
+      if (parsed && isValidCoordinate(parsed.lat, parsed.lng)) {
         currentUser.lat = parsed.lat;
         currentUser.lng = parsed.lng;
         if (display) {
           display.innerText = `${parsed.lat.toFixed(6)}, ${parsed.lng.toFixed(6)} ✓`;
           display.style.color = "#10b981";
         }
-        renderCrewList();
-        renderRadarPins();
-      } else {
+        if (typeof renderCrewList === 'function') renderCrewList();
+        if (typeof renderRadarPins === 'function') renderRadarPins();
+        return;
+      }
+
+      // 2. If it is a short link (maps.app.goo.gl or goo.gl/maps), resolve asynchronously
+      if (/(?:maps\.app\.goo\.gl|goo\.gl\/maps)/i.test(val)) {
         if (display) {
-          display.innerText = "❌ Coordinates not recognized. Paste standard link, coordinates, or tap 'Use Live GPS'.";
-          display.style.color = "#ef4444";
+          display.innerText = "⏳ Resolving Google Maps short link...";
+          display.style.color = "#ffb703";
         }
+
+        mapsInputAbortController = new AbortController();
+        const { signal } = mapsInputAbortController;
+
+        try {
+          parsed = await resolveGoogleMapsShortLink(val, signal);
+        } catch (err) {
+          if (signal.aborted || currentSeq !== mapsInputSequence) return;
+          console.warn("Short link resolution error:", err);
+        }
+
+        // Verify that this is still the active input sequence
+        if (currentSeq !== mapsInputSequence) return;
+
+        if (parsed && isValidCoordinate(parsed.lat, parsed.lng)) {
+          currentUser.lat = parsed.lat;
+          currentUser.lng = parsed.lng;
+          if (display) {
+            display.innerText = `${parsed.lat.toFixed(6)}, ${parsed.lng.toFixed(6)} ✓`;
+            display.style.color = "#10b981";
+          }
+          if (typeof renderCrewList === 'function') renderCrewList();
+          if (typeof renderRadarPins === 'function') renderRadarPins();
+          return;
+        }
+      }
+
+      // 3. Fallback when coordinates could not be detected
+      if (display) {
+        display.innerText = "❌ Coordinates not recognized. Paste standard link, coordinates, or tap 'Use Live GPS'.";
+        display.style.color = "#ef4444";
       }
     }
 
@@ -2889,7 +3028,7 @@
       const display = document.getElementById('userCoordsDisplay');
       if (display) {
         if (typeof currentUser.lat === 'number' && typeof currentUser.lng === 'number') {
-          display.innerText = `${currentUser.lat.toFixed(6)}, ${currentUser.lng.toFixed(6)}`;
+          display.innerText = `${currentUser.lat.toFixed(6)}, ${currentUser.lng.toFixed(6)} ✓`;
           display.style.color = "#10b981";
         } else {
           display.innerText = "No coordinates detected";
