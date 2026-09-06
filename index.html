@@ -1269,7 +1269,7 @@
               <div class="radar-sweep-beam"></div>
               <div class="radar-user-center"></div>
             </div>
-            <div style="font-size: 12px; color: var(--text-muted); text-align: center;">
+            <div id="radarInfoText" style="font-size: 12px; color: var(--text-muted); text-align: center;">
               💡 Tap rings to filter radius or click any crew pin
             </div>
           </div>
@@ -1497,15 +1497,10 @@
             <textarea id="profBio" class="form-textarea" rows="3" placeholder="Tell directors and crew about your experience, past short films, equipment, style..."></textarea>
           </div>
 
-          <div class="form-group">
-            <label>Readable Location (City/Area)</label>
-            <input type="text" id="profLocationText" class="form-input" placeholder="e.g. Film Nagar, Hyderabad" />
-          </div>
-
-          <!-- Location Coordinates with Drop-Pin Instructions & Live GPS -->
+          <!-- Location Coordinates / Link Input with Precise Hint & Live GPS -->
           <div class="form-group">
             <div style="display: flex; justify-content: space-between; align-items: center;">
-              <label style="margin: 0;">Location Coordinates</label>
+              <label style="margin: 0;">Google Maps Coordinates / Link</label>
               <button type="button" class="btn-3d btn-3d-dark" style="padding: 4px 8px; font-size: 10px;" onclick="fetchDeviceLiveLocation()">
                 🎯 Use Live GPS
               </button>
@@ -1514,14 +1509,14 @@
               type="text" 
               id="profMapsLink" 
               class="form-input" 
-              placeholder="Paste coordinates (e.g. 17.4486, 78.3908) or full Google Maps URL..." 
+              placeholder="e.g. 17.477477, 78.544940 or Google Maps URL" 
               oninput="handleUserMapsLinkInput(this.value)" 
             />
             <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px; line-height: 1.4;">
-              Open Google Maps, long-press your location to drop a pin, then tap the coordinates shown at the bottom (e.g. '17.4486, 78.3908') to copy them — then paste here. (Short share links from the Share button are not supported.)
+              Open Google Maps, select your location, long press to drop a pin, then copy the coordinates or Google Maps link and paste it here.
             </div>
             <div style="font-size: 11px; margin-top: 6px;" id="userCoordsContainer">
-              📍 Coordinates Status: <span id="userCoordsDisplay" style="font-weight:700; color: #10b981;">17.4486, 78.3908</span>
+              📍 Location Status: <span id="userCoordsDisplay" style="font-weight:700; color: #10b981;">17.4486, 78.3908</span>
             </div>
           </div>
 
@@ -2272,8 +2267,8 @@
       bio: "",
       locationName: "",
       mapsLink: "",
-      lat: 17.4486,
-      lng: 78.3908,
+      lat: null,
+      lng: null,
       avatar: defaultAvatar,
       portfolioLinks: [],
       connectedUsers: [],
@@ -2319,6 +2314,9 @@
           currentUser.name = "";
           currentUser.avatar = defaultAvatar;
           currentUser.hidden = false;
+          currentUser.lat = null;
+          currentUser.lng = null;
+          currentUser.mapsLink = "";
           teamGroups = [];
           document.getElementById('headerAvatar').src = defaultAvatar;
           document.getElementById('authActionBtn').innerText = "🔑 Sign In With Google";
@@ -2358,6 +2356,8 @@
         currentUser.role = "Director";
         currentUser.connectedUsers = [];
         currentUser.hidden = false;
+        currentUser.lat = null;
+        currentUser.lng = null;
         await userRef.set(currentUser);
       }
 
@@ -2461,8 +2461,8 @@
           bio: "",
           locationName: "",
           mapsLink: "",
-          lat: 17.4486,
-          lng: 78.3908,
+          lat: null,
+          lng: null,
           avatar: defaultAvatar,
           portfolioLinks: [],
           connectedUsers: [],
@@ -2507,9 +2507,10 @@
               name: data.name || 'Filmmaker',
               role: data.role || 'Director',
               age: data.age || 25,
-              locationName: data.locationName || 'India',
-              lat: typeof data.lat === 'number' ? data.lat : 17.4486,
-              lng: typeof data.lng === 'number' ? data.lng : 78.3908,
+              locationName: data.locationName || '',
+              lat: typeof data.lat === 'number' && isValidCoordinate(data.lat, data.lng) ? data.lat : null,
+              lng: typeof data.lng === 'number' && isValidCoordinate(data.lat, data.lng) ? data.lng : null,
+              mapsLink: data.mapsLink || '',
               avatar: data.avatar || defaultAvatar,
               rating: data.rating || 5.0,
               projectsCount: data.projectsCount || 1,
@@ -2627,7 +2628,7 @@
         str = decodeURIComponent(str);
       } catch (e) {}
 
-      // 1. Direct coordinate input: "17.444656, 78.545274", "17.444656,78.545274", "17.444656 78.545274"
+      // 1. Direct coordinate input: "17.477477, 78.544940", "17.477477,78.544940", "17.477477 78.544940"
       const rawMatch = str.match(/^(-?\d+(?:\.\d+)?)[,\s]+(-?\d+(?:\.\d+)?)$/);
       if (rawMatch) {
         const lat = parseFloat(rawMatch[1]);
@@ -2659,7 +2660,7 @@
         if (isValidCoordinate(lat, lng)) return { lat, lng };
       }
 
-      // 5. Explicit /maps/place/lat,lng or /place/lat,lng (e.g. /maps/place/17.444656,78.545274/)
+      // 5. Explicit /maps/place/lat,lng or /place/lat,lng (e.g. /maps/place/17.477477,78.544940/)
       const placeMatch = str.match(/(?:\/maps\/place|\/place)\/(-?\d+(?:\.\d+)?)(?:[,\s\+]|%2C)+(-?\d+(?:\.\d+)?)/i);
       if (placeMatch) {
         const lat = parseFloat(placeMatch[1]);
@@ -2683,7 +2684,7 @@
         if (isValidCoordinate(lat, lng)) return { lat, lng };
       }
 
-      // 8. Degrees Minutes Seconds (DMS) format: 17°26'40.8"N 78°32'43.0"E
+      // 8. Degrees Minutes Seconds (DMS) format: 17°28'38.9"N 78°32'41.8"E
       const dmsMatch = str.match(/(\d+)[°\s]+(\d+)['\s]+(\d+(?:\.\d+)?)"?\s*([NSns])[,\s]+(\d+)[°\s]+(\d+)['\s]+(\d+(?:\.\d+)?)"?\s*([EWew])/);
       if (dmsMatch) {
         let lat = parseFloat(dmsMatch[1]) + parseFloat(dmsMatch[2]) / 60 + parseFloat(dmsMatch[3]) / 3600;
@@ -2693,7 +2694,7 @@
         if (isValidCoordinate(lat, lng)) return { lat: parseFloat(lat.toFixed(6)), lng: parseFloat(lng.toFixed(6)) };
       }
 
-      // 9. When given an HTML document or rich text (e.g. from redirect responses)
+      // 9. When given an HTML document or rich text
       const urlCandidates = str.match(/https?:\/\/(?:www\.)?google\.[a-z.]+\/maps\/[^\s"'<>\\]+/gi);
       if (urlCandidates) {
         for (const candidate of urlCandidates) {
@@ -2704,29 +2705,7 @@
         }
       }
 
-      // Meta refresh tag fallback (e.g. <meta content="0;url=..." http-equiv="refresh">)
-      const metaRefresh = str.match(/content=["']\d+;\s*url=([^"']+)["']/i);
-      if (metaRefresh && metaRefresh[1] !== input) {
-        const sub = parseGoogleMapsRegex(metaRefresh[1]);
-        if (sub) return sub;
-      }
-
-      // Canonical link fallback
-      const canonicalLink = str.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i);
-      if (canonicalLink && canonicalLink[1] !== input) {
-        const sub = parseGoogleMapsRegex(canonicalLink[1]);
-        if (sub) return sub;
-      }
-
-      // Internal JSON coordinate arrays (e.g. [null,null,17.444656,78.545274])
-      const jsonCoordMatch = str.match(/\[null,null,(-?\d+\.\d+),(-?\d+\.\d+)\]/);
-      if (jsonCoordMatch) {
-        const lat = parseFloat(jsonCoordMatch[1]);
-        const lng = parseFloat(jsonCoordMatch[2]);
-        if (isValidCoordinate(lat, lng)) return { lat, lng };
-      }
-
-      // Short raw string fallback (only for brief text to prevent false positives in large HTML)
+      // Short raw string fallback (only for brief text to prevent false positives)
       if (str.length < 100) {
         const floatMatches = str.match(/-?\d{1,3}\.\d{3,}/g);
         if (floatMatches && floatMatches.length >= 2) {
@@ -2744,14 +2723,18 @@
       currentUser.mapsLink = val;
 
       if (!val || !val.trim()) {
+        currentUser.lat = null;
+        currentUser.lng = null;
         if (display) {
-          display.innerText = "No location set";
+          display.innerText = "No coordinates or link set";
           display.style.color = "var(--text-muted)";
         }
+        renderCrewList();
+        renderRadarPins();
         return;
       }
 
-      // Synchronous regex parsing (works for plain coordinates, embed iframes, and full Maps URLs)
+      // Synchronous regex parsing: checks for coordinates or full Maps links with coordinates
       const parsed = parseGoogleMapsRegex(val);
 
       if (parsed && isValidCoordinate(parsed.lat, parsed.lng)) {
@@ -2761,14 +2744,17 @@
           display.innerText = `${parsed.lat.toFixed(6)}, ${parsed.lng.toFixed(6)} ✓`;
           display.style.color = "#10b981";
         }
-        if (typeof renderCrewList === 'function') renderCrewList();
-        if (typeof renderRadarPins === 'function') renderRadarPins();
       } else {
+        // Link or text accepted for profile, but coordinates not extracted
+        currentUser.lat = null;
+        currentUser.lng = null;
         if (display) {
-          display.innerText = "❌ Coordinates not recognized. Paste coordinates (e.g. 17.4486, 78.3908) or tap 'Use Live GPS'.";
-          display.style.color = "#ef4444";
+          display.innerHTML = `<span style="color: #f59e0b;">Google Maps link saved.</span> <span style="color: var(--text-muted); font-size: 10px;">(Coordinates not detected — distance calculation will be disabled.)</span>`;
         }
       }
+
+      if (typeof renderCrewList === 'function') renderCrewList();
+      if (typeof renderRadarPins === 'function') renderRadarPins();
     }
 
     // Direct Device Live GPS Fetcher
@@ -2888,16 +2874,22 @@
       }
 
       currentUser.bio = document.getElementById('profBio').value.trim();
-      currentUser.locationName = document.getElementById('profLocationText').value.trim() || 'India';
       currentUser.mapsLink = document.getElementById('profMapsLink').value.trim();
       currentUser.portfolioLinks = currentUser.portfolioLinks.filter(l => l.url && l.url.trim());
 
+      // Extract coordinates if present. Coordinates are NOT required to save a profile.
       if (currentUser.mapsLink) {
         const parsed = parseGoogleMapsRegex(currentUser.mapsLink);
-        if (parsed) {
+        if (parsed && isValidCoordinate(parsed.lat, parsed.lng)) {
           currentUser.lat = parsed.lat;
           currentUser.lng = parsed.lng;
+        } else {
+          currentUser.lat = null;
+          currentUser.lng = null;
         }
+      } else {
+        currentUser.lat = null;
+        currentUser.lng = null;
       }
 
       if (isFirebaseReady && db && currentUser.uid) {
@@ -2925,16 +2917,17 @@
       }
 
       document.getElementById('profBio').value = currentUser.bio || "";
-      document.getElementById('profLocationText').value = currentUser.locationName || "";
       document.getElementById('profMapsLink').value = currentUser.mapsLink || "";
       
       const display = document.getElementById('userCoordsDisplay');
       if (display) {
-        if (typeof currentUser.lat === 'number' && typeof currentUser.lng === 'number') {
+        if (typeof currentUser.lat === 'number' && typeof currentUser.lng === 'number' && isValidCoordinate(currentUser.lat, currentUser.lng)) {
           display.innerText = `${currentUser.lat.toFixed(6)}, ${currentUser.lng.toFixed(6)} ✓`;
           display.style.color = "#10b981";
+        } else if (currentUser.mapsLink) {
+          display.innerHTML = `<span style="color: #f59e0b;">Google Maps link saved.</span> <span style="color: var(--text-muted); font-size: 10px;">(Coordinates not detected — distance calculation will be disabled.)</span>`;
         } else {
-          display.innerText = "No coordinates detected";
+          display.innerText = "No coordinates or link set";
           display.style.color = "var(--text-muted)";
         }
       }
@@ -3934,13 +3927,27 @@
         return;
       }
 
+      const hasUserCoords = isValidCoordinate(currentUser.lat, currentUser.lng);
+
+      // Only calculate distance if BOTH current user and crew member have valid coordinates
       const withDistance = crewMembers.map(crew => {
-        const cLat = typeof crew.lat === 'number' ? crew.lat : 17.4486;
-        const cLng = typeof crew.lng === 'number' ? crew.lng : 78.3908;
-        const uLat = typeof currentUser.lat === 'number' ? currentUser.lat : 17.4486;
-        const uLng = typeof currentUser.lng === 'number' ? currentUser.lng : 78.3908;
-        return { ...crew, distance: calculateRealDistance(uLat, uLng, cLat, cLng) };
-      }).sort((a, b) => a.distance - b.distance);
+        const hasCrewCoords = isValidCoordinate(crew.lat, crew.lng);
+        let distance = null;
+        if (hasUserCoords && hasCrewCoords) {
+          distance = calculateRealDistance(currentUser.lat, currentUser.lng, crew.lat, crew.lng);
+        }
+        return { ...crew, distance };
+      });
+
+      // Sort by distance only if valid coordinates are present
+      if (hasUserCoords) {
+        withDistance.sort((a, b) => {
+          if (a.distance === null && b.distance === null) return 0;
+          if (a.distance === null) return 1;
+          if (b.distance === null) return -1;
+          return a.distance - b.distance;
+        });
+      }
 
       const filtered = withDistance.filter(item => {
         const matchRole = currentSelectedRole === 'All' || item.role.toLowerCase() === currentSelectedRole.toLowerCase();
@@ -3949,19 +3956,41 @@
           item.role.toLowerCase().includes(currentSearchTerm) ||
           (item.skills && item.skills.some(s => s.toLowerCase().includes(currentSearchTerm))) ||
           (item.bio && item.bio.toLowerCase().includes(currentSearchTerm));
-        const matchRadius = currentRadiusFilter === null || item.distance <= currentRadiusFilter;
+        const matchRadius = currentRadiusFilter === null || (item.distance !== null && item.distance <= currentRadiusFilter);
 
         return matchRole && matchSearch && matchRadius;
       });
 
+      // Show prompt if coordinates are missing to find people by distance
+      let warningBanner = "";
+      if (!hasUserCoords) {
+        warningBanner = `
+          <div style="grid-column: 1 / -1; background: rgba(245, 158, 11, 0.12); border: 1px solid #f59e0b; padding: 12px 16px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 4px;">
+            <div style="font-size: 13px; color: #f59e0b; font-weight: 600;">
+              📍 <strong>Please paste Google Maps coordinates to find people by distance.</strong>
+            </div>
+            <button class="btn-3d btn-3d-primary" style="padding: 6px 12px; font-size: 10px;" onclick="switchNavTab('profile')">Add in Profile</button>
+          </div>
+        `;
+      }
+
       if (filtered.length === 0) {
-        container.innerHTML = `<div class="empty-state-box">No crew matching selected craft or filters.</div>`;
+        container.innerHTML = warningBanner + `<div class="empty-state-box">No crew matching selected craft or filters.</div>`;
         return;
       }
 
-      container.innerHTML = filtered.map(crew => {
+      container.innerHTML = warningBanner + filtered.map(crew => {
         const style = getCraftMeta(crew.role);
         const reviewCount = crew.reviews ? crew.reviews.length : 0;
+
+        let distanceSnippet = "";
+        if (crew.distance !== null) {
+          distanceSnippet = ` • <span style="color: var(--neon-cinema); font-weight: 700;">${crew.distance} km away</span>`;
+        } else if (!hasUserCoords) {
+          distanceSnippet = ` • <span style="color: var(--text-muted); font-size: 11px;">(Coordinates needed for distance)</span>`;
+        }
+
+        const locationDisplay = crew.locationName ? `📍 ${crew.locationName}` : '📍 Location not specified';
 
         return `
           <div class="crew-card">
@@ -3977,7 +4006,7 @@
                   </span>
                 </div>
                 <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
-                  📍 ${crew.locationName} • <span style="color: var(--neon-cinema); font-weight: 700;">${crew.distance} km away</span>
+                  ${locationDisplay}${distanceSnippet}
                 </div>
               </div>
             </div>
@@ -4037,16 +4066,31 @@
 
     function renderRadarPins() {
       const box = document.getElementById('radarVisualBox');
+      const infoText = document.getElementById('radarInfoText');
+      if (!box) return;
       box.querySelectorAll('.radar-pin').forEach(p => p.remove());
 
-      crewMembers.forEach(crew => {
-        const uLat = typeof currentUser.lat === 'number' ? currentUser.lat : 17.4486;
-        const uLng = typeof currentUser.lng === 'number' ? currentUser.lng : 78.3908;
-        const cLat = typeof crew.lat === 'number' ? crew.lat : 17.4486;
-        const cLng = typeof crew.lng === 'number' ? crew.lng : 78.3908;
+      const hasUserCoords = isValidCoordinate(currentUser.lat, currentUser.lng);
 
-        const dLat = cLat - uLat;
-        const dLng = cLng - uLng;
+      if (!hasUserCoords) {
+        if (infoText) {
+          infoText.innerHTML = `⚠️ <strong style="color: #f59e0b;">Please paste Google Maps coordinates to find people by distance.</strong>`;
+        }
+        return;
+      }
+
+      if (infoText) {
+        infoText.innerText = "💡 Tap rings to filter radius or click any crew pin";
+      }
+
+      const uLat = currentUser.lat;
+      const uLng = currentUser.lng;
+
+      crewMembers.forEach(crew => {
+        if (!isValidCoordinate(crew.lat, crew.lng)) return;
+
+        const dLat = crew.lat - uLat;
+        const dLng = crew.lng - uLng;
         const left = Math.min(Math.max(50 + (dLng * 900), 12), 88);
         const top = Math.min(Math.max(50 - (dLat * 900), 12), 88);
 
@@ -4056,6 +4100,7 @@
         pin.style.left = `${left}%`;
         pin.style.top = `${top}%`;
         pin.style.borderColor = getCraftMeta(crew.role).border;
+        pin.title = `${crew.name} (${calculateRealDistance(uLat, uLng, crew.lat, crew.lng)} km)`;
         pin.onclick = () => {
           setDiscoverView('list');
           currentSearchTerm = crew.name.toLowerCase();
@@ -4067,9 +4112,17 @@
     }
 
     function filterByDistanceRadius(km) {
+      if (!isValidCoordinate(currentUser.lat, currentUser.lng)) {
+        alert("Please paste Google Maps coordinates to find people by distance.");
+        return;
+      }
       currentRadiusFilter = (currentRadiusFilter === km) ? null : km;
       renderCrewList();
-      alert(`Filtering radius: ${km} km!`);
+      if (currentRadiusFilter !== null) {
+        alert(`Filtering radius: within ${km} km!`);
+      } else {
+        alert("Radius filter cleared.");
+      }
     }
 
     function handleSearchFilter() {
@@ -4194,6 +4247,9 @@
             currentUser.uid = null;
             currentUser.name = "";
             currentUser.avatar = defaultAvatar;
+            currentUser.lat = null;
+            currentUser.lng = null;
+            currentUser.mapsLink = "";
             document.getElementById('headerAvatar').src = defaultAvatar;
             document.getElementById('authActionBtn').innerText = "🔑 Sign In With Google";
             document.getElementById('profileVisibilityCard').style.display = "none";
