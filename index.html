@@ -1502,10 +1502,10 @@
             <input type="text" id="profLocationText" class="form-input" placeholder="e.g. Film Nagar, Hyderabad" />
           </div>
 
-          <!-- Google Maps Link with Auto Short-Link Resolver & GPS Detection -->
+          <!-- Location Coordinates with Drop-Pin Instructions & Live GPS -->
           <div class="form-group">
             <div style="display: flex; justify-content: space-between; align-items: center;">
-              <label style="margin: 0;">Google Maps Link / Lat,Lng</label>
+              <label style="margin: 0;">Location Coordinates</label>
               <button type="button" class="btn-3d btn-3d-dark" style="padding: 4px 8px; font-size: 10px;" onclick="fetchDeviceLiveLocation()">
                 🎯 Use Live GPS
               </button>
@@ -1514,10 +1514,13 @@
               type="text" 
               id="profMapsLink" 
               class="form-input" 
-              placeholder="Paste Google Maps URL, short link (maps.app.goo.gl), or coordinates..." 
+              placeholder="Paste coordinates (e.g. 17.4486, 78.3908) or full Google Maps URL..." 
               oninput="handleUserMapsLinkInput(this.value)" 
             />
-            <div style="font-size: 11px; margin-top: 4px;" id="userCoordsContainer">
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px; line-height: 1.4;">
+              Open Google Maps, long-press your location to drop a pin, then tap the coordinates shown at the bottom (e.g. '17.4486, 78.3908') to copy them — then paste here. (Short share links from the Share button are not supported.)
+            </div>
+            <div style="font-size: 11px; margin-top: 6px;" id="userCoordsContainer">
               📍 Coordinates Status: <span id="userCoordsDisplay" style="font-weight:700; color: #10b981;">17.4486, 78.3908</span>
             </div>
           </div>
@@ -2602,10 +2605,7 @@
       return parseFloat((R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))).toFixed(1));
     }
 
-    // ================= ENHANCED COORDINATES & MAPS RESOLVER =================
-    let mapsInputSequence = 0;
-    let mapsInputAbortController = null;
-
+    // ================= COORDINATES & MAPS RESOLVER =================
     function isValidCoordinate(lat, lng) {
       return typeof lat === 'number' && typeof lng === 'number' &&
              !isNaN(lat) && !isNaN(lng) &&
@@ -2739,71 +2739,9 @@
       return null;
     }
 
-    // Resolves Google Maps short links (maps.app.goo.gl, goo.gl/maps) via fast, redundant proxy endpoints
-    async function resolveGoogleMapsShortLink(shortUrl, signal) {
-      const trimmed = shortUrl.trim();
-      const cleanUrl = trimmed
-        .replace(/[?&](?:g_st|utm_[^&=]+)=[^&#]*/gi, '')
-        .replace(/\?&/, '?')
-        .replace(/[?&]$/, '');
-
-      const targets = [trimmed];
-      if (cleanUrl !== trimmed) {
-        targets.unshift(cleanUrl);
-      }
-
-      const endpoints = [];
-      for (const target of targets) {
-        const enc = encodeURIComponent(target);
-        endpoints.push(`https://api.codetabs.com/v1/proxy?quest=${enc}`);
-        endpoints.push(`https://api.allorigins.win/raw?url=${enc}`);
-        endpoints.push(`https://api.allorigins.win/get?url=${enc}`);
-        endpoints.push(`https://corsproxy.io/?url=${enc}`);
-      }
-
-      const attemptFetch = async (endpoint) => {
-        const res = await fetch(endpoint, { signal });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const text = await res.text();
-        let content = text;
-        if (text.startsWith('{') && text.includes('"contents"')) {
-          try {
-            const json = JSON.parse(text);
-            if (json.contents) content = json.contents;
-          } catch (e) {}
-        }
-        const coords = parseGoogleMapsRegex(content);
-        if (coords && isValidCoordinate(coords.lat, coords.lng)) {
-          return coords;
-        }
-        throw new Error('No coordinates in response');
-      };
-
-      const raceAny = Promise.any ? Promise.any.bind(Promise) : (promises) => {
-        return new Promise((resolve, reject) => {
-          let errors = [];
-          promises.forEach(p => Promise.resolve(p).then(resolve).catch(err => {
-            errors.push(err);
-            if (errors.length === promises.length) reject(new Error('All resolvers failed'));
-          }));
-        });
-      };
-
-      return await raceAny(endpoints.map(ep => attemptFetch(ep)));
-    }
-
-    async function handleUserMapsLinkInput(val) {
+    function handleUserMapsLinkInput(val) {
       const display = document.getElementById('userCoordsDisplay');
       currentUser.mapsLink = val;
-
-      // Prevent race conditions on fast typing/pasting
-      mapsInputSequence++;
-      const currentSeq = mapsInputSequence;
-
-      if (mapsInputAbortController) {
-        mapsInputAbortController.abort();
-        mapsInputAbortController = null;
-      }
 
       if (!val || !val.trim()) {
         if (display) {
@@ -2813,8 +2751,8 @@
         return;
       }
 
-      // 1. Check direct regex synchronously (instant for plain coords, embed iframes, long URLs)
-      let parsed = parseGoogleMapsRegex(val);
+      // Synchronous regex parsing (works for plain coordinates, embed iframes, and full Maps URLs)
+      const parsed = parseGoogleMapsRegex(val);
 
       if (parsed && isValidCoordinate(parsed.lat, parsed.lng)) {
         currentUser.lat = parsed.lat;
@@ -2825,46 +2763,11 @@
         }
         if (typeof renderCrewList === 'function') renderCrewList();
         if (typeof renderRadarPins === 'function') renderRadarPins();
-        return;
-      }
-
-      // 2. If it is a short link (maps.app.goo.gl or goo.gl/maps), resolve asynchronously
-      if (/(?:maps\.app\.goo\.gl|goo\.gl\/maps)/i.test(val)) {
+      } else {
         if (display) {
-          display.innerText = "⏳ Resolving Google Maps short link...";
-          display.style.color = "#ffb703";
+          display.innerText = "❌ Coordinates not recognized. Paste coordinates (e.g. 17.4486, 78.3908) or tap 'Use Live GPS'.";
+          display.style.color = "#ef4444";
         }
-
-        mapsInputAbortController = new AbortController();
-        const { signal } = mapsInputAbortController;
-
-        try {
-          parsed = await resolveGoogleMapsShortLink(val, signal);
-        } catch (err) {
-          if (signal.aborted || currentSeq !== mapsInputSequence) return;
-          console.warn("Short link resolution error:", err);
-        }
-
-        // Verify that this is still the active input sequence
-        if (currentSeq !== mapsInputSequence) return;
-
-        if (parsed && isValidCoordinate(parsed.lat, parsed.lng)) {
-          currentUser.lat = parsed.lat;
-          currentUser.lng = parsed.lng;
-          if (display) {
-            display.innerText = `${parsed.lat.toFixed(6)}, ${parsed.lng.toFixed(6)} ✓`;
-            display.style.color = "#10b981";
-          }
-          if (typeof renderCrewList === 'function') renderCrewList();
-          if (typeof renderRadarPins === 'function') renderRadarPins();
-          return;
-        }
-      }
-
-      // 3. Fallback when coordinates could not be detected
-      if (display) {
-        display.innerText = "❌ Coordinates not recognized. Paste standard link, coordinates, or tap 'Use Live GPS'.";
-        display.style.color = "#ef4444";
       }
     }
 
@@ -2897,7 +2800,7 @@
         },
         (err) => {
           hideCompressionToast();
-          alert("Could not access GPS. Please allow location permissions or paste your Google Maps link.");
+          alert("Could not access GPS. Please allow location permissions or paste your coordinates.");
         },
         { enableHighAccuracy: true, timeout: 10000 }
       );
