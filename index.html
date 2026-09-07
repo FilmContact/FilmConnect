@@ -2272,6 +2272,7 @@
 
     let crewMembers = [];
     let connectRequests = [];
+    let outgoingRequestStatusMap = {}; // receiverUid -> status ('pending', 'accepted', 'rejected')
     let projectsFeed = [];
     let organizationsList = [];
     let opportunitiesList = [];
@@ -2293,7 +2294,36 @@
     let currentSearchTerm = '';
     let currentRadiusFilter = null;
 
+    // Listener cleanup handles
+    let unsubscribeUsersListener = null;
+    let unsubscribeProjectsListener = null;
+    let unsubscribeOrganizationsListener = null;
+    let unsubscribeOpportunitiesListener = null;
+    let unsubscribeFestivalsListener = null;
     let unsubscribeChatListener = null;
+    let unsubscribeIncomingRequestsListener = null;
+    let unsubscribeOutgoingRequestsListener = null;
+    let unsubscribeTeamGroupsListener = null;
+    let unsubscribeCurrentUserDocListener = null;
+
+    // ================= CONNECTION STATUS HELPER =================
+    function getConnectionStatus(crewId) {
+      if (!crewId) return 'none';
+      if (currentUser.connectedUsers && Array.isArray(currentUser.connectedUsers) && currentUser.connectedUsers.includes(crewId)) {
+        return 'connected';
+      }
+      const outgoingStatus = outgoingRequestStatusMap[crewId];
+      if (outgoingStatus === 'pending') {
+        return 'pending';
+      }
+      if (outgoingStatus === 'accepted') {
+        return 'connected';
+      }
+      if (outgoingStatus === 'rejected') {
+        return 'rejected';
+      }
+      return 'none';
+    }
 
     // ================= GOOGLE AUTH =================
     async function handleAuthAction() {
@@ -2304,6 +2334,30 @@
 
       if (auth.currentUser) {
         if (confirm("Do you want to Sign Out of Film Connect?")) {
+          if (unsubscribeIncomingRequestsListener) {
+            unsubscribeIncomingRequestsListener();
+            unsubscribeIncomingRequestsListener = null;
+          }
+          if (unsubscribeOutgoingRequestsListener) {
+            unsubscribeOutgoingRequestsListener();
+            unsubscribeOutgoingRequestsListener = null;
+          }
+          if (unsubscribeTeamGroupsListener) {
+            unsubscribeTeamGroupsListener();
+            unsubscribeTeamGroupsListener = null;
+          }
+          if (unsubscribeCurrentUserDocListener) {
+            unsubscribeCurrentUserDocListener();
+            unsubscribeCurrentUserDocListener = null;
+          }
+          if (unsubscribeChatListener) {
+            unsubscribeChatListener();
+            unsubscribeChatListener = null;
+          }
+
+          outgoingRequestStatusMap = {};
+          connectRequests = [];
+
           await auth.signOut();
           currentUser.uid = null;
           currentUser.name = "";
@@ -2312,14 +2366,22 @@
           currentUser.lat = null;
           currentUser.lng = null;
           currentUser.mapsLink = "";
+          currentUser.connectedUsers = [];
           currentRadiusFilter = null;
           teamGroups = [];
+
+          const badge = document.getElementById('connectsBadge');
+          if (badge) badge.innerText = "0";
+
           document.getElementById('headerAvatar').src = defaultAvatar;
           document.getElementById('authActionBtn').innerText = "🔑 Sign In With Google";
           document.getElementById('profileVisibilityCard').style.display = "none";
           document.getElementById('btnDeleteProfile').style.display = "none";
+
           populateProfileForm();
+          initFirestoreListeners();
           renderCrewList();
+          renderRequests();
           renderThreads();
         }
       } else {
@@ -2443,6 +2505,30 @@
           }
         }
 
+        if (unsubscribeIncomingRequestsListener) {
+          unsubscribeIncomingRequestsListener();
+          unsubscribeIncomingRequestsListener = null;
+        }
+        if (unsubscribeOutgoingRequestsListener) {
+          unsubscribeOutgoingRequestsListener();
+          unsubscribeOutgoingRequestsListener = null;
+        }
+        if (unsubscribeTeamGroupsListener) {
+          unsubscribeTeamGroupsListener();
+          unsubscribeTeamGroupsListener = null;
+        }
+        if (unsubscribeCurrentUserDocListener) {
+          unsubscribeCurrentUserDocListener();
+          unsubscribeCurrentUserDocListener = null;
+        }
+        if (unsubscribeChatListener) {
+          unsubscribeChatListener();
+          unsubscribeChatListener = null;
+        }
+
+        outgoingRequestStatusMap = {};
+        connectRequests = [];
+
         await db.collection('users').doc(uid).delete();
         await auth.signOut();
 
@@ -2455,7 +2541,7 @@
           role: "Director",
           age: "",
           bio: "",
-              mapsLink: "",
+          mapsLink: "",
           lat: null,
           lng: null,
           avatar: defaultAvatar,
@@ -2470,6 +2556,7 @@
         document.getElementById('btnDeleteProfile').style.display = "none";
 
         populateProfileForm();
+        initFirestoreListeners();
         switchNavTab('discover');
 
         alert("✓ Your profile and account data have been permanently deleted.");
@@ -2484,8 +2571,12 @@
     function initFirestoreListeners() {
       if (!isFirebaseReady || !db) return;
 
-      // 1. Crew Directory
-      db.collection('users').onSnapshot(snap => {
+      // 1. Crew Directory (Permanent listener with duplicate prevention)
+      if (unsubscribeUsersListener) {
+        unsubscribeUsersListener();
+        unsubscribeUsersListener = null;
+      }
+      unsubscribeUsersListener = db.collection('users').onSnapshot(snap => {
         crewMembers = [];
         snap.forEach(doc => {
           const data = doc.data();
@@ -2494,7 +2585,7 @@
           if (isSelf) return;
           if (data.hidden === true) return;
 
-          const isConnected = currentUser.connectedUsers && currentUser.connectedUsers.includes(doc.id);
+          const isConnected = getConnectionStatus(doc.id) === 'connected';
 
           if ((data.reportsCount || 0) < 10) {
             crewMembers.push({
@@ -2521,10 +2612,16 @@
         renderCrewList();
         renderRadarPins();
         renderThreads();
+      }, err => {
+        console.warn("Users listener error:", err);
       });
 
-      // 2. Projects Feed
-      db.collection('projects').orderBy('createdAt', 'desc').onSnapshot(snap => {
+      // 2. Projects Feed (Permanent listener with duplicate prevention)
+      if (unsubscribeProjectsListener) {
+        unsubscribeProjectsListener();
+        unsubscribeProjectsListener = null;
+      }
+      unsubscribeProjectsListener = db.collection('projects').orderBy('createdAt', 'desc').onSnapshot(snap => {
         projectsFeed = [];
         snap.forEach(doc => {
           const p = doc.data();
@@ -2535,38 +2632,81 @@
           });
         });
         renderProjectsFeed();
+      }, err => {
+        console.warn("Projects listener error:", err);
       });
 
-      // 3. Organizations Directory
-      db.collection('organizations').orderBy('createdAt', 'desc').onSnapshot(snap => {
+      // 3. Organizations Directory (Permanent listener with duplicate prevention)
+      if (unsubscribeOrganizationsListener) {
+        unsubscribeOrganizationsListener();
+        unsubscribeOrganizationsListener = null;
+      }
+      unsubscribeOrganizationsListener = db.collection('organizations').orderBy('createdAt', 'desc').onSnapshot(snap => {
         organizationsList = [];
         snap.forEach(doc => {
           organizationsList.push({ id: doc.id, ...doc.data() });
         });
         renderOrganizationsDirectory();
+      }, err => {
+        console.warn("Organizations listener error:", err);
       });
 
-      // 4. Opportunities Feed
-      db.collection('opportunities').orderBy('createdAt', 'desc').onSnapshot(snap => {
+      // 4. Opportunities Feed (Permanent listener with duplicate prevention)
+      if (unsubscribeOpportunitiesListener) {
+        unsubscribeOpportunitiesListener();
+        unsubscribeOpportunitiesListener = null;
+      }
+      unsubscribeOpportunitiesListener = db.collection('opportunities').orderBy('createdAt', 'desc').onSnapshot(snap => {
         opportunitiesList = [];
         snap.forEach(doc => {
           opportunitiesList.push({ id: doc.id, ...doc.data() });
         });
         renderOpportunitiesFeed();
+      }, err => {
+        console.warn("Opportunities listener error:", err);
       });
 
-      // 5. Festivals Radar
-      db.collection('festivals').orderBy('createdAt', 'desc').onSnapshot(snap => {
+      // 5. Festivals Radar (Permanent listener with duplicate prevention)
+      if (unsubscribeFestivalsListener) {
+        unsubscribeFestivalsListener();
+        unsubscribeFestivalsListener = null;
+      }
+      unsubscribeFestivalsListener = db.collection('festivals').orderBy('createdAt', 'desc').onSnapshot(snap => {
         festivalsList = [];
         snap.forEach(doc => {
           festivalsList.push({ id: doc.id, ...doc.data() });
         });
         renderFestivalsFeed();
+      }, err => {
+        console.warn("Festivals listener error:", err);
       });
 
-      // 6. Connect Requests
+      // 6. User-specific real-time listeners (Authenticated only)
       if (currentUser.uid) {
-        db.collection('connectRequests')
+        // Real-time listener for current user's profile document (for connectedUsers updates)
+        if (unsubscribeCurrentUserDocListener) {
+          unsubscribeCurrentUserDocListener();
+          unsubscribeCurrentUserDocListener = null;
+        }
+        unsubscribeCurrentUserDocListener = db.collection('users').doc(currentUser.uid)
+          .onSnapshot(doc => {
+            if (doc.exists) {
+              const data = doc.data();
+              currentUser = { ...currentUser, ...data, uid: currentUser.uid };
+              updateVisibilityUI();
+              renderCrewList();
+              renderThreads();
+            }
+          }, err => {
+            console.warn("User doc listener error:", err);
+          });
+
+        // Real-time listener for incoming connect requests (pending only)
+        if (unsubscribeIncomingRequestsListener) {
+          unsubscribeIncomingRequestsListener();
+          unsubscribeIncomingRequestsListener = null;
+        }
+        unsubscribeIncomingRequestsListener = db.collection('connectRequests')
           .where('receiverUid', '==', currentUser.uid)
           .where('status', '==', 'pending')
           .onSnapshot(snap => {
@@ -2575,10 +2715,46 @@
               connectRequests.push({ id: doc.id, ...doc.data() });
             });
             renderRequests();
+          }, err => {
+            console.warn("Incoming requests listener error:", err);
           });
 
-        // 7. Team Groups Live Listener
-        db.collection('groups')
+        // Real-time listener for outgoing connect requests (pending, accepted, rejected)
+        if (unsubscribeOutgoingRequestsListener) {
+          unsubscribeOutgoingRequestsListener();
+          unsubscribeOutgoingRequestsListener = null;
+        }
+        unsubscribeOutgoingRequestsListener = db.collection('connectRequests')
+          .where('senderUid', '==', currentUser.uid)
+          .onSnapshot(snap => {
+            const statusDocs = [];
+            snap.forEach(doc => {
+              statusDocs.push({ id: doc.id, ...doc.data() });
+            });
+            // Sort ascending by creation time so the latest request overwrites older ones
+            statusDocs.sort((a, b) => {
+              const tA = (a.createdAt && a.createdAt.toMillis) ? a.createdAt.toMillis() : (a.createdAt || 0);
+              const tB = (b.createdAt && b.createdAt.toMillis) ? b.createdAt.toMillis() : (b.createdAt || 0);
+              return tA - tB;
+            });
+            outgoingRequestStatusMap = {};
+            statusDocs.forEach(req => {
+              if (req.receiverUid && req.status) {
+                outgoingRequestStatusMap[req.receiverUid] = req.status;
+              }
+            });
+            renderCrewList();
+            renderThreads();
+          }, err => {
+            console.warn("Outgoing requests listener error:", err);
+          });
+
+        // Real-time listener for team groups
+        if (unsubscribeTeamGroupsListener) {
+          unsubscribeTeamGroupsListener();
+          unsubscribeTeamGroupsListener = null;
+        }
+        unsubscribeTeamGroupsListener = db.collection('groups')
           .where('members', 'array-contains', currentUser.uid)
           .onSnapshot(snap => {
             teamGroups = [];
@@ -2586,7 +2762,27 @@
               teamGroups.push({ id: doc.id, ...doc.data() });
             });
             renderThreads();
+          }, err => {
+            console.warn("Groups listener error:", err);
           });
+      } else {
+        // If unauthenticated, ensure any leftover user listeners are torn down
+        if (unsubscribeCurrentUserDocListener) {
+          unsubscribeCurrentUserDocListener();
+          unsubscribeCurrentUserDocListener = null;
+        }
+        if (unsubscribeIncomingRequestsListener) {
+          unsubscribeIncomingRequestsListener();
+          unsubscribeIncomingRequestsListener = null;
+        }
+        if (unsubscribeOutgoingRequestsListener) {
+          unsubscribeOutgoingRequestsListener();
+          unsubscribeOutgoingRequestsListener = null;
+        }
+        if (unsubscribeTeamGroupsListener) {
+          unsubscribeTeamGroupsListener();
+          unsubscribeTeamGroupsListener = null;
+        }
       }
     }
 
@@ -2904,27 +3100,70 @@
         return;
       }
 
+      if (currentUser.uid === crewId) {
+        alert("You cannot send a connection request to yourself.");
+        return;
+      }
+
+      const currentStatus = getConnectionStatus(crewId);
+      if (currentStatus === 'connected') {
+        alert("You are already connected with this filmmaker!");
+        return;
+      }
+      if (currentStatus === 'pending') {
+        alert("A connection request is already pending!");
+        return;
+      }
+
       const crew = crewMembers.find(c => c.id === crewId);
       if (!crew) return;
 
-      if (isFirebaseReady && db) {
-        await db.collection('connectRequests').add({
-          senderUid: currentUser.uid,
-          senderName: currentUser.name || 'Filmmaker',
-          senderRole: currentUser.role || 'Director',
-          senderAvatar: currentUser.avatar || defaultAvatar,
-          receiverUid: crewId,
-          status: 'pending',
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-      }
+      // Immediately reflect pending state on sender's UI
+      outgoingRequestStatusMap[crewId] = 'pending';
+      renderCrewList();
 
-      alert(`⚡ Connect request sent to ${crew.name}!`);
+      if (isFirebaseReady && db) {
+        try {
+          // Check existing pending request in Firestore to prevent duplicate creation
+          const existingPendingSnap = await db.collection('connectRequests')
+            .where('senderUid', '==', currentUser.uid)
+            .where('receiverUid', '==', crewId)
+            .where('status', '==', 'pending')
+            .get();
+
+          if (!existingPendingSnap.empty) {
+            alert(`A connection request is already pending with ${crew.name}.`);
+            return;
+          }
+
+          await db.collection('connectRequests').add({
+            senderUid: currentUser.uid,
+            senderName: currentUser.name || 'Filmmaker',
+            senderRole: currentUser.role || 'Director',
+            senderAvatar: currentUser.avatar || defaultAvatar,
+            receiverUid: crewId,
+            receiverName: crew.name || 'Filmmaker',
+            receiverRole: crew.role || 'Film Craft Practitioner',
+            status: 'pending',
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          alert(`⚡ Connect request sent to ${crew.name}!`);
+        } catch (err) {
+          console.error("Error sending connect request:", err);
+          delete outgoingRequestStatusMap[crewId];
+          renderCrewList();
+          alert("Failed to send connect request: " + (err.message || "Network error"));
+        }
+      } else {
+        alert(`⚡ Connect request sent to ${crew.name}!`);
+      }
     }
 
     function renderRequests() {
       const container = document.getElementById('requestsListContainer');
-      document.getElementById('connectsBadge').innerText = connectRequests.length;
+      const badge = document.getElementById('connectsBadge');
+      if (badge) badge.innerText = connectRequests.length;
 
       if (connectRequests.length === 0) {
         container.innerHTML = `<div class="empty-state-box">No pending connect requests at the moment.</div>`;
@@ -2933,10 +3172,10 @@
 
       container.innerHTML = connectRequests.map(req => `
         <div class="request-item">
-          <img src="${req.senderAvatar}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">
+          <img src="${req.senderAvatar || defaultAvatar}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;">
           <div style="flex: 1;">
             <div style="font-size: 15px; font-weight: 800; color: #fff;">${req.senderName}</div>
-            <div style="font-size: 12px; color: var(--neon-cinema);">${req.senderRole} wants to connect with you</div>
+            <div style="font-size: 12px; color: var(--neon-cinema);">${req.senderRole || 'Film Craft Practitioner'} wants to connect with you</div>
           </div>
           <div style="display: flex; gap: 6px;">
             <button class="btn-3d btn-3d-danger" onclick="respondConnectRequest('${req.id}', false, '${req.senderUid}')">Reject</button>
@@ -2948,20 +3187,32 @@
 
     async function respondConnectRequest(reqId, isAccepted, senderUid) {
       if (isFirebaseReady && db) {
-        if (isAccepted) {
-          await db.collection('connectRequests').doc(reqId).update({ status: 'accepted' });
-          
-          await db.collection('users').doc(currentUser.uid).update({
-            connectedUsers: firebase.firestore.FieldValue.arrayUnion(senderUid)
-          });
-          await db.collection('users').doc(senderUid).update({
-            connectedUsers: firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
-          });
+        try {
+          if (isAccepted) {
+            await db.collection('connectRequests').doc(reqId).update({ status: 'accepted' });
+            
+            await db.collection('users').doc(currentUser.uid).update({
+              connectedUsers: firebase.firestore.FieldValue.arrayUnion(senderUid)
+            });
+            await db.collection('users').doc(senderUid).update({
+              connectedUsers: firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
+            });
 
-          alert("✓ Accepted connection! You both can now chat.");
-        } else {
-          await db.collection('connectRequests').doc(reqId).update({ status: 'rejected' });
-          alert("✕ Rejected connection request.");
+            if (!currentUser.connectedUsers) currentUser.connectedUsers = [];
+            if (!currentUser.connectedUsers.includes(senderUid)) {
+              currentUser.connectedUsers.push(senderUid);
+            }
+
+            renderCrewList();
+            renderThreads();
+            alert("✓ Accepted connection! You both can now chat.");
+          } else {
+            await db.collection('connectRequests').doc(reqId).update({ status: 'rejected' });
+            alert("✕ Rejected connection request.");
+          }
+        } catch (err) {
+          console.error("Error updating request:", err);
+          alert("Failed to respond to connect request: " + (err.message || "Network error"));
         }
       }
     }
@@ -3084,7 +3335,8 @@
       const crew = crewMembers.find(c => c.id === crewId);
       if (!crew) return;
 
-      if (!crew.connected) {
+      const isConnected = getConnectionStatus(crewId) === 'connected';
+      if (!isConnected) {
         alert("⚠️ You can only report profiles you are connected with.");
         return;
       }
@@ -3207,7 +3459,7 @@
     // ================= TEAM GROUPS CREATION & RENDERING =================
     function openCreateGroupModal() {
       const list = document.getElementById('groupCrewSelectorList');
-      const connectedCrew = crewMembers.filter(c => c.connected);
+      const connectedCrew = crewMembers.filter(c => getConnectionStatus(c.id) === 'connected');
 
       if (connectedCrew.length === 0) {
         list.innerHTML = `<div style="font-size: 12px; color: var(--text-muted); padding: 10px 0;">No connected crew members yet. Connect with members first to add them to your team group.</div>`;
@@ -3291,9 +3543,9 @@
         `).join('');
       }
 
-      // Direct Messages List
+      // Direct Messages List (Connected crew only)
       const container = document.getElementById('threadsListContainer');
-      const connectedOnes = crewMembers.filter(c => c.connected);
+      const connectedOnes = crewMembers.filter(c => getConnectionStatus(c.id) === 'connected');
 
       if (connectedOnes.length === 0) {
         container.innerHTML = `<div style="font-size: 12px; color: var(--text-muted); padding: 10px 0;">No 1-on-1 direct messages. Connect with someone in Discover to chat.</div>`;
@@ -3369,7 +3621,8 @@
 
     function openDirectChat(crewId) {
       const crew = crewMembers.find(c => c.id === crewId);
-      if (crew && !crew.connected) {
+      const isConnected = getConnectionStatus(crewId) === 'connected';
+      if (crew && !isConnected) {
         alert(`🔒 Chat Locked: You and ${crew.name} must both accept a Connect request before chatting.`);
         return;
       }
@@ -3949,6 +4202,43 @@
 
         const locationDisplay = crew.mapsLink ? '📍 Google Maps location' : '📍 Location not specified';
 
+        // Evaluate realtime connection status
+        const connStatus = getConnectionStatus(crew.id);
+        let actionFooterHtml = '';
+
+        if (connStatus === 'connected') {
+          actionFooterHtml = `
+            <button class="btn-3d btn-3d-danger" style="padding: 6px 10px; font-size: 10px;" onclick="reportCrewProfile('${crew.id}')" title="Report Misconduct">
+              🚩 Report
+            </button>
+            <button class="btn-3d btn-3d-primary" onclick="openDirectChat('${crew.id}')">
+              💬 Chat
+            </button>
+          `;
+        } else if (connStatus === 'pending') {
+          actionFooterHtml = `
+            <span style="font-size: 11px; color: var(--neon-director); font-weight: 700;">Waiting for acceptance</span>
+            <button class="btn-3d btn-3d-dark" style="opacity: 0.85; cursor: default;" disabled>
+              ⏳ Request Sent
+            </button>
+          `;
+        } else if (connStatus === 'rejected') {
+          actionFooterHtml = `
+            <span style="font-size: 11px; color: #ef4444; font-weight: 700;">✕ Not Accepted</span>
+            <button class="btn-3d btn-3d-connect" onclick="sendConnectRequest('${crew.id}')">
+              ⚡ Connect Again
+            </button>
+          `;
+        } else {
+          // 'none'
+          actionFooterHtml = `
+            <span style="font-size: 11px; color: var(--text-muted);">Not Connected</span>
+            <button class="btn-3d btn-3d-connect" onclick="sendConnectRequest('${crew.id}')">
+              ⚡ Connect
+            </button>
+          `;
+        }
+
         return `
           <div class="crew-card">
             <div class="crew-top">
@@ -3994,19 +4284,7 @@
             <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4; flex: 1;">${crew.bio}</p>
 
             <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; margin-top: auto;">
-              ${crew.connected ? `
-                <button class="btn-3d btn-3d-danger" style="padding: 6px 10px; font-size: 10px;" onclick="reportCrewProfile('${crew.id}')" title="Report Misconduct">
-                  🚩 Report
-                </button>
-                <button class="btn-3d btn-3d-primary" onclick="openDirectChat('${crew.id}')">
-                  💬 Chat
-                </button>
-              ` : `
-                <span style="font-size: 11px; color: var(--text-muted);">Not Connected</span>
-                <button class="btn-3d btn-3d-connect" onclick="sendConnectRequest('${crew.id}')">
-                  ⚡ Connect
-                </button>
-              `}
+              ${actionFooterHtml}
             </div>
           </div>
         `;
@@ -4201,17 +4479,47 @@
           if (user) {
             syncUserWithFirestore(user);
           } else {
+            if (unsubscribeIncomingRequestsListener) {
+              unsubscribeIncomingRequestsListener();
+              unsubscribeIncomingRequestsListener = null;
+            }
+            if (unsubscribeOutgoingRequestsListener) {
+              unsubscribeOutgoingRequestsListener();
+              unsubscribeOutgoingRequestsListener = null;
+            }
+            if (unsubscribeTeamGroupsListener) {
+              unsubscribeTeamGroupsListener();
+              unsubscribeTeamGroupsListener = null;
+            }
+            if (unsubscribeCurrentUserDocListener) {
+              unsubscribeCurrentUserDocListener();
+              unsubscribeCurrentUserDocListener = null;
+            }
+            if (unsubscribeChatListener) {
+              unsubscribeChatListener();
+              unsubscribeChatListener = null;
+            }
+
+            outgoingRequestStatusMap = {};
+            connectRequests = [];
+
             currentUser.uid = null;
             currentUser.name = "";
             currentUser.avatar = defaultAvatar;
             currentUser.lat = null;
             currentUser.lng = null;
             currentUser.mapsLink = "";
+            currentUser.connectedUsers = [];
             currentRadiusFilter = null;
+
+            const badge = document.getElementById('connectsBadge');
+            if (badge) badge.innerText = "0";
+
             document.getElementById('headerAvatar').src = defaultAvatar;
             document.getElementById('authActionBtn').innerText = "🔑 Sign In With Google";
             document.getElementById('profileVisibilityCard').style.display = "none";
             document.getElementById('btnDeleteProfile').style.display = "none";
+
             populateProfileForm();
             initFirestoreListeners();
           }
