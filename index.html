@@ -1497,26 +1497,22 @@
             <textarea id="profBio" class="form-textarea" rows="3" placeholder="Tell directors and crew about your experience, past short films, equipment, style..."></textarea>
           </div>
 
-          <!-- Location Coordinates / Link Input with Precise Hint & Live GPS -->
+          <!-- Single Location Field: Google Maps Coordinates / Link -->
           <div class="form-group">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <label style="margin: 0;">Google Maps Coordinates / Link</label>
-              <button type="button" class="btn-3d btn-3d-dark" style="padding: 4px 8px; font-size: 10px;" onclick="fetchDeviceLiveLocation()">
-                🎯 Use Live GPS
-              </button>
-            </div>
+            <label>Google Maps Coordinates / Link</label>
             <input 
               type="text" 
               id="profMapsLink" 
               class="form-input" 
-              placeholder="e.g. 17.477477, 78.544940 or Google Maps URL" 
+              placeholder="e.g. 17.477477, 78.544940 or any Google Maps link" 
+              autocomplete="off"
               oninput="handleUserMapsLinkInput(this.value)" 
             />
             <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px; line-height: 1.4;">
-              Open Google Maps, select your location, long press to drop a pin, then copy the coordinates or Google Maps link and paste it here.
+              Paste direct coordinates or any Google Maps link. Coordinates are extracted automatically when detectable.
             </div>
             <div style="font-size: 11px; margin-top: 6px;" id="userCoordsContainer">
-              📍 Location Status: <span id="userCoordsDisplay" style="font-weight:700; color: #10b981;">17.4486, 78.3908</span>
+              📍 Location Status: <span id="userCoordsDisplay" style="font-weight:700; color: var(--text-muted);">Please paste Google Maps coordinates to find people by distance.</span>
             </div>
           </div>
 
@@ -2265,7 +2261,6 @@
       role: "Director",
       age: "",
       bio: "",
-      locationName: "",
       mapsLink: "",
       lat: null,
       lng: null,
@@ -2317,6 +2312,7 @@
           currentUser.lat = null;
           currentUser.lng = null;
           currentUser.mapsLink = "";
+          currentRadiusFilter = null;
           teamGroups = [];
           document.getElementById('headerAvatar').src = defaultAvatar;
           document.getElementById('authActionBtn').innerText = "🔑 Sign In With Google";
@@ -2459,8 +2455,7 @@
           role: "Director",
           age: "",
           bio: "",
-          locationName: "",
-          mapsLink: "",
+              mapsLink: "",
           lat: null,
           lng: null,
           avatar: defaultAvatar,
@@ -2507,9 +2502,8 @@
               name: data.name || 'Filmmaker',
               role: data.role || 'Director',
               age: data.age || 25,
-              locationName: data.locationName || '',
-              lat: typeof data.lat === 'number' && isValidCoordinate(data.lat, data.lng) ? data.lat : null,
-              lng: typeof data.lng === 'number' && isValidCoordinate(data.lat, data.lng) ? data.lng : null,
+              lat: isValidCoordinate(data.lat, data.lng) ? data.lat : null,
+              lng: isValidCoordinate(data.lat, data.lng) ? data.lng : null,
               mapsLink: data.mapsLink || '',
               avatar: data.avatar || defaultAvatar,
               rating: data.rating || 5.0,
@@ -2720,13 +2714,15 @@
 
     function handleUserMapsLinkInput(val) {
       const display = document.getElementById('userCoordsDisplay');
-      currentUser.mapsLink = val;
+      const rawValue = (val || '').trim();
+      currentUser.mapsLink = rawValue;
 
-      if (!val || !val.trim()) {
+      if (!rawValue) {
         currentUser.lat = null;
         currentUser.lng = null;
+        currentRadiusFilter = null;
         if (display) {
-          display.innerText = "No coordinates or link set";
+          display.innerText = "Please paste Google Maps coordinates to find people by distance.";
           display.style.color = "var(--text-muted)";
         }
         renderCrewList();
@@ -2734,8 +2730,8 @@
         return;
       }
 
-      // Synchronous regex parsing: checks for coordinates or full Maps links with coordinates
-      const parsed = parseGoogleMapsRegex(val);
+      // Coordinates are optional. The link/value is always retained for profile saving.
+      const parsed = parseGoogleMapsRegex(rawValue);
 
       if (parsed && isValidCoordinate(parsed.lat, parsed.lng)) {
         currentUser.lat = parsed.lat;
@@ -2745,51 +2741,17 @@
           display.style.color = "#10b981";
         }
       } else {
-        // Link or text accepted for profile, but coordinates not extracted
         currentUser.lat = null;
         currentUser.lng = null;
+        currentRadiusFilter = null;
         if (display) {
-          display.innerHTML = `<span style="color: #f59e0b;">Google Maps link saved.</span> <span style="color: var(--text-muted); font-size: 10px;">(Coordinates not detected — distance calculation will be disabled.)</span>`;
+          display.innerText = "Please paste Google Maps coordinates to find people by distance.";
+          display.style.color = "#f59e0b";
         }
       }
 
       if (typeof renderCrewList === 'function') renderCrewList();
       if (typeof renderRadarPins === 'function') renderRadarPins();
-    }
-
-    // Direct Device Live GPS Fetcher
-    function fetchDeviceLiveLocation() {
-      if (!navigator.geolocation) {
-        alert("Geolocation is not supported by your browser.");
-        return;
-      }
-
-      showCompressionToast("📍 Locating your GPS position...");
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          hideCompressionToast();
-          const lat = parseFloat(pos.coords.latitude.toFixed(6));
-          const lng = parseFloat(pos.coords.longitude.toFixed(6));
-          currentUser.lat = lat;
-          currentUser.lng = lng;
-          currentUser.mapsLink = `${lat}, ${lng}`;
-
-          document.getElementById('profMapsLink').value = `${lat}, ${lng}`;
-          const display = document.getElementById('userCoordsDisplay');
-          if (display) {
-            display.innerText = `${lat}, ${lng} (Live GPS) ✓`;
-            display.style.color = "#10b981";
-          }
-          renderCrewList();
-          renderRadarPins();
-          alert(`✓ GPS Location detected: ${lat}, ${lng}`);
-        },
-        (err) => {
-          hideCompressionToast();
-          alert("Could not access GPS. Please allow location permissions or paste your coordinates.");
-        },
-        { enableHighAccuracy: true, timeout: 10000 }
-      );
     }
 
     async function handlePhotoUpload(e) {
@@ -2877,19 +2839,15 @@
       currentUser.mapsLink = document.getElementById('profMapsLink').value.trim();
       currentUser.portfolioLinks = currentUser.portfolioLinks.filter(l => l.url && l.url.trim());
 
-      // Extract coordinates if present. Coordinates are NOT required to save a profile.
-      if (currentUser.mapsLink) {
-        const parsed = parseGoogleMapsRegex(currentUser.mapsLink);
-        if (parsed && isValidCoordinate(parsed.lat, parsed.lng)) {
-          currentUser.lat = parsed.lat;
-          currentUser.lng = parsed.lng;
-        } else {
-          currentUser.lat = null;
-          currentUser.lng = null;
-        }
+      // Extract coordinates when detectable. Location input is optional and saving is never blocked.
+      const parsedLocation = parseGoogleMapsRegex(currentUser.mapsLink);
+      if (parsedLocation && isValidCoordinate(parsedLocation.lat, parsedLocation.lng)) {
+        currentUser.lat = parsedLocation.lat;
+        currentUser.lng = parsedLocation.lng;
       } else {
         currentUser.lat = null;
         currentUser.lng = null;
+        currentRadiusFilter = null;
       }
 
       if (isFirebaseReady && db && currentUser.uid) {
@@ -2924,11 +2882,9 @@
         if (typeof currentUser.lat === 'number' && typeof currentUser.lng === 'number' && isValidCoordinate(currentUser.lat, currentUser.lng)) {
           display.innerText = `${currentUser.lat.toFixed(6)}, ${currentUser.lng.toFixed(6)} ✓`;
           display.style.color = "#10b981";
-        } else if (currentUser.mapsLink) {
-          display.innerHTML = `<span style="color: #f59e0b;">Google Maps link saved.</span> <span style="color: var(--text-muted); font-size: 10px;">(Coordinates not detected — distance calculation will be disabled.)</span>`;
         } else {
-          display.innerText = "No coordinates or link set";
-          display.style.color = "var(--text-muted)";
+          display.innerText = "Please paste Google Maps coordinates to find people by distance.";
+          display.style.color = currentUser.mapsLink ? "#f59e0b" : "var(--text-muted)";
         }
       }
 
@@ -3928,6 +3884,7 @@
       }
 
       const hasUserCoords = isValidCoordinate(currentUser.lat, currentUser.lng);
+      if (!hasUserCoords) currentRadiusFilter = null;
 
       // Only calculate distance if BOTH current user and crew member have valid coordinates
       const withDistance = crewMembers.map(crew => {
@@ -3990,7 +3947,7 @@
           distanceSnippet = ` • <span style="color: var(--text-muted); font-size: 11px;">(Coordinates needed for distance)</span>`;
         }
 
-        const locationDisplay = crew.locationName ? `📍 ${crew.locationName}` : '📍 Location not specified';
+        const locationDisplay = crew.mapsLink ? '📍 Google Maps location' : '📍 Location not specified';
 
         return `
           <div class="crew-card">
@@ -4074,7 +4031,7 @@
 
       if (!hasUserCoords) {
         if (infoText) {
-          infoText.innerHTML = `⚠️ <strong style="color: #f59e0b;">Please paste Google Maps coordinates to find people by distance.</strong>`;
+          infoText.innerHTML = `<strong style="color: #f59e0b;">Please paste Google Maps coordinates to find people by distance.</strong>`;
         }
         return;
       }
@@ -4250,6 +4207,7 @@
             currentUser.lat = null;
             currentUser.lng = null;
             currentUser.mapsLink = "";
+            currentRadiusFilter = null;
             document.getElementById('headerAvatar').src = defaultAvatar;
             document.getElementById('authActionBtn').innerText = "🔑 Sign In With Google";
             document.getElementById('profileVisibilityCard').style.display = "none";
