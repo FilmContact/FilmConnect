@@ -414,50 +414,6 @@
       box-shadow: 0 4px 0 #00806b, 0 6px 14px rgba(0, 193, 162, 0.35);
     }
 
-    .controls-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    @media (min-width: 768px) {
-      .controls-grid {
-        grid-template-columns: 280px 1fr;
-        align-items: center;
-      }
-    }
-
-    .toggle-pill-wrap {
-      display: flex;
-      background: #080a0f;
-      padding: 4px;
-      border-radius: 30px;
-      border: 1px solid var(--border-dim);
-      overflow-x: auto;
-    }
-    .toggle-pill-btn {
-      flex: 1;
-      padding: 8px 14px;
-      border-radius: 25px;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      font-size: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-    .toggle-pill-btn.active {
-      background: var(--bg-card-hover);
-      color: #fff;
-      border: 1px solid var(--border-glow);
-    }
-
     .search-box {
       position: relative;
       width: 100%;
@@ -619,87 +575,6 @@
       transition: background 0.15s;
     }
     .link-badge-report-btn:hover { background: rgba(239, 68, 68, 0.2); }
-
-    .radar-container-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-dim);
-      border-radius: 16px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      max-width: 520px;
-      margin: 0 auto;
-    }
-    .radar-visual {
-      width: 100%;
-      max-width: 380px;
-      aspect-ratio: 1 / 1;
-      background: radial-gradient(circle, #0e1726 0%, #060910 100%);
-      border: 2px solid var(--border-glow);
-      border-radius: 50%;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 12px;
-    }
-    .radar-ring {
-      position: absolute;
-      border: 1px dashed rgba(0, 240, 255, 0.25);
-      border-radius: 50%;
-      cursor: pointer;
-    }
-    .ring-km-5 { width: 32%; height: 32%; }
-    .ring-km-15 { width: 62%; height: 62%; }
-    .ring-km-30 { width: 92%; height: 92%; }
-    .ring-label {
-      position: absolute;
-      top: 4px;
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--neon-cinema);
-      background: #040508;
-      padding: 1px 5px;
-      border-radius: 4px;
-    }
-    .radar-sweep-beam {
-      position: absolute;
-      width: 50%;
-      height: 50%;
-      top: 0;
-      right: 0;
-      transform-origin: bottom left;
-      background: linear-gradient(45deg, rgba(0, 240, 255, 0.3) 0%, transparent 60%);
-      animation: sweepAnim 4s linear infinite;
-      border-radius: 100% 0 0 0;
-    }
-    @keyframes sweepAnim {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-    .radar-user-center {
-      width: 12px;
-      height: 12px;
-      background: #fff;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #fff;
-      z-index: 10;
-    }
-    .radar-pin {
-      position: absolute;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-      border: 2px solid #fff;
-      cursor: pointer;
-      z-index: 12;
-      object-fit: cover;
-      transition: transform 0.2s;
-    }
-    .radar-pin:hover { transform: translate(-50%, -50%) scale(1.3); }
 
     .opp-poster-img {
       width: 100%;
@@ -1214,26 +1089,20 @@
       <section id="screen-discover" class="screen-view active">
         <div class="section-header-row">
           <div>
-            <h1 class="section-title">CREW RADAR & DISCOVER</h1>
+            <h1 class="section-title">CREW DIRECTORY & DISCOVER</h1>
             <p class="section-desc">24 Crafts Directory: Browse all film talent sorted by distance</p>
           </div>
         </div>
 
-        <div class="controls-grid">
-          <div class="toggle-pill-wrap">
-            <button class="toggle-pill-btn active" id="btnViewList" onclick="setDiscoverView('list')">📋 List View</button>
-            <button class="toggle-pill-btn" id="btnViewRadar" onclick="setDiscoverView('radar')">📡 Radar View</button>
-          </div>
-          <div class="search-box">
-            <span class="search-icon-fixed">🔍</span>
-            <input 
-              type="text" 
-              id="discoverSearchInput" 
-              class="search-input" 
-              placeholder="Search by craft, name, 'Story Writer', 'Audiographer', 'FX6'..."
-              oninput="handleSearchFilter()"
-            />
-          </div>
+        <div class="search-box" style="margin-bottom: 16px;">
+          <span class="search-icon-fixed">🔍</span>
+          <input 
+            type="text" 
+            id="discoverSearchInput" 
+            class="search-input" 
+            placeholder="Search by craft, name, 'Story Writer', 'Audiographer', 'FX6'..."
+            oninput="handleSearchFilter()"
+          />
         </div>
 
         <div class="filter-scroll" id="discoverCraftChips">
@@ -1256,24 +1125,7 @@
           <button class="role-filter-chip" onclick="filterRole('Production Executive', this)">Production</button>
         </div>
 
-        <div id="discoverListView">
-          <div class="responsive-card-grid" id="crewFeedContainer"></div>
-        </div>
-
-        <div id="discoverRadarView" style="display: none;">
-          <div class="radar-container-card">
-            <div class="radar-visual" id="radarVisualBox">
-              <div class="radar-ring ring-km-5" onclick="filterByDistanceRadius(5)" title="Within 5 km"><span class="ring-label">5km</span></div>
-              <div class="radar-ring ring-km-15" onclick="filterByDistanceRadius(15)" title="Within 15 km"><span class="ring-label">15km</span></div>
-              <div class="radar-ring ring-km-30" onclick="filterByDistanceRadius(30)" title="Within 30 km"><span class="ring-label">30km</span></div>
-              <div class="radar-sweep-beam"></div>
-              <div class="radar-user-center"></div>
-            </div>
-            <div id="radarInfoText" style="font-size: 12px; color: var(--text-muted); text-align: center;">
-              💡 Tap rings to filter radius or click any crew pin
-            </div>
-          </div>
-        </div>
+        <div class="responsive-card-grid" id="crewFeedContainer"></div>
       </section>
 
       <!-- ================= 2. PROJECTS SCREEN ================= -->
@@ -1296,7 +1148,7 @@
         <div class="section-header-row">
           <div>
             <h1 class="section-title">STUDIOS, ORGS & FESTIVALS</h1>
-            <p class="section-desc">Production houses, opportunity calls & short film awards radar</p>
+            <p class="section-desc">Production houses, opportunity calls & short film awards</p>
           </div>
           <div style="display: flex; gap: 8px;">
             <button class="btn-3d btn-3d-fest" onclick="openCreateFestivalModal()">🏆 + Post Festival</button>
@@ -1306,9 +1158,9 @@
         </div>
 
         <div class="controls-grid" style="grid-template-columns: 1fr; max-width: 500px; margin-bottom: 16px;">
-          <div class="toggle-pill-wrap">
+          <div class="toggle-pill-wrap" style="display: flex; background: #080a0f; padding: 4px; border-radius: 30px; border: 1px solid var(--border-dim); overflow-x: auto;">
             <button class="toggle-pill-btn active" id="btnViewOpps" onclick="setOrgsView('opportunities')">📢 Opportunities</button>
-            <button class="toggle-pill-btn" id="btnViewFestivals" onclick="setOrgsView('festivals')">🏆 Festivals Radar</button>
+            <button class="toggle-pill-btn" id="btnViewFestivals" onclick="setOrgsView('festivals')">🏆 Festivals</button>
             <button class="toggle-pill-btn" id="btnViewDirectory" onclick="setOrgsView('directory')">🏢 Studios</button>
           </div>
         </div>
@@ -1417,7 +1269,7 @@
           <!-- Visibility Toggle for Own Profile -->
           <div class="visibility-toggle-box" id="profileVisibilityCard" style="display: none;">
             <div>
-              <div style="font-size: 13px; font-weight: 800; color: #fff;">👁️ Profile Visibility in Discover & Radar</div>
+              <div style="font-size: 13px; font-weight: 800; color: #fff;">👁️ Profile Visibility in Discover</div>
               <div style="font-size: 11px; color: var(--text-muted);" id="visibilityStatusText">Status: Public (Visible to everyone)</div>
             </div>
             <button class="btn-3d btn-3d-dark" id="btnToggleHide" onclick="toggleProfileHiddenState()">
@@ -2190,7 +2042,7 @@
     const manifestData = {
       name: "Film Connect — Make your film projects easy",
       short_name: "FilmConnect",
-      description: "Indian Cinema 24 Crafts Collaboration, Radar & Opportunities Platform",
+      description: "Indian Cinema 24 Crafts Collaboration & Opportunities Platform",
       start_url: ".",
       scope: ".",
       display: "standalone",
@@ -2292,7 +2144,6 @@
 
     let currentSelectedRole = 'All';
     let currentSearchTerm = '';
-    let currentRadiusFilter = null;
 
     // Listener cleanup handles
     let unsubscribeUsersListener = null;
@@ -2367,7 +2218,6 @@
           currentUser.lng = null;
           currentUser.mapsLink = "";
           currentUser.connectedUsers = [];
-          currentRadiusFilter = null;
           teamGroups = [];
 
           const badge = document.getElementById('connectsBadge');
@@ -2443,7 +2293,7 @@
       });
 
       updateVisibilityUI();
-      alert(newHiddenState ? "🙈 Profile is now Hidden from Discover & Radar." : "👁️ Profile is now Public and visible to everyone.");
+      alert(newHiddenState ? "🙈 Profile is now Hidden from Discover." : "👁️ Profile is now Public and visible to everyone.");
     }
 
     function updateVisibilityUI() {
@@ -2451,7 +2301,7 @@
       const toggleBtn = document.getElementById('btnToggleHide');
       if (statusText && toggleBtn) {
         if (currentUser.hidden) {
-          statusText.innerText = "Status: Hidden (Not shown on Discover/Radar for others)";
+          statusText.innerText = "Status: Hidden (Not shown on Discover for others)";
           statusText.style.color = "#f59e0b";
           toggleBtn.innerText = "Unhide Profile";
           toggleBtn.className = "btn-3d btn-3d-success";
@@ -2610,7 +2460,6 @@
           }
         });
         renderCrewList();
-        renderRadarPins();
         renderThreads();
       }, err => {
         console.warn("Users listener error:", err);
@@ -2666,7 +2515,7 @@
         console.warn("Opportunities listener error:", err);
       });
 
-      // 5. Festivals Radar (Permanent listener with duplicate prevention)
+      // 5. Festivals Feed (Permanent listener with duplicate prevention)
       if (unsubscribeFestivalsListener) {
         unsubscribeFestivalsListener();
         unsubscribeFestivalsListener = null;
@@ -2766,7 +2615,6 @@
             console.warn("Groups listener error:", err);
           });
       } else {
-        // If unauthenticated, ensure any leftover user listeners are torn down
         if (unsubscribeCurrentUserDocListener) {
           unsubscribeCurrentUserDocListener();
           unsubscribeCurrentUserDocListener = null;
@@ -2808,7 +2656,6 @@
       if (!input || typeof input !== 'string' || !input.trim()) return null;
       let str = input.trim();
 
-      // If iframe snippet was pasted, extract src
       const iframeMatch = str.match(/src=["']([^"']+)["']/i);
       if (iframeMatch) {
         str = iframeMatch[1];
@@ -2818,7 +2665,6 @@
         str = decodeURIComponent(str);
       } catch (e) {}
 
-      // 1. Direct coordinate input: "17.477477, 78.544940", "17.477477,78.544940", "17.477477 78.544940"
       const rawMatch = str.match(/^(-?\d+(?:\.\d+)?)[,\s]+(-?\d+(?:\.\d+)?)$/);
       if (rawMatch) {
         const lat = parseFloat(rawMatch[1]);
@@ -2826,7 +2672,6 @@
         if (isValidCoordinate(lat, lng)) return { lat, lng };
       }
 
-      // 2. Embed / Maps URL with !2d<lng>!3d<lat> (Longitude comes first)
       const embed2d3d = str.match(/!2d(-?\d+(?:\.\d+)?)(?:!3d|\/!3d)(-?\d+(?:\.\d+)?)/);
       if (embed2d3d) {
         const lng = parseFloat(embed2d3d[1]);
@@ -2834,7 +2679,6 @@
         if (isValidCoordinate(lat, lng)) return { lat, lng };
       }
 
-      // 3. Embed / Maps URL with !3d<lat>!2d<lng>
       const embed3d2d = str.match(/!3d(-?\d+(?:\.\d+)?)(?:!2d|\/!2d)(-?\d+(?:\.\d+)?)/);
       if (embed3d2d) {
         const lat = parseFloat(embed3d2d[1]);
@@ -2842,7 +2686,6 @@
         if (isValidCoordinate(lat, lng)) return { lat, lng };
       }
 
-      // 4. Place / CID URLs: !3d<lat>!4d<lng>
       const place3d4d = str.match(/!3d(-?\d+(?:\.\d+)?)(?:!4d|\/!4d)(-?\d+(?:\.\d+)?)/);
       if (place3d4d) {
         const lat = parseFloat(place3d4d[1]);
@@ -2850,7 +2693,6 @@
         if (isValidCoordinate(lat, lng)) return { lat, lng };
       }
 
-      // 5. Explicit /maps/place/lat,lng or /place/lat,lng (e.g. /maps/place/17.477477,78.544940/)
       const placeMatch = str.match(/(?:\/maps\/place|\/place)\/(-?\d+(?:\.\d+)?)(?:[,\s\+]|%2C)+(-?\d+(?:\.\d+)?)/i);
       if (placeMatch) {
         const lat = parseFloat(placeMatch[1]);
@@ -2858,7 +2700,6 @@
         if (isValidCoordinate(lat, lng)) return { lat, lng };
       }
 
-      // 6. Viewport / Center: @lat,lng
       const atMatch = str.match(/@(-?\d+(?:\.\d+)?)(?:[,\s\+]|%2C)+(-?\d+(?:\.\d+)?)/);
       if (atMatch) {
         const lat = parseFloat(atMatch[1]);
@@ -2866,7 +2707,6 @@
         if (isValidCoordinate(lat, lng)) return { lat, lng };
       }
 
-      // 7. Query parameters & prefixes: q=, query=, ll=, loc:, center=, destination=, saddr=, daddr=, /dir//, /search/
       const queryMatch = str.match(/(?:[?&](?:q|query|ll|center|destination|saddr|daddr)=|loc:|\/search\/|\/dir\/\/)(-?\d+(?:\.\d+)?)(?:[,\s\+]|%2C)+(-?\d+(?:\.\d+)?)/i);
       if (queryMatch) {
         const lat = parseFloat(queryMatch[1]);
@@ -2874,7 +2714,6 @@
         if (isValidCoordinate(lat, lng)) return { lat, lng };
       }
 
-      // 8. Degrees Minutes Seconds (DMS) format: 17°28'38.9"N 78°32'41.8"E
       const dmsMatch = str.match(/(\d+)[°\s]+(\d+)['\s]+(\d+(?:\.\d+)?)"?\s*([NSns])[,\s]+(\d+)[°\s]+(\d+)['\s]+(\d+(?:\.\d+)?)"?\s*([EWew])/);
       if (dmsMatch) {
         let lat = parseFloat(dmsMatch[1]) + parseFloat(dmsMatch[2]) / 60 + parseFloat(dmsMatch[3]) / 3600;
@@ -2884,7 +2723,6 @@
         if (isValidCoordinate(lat, lng)) return { lat: parseFloat(lat.toFixed(6)), lng: parseFloat(lng.toFixed(6)) };
       }
 
-      // 9. When given an HTML document or rich text
       const urlCandidates = str.match(/https?:\/\/(?:www\.)?google\.[a-z.]+\/maps\/[^\s"'<>\\]+/gi);
       if (urlCandidates) {
         for (const candidate of urlCandidates) {
@@ -2895,7 +2733,6 @@
         }
       }
 
-      // Short raw string fallback (only for brief text to prevent false positives)
       if (str.length < 100) {
         const floatMatches = str.match(/-?\d{1,3}\.\d{3,}/g);
         if (floatMatches && floatMatches.length >= 2) {
@@ -2916,17 +2753,14 @@
       if (!rawValue) {
         currentUser.lat = null;
         currentUser.lng = null;
-        currentRadiusFilter = null;
         if (display) {
           display.innerText = "Please paste Google Maps coordinates to find people by distance.";
           display.style.color = "var(--text-muted)";
         }
         renderCrewList();
-        renderRadarPins();
         return;
       }
 
-      // Coordinates are optional. The link/value is always retained for profile saving.
       const parsed = parseGoogleMapsRegex(rawValue);
 
       if (parsed && isValidCoordinate(parsed.lat, parsed.lng)) {
@@ -2939,7 +2773,6 @@
       } else {
         currentUser.lat = null;
         currentUser.lng = null;
-        currentRadiusFilter = null;
         if (display) {
           display.innerText = "Please paste Google Maps coordinates to find people by distance.";
           display.style.color = "#f59e0b";
@@ -2947,7 +2780,6 @@
       }
 
       if (typeof renderCrewList === 'function') renderCrewList();
-      if (typeof renderRadarPins === 'function') renderRadarPins();
     }
 
     async function handlePhotoUpload(e) {
@@ -3035,7 +2867,6 @@
       currentUser.mapsLink = document.getElementById('profMapsLink').value.trim();
       currentUser.portfolioLinks = currentUser.portfolioLinks.filter(l => l.url && l.url.trim());
 
-      // Extract coordinates when detectable. Location input is optional and saving is never blocked.
       const parsedLocation = parseGoogleMapsRegex(currentUser.mapsLink);
       if (parsedLocation && isValidCoordinate(parsedLocation.lat, parsedLocation.lng)) {
         currentUser.lat = parsedLocation.lat;
@@ -3043,7 +2874,6 @@
       } else {
         currentUser.lat = null;
         currentUser.lng = null;
-        currentRadiusFilter = null;
       }
 
       if (isFirebaseReady && db && currentUser.uid) {
@@ -3092,7 +2922,7 @@
       return (currentUser.name && currentUser.name.trim().length > 0);
     }
 
-    // ================= CONNECT FLOW =================
+    // ================= CONNECT FLOW & CANCEL REQUEST =================
     async function sendConnectRequest(crewId) {
       if (!currentUser.uid) {
         alert("Please Sign In with Google on the Profile tab to send connect requests!");
@@ -3157,6 +2987,42 @@
         }
       } else {
         alert(`⚡ Connect request sent to ${crew.name}!`);
+      }
+    }
+
+    async function cancelConnectRequest(crewId) {
+      if (!currentUser.uid) return;
+
+      const crew = crewMembers.find(c => c.id === crewId);
+      const name = crew ? crew.name : "this filmmaker";
+      
+      if (!confirm(`Do you want to cancel your connect request to ${name}?`)) {
+        return;
+      }
+
+      // Optimistically update local map
+      delete outgoingRequestStatusMap[crewId];
+      renderCrewList();
+
+      if (isFirebaseReady && db) {
+        try {
+          const snap = await db.collection('connectRequests')
+            .where('senderUid', '==', currentUser.uid)
+            .where('receiverUid', '==', crewId)
+            .where('status', '==', 'pending')
+            .get();
+
+          const batchDeletes = snap.docs.map(doc => doc.ref.delete());
+          await Promise.all(batchDeletes);
+
+          alert(`✓ Connect request to ${name} has been cancelled.`);
+        } catch (err) {
+          console.error("Error cancelling request:", err);
+          // Revert if error
+          outgoingRequestStatusMap[crewId] = 'pending';
+          renderCrewList();
+          alert("Failed to cancel connect request: " + (err.message || "Network error"));
+        }
       }
     }
 
@@ -4137,9 +4003,8 @@
       }
 
       const hasUserCoords = isValidCoordinate(currentUser.lat, currentUser.lng);
-      if (!hasUserCoords) currentRadiusFilter = null;
 
-      // Only calculate distance if BOTH current user and crew member have valid coordinates
+      // Calculate distance if BOTH current user and crew member have valid coordinates
       const withDistance = crewMembers.map(crew => {
         const hasCrewCoords = isValidCoordinate(crew.lat, crew.lng);
         let distance = null;
@@ -4166,12 +4031,10 @@
           item.role.toLowerCase().includes(currentSearchTerm) ||
           (item.skills && item.skills.some(s => s.toLowerCase().includes(currentSearchTerm))) ||
           (item.bio && item.bio.toLowerCase().includes(currentSearchTerm));
-        const matchRadius = currentRadiusFilter === null || (item.distance !== null && item.distance <= currentRadiusFilter);
 
-        return matchRole && matchSearch && matchRadius;
+        return matchRole && matchSearch;
       });
 
-      // Show prompt if coordinates are missing to find people by distance
       let warningBanner = "";
       if (!hasUserCoords) {
         warningBanner = `
@@ -4218,8 +4081,8 @@
         } else if (connStatus === 'pending') {
           actionFooterHtml = `
             <span style="font-size: 11px; color: var(--neon-director); font-weight: 700;">Waiting for acceptance</span>
-            <button class="btn-3d btn-3d-dark" style="opacity: 0.85; cursor: default;" disabled>
-              ⏳ Request Sent
+            <button class="btn-3d btn-3d-danger" style="padding: 6px 10px; font-size: 10px;" onclick="cancelConnectRequest('${crew.id}')" title="Cancel connect request">
+              ✕ Cancel Request
             </button>
           `;
         } else if (connStatus === 'rejected') {
@@ -4289,75 +4152,6 @@
           </div>
         `;
       }).join('');
-    }
-
-    function setDiscoverView(view) {
-      document.getElementById('discoverListView').style.display = (view === 'list') ? 'block' : 'none';
-      document.getElementById('discoverRadarView').style.display = (view === 'radar') ? 'block' : 'none';
-      document.getElementById('btnViewList').classList.toggle('active', view === 'list');
-      document.getElementById('btnViewRadar').classList.toggle('active', view === 'radar');
-      if (view === 'radar') renderRadarPins();
-    }
-
-    function renderRadarPins() {
-      const box = document.getElementById('radarVisualBox');
-      const infoText = document.getElementById('radarInfoText');
-      if (!box) return;
-      box.querySelectorAll('.radar-pin').forEach(p => p.remove());
-
-      const hasUserCoords = isValidCoordinate(currentUser.lat, currentUser.lng);
-
-      if (!hasUserCoords) {
-        if (infoText) {
-          infoText.innerHTML = `<strong style="color: #f59e0b;">Please paste Google Maps coordinates to find people by distance.</strong>`;
-        }
-        return;
-      }
-
-      if (infoText) {
-        infoText.innerText = "💡 Tap rings to filter radius or click any crew pin";
-      }
-
-      const uLat = currentUser.lat;
-      const uLng = currentUser.lng;
-
-      crewMembers.forEach(crew => {
-        if (!isValidCoordinate(crew.lat, crew.lng)) return;
-
-        const dLat = crew.lat - uLat;
-        const dLng = crew.lng - uLng;
-        const left = Math.min(Math.max(50 + (dLng * 900), 12), 88);
-        const top = Math.min(Math.max(50 - (dLat * 900), 12), 88);
-
-        const pin = document.createElement('img');
-        pin.className = 'radar-pin';
-        pin.src = crew.avatar;
-        pin.style.left = `${left}%`;
-        pin.style.top = `${top}%`;
-        pin.style.borderColor = getCraftMeta(crew.role).border;
-        pin.title = `${crew.name} (${calculateRealDistance(uLat, uLng, crew.lat, crew.lng)} km)`;
-        pin.onclick = () => {
-          setDiscoverView('list');
-          currentSearchTerm = crew.name.toLowerCase();
-          document.getElementById('discoverSearchInput').value = crew.name;
-          renderCrewList();
-        };
-        box.appendChild(pin);
-      });
-    }
-
-    function filterByDistanceRadius(km) {
-      if (!isValidCoordinate(currentUser.lat, currentUser.lng)) {
-        alert("Please paste Google Maps coordinates to find people by distance.");
-        return;
-      }
-      currentRadiusFilter = (currentRadiusFilter === km) ? null : km;
-      renderCrewList();
-      if (currentRadiusFilter !== null) {
-        alert(`Filtering radius: within ${km} km!`);
-      } else {
-        alert("Radius filter cleared.");
-      }
     }
 
     function handleSearchFilter() {
@@ -4510,7 +4304,6 @@
             currentUser.lng = null;
             currentUser.mapsLink = "";
             currentUser.connectedUsers = [];
-            currentRadiusFilter = null;
 
             const badge = document.getElementById('connectsBadge');
             if (badge) badge.innerText = "0";
