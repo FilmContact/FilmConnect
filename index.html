@@ -414,6 +414,112 @@
       box-shadow: 0 4px 0 #00806b, 0 6px 14px rgba(0, 193, 162, 0.35);
     }
 
+    .org-view-switcher {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      width: 100%;
+      max-width: 620px;
+      margin: 0 0 18px 0;
+    }
+    .org-view-btn {
+      min-height: 44px;
+      padding: 10px 12px;
+      width: 100%;
+    }
+    .org-view-btn.active {
+      transform: translateY(1px);
+      filter: brightness(1.08);
+    }
+
+    @media (max-width: 720px) {
+      .app-top-header {
+        position: sticky;
+      }
+      .brand-bar {
+        padding: 9px 12px;
+        gap: 8px;
+      }
+      .brand-right-actions {
+        gap: 5px;
+        flex-shrink: 0;
+      }
+      .brand-right-actions .btn-3d {
+        min-height: 38px;
+      }
+      .brand-right-actions #pwaInstallBtn {
+        font-size: 10px !important;
+        padding: 7px 9px !important;
+      }
+      .avatar-img-circle {
+        width: 34px;
+        height: 34px;
+      }
+      .main-content {
+        padding: 12px 10px 88px;
+      }
+      .section-header-row {
+        gap: 10px;
+      }
+      .section-title {
+        font-size: 27px;
+        line-height: 1.05;
+      }
+      .section-desc {
+        font-size: 12px;
+        line-height: 1.4;
+      }
+      .org-view-switcher {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        max-width: none;
+      }
+      .org-view-btn {
+        min-height: 46px;
+        font-size: 11px;
+      }
+      .responsive-card-grid {
+        gap: 12px;
+      }
+      .crew-card, .project-card, .opportunity-card, .org-card, .festival-card {
+        padding: 13px;
+        border-radius: 12px;
+      }
+      .bottom-nav {
+        height: 60px;
+      }
+      .nav-btn-icon {
+        font-size: 17px;
+      }
+      .nav-btn-label {
+        font-size: 9px;
+      }
+      .nav-badge-count {
+        right: 12%;
+        top: 5px;
+      }
+      .form-input, .form-select, .form-textarea {
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .brand-title { font-size: 21px; letter-spacing: 1.2px; }
+      .brand-tagline { font-size: 8px; }
+      .brand-right-actions .btn-3d-dark {
+        padding: 7px 8px !important;
+        font-size: 12px !important;
+      }
+      .brand-right-actions #pwaInstallBtn {
+        padding: 7px 8px !important;
+      }
+      .brand-right-actions .user-mini-avatar {
+        display: none;
+      }
+      .section-title { font-size: 24px; }
+      .bottom-nav { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+    }
+
     .search-box {
       position: relative;
       width: 100%;
@@ -921,26 +1027,6 @@
       border: 1px solid rgba(255,255,255,0.2);
     }
     
-    .voice-msg-player {
-      width: 100%;
-      min-width: 200px;
-      height: 38px;
-      border-radius: 20px;
-      margin-top: 4px;
-    }
-    .recording-live-bar {
-      display: none;
-      align-items: center;
-      gap: 8px;
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid #ef4444;
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 12px;
-      color: #ef4444;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
 
     .chat-input-bar {
       padding: 12px 16px;
@@ -1059,13 +1145,10 @@
           </div>
 
           <div class="brand-right-actions">
-            <button class="btn-3d btn-3d-playstore" style="padding: 6px 10px; font-size: 10px;" onclick="openGooglePlayStore()">
-              ▶ Play Store
-            </button>
             <button class="btn-3d btn-3d-dark" style="padding: 6px 9px; font-size: 12px;" onclick="cycleAppTheme()" title="Switch Color Theme">
               🎨
             </button>
-            <button id="pwaInstallBtn" class="btn-3d btn-3d-primary" style="padding: 6px 10px; font-size: 10px; display: none;" onclick="triggerPWAInstall()">
+            <button id="pwaInstallBtn" class="btn-3d btn-3d-primary" style="padding: 6px 10px; font-size: 10px;" onclick="triggerPWAInstall()">
               📲 Install App
             </button>
             <div class="user-mini-avatar" onclick="switchNavTab('profile')" title="View Profile">
@@ -1091,6 +1174,9 @@
           <div>
             <h1 class="section-title">CREW DIRECTORY & DISCOVER</h1>
             <p class="section-desc">24 Crafts Directory: Browse all film talent sorted by distance</p>
+            <div style="margin-top:8px; font-size:11px; line-height:1.4; color:#f59e0b; background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.35); padding:8px 10px; border-radius:8px;">
+              🛡️ <strong>Safety:</strong> Never send money to anyone for an opportunity through Film Connect. Verify independently and report suspicious profiles. Accounts can be suspended after repeated reports.
+            </div>
           </div>
         </div>
 
@@ -1157,12 +1243,10 @@
           </div>
         </div>
 
-        <div class="controls-grid" style="grid-template-columns: 1fr; max-width: 500px; margin-bottom: 16px;">
-          <div class="toggle-pill-wrap" style="display: flex; background: #080a0f; padding: 4px; border-radius: 30px; border: 1px solid var(--border-dim); overflow-x: auto;">
-            <button class="toggle-pill-btn active" id="btnViewOpps" onclick="setOrgsView('opportunities')">📢 Opportunities</button>
-            <button class="toggle-pill-btn" id="btnViewFestivals" onclick="setOrgsView('festivals')">🏆 Festivals</button>
-            <button class="toggle-pill-btn" id="btnViewDirectory" onclick="setOrgsView('directory')">🏢 Studios</button>
-          </div>
+        <div class="org-view-switcher" aria-label="Organizations section views">
+          <button class="btn-3d btn-3d-success org-view-btn active" id="btnViewOpps" onclick="setOrgsView('opportunities')">📢 Opportunities</button>
+          <button class="btn-3d btn-3d-fest org-view-btn" id="btnViewFestivals" onclick="setOrgsView('festivals')">🏆 Festivals</button>
+          <button class="btn-3d btn-3d-dark org-view-btn" id="btnViewDirectory" onclick="setOrgsView('directory')">🏢 Studios</button>
         </div>
 
         <div id="orgsOpportunitiesView">
@@ -1248,15 +1332,12 @@
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <div>
                 <div style="font-size: 14px; font-weight: 800; color: #fff;">📱 Film Connect Everywhere</div>
-                <div style="font-size: 12px; color: var(--text-muted);">Google Play Store, Android APK & Web App</div>
+                <div style="font-size: 12px; color: var(--text-muted);">Install the web app on your phone for a faster experience</div>
               </div>
               <span class="badge-budget">Multi-Platform</span>
             </div>
             
             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-              <button class="btn-3d btn-3d-playstore" onclick="openGooglePlayStore()">
-                ▶ Download on Play Store
-              </button>
               <button class="btn-3d btn-3d-primary" onclick="triggerPWAInstall()">
                 📲 Add to Home Screen (PWA)
               </button>
@@ -1741,22 +1822,11 @@
 
         <div class="chat-messages-area" id="chatMessagesArea"></div>
 
-        <div class="recording-live-bar" id="recordingLiveBar">
-          <div class="live-rec"></div>
-          <span>Recording Voice Note... (<span id="recordingTimer">0:00</span>)</span>
-          <button class="btn-3d btn-3d-danger" style="padding: 3px 8px; font-size: 10px; margin-left: auto;" onclick="cancelVoiceRecording()">Cancel</button>
-          <button class="btn-3d btn-3d-success" style="padding: 3px 8px; font-size: 10px;" onclick="stopAndSendVoiceRecording()">Send</button>
-        </div>
-
         <div class="chat-input-bar">
           <label class="btn-3d btn-3d-dark" style="padding: 8px 11px; font-size: 15px; cursor: pointer;" title="Share Image">
             📷
             <input type="file" accept="image/*" style="display: none;" onchange="handleChatImageUpload(event)" />
           </label>
-
-          <button class="btn-3d btn-3d-dark" id="btnMicRecord" style="padding: 8px 11px; font-size: 15px;" title="Record Voice Note" onclick="toggleVoiceRecording()">
-            🎙️
-          </button>
 
           <input type="text" id="chatTextInput" class="form-input" style="flex: 1;" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendChatMessage()" />
           <button class="btn-3d btn-3d-primary" onclick="sendChatMessage()">Send</button>
@@ -1801,12 +1871,7 @@
     }
 
     // ================= APP CONFIGURATION & DISTRIBUTION =================
-    const GOOGLE_PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=com.filmconnect.app";
     const WEB_APP_URL = window.location.href.split('#')[0];
-
-    function openGooglePlayStore() {
-      window.open(GOOGLE_PLAY_STORE_URL, '_blank');
-    }
 
     async function shareWebAppUrl() {
       if (navigator.share) {
@@ -2087,16 +2152,21 @@
     });
 
     function triggerPWAInstall() {
+      if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+        alert('✅ Film Connect is already installed on this device.');
+        return;
+      }
       if (deferredPrompt) {
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((res) => {
           if (res.outcome === 'accepted') {
-            document.getElementById('pwaInstallBtn').style.display = 'none';
+            const btn = document.getElementById('pwaInstallBtn');
+            if (btn) btn.style.display = 'none';
           }
           deferredPrompt = null;
         });
       } else {
-        alert("📲 To Install on Mobile:\n1. Tap 'Share' or browser menu (⋮)\n2. Select 'Add to Home Screen'");
+        alert("📲 To Install Film Connect:\n\nAndroid Chrome: tap ⋮ → Add to Home screen / Install app.\n\niPhone Safari: tap Share → Add to Home Screen.");
       }
     }
 
@@ -2125,7 +2195,9 @@
     let crewMembers = [];
     let connectRequests = [];
     let outgoingRequestStatusMap = {}; // receiverUid -> status ('pending', 'accepted', 'rejected')
+    const connectedUserIds = new Set();
     let projectsFeed = [];
+    let projectApplications = [];
     let organizationsList = [];
     let opportunitiesList = [];
     let festivalsList = [];
@@ -2144,23 +2216,84 @@
 
     let currentSelectedRole = 'All';
     let currentSearchTerm = '';
+    let currentReviewEligible = false;
+
+    // ================= SAFETY / VALIDATION HELPERS =================
+    function escapeHTML(value) {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function normalizeText(value, maxLength = 1000) {
+      return String(value ?? '').trim().slice(0, maxLength);
+    }
+
+    function encodeHandlerArg(value) {
+      return btoa(unescape(encodeURIComponent(String(value ?? ''))));
+    }
+
+    function decodeHandlerArg(value) {
+      try { return decodeURIComponent(escape(atob(String(value || '')))); } catch (e) { return ''; }
+    }
+
+    function requireSignedIn(message = 'Please Sign In with Google first.') {
+      if (!currentUser.uid || !auth?.currentUser) {
+        alert('🔒 ' + message);
+        switchNavTab('profile');
+        return false;
+      }
+      return true;
+    }
+
+    function isDirectlyConnected(uid) {
+      return !!(uid && (connectedUserIds.has(uid) || (Array.isArray(currentUser.connectedUsers) && currentUser.connectedUsers.includes(uid))));
+    }
+
+    function isGroupMember(groupId) {
+      const grp = teamGroups.find(g => g.id === groupId);
+      return !!(grp && Array.isArray(grp.members) && grp.members.includes(currentUser.uid));
+    }
+
+    function canManageProject(project) {
+      return !!(project && currentUser.uid && project.creatorUid === currentUser.uid);
+    }
+
+    function hasCollaboratedWith(targetUid) {
+      if (!currentUser.uid || !targetUid || currentUser.uid === targetUid) return false;
+      return projectsFeed.some(project => {
+        const slots = Array.isArray(project.slots) ? project.slots : [];
+        if (project.creatorUid === currentUser.uid) {
+          return slots.some(slot => (slot.applicants || []).some(a => a.uid === targetUid && a.status === 'Selected'));
+        }
+        if (project.creatorUid === targetUid) {
+          return slots.some(slot => (slot.applicants || []).some(a => a.uid === currentUser.uid && a.status === 'Selected'));
+        }
+        return false;
+      });
+    }
 
     // Listener cleanup handles
     let unsubscribeUsersListener = null;
     let unsubscribeProjectsListener = null;
+    let unsubscribeApplicationsListener = null;
     let unsubscribeOrganizationsListener = null;
     let unsubscribeOpportunitiesListener = null;
     let unsubscribeFestivalsListener = null;
     let unsubscribeChatListener = null;
     let unsubscribeIncomingRequestsListener = null;
     let unsubscribeOutgoingRequestsListener = null;
+    let unsubscribeConnectionsListener = null;
     let unsubscribeTeamGroupsListener = null;
     let unsubscribeCurrentUserDocListener = null;
 
     // ================= CONNECTION STATUS HELPER =================
     function getConnectionStatus(crewId) {
       if (!crewId) return 'none';
-      if (currentUser.connectedUsers && Array.isArray(currentUser.connectedUsers) && currentUser.connectedUsers.includes(crewId)) {
+      if (connectedUserIds.has(crewId) || (Array.isArray(currentUser.connectedUsers) && currentUser.connectedUsers.includes(crewId))) {
         return 'connected';
       }
       const outgoingStatus = outgoingRequestStatusMap[crewId];
@@ -2178,104 +2311,77 @@
 
     // ================= GOOGLE AUTH =================
     async function handleAuthAction() {
-      if (!isFirebaseReady) {
-        alert("⚠️ Please verify your configuration keys.");
+      if (!isFirebaseReady || !auth) {
+        alert("⚠️ Firebase is not ready. Please verify your configuration.");
         return;
       }
 
       if (auth.currentUser) {
-        if (confirm("Do you want to Sign Out of Film Connect?")) {
-          if (unsubscribeIncomingRequestsListener) {
-            unsubscribeIncomingRequestsListener();
-            unsubscribeIncomingRequestsListener = null;
-          }
-          if (unsubscribeOutgoingRequestsListener) {
-            unsubscribeOutgoingRequestsListener();
-            unsubscribeOutgoingRequestsListener = null;
-          }
-          if (unsubscribeTeamGroupsListener) {
-            unsubscribeTeamGroupsListener();
-            unsubscribeTeamGroupsListener = null;
-          }
-          if (unsubscribeCurrentUserDocListener) {
-            unsubscribeCurrentUserDocListener();
-            unsubscribeCurrentUserDocListener = null;
-          }
-          if (unsubscribeChatListener) {
-            unsubscribeChatListener();
-            unsubscribeChatListener = null;
-          }
-
-          outgoingRequestStatusMap = {};
-          connectRequests = [];
-
-          await auth.signOut();
-          currentUser.uid = null;
-          currentUser.name = "";
-          currentUser.avatar = defaultAvatar;
-          currentUser.hidden = false;
-          currentUser.lat = null;
-          currentUser.lng = null;
-          currentUser.mapsLink = "";
-          currentUser.connectedUsers = [];
-          teamGroups = [];
-
-          const badge = document.getElementById('connectsBadge');
-          if (badge) badge.innerText = "0";
-
-          document.getElementById('headerAvatar').src = defaultAvatar;
-          document.getElementById('authActionBtn').innerText = "🔑 Sign In With Google";
-          document.getElementById('profileVisibilityCard').style.display = "none";
-          document.getElementById('btnDeleteProfile').style.display = "none";
-
-          populateProfileForm();
-          initFirestoreListeners();
-          renderCrewList();
-          renderRequests();
-          renderThreads();
-        }
-      } else {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        provider.setCustomParameters({ prompt: 'select_account' });
-
+        if (!confirm("Do you want to Sign Out of Film Connect?")) return;
         try {
-          const res = await auth.signInWithPopup(provider);
-          await syncUserWithFirestore(res.user);
+          await auth.signOut();
         } catch (err) {
-          console.error("Auth error:", err);
-          alert("Sign in error: " + err.message);
+          console.error("Sign out error:", err);
+          alert("Sign out failed: " + (err.message || "Unknown error"));
         }
+        return;
+      }
+
+      const provider = new firebase.auth.GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' });
+
+      try {
+        await auth.signInWithPopup(provider);
+      } catch (err) {
+        console.error("Auth error:", err);
+        alert("Sign in error: " + (err.message || "Unknown error"));
       }
     }
 
     async function syncUserWithFirestore(firebaseUser) {
-      if (!db) return;
+      if (!db || !firebaseUser?.uid) return;
       const userRef = db.collection('users').doc(firebaseUser.uid);
-      const doc = await userRef.get();
 
-      if (doc.exists) {
-        const data = doc.data();
-        currentUser = { ...currentUser, ...data, uid: firebaseUser.uid };
-      } else {
-        currentUser.uid = firebaseUser.uid;
-        currentUser.name = firebaseUser.displayName || "Filmmaker";
-        currentUser.email = firebaseUser.email || "";
-        currentUser.avatar = firebaseUser.photoURL || defaultAvatar;
-        currentUser.role = "Director";
-        currentUser.connectedUsers = [];
-        currentUser.hidden = false;
-        currentUser.lat = null;
-        currentUser.lng = null;
-        await userRef.set(currentUser);
+      try {
+        const doc = await userRef.get();
+        if (doc.exists) {
+          const data = doc.data();
+          if (data.suspended === true) {
+            await auth.signOut();
+            alert("🚫 This Film Connect account is suspended. Please contact support.");
+            return;
+          }
+          currentUser = { ...currentUser, ...data, uid: firebaseUser.uid };
+          currentUser.email = firebaseUser.email || currentUser.email || '';
+        } else {
+          currentUser = {
+            ...currentUser,
+            uid: firebaseUser.uid,
+            name: firebaseUser.displayName || "Filmmaker",
+            email: firebaseUser.email || "",
+            role: "Director",
+            avatar: firebaseUser.photoURL || defaultAvatar,
+            connectedUsers: [],
+            hidden: false,
+            suspended: false,
+            reportsCount: 0,
+            rating: 5.0,
+            reviewCount: 0
+          };
+          await userRef.set(currentUser);
+        }
+
+        document.getElementById('headerAvatar').src = currentUser.avatar || defaultAvatar;
+        document.getElementById('authActionBtn').innerText = "🚪 Sign Out (" + (currentUser.name || 'Filmmaker').split(' ')[0] + ")";
+        document.getElementById('profileVisibilityCard').style.display = "flex";
+        document.getElementById('btnDeleteProfile').style.display = "inline-flex";
+        updateVisibilityUI();
+        populateProfileForm();
+        initFirestoreListeners();
+      } catch (err) {
+        console.error("User sync error:", err);
+        alert("Could not load your Film Connect profile. Please try again.");
       }
-
-      document.getElementById('headerAvatar').src = currentUser.avatar;
-      document.getElementById('authActionBtn').innerText = "🚪 Sign Out (" + (currentUser.name.split(' ')[0]) + ")";
-      document.getElementById('profileVisibilityCard').style.display = "flex";
-      document.getElementById('btnDeleteProfile').style.display = "inline-flex";
-      updateVisibilityUI();
-      populateProfileForm();
-      initFirestoreListeners();
     }
 
     // ================= PROFILE VISIBILITY & DELETION =================
@@ -2315,105 +2421,31 @@
     }
 
     async function deleteUserAccountCascade() {
-      if (!currentUser.uid || !db || !auth) return;
+      if (!requireSignedIn('Please Sign In to delete your profile.')) return;
+      if (!confirm("⚠️ Delete your Film Connect profile permanently?\n\nYour profile, incoming/outgoing requests and membership links will be removed from your account. Project/chat history may remain until server-side cleanup is configured.")) return;
 
-      const confirmed = confirm("⚠️ PERMANENT ACCOUNT DELETION:\n\nAre you sure you want to delete your profile? This will permanently delete your account, projects, connect requests, chat threads, and reviews. This action cannot be undone.");
-      if (!confirmed) return;
-
-      showCompressionToast("🗑️ Deleting profile data...");
-
+      showCompressionToast("🗑️ Removing profile...");
       try {
         const uid = currentUser.uid;
 
-        const projSnap = await db.collection('projects').where('creatorUid', '==', uid).get();
-        const projDeletes = projSnap.docs.map(doc => doc.ref.delete());
-        await Promise.all(projDeletes);
+        // Delete only records the current user owns or participates in via safe direct queries.
+        const ownProjects = await db.collection('projects').where('creatorUid', '==', uid).get();
+        await Promise.all(ownProjects.docs.map(doc => doc.ref.delete()));
 
-        const reqSnap1 = await db.collection('connectRequests').where('senderUid', '==', uid).get();
-        const reqSnap2 = await db.collection('connectRequests').where('receiverUid', '==', uid).get();
-        const reqDeletes = [...reqSnap1.docs, ...reqSnap2.docs].map(doc => doc.ref.delete());
-        await Promise.all(reqDeletes);
-
-        const chatSnap = await db.collection('chats').get();
-        for (const doc of chatSnap.docs) {
-          if (doc.id.includes(uid)) {
-            const msgSnap = await doc.ref.collection('messages').get();
-            const msgDeletes = msgSnap.docs.map(m => m.ref.delete());
-            await Promise.all(msgDeletes);
-            await doc.ref.delete();
-          }
-        }
-
-        const usersSnap = await db.collection('users').get();
-        for (const userDoc of usersSnap.docs) {
-          const uData = userDoc.data();
-          if (uData.reviews && Array.isArray(uData.reviews)) {
-            const filteredReviews = uData.reviews.filter(r => !r.reviewer?.includes(currentUser.name));
-            if (filteredReviews.length !== uData.reviews.length) {
-              await userDoc.ref.update({ reviews: filteredReviews });
-            }
-          }
-        }
-
-        if (unsubscribeIncomingRequestsListener) {
-          unsubscribeIncomingRequestsListener();
-          unsubscribeIncomingRequestsListener = null;
-        }
-        if (unsubscribeOutgoingRequestsListener) {
-          unsubscribeOutgoingRequestsListener();
-          unsubscribeOutgoingRequestsListener = null;
-        }
-        if (unsubscribeTeamGroupsListener) {
-          unsubscribeTeamGroupsListener();
-          unsubscribeTeamGroupsListener = null;
-        }
-        if (unsubscribeCurrentUserDocListener) {
-          unsubscribeCurrentUserDocListener();
-          unsubscribeCurrentUserDocListener = null;
-        }
-        if (unsubscribeChatListener) {
-          unsubscribeChatListener();
-          unsubscribeChatListener = null;
-        }
-
-        outgoingRequestStatusMap = {};
-        connectRequests = [];
+        const sentRequests = await db.collection('connectRequests').where('senderUid', '==', uid).get();
+        const receivedRequests = await db.collection('connectRequests').where('receiverUid', '==', uid).get();
+        const requestDocs = new Map();
+        [...sentRequests.docs, ...receivedRequests.docs].forEach(doc => requestDocs.set(doc.id, doc.ref));
+        await Promise.all([...requestDocs.values()].map(ref => ref.delete()));
 
         await db.collection('users').doc(uid).delete();
         await auth.signOut();
-
         hideCompressionToast();
-
-        currentUser = {
-          uid: null,
-          name: "",
-          email: "",
-          role: "Director",
-          age: "",
-          bio: "",
-          mapsLink: "",
-          lat: null,
-          lng: null,
-          avatar: defaultAvatar,
-          portfolioLinks: [],
-          connectedUsers: [],
-          hidden: false
-        };
-
-        document.getElementById('headerAvatar').src = defaultAvatar;
-        document.getElementById('authActionBtn').innerText = "🔑 Sign In With Google";
-        document.getElementById('profileVisibilityCard').style.display = "none";
-        document.getElementById('btnDeleteProfile').style.display = "none";
-
-        populateProfileForm();
-        initFirestoreListeners();
-        switchNavTab('discover');
-
-        alert("✓ Your profile and account data have been permanently deleted.");
+        alert("✓ Your Film Connect profile has been deleted.");
       } catch (err) {
         hideCompressionToast();
         console.error("Deletion error:", err);
-        alert("Error deleting account: " + err.message);
+        alert("Could not complete profile deletion: " + (err.message || "Unknown error"));
       }
     }
 
@@ -2434,6 +2466,7 @@
 
           if (isSelf) return;
           if (data.hidden === true) return;
+          if (data.suspended === true) return;
 
           const isConnected = getConnectionStatus(doc.id) === 'connected';
 
@@ -2448,7 +2481,8 @@
               mapsLink: data.mapsLink || '',
               avatar: data.avatar || defaultAvatar,
               rating: data.rating || 5.0,
-              projectsCount: data.projectsCount || 1,
+              reviewCount: data.reviewCount || (Array.isArray(data.reviews) ? data.reviews.length : 0),
+              projectsCount: data.projectsCount || 0,
               reportsCount: data.reportsCount || 0,
               portfolioLinks: data.portfolioLinks || [],
               reviews: data.reviews || [],
@@ -2484,6 +2518,21 @@
       }, err => {
         console.warn("Projects listener error:", err);
       });
+
+      // 3. Project Applications (separate collection so applicants never mutate project ownership data)
+      if (unsubscribeApplicationsListener) {
+        unsubscribeApplicationsListener();
+        unsubscribeApplicationsListener = null;
+      }
+      unsubscribeApplicationsListener = db.collection('projectApplications')
+        .orderBy('createdAt', 'desc')
+        .onSnapshot(snap => {
+          projectApplications = [];
+          snap.forEach(doc => projectApplications.push({ id: doc.id, ...doc.data() }));
+          renderProjectsFeed();
+        }, err => {
+          console.warn('Project applications listener error:', err);
+        });
 
       // 3. Organizations Directory (Permanent listener with duplicate prevention)
       if (unsubscribeOrganizationsListener) {
@@ -2541,6 +2590,11 @@
           .onSnapshot(doc => {
             if (doc.exists) {
               const data = doc.data();
+              if (data.suspended === true) {
+                alert('🚫 Your Film Connect account has been suspended after repeated reports.');
+                auth.signOut();
+                return;
+              }
               currentUser = { ...currentUser, ...data, uid: currentUser.uid };
               updateVisibilityUI();
               renderCrewList();
@@ -2596,6 +2650,27 @@
             renderThreads();
           }, err => {
             console.warn("Outgoing requests listener error:", err);
+          });
+
+        // Real-time listener for accepted connections
+        if (unsubscribeConnectionsListener) {
+          unsubscribeConnectionsListener();
+          unsubscribeConnectionsListener = null;
+        }
+        unsubscribeConnectionsListener = db.collection('userConnections')
+          .where('members', 'array-contains', currentUser.uid)
+          .onSnapshot(snap => {
+            connectedUserIds.clear();
+            snap.forEach(doc => {
+              const data = doc.data();
+              (data.members || []).forEach(uid => {
+                if (uid && uid !== currentUser.uid) connectedUserIds.add(uid);
+              });
+            });
+            renderCrewList();
+            renderThreads();
+          }, err => {
+            console.warn('Connections listener error:', err);
           });
 
         // Real-time listener for team groups
@@ -2819,7 +2894,7 @@
             <option value="IMDb" ${link.platform === 'IMDb' ? 'selected' : ''}>IMDb</option>
             <option value="FilmFreeway" ${link.platform === 'FilmFreeway' ? 'selected' : ''}>FilmFreeway</option>
           </select>
-          <input type="text" class="form-input" style="flex: 1; padding: 7px;" value="${link.url}" placeholder="https://..." oninput="currentUser.portfolioLinks[${idx}].url = this.value" />
+          <input type="text" class="form-input" style="flex: 1; padding: 7px;" value="${escapeHTML(link.url)}" placeholder="https://..." oninput="currentUser.portfolioLinks[${idx}].url = this.value" />
           <button type="button" class="btn-3d btn-3d-danger" style="padding: 7px 10px; font-size: 11px;" onclick="removeProfileLink(${idx})">✕</button>
         </div>
       `).join('');
@@ -2853,8 +2928,9 @@
         }
       }
 
-      currentUser.name = nameVal;
-      currentUser.age = document.getElementById('profAge').value;
+      currentUser.name = normalizeText(nameVal, 120);
+      const parsedAge = parseInt(document.getElementById('profAge').value, 10);
+      currentUser.age = Number.isFinite(parsedAge) && parsedAge >= 1 && parsedAge <= 120 ? String(parsedAge) : '';
       
       const roleVal = document.getElementById('profRole').value;
       if (roleVal === 'Other') {
@@ -2863,8 +2939,8 @@
         currentUser.role = roleVal;
       }
 
-      currentUser.bio = document.getElementById('profBio').value.trim();
-      currentUser.mapsLink = document.getElementById('profMapsLink').value.trim();
+      currentUser.bio = normalizeText(document.getElementById('profBio').value, 2000);
+      currentUser.mapsLink = normalizeText(document.getElementById('profMapsLink').value, 500);
       currentUser.portfolioLinks = currentUser.portfolioLinks.filter(l => l.url && l.url.trim());
 
       const parsedLocation = parseGoogleMapsRegex(currentUser.mapsLink);
@@ -2922,109 +2998,86 @@
       return (currentUser.name && currentUser.name.trim().length > 0);
     }
 
-    // ================= CONNECT FLOW & CANCEL REQUEST =================
+    // ================= CONNECT FLOW =================
     async function sendConnectRequest(crewId) {
-      if (!currentUser.uid) {
-        alert("Please Sign In with Google on the Profile tab to send connect requests!");
+      if (!requireSignedIn('Please Sign In with Google on the Profile tab to send connect requests.')) return;
+      if (!isUserProfileComplete()) {
+        alert('⚠️ Please complete your name in Profile first.');
         switchNavTab('profile');
         return;
       }
-
       if (currentUser.uid === crewId) {
         alert("You cannot send a connection request to yourself.");
-        return;
-      }
-
-      const currentStatus = getConnectionStatus(crewId);
-      if (currentStatus === 'connected') {
-        alert("You are already connected with this filmmaker!");
-        return;
-      }
-      if (currentStatus === 'pending') {
-        alert("A connection request is already pending!");
         return;
       }
 
       const crew = crewMembers.find(c => c.id === crewId);
       if (!crew) return;
 
-      // Immediately reflect pending state on sender's UI
-      outgoingRequestStatusMap[crewId] = 'pending';
-      renderCrewList();
-
-      if (isFirebaseReady && db) {
-        try {
-          // Check existing pending request in Firestore to prevent duplicate creation
-          const existingPendingSnap = await db.collection('connectRequests')
-            .where('senderUid', '==', currentUser.uid)
-            .where('receiverUid', '==', crewId)
-            .where('status', '==', 'pending')
-            .get();
-
-          if (!existingPendingSnap.empty) {
-            alert(`A connection request is already pending with ${crew.name}.`);
-            return;
-          }
-
-          await db.collection('connectRequests').add({
-            senderUid: currentUser.uid,
-            senderName: currentUser.name || 'Filmmaker',
-            senderRole: currentUser.role || 'Director',
-            senderAvatar: currentUser.avatar || defaultAvatar,
-            receiverUid: crewId,
-            receiverName: crew.name || 'Filmmaker',
-            receiverRole: crew.role || 'Film Craft Practitioner',
-            status: 'pending',
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
-
-          alert(`⚡ Connect request sent to ${crew.name}!`);
-        } catch (err) {
-          console.error("Error sending connect request:", err);
-          delete outgoingRequestStatusMap[crewId];
-          renderCrewList();
-          alert("Failed to send connect request: " + (err.message || "Network error"));
-        }
-      } else {
-        alert(`⚡ Connect request sent to ${crew.name}!`);
+      if (getConnectionStatus(crewId) === 'connected') {
+        alert("You are already connected with this filmmaker!");
+        return;
       }
-    }
-
-    async function cancelConnectRequest(crewId) {
-      if (!currentUser.uid) return;
-
-      const crew = crewMembers.find(c => c.id === crewId);
-      const name = crew ? crew.name : "this filmmaker";
-      
-      if (!confirm(`Do you want to cancel your connect request to ${name}?`)) {
+      if (getConnectionStatus(crewId) === 'pending') {
+        alert("A connection request is already pending.");
+        return;
+      }
+      if (getConnectionStatus(crewId) === 'rejected') {
+        alert("This connection request was already rejected. Only one request is allowed per user pair.");
         return;
       }
 
-      // Optimistically update local map
-      delete outgoingRequestStatusMap[crewId];
-      renderCrewList();
-
-      if (isFirebaseReady && db) {
-        try {
-          const snap = await db.collection('connectRequests')
-            .where('senderUid', '==', currentUser.uid)
-            .where('receiverUid', '==', crewId)
-            .where('status', '==', 'pending')
-            .get();
-
-          const batchDeletes = snap.docs.map(doc => doc.ref.delete());
-          await Promise.all(batchDeletes);
-
-          alert(`✓ Connect request to ${name} has been cancelled.`);
-        } catch (err) {
-          console.error("Error cancelling request:", err);
-          // Revert if error
-          outgoingRequestStatusMap[crewId] = 'pending';
-          renderCrewList();
-          alert("Failed to cancel connect request: " + (err.message || "Network error"));
+      try {
+        // One request per pair: do not create another after reject/cancel/history.
+        const legacySnap = await db.collection('connectRequests')
+          .where('senderUid', '==', currentUser.uid)
+          .where('receiverUid', '==', crewId)
+          .limit(1)
+          .get();
+        if (!legacySnap.empty) {
+          alert('You have already sent a connection request to this filmmaker. Only one request is allowed per user pair.');
+          return;
         }
+
+        const pairId = [currentUser.uid, crewId].sort().join('_');
+        const requestRef = db.collection('connectRequests').doc(pairId);
+        const existingSnap = await requestRef.get();
+
+        if (existingSnap.exists) {
+          const existing = existingSnap.data();
+          if (existing.status === 'accepted') {
+            connectedUserIds.add(crewId);
+            renderCrewList();
+            renderThreads();
+            alert('You are already connected with this filmmaker.');
+            return;
+          }
+          alert('You have already sent a connection request to this filmmaker. Only one request is allowed per user pair.');
+          return;
+        }
+
+        await requestRef.set({
+          senderUid: currentUser.uid,
+          senderName: normalizeText(currentUser.name, 120),
+          senderRole: normalizeText(currentUser.role, 120),
+          senderAvatar: currentUser.avatar || defaultAvatar,
+          receiverUid: crewId,
+          receiverName: normalizeText(crew.name, 120),
+          receiverRole: normalizeText(crew.role, 120),
+          status: 'pending',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        outgoingRequestStatusMap[crewId] = 'pending';
+        renderCrewList();
+        alert(`⚡ Connect request sent to ${crew.name}!`);
+      } catch (err) {
+        console.error("Error sending connect request:", err);
+        alert("Failed to send connect request: " + (err.message || "Network error"));
       }
     }
+
+    async function cancelConnectRequest() { alert('ℹ️ Connection requests cannot be cancelled after sending.'); }
 
     function renderRequests() {
       const container = document.getElementById('requestsListContainer');
@@ -3052,34 +3105,57 @@
     }
 
     async function respondConnectRequest(reqId, isAccepted, senderUid) {
-      if (isFirebaseReady && db) {
-        try {
-          if (isAccepted) {
-            await db.collection('connectRequests').doc(reqId).update({ status: 'accepted' });
-            
-            await db.collection('users').doc(currentUser.uid).update({
-              connectedUsers: firebase.firestore.FieldValue.arrayUnion(senderUid)
-            });
-            await db.collection('users').doc(senderUid).update({
-              connectedUsers: firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
-            });
+      if (!requireSignedIn('Please Sign In to respond to connection requests.')) return;
+      if (!reqId || !senderUid || senderUid === currentUser.uid) return;
 
-            if (!currentUser.connectedUsers) currentUser.connectedUsers = [];
-            if (!currentUser.connectedUsers.includes(senderUid)) {
-              currentUser.connectedUsers.push(senderUid);
-            }
-
-            renderCrewList();
-            renderThreads();
-            alert("✓ Accepted connection! You both can now chat.");
-          } else {
-            await db.collection('connectRequests').doc(reqId).update({ status: 'rejected' });
-            alert("✕ Rejected connection request.");
-          }
-        } catch (err) {
-          console.error("Error updating request:", err);
-          alert("Failed to respond to connect request: " + (err.message || "Network error"));
+      try {
+        const reqRef = db.collection('connectRequests').doc(reqId);
+        const reqSnap = await reqRef.get();
+        if (!reqSnap.exists) {
+          alert('This connection request is no longer available.');
+          return;
         }
+        const req = reqSnap.data();
+        if (req.receiverUid !== currentUser.uid || req.status !== 'pending') {
+          alert('⚠️ This request is no longer pending.');
+          return;
+        }
+
+        const batch = db.batch();
+        batch.update(reqRef, { status: isAccepted ? 'accepted' : 'rejected', respondedAt: firebase.firestore.FieldValue.serverTimestamp() });
+
+        if (isAccepted) {
+          const pairId = [currentUser.uid, senderUid].sort().join('_');
+          const connectionRef = db.collection('userConnections').doc(pairId);
+          batch.set(connectionRef, {
+            members: [currentUser.uid, senderUid],
+            senderUid: req.senderUid,
+            receiverUid: req.receiverUid,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          }, { merge: true });
+
+          batch.set(db.collection('users').doc(currentUser.uid), {
+            connectedUsers: firebase.firestore.FieldValue.arrayUnion(senderUid)
+          }, { merge: true });
+          batch.set(db.collection('users').doc(senderUid), {
+            connectedUsers: firebase.firestore.FieldValue.arrayUnion(currentUser.uid)
+          }, { merge: true });
+        }
+
+        await batch.commit();
+
+        if (isAccepted) {
+          connectedUserIds.add(senderUid);
+          renderCrewList();
+          renderThreads();
+          alert("✓ Accepted connection! You both can now chat.");
+        } else {
+          renderRequests();
+          alert("✕ Rejected connection request.");
+        }
+      } catch (err) {
+        console.error('Error responding to connection request:', err);
+        alert('Failed to respond to connect request: ' + (err.message || 'Network error'));
       }
     }
 
@@ -3087,71 +3163,65 @@
     function renderProjectsFeed() {
       const container = document.getElementById('projectsFeedContainer');
       if (projectsFeed.length === 0) {
-        container.innerHTML = `<div class="empty-state-box">No projects posted yet. Click <strong>'+ Create Project'</strong> above to post your short film requirements.</div>`;
+        container.innerHTML = `<div class="empty-state-box">No projects posted yet. Click <strong>+ Create Project</strong> above to post your short film requirements.</div>`;
         return;
       }
 
       container.innerHTML = projectsFeed.map(proj => `
         <div class="project-card">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
             <div>
-              <span style="font-size: 11px; color: var(--neon-cinema); font-weight: 800; text-transform: uppercase;">${proj.type}</span>
-              <div class="project-title" style="font-size: 19px; color: #fff;">${proj.title}</div>
-              ${proj.location ? `<div class="badge-location" style="margin-top: 4px; display: inline-block;">📍 ${proj.location}</div>` : ''}
+              <span style="font-size:11px;color:var(--neon-cinema);font-weight:800;text-transform:uppercase;">${escapeHTML(proj.type)}</span>
+              <div class="project-title" style="font-size:19px;color:#fff;">${escapeHTML(proj.title)}</div>
+              ${proj.location ? `<div class="badge-location" style="margin-top:4px;display:inline-block;">📍 ${escapeHTML(proj.location)}</div>` : ''}
             </div>
-            <span class="status-tag">${proj.status}</span>
+            <span class="status-tag">${escapeHTML(proj.status)}</span>
           </div>
 
-          <div style="font-size: 12px; color: var(--text-muted);">
-            Created by: <strong>${proj.creatorName}</strong>
-          </div>
-
-          <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4;">${proj.desc}</p>
+          <div style="font-size:12px;color:var(--text-muted);">Created by: <strong>${escapeHTML(proj.creatorName || 'Filmmaker')}</strong></div>
+          <p style="font-size:13px;color:#cbd5e1;line-height:1.4;">${escapeHTML(proj.desc)}</p>
 
           <div>
-            <div style="font-size: 12px; font-weight: 700; color: #fff; margin-bottom: 6px;">Role Slots & Bookings:</div>
-            ${(proj.slots || []).map((s, sIdx) => {
-              const meta = getCraftMeta(s.role);
-              const applicantsCount = s.applicants ? s.applicants.length : 0;
+            <div style="font-size:12px;font-weight:700;color:#fff;margin-bottom:6px;">Role Slots & Applications:</div>
+            ${(proj.slots || []).map((slot, sIdx) => {
+              const meta = getCraftMeta(slot.role);
+              const apps = projectApplications.filter(a => a.projectId === proj.id && Number(a.slotIndex) === Number(sIdx));
+              const applicantsCount = apps.length;
+              const selectedCount = apps.filter(a => a.status === 'Selected').length;
               return `
                 <div class="slot-row">
                   <div>
-                    <span style="font-size: 12px; font-weight: 700; color: ${meta.color};">${s.role}</span>
-                    <span style="font-size: 11px; color: var(--text-muted); margin-left: 6px;">(${applicantsCount} Booked / Target: ${s.target})</span>
+                    <span style="font-size:12px;font-weight:700;color:${meta.color};">${escapeHTML(slot.role)}</span>
+                    <span style="font-size:11px;color:var(--text-muted);margin-left:6px;">(${applicantsCount} Applied • ${selectedCount} Selected)</span>
                   </div>
-                  
-                  <div style="display: flex; gap: 6px;">
+                  <div style="display:flex;gap:6px;">
                     ${proj.isMine ? `
-                      <button class="btn-3d btn-3d-dark" style="padding: 4px 8px; font-size: 10px;" onclick="toggleApplicantsDrawer('${proj.id}', ${sIdx})">
-                        👁️ View Applicants (${applicantsCount})
-                      </button>
+                      <button class="btn-3d btn-3d-dark" style="padding:4px 8px;font-size:10px;" onclick="toggleApplicantsDrawer('${proj.id}', ${sIdx})">👁️ View Applicants (${applicantsCount})</button>
                     ` : `
-                      <button class="btn-3d btn-3d-connect" style="padding: 4px 10px; font-size: 10px;" onclick="bookProjectSlot('${proj.id}', '${s.role}', ${sIdx})">
-                        ⚡ Book / Apply
-                      </button>
+                      <button class="btn-3d btn-3d-connect" style="padding:4px 10px;font-size:10px;" onclick="bookProjectSlot('${proj.id}', '${encodeHandlerArg(slot.role)}', ${sIdx})">⚡ Apply</button>
                     `}
                   </div>
                 </div>
 
-                <div class="applicants-drawer" id="drawer-${proj.id}-${sIdx}">
-                  <div style="font-size: 11px; color: var(--neon-director); font-weight: 700; margin-bottom: 6px;">
-                    📋 Applicants:
-                  </div>
-                  ${(!s.applicants || s.applicants.length === 0) ? `<div style="font-size: 11px; color: var(--text-muted);">No one has applied yet.</div>` : `
-                    ${s.applicants.map(app => `
-                      <div style="display: flex; justify-content: space-between; align-items: center; background: #131722; padding: 6px 8px; border-radius: 6px; margin-bottom: 4px;">
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                          <img src="${app.avatar}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover;">
-                          <span style="font-size: 12px; font-weight: 700; color: #fff;">${app.name}</span>
-                          <span style="font-size: 10px; color: var(--neon-cinema);">${app.status}</span>
+                ${proj.isMine ? `
+                  <div class="applicants-drawer" id="drawer-${proj.id}-${sIdx}">
+                    <div style="font-size:11px;color:var(--neon-director);font-weight:700;margin-bottom:6px;">📋 Applicants:</div>
+                    ${apps.length === 0 ? `<div style="font-size:11px;color:var(--text-muted);">No one has applied yet.</div>` : apps.map(app => `
+                      <div style="display:flex;justify-content:space-between;align-items:center;background:#131722;padding:6px 8px;border-radius:6px;margin-bottom:4px;gap:8px;">
+                        <div style="display:flex;align-items:center;gap:8px;min-width:0;">
+                          <img src="${escapeHTML(app.avatar || defaultAvatar)}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;">
+                          <span style="font-size:12px;font-weight:700;color:#fff;">${escapeHTML(app.name || 'Filmmaker')}</span>
+                          <span style="font-size:10px;color:${app.status === 'Selected' ? '#10b981' : 'var(--neon-cinema)'};">${escapeHTML(app.status || 'Applied')}</span>
                         </div>
-                        <button class="btn-3d btn-3d-primary" style="padding: 3px 6px; font-size: 9px;" onclick="selectApplicantForTeam('${app.name}', '${s.role}')">
-                          ✓ Select for Team
-                        </button>
+                        ${app.status === 'Selected' ? `
+                          <span style="font-size:9px;color:#10b981;font-weight:800;">✓ TEAM MEMBER</span>
+                        ` : `
+                          <button class="btn-3d btn-3d-primary" style="padding:3px 6px;font-size:9px;" onclick="selectApplicantForTeam('${proj.id}', ${sIdx}, '${app.uid}', '${encodeHandlerArg(slot.role)}', '${app.id}')">✓ Select for Team</button>
+                        `}
                       </div>
                     `).join('')}
-                  `}
-                </div>
+                  </div>
+                ` : ''}
               `;
             }).join('')}
           </div>
@@ -3164,42 +3234,118 @@
       drawer.style.display = (drawer.style.display === 'block') ? 'none' : 'block';
     }
 
-    async function bookProjectSlot(projId, roleName, sIdx) {
+    async function bookProjectSlot(projId, encodedRoleName, sIdx) {
+      const roleName = decodeHandlerArg(encodedRoleName);
+      if (!requireSignedIn('Please Sign In to apply for a project.')) return;
       if (!isUserProfileComplete()) {
-        alert("⚠️ Please fill your Name in Profile before booking slots!");
+        alert('⚠️ Please fill your Name in Profile before applying!');
         switchNavTab('profile');
         return;
       }
 
-      if (isFirebaseReady && db) {
-        const projRef = db.collection('projects').doc(projId);
-        const doc = await projRef.get();
-        if (doc.exists) {
-          const slots = doc.data().slots;
-          if (slots[sIdx]) {
-            if (!slots[sIdx].applicants) slots[sIdx].applicants = [];
-            slots[sIdx].applicants.push({
-              uid: currentUser.uid || 'anon',
-              name: currentUser.name,
-              role: currentUser.role,
-              avatar: currentUser.avatar,
-              status: "Applied"
-            });
-            await projRef.update({ slots: slots });
-            alert(`✅ Slot booked for "${roleName}"!`);
-          }
+      try {
+        const proj = projectsFeed.find(p => p.id === projId);
+        if (!proj) return;
+        if (proj.creatorUid === currentUser.uid) {
+          alert('You cannot apply to your own project.');
+          return;
         }
+        const slot = Array.isArray(proj.slots) ? proj.slots[sIdx] : null;
+        if (!slot) return;
+
+        const existing = projectApplications.find(a => a.projectId === projId && Number(a.slotIndex) === Number(sIdx) && a.applicantUid === currentUser.uid);
+        if (existing) {
+          alert(existing.status === 'Selected' ? '✅ You are already selected for this role.' : '✅ You have already applied to this role.');
+          return;
+        }
+
+        const applicationId = `${projId}_${sIdx}_${currentUser.uid}`;
+        await db.collection('projectApplications').doc(applicationId).set({
+          projectId: projId,
+          projectTitle: proj.title || 'Film Project',
+          creatorUid: proj.creatorUid,
+          slotIndex: Number(sIdx),
+          role: roleName || slot.role,
+          applicantUid: currentUser.uid,
+          name: normalizeText(currentUser.name, 120),
+          roleAppliedAs: normalizeText(currentUser.role, 120),
+          avatar: currentUser.avatar || defaultAvatar,
+          status: 'Applied',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        alert(`✅ Applied for "${roleName || slot.role}"! The project owner can choose whom to hire.`);
+      } catch (err) {
+        console.error('Project application error:', err);
+        alert('Could not submit application: ' + (err.message || 'Unknown error'));
       }
     }
 
-    function selectApplicantForTeam(name, role) {
-      alert(`🎬 Selected ${name} for ${role}! You can create a Team Group in Messages.`);
+    async function selectApplicantForTeam(projId, sIdx, applicantUid, encodedRoleName, applicationId) {
+      const roleName = decodeHandlerArg(encodedRoleName);
+      if (!requireSignedIn('Please Sign In to manage your project.')) return;
+      try {
+        const proj = projectsFeed.find(p => p.id === projId);
+        if (!proj || proj.creatorUid !== currentUser.uid) {
+          alert('⚠️ Only the project creator can select team members.');
+          return;
+        }
+        const appId = applicationId || `${projId}_${sIdx}_${applicantUid}`;
+        const appRef = db.collection('projectApplications').doc(appId);
+        const appSnap = await appRef.get();
+        if (!appSnap.exists) return;
+        const application = appSnap.data();
+        if (application.creatorUid !== currentUser.uid || application.applicantUid !== applicantUid) {
+          alert('⚠️ This application is not owned by your project.');
+          return;
+        }
+        if (application.status === 'Selected') {
+          alert('This applicant is already selected.');
+          return;
+        }
+
+        await appRef.update({ status: 'Selected', selectedAt: firebase.firestore.FieldValue.serverTimestamp() });
+
+        const collaborationId = `${projId}_${sIdx}_${applicantUid}`;
+        const applicationId = appId;
+        await db.collection('collaborations').doc(collaborationId).set({
+          applicationId,
+          projectId: projId,
+          projectTitle: proj.title || 'Film Project',
+          creatorUid: currentUser.uid,
+          crewUid: applicantUid,
+          members: [currentUser.uid, applicantUid],
+          role: normalizeText(roleName, 120),
+          status: 'active',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+
+        const pairId = [currentUser.uid, applicantUid].sort().join('_');
+        await db.collection('userCollaborations').doc(pairId).set({
+          members: [currentUser.uid, applicantUid],
+          applicationId,
+          lastProjectId: projId,
+          lastProjectTitle: proj.title || 'Film Project',
+          status: 'active',
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+
+        alert(`🎬 ${application.name || 'Applicant'} selected for ${roleName || application.role}. Collaboration is now recorded.`);
+      } catch (err) {
+        console.error('Applicant selection error:', err);
+        alert('Could not select applicant: ' + (err.message || 'Unknown error'));
+      }
     }
 
     // ================= REPORT PROFILE =================
     async function reportCrewProfile(crewId, customReason) {
+      if (!requireSignedIn('Please Sign In to report a profile.')) return;
       const crew = crewMembers.find(c => c.id === crewId);
       if (!crew) return;
+
+      if (currentUser.uid === crewId) {
+        alert('You cannot report your own profile.');
+        return;
+      }
 
       const isConnected = getConnectionStatus(crewId) === 'connected';
       if (!isConnected) {
@@ -3209,133 +3355,53 @@
 
       let reason = customReason;
       if (!reason) {
-        reason = prompt(`⚠️ Report Connected User for Misconduct:\nPlease enter reason for reporting ${crew.name} (100% Anonymous):`, "Inappropriate conduct");
+        reason = prompt(`⚠️ Report Connected User for Misconduct:\nPlease enter a reason for reporting ${escapeHTML(crew.name)}:`, "Inappropriate conduct");
       }
-      if (reason === null) return;
-
-      if (isFirebaseReady && db) {
-        const userRef = db.collection('users').doc(crewId);
-        await userRef.update({
-          reportsCount: firebase.firestore.FieldValue.increment(1)
-        });
-      }
-
-      alert(`🚩 Report submitted anonymously. Thank you for keeping Film Connect safe.`);
-    }
-
-    function reportInappropriateLink(crewId, linkUrl) {
-      if (confirm(`⚠️ Report Link Content:\n\nAre you sure you want to flag and report this link?\n\nLink: ${linkUrl}`)) {
-        reportCrewProfile(crewId, `Inappropriate link: ${linkUrl}`);
-      }
-    }
-
-    // ================= VOICE RECORDING & LIVE CHAT =================
-    let mediaRecorder = null;
-    let audioChunks = [];
-    let recordInterval = null;
-    let recordSeconds = 0;
-
-    async function toggleVoiceRecording() {
-      if (mediaRecorder && mediaRecorder.state === 'recording') {
-        stopAndSendVoiceRecording();
-        return;
-      }
+      reason = normalizeText(reason, 500);
+      if (!reason) return;
 
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        mediaRecorder = new MediaRecorder(stream);
-        audioChunks = [];
+        const reportId = currentUser.uid + '_' + crewId;
+        await db.collection('reports').doc(reportId).set({
+          reporterUid: currentUser.uid,
+          targetUid: crewId,
+          reason,
+          status: 'open',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
 
-        mediaRecorder.ondataavailable = (e) => {
-          if (e.data.size > 0) audioChunks.push(e.data);
-        };
-
-        mediaRecorder.onstop = async () => {
-          const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-          const audioUrl = URL.createObjectURL(audioBlob);
-          sendAudioMessage(audioUrl, formatTime(recordSeconds));
-          stream.getTracks().forEach(track => track.stop());
-        };
-
-        mediaRecorder.start();
-        recordSeconds = 0;
-        document.getElementById('recordingLiveBar').style.display = 'flex';
-        document.getElementById('recordingTimer').innerText = '0:00';
-        document.getElementById('btnMicRecord').style.background = '#ef4444';
-
-        recordInterval = setInterval(() => {
-          recordSeconds++;
-          document.getElementById('recordingTimer').innerText = formatTime(recordSeconds);
-          if (recordSeconds >= 60) stopAndSendVoiceRecording();
-        }, 1000);
-
+        alert(`🚩 Report submitted. Repeated valid reports can trigger automatic suspension.`);
       } catch (err) {
-        alert("🎙️ Microphone Access:\nPlease allow microphone access to record voice notes.");
+        console.error('Report error:', err);
+        alert('Could not submit report: ' + (err.message || 'Unknown error'));
       }
     }
 
-    function formatTime(sec) {
-      const m = Math.floor(sec / 60);
-      const s = sec % 60;
-      return `${m}:${s < 10 ? '0' : ''}${s}`;
-    }
-
-    function stopAndSendVoiceRecording() {
-      if (mediaRecorder && mediaRecorder.state === 'recording') {
-        mediaRecorder.stop();
-      }
-      cleanupRecordUI();
-    }
-
-    function cancelVoiceRecording() {
-      if (mediaRecorder && mediaRecorder.state === 'recording') {
-        mediaRecorder.ondataavailable = null;
-        mediaRecorder.onstop = null;
-        mediaRecorder.stop();
-      }
-      cleanupRecordUI();
-    }
-
-    function cleanupRecordUI() {
-      clearInterval(recordInterval);
-      document.getElementById('recordingLiveBar').style.display = 'none';
-      document.getElementById('btnMicRecord').style.background = '';
-    }
-
-    async function sendAudioMessage(audioSrc, duration) {
-      if (!isFirebaseReady || !db || !currentUser.uid) return;
-
-      const payload = {
-        senderUid: currentUser.uid,
-        senderName: currentUser.name || 'Filmmaker',
-        type: 'audio',
-        audioSrc: audioSrc,
-        duration: duration,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
-
-      if (currentChatMode === 'direct' && currentDirectChatId) {
-        const chatId = [currentUser.uid, currentDirectChatId].sort().join('_');
-        await db.collection('chats').doc(chatId).collection('messages').add(payload);
-      } else if (currentChatMode === 'group' && currentGroupId) {
-        await db.collection('groups').doc(currentGroupId).collection('messages').add(payload);
+    function reportInappropriateLink(crewId, encodedUrl) {
+      const safeUrl = decodeHandlerArg(encodedUrl);
+      if (confirm(`⚠️ Report Link Content:\n\nAre you sure you want to flag and report this link?\n\nLink: ${safeUrl}`)) {
+        reportCrewProfile(crewId, `Inappropriate link: ${safeUrl}`);
       }
     }
+
+    // ================= TEXT + IMAGE CHAT ONLY =================
+    // Voice messages intentionally removed from Film Connect.
 
     // ================= TEAM GROUPS CREATION & RENDERING =================
     function openCreateGroupModal() {
+      if (!requireSignedIn('Please Sign In to create a group.')) return;
       const list = document.getElementById('groupCrewSelectorList');
       const connectedCrew = crewMembers.filter(c => getConnectionStatus(c.id) === 'connected');
 
       if (connectedCrew.length === 0) {
-        list.innerHTML = `<div style="font-size: 12px; color: var(--text-muted); padding: 10px 0;">No connected crew members yet. Connect with members first to add them to your team group.</div>`;
+        list.innerHTML = `<div style="font-size:12px;color:var(--text-muted);padding:10px 0;">No connected crew members yet. Connect with members first.</div>`;
       } else {
         list.innerHTML = connectedCrew.map(c => `
           <label class="crew-select-row">
-            <input type="checkbox" value="${c.id}" class="group-crew-checkbox" checked />
-            <img src="${c.avatar}" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover;">
-            <span style="font-size: 13px; font-weight: 700; color: #fff;">${c.name}</span>
-            <span style="font-size: 11px; color: var(--neon-cinema); margin-left: auto;">${c.role}</span>
+            <input type="checkbox" value="${escapeHTML(c.id)}" class="group-crew-checkbox" checked />
+            <img src="${escapeHTML(c.avatar || defaultAvatar)}" style="width:30px;height:30px;border-radius:50%;object-fit:cover;">
+            <span style="font-size:13px;font-weight:700;color:#fff;">${escapeHTML(c.name)}</span>
+            <span style="font-size:11px;color:var(--neon-cinema);margin-left:auto;">${escapeHTML(c.role)}</span>
           </label>
         `).join('');
       }
@@ -3343,47 +3409,58 @@
       document.getElementById('createGroupModal').classList.add('active');
     }
 
-    function closeCreateGroupModal() {
-      document.getElementById('createGroupModal').classList.remove('active');
-    }
+    function closeCreateGroupModal() { document.getElementById('createGroupModal').classList.remove('active'); }
 
     async function submitCreateGroup() {
-      const name = document.getElementById('newGroupName').value.trim() || 'New Team Unit 🎬';
-      const selected = Array.from(document.querySelectorAll('.group-crew-checkbox:checked')).map(cb => cb.value);
+      if (!requireSignedIn('Please Sign In to create a group.')) return;
+      const name = normalizeText(document.getElementById('newGroupName').value, 100) || 'New Team Unit 🎬';
+      const selected = [...new Set(Array.from(document.querySelectorAll('.group-crew-checkbox:checked')).map(cb => cb.value).filter(uid => uid && uid !== currentUser.uid))];
 
-      if (isFirebaseReady && db && currentUser.uid) {
-        await db.collection('groups').add({
-          name: name,
-          creatorUid: currentUser.uid,
-          creatorName: currentUser.name || 'Filmmaker',
-          membersCount: selected.length + 1,
-          members: [currentUser.uid, ...selected],
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
+      const validSelected = selected.filter(uid => isDirectlyConnected(uid));
+      if (selected.length !== validSelected.length) {
+        alert('⚠️ Only your actually connected users can be added to a group.');
+        return;
       }
 
-      closeCreateGroupModal();
-      alert(`👥 Team Group "${name}" created successfully!`);
+      try {
+        await db.collection('groups').add({
+          name,
+          creatorUid: currentUser.uid,
+          creatorName: normalizeText(currentUser.name, 120),
+          membersCount: validSelected.length + 1,
+          members: [currentUser.uid, ...validSelected],
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        closeCreateGroupModal();
+        alert(`👥 Team Group "${name}" created successfully!`);
+      } catch (err) {
+        console.error('Group creation error:', err);
+        alert('Could not create group: ' + (err.message || 'Unknown error'));
+      }
     }
 
     async function exitCurrentGroup() {
-      if (!currentGroupId || !currentUser.uid) return;
+      if (!currentGroupId || !requireSignedIn()) return;
+      if (!isGroupMember(currentGroupId)) return;
 
-      if (confirm("Are you sure you want to leave this team group?")) {
-        if (isFirebaseReady && db) {
-          try {
-            await db.collection('groups').doc(currentGroupId).update({
-              members: firebase.firestore.FieldValue.arrayRemove(currentUser.uid),
-              membersCount: firebase.firestore.FieldValue.increment(-1)
-            });
-            closeChatModal();
-            switchNavTab('messages');
-            alert("✓ You have left the group.");
-          } catch (err) {
-            console.error("Error leaving group:", err);
-            alert("Failed to leave group: " + err.message);
-          }
+      if (!confirm("Are you sure you want to leave this team group?")) return;
+      try {
+        const ref = db.collection('groups').doc(currentGroupId);
+        const snap = await ref.get();
+        if (!snap.exists) return;
+        const grp = snap.data();
+        if (grp.creatorUid === currentUser.uid) {
+          alert('⚠️ The group creator cannot leave the group. Transfer/delete controls can be added in the future admin panel.');
+          return;
         }
+        const members = (grp.members || []).filter(uid => uid !== currentUser.uid);
+        await ref.update({ members, membersCount: members.length });
+        closeChatModal();
+        switchNavTab('messages');
+        alert('✓ You have left the group.');
+      } catch (err) {
+        console.error('Error leaving group:', err);
+        alert('Failed to leave group: ' + (err.message || 'Unknown error'));
       }
     }
 
@@ -3398,12 +3475,12 @@
             <div class="group-avatar-stack">🎬</div>
             <div style="flex: 1; overflow: hidden;">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 14px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${grp.name}</span>
+                <span style="font-size: 14px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHTML(grp.name)}</span>
                 <span style="font-size: 10px; font-weight: 700; color: var(--neon-director); background: rgba(255,183,3,0.15); padding: 2px 6px; border-radius: 4px;">
                   ${grp.members ? grp.members.length : (grp.membersCount || 1)} members
                 </span>
               </div>
-              <div style="font-size: 11px; color: var(--text-muted); margin-top: 3px;">Created by ${grp.creatorName || 'Filmmaker'} • Tap to chat</div>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 3px;">Created by ${escapeHTML(grp.creatorName || 'Filmmaker')} • Tap to chat</div>
             </div>
           </div>
         `).join('');
@@ -3433,63 +3510,78 @@
 
     function openGroupChat(groupId) {
       const grp = teamGroups.find(g => g.id === groupId);
-      if (!grp) return;
+      if (!grp || !isGroupMember(groupId)) {
+        alert('🔒 You are not a member of this team group.');
+        return;
+      }
 
       currentChatMode = 'group';
       currentGroupId = groupId;
       currentDirectChatId = null;
 
-      document.getElementById('chatHeaderName').innerText = grp.name;
+      document.getElementById('chatHeaderName').innerText = grp.name || 'Team Group';
       document.getElementById('chatHeaderRole').innerText = `Team Channel (${grp.members ? grp.members.length : 1} members)`;
       document.getElementById('chatHeaderImg').style.display = 'none';
       document.getElementById('chatHeaderIconGroup').style.display = 'flex';
-      
       document.getElementById('groupActionWrap').style.display = 'block';
 
       listenToLiveGroupChat(groupId);
       document.getElementById('chatViewModal').classList.add('active');
     }
 
+    function renderChatMessage(area, m) {
+      const bubble = document.createElement('div');
+      const isMine = m.senderUid === currentUser.uid;
+      bubble.className = `chat-bubble ${isMine ? 'mine' : 'theirs'}`;
+
+      if (!isMine) {
+        const sender = document.createElement('div');
+        sender.className = 'chat-sender-tag';
+        sender.textContent = m.senderName || 'Crew Member';
+        bubble.appendChild(sender);
+      }
+
+      if (m.type === 'image' && m.imageSrc) {
+        const img = document.createElement('img');
+        img.src = m.imageSrc;
+        img.className = 'chat-image-content';
+        img.alt = 'Shared image';
+        img.addEventListener('click', () => window.open(m.imageSrc, '_blank', 'noopener,noreferrer'));
+        bubble.appendChild(img);
+      } else {
+        const text = document.createElement('div');
+        text.textContent = m.text || '';
+        bubble.appendChild(text);
+      }
+      area.appendChild(bubble);
+    }
+
     function listenToLiveGroupChat(groupId) {
       if (unsubscribeChatListener) unsubscribeChatListener();
-
       const area = document.getElementById('chatMessagesArea');
-      area.innerHTML = `<div style="text-align:center; font-size:12px; color:var(--text-muted); padding:10px;">Connecting to team channel...</div>`;
+      area.innerHTML = '';
 
-      if (isFirebaseReady && db && groupId) {
-        unsubscribeChatListener = db.collection('groups').doc(groupId).collection('messages')
-          .orderBy('createdAt', 'asc')
-          .onSnapshot(snap => {
-            area.innerHTML = '';
-            snap.forEach(doc => {
-              const m = doc.data();
-              const isMine = (m.senderUid === currentUser.uid);
-              const bubble = document.createElement('div');
-              bubble.className = `chat-bubble ${isMine ? 'mine' : 'theirs'}`;
-              
-              if (!isMine) {
-                bubble.innerHTML += `<div class="chat-sender-tag">${m.senderName || 'Crew Member'}</div>`;
-              }
-
-              if (m.text) bubble.innerHTML += `<div>${m.text}</div>`;
-              if (m.type === 'image') bubble.innerHTML += `<img src="${m.imageSrc}" class="chat-image-content" onclick="window.open(this.src)">`;
-              if (m.type === 'audio') bubble.innerHTML += `
-                <div style="font-size:11px; font-weight:700;">🎙️ Voice Note (${m.duration || '0:05'})</div>
-                <audio class="voice-msg-player" controls src="${m.audioSrc}"></audio>
-              `;
-
-              area.appendChild(bubble);
-            });
-            area.scrollTop = area.scrollHeight;
-          });
+      if (!isFirebaseReady || !db || !currentUser.uid || !isGroupMember(groupId)) {
+        area.textContent = '🔒 Group access denied.';
+        return;
       }
+
+      unsubscribeChatListener = db.collection('groups').doc(groupId).collection('messages')
+        .orderBy('createdAt', 'asc')
+        .onSnapshot(snap => {
+          area.innerHTML = '';
+          snap.forEach(doc => renderChatMessage(area, doc.data()));
+          area.scrollTop = area.scrollHeight;
+        }, err => {
+          console.error('Group chat listener error:', err);
+          area.textContent = 'Unable to load group messages.';
+        });
     }
 
     function openDirectChat(crewId) {
       const crew = crewMembers.find(c => c.id === crewId);
-      const isConnected = getConnectionStatus(crewId) === 'connected';
-      if (crew && !isConnected) {
-        alert(`🔒 Chat Locked: You and ${crew.name} must both accept a Connect request before chatting.`);
+      if (!crew || !isDirectlyConnected(crewId)) {
+        alert(`🔒 Chat Locked: Both filmmakers must accept the Connect request before chatting.`);
         return;
       }
 
@@ -3498,10 +3590,9 @@
       currentGroupId = null;
 
       document.getElementById('groupActionWrap').style.display = 'none';
-
-      document.getElementById('chatHeaderName').innerText = crew ? crew.name : 'User';
-      document.getElementById('chatHeaderRole').innerText = crew ? crew.role : 'Role';
-      document.getElementById('chatHeaderImg').src = crew ? crew.avatar : defaultAvatar;
+      document.getElementById('chatHeaderName').innerText = crew.name;
+      document.getElementById('chatHeaderRole').innerText = crew.role;
+      document.getElementById('chatHeaderImg').src = crew.avatar || defaultAvatar;
       document.getElementById('chatHeaderImg').style.display = 'block';
       document.getElementById('chatHeaderIconGroup').style.display = 'none';
 
@@ -3511,89 +3602,102 @@
 
     function listenToLiveDirectChat(targetUid) {
       if (unsubscribeChatListener) unsubscribeChatListener();
-
       const area = document.getElementById('chatMessagesArea');
-      area.innerHTML = `<div style="text-align:center; font-size:12px; color:var(--text-muted); padding:10px;">Connecting to chat...</div>`;
+      area.innerHTML = '';
 
-      if (isFirebaseReady && db && currentUser.uid && targetUid) {
-        const chatId = [currentUser.uid, targetUid].sort().join('_');
-        unsubscribeChatListener = db.collection('chats').doc(chatId).collection('messages')
-          .orderBy('createdAt', 'asc')
-          .onSnapshot(snap => {
-            area.innerHTML = '';
-            snap.forEach(doc => {
-              const m = doc.data();
-              const isMine = (m.senderUid === currentUser.uid);
-              const bubble = document.createElement('div');
-              bubble.className = `chat-bubble ${isMine ? 'mine' : 'theirs'}`;
-              
-              if (m.text) bubble.innerHTML += `<div>${m.text}</div>`;
-              if (m.type === 'image') bubble.innerHTML += `<img src="${m.imageSrc}" class="chat-image-content" onclick="window.open(this.src)">`;
-              if (m.type === 'audio') bubble.innerHTML += `
-                <div style="font-size:11px; font-weight:700;">🎙️ Voice Note (${m.duration || '0:05'})</div>
-                <audio class="voice-msg-player" controls src="${m.audioSrc}"></audio>
-              `;
-
-              area.appendChild(bubble);
-            });
-            area.scrollTop = area.scrollHeight;
-          });
+      if (!isFirebaseReady || !db || !currentUser.uid || !isDirectlyConnected(targetUid)) {
+        area.textContent = '🔒 Direct chat is locked until the connection is accepted.';
+        return;
       }
+
+      const chatId = [currentUser.uid, targetUid].sort().join('_');
+      unsubscribeChatListener = db.collection('chats').doc(chatId).collection('messages')
+        .orderBy('createdAt', 'asc')
+        .onSnapshot(snap => {
+          area.innerHTML = '';
+          snap.forEach(doc => renderChatMessage(area, doc.data()));
+          area.scrollTop = area.scrollHeight;
+        }, err => {
+          console.error('Direct chat listener error:', err);
+          area.textContent = 'Unable to load chat messages.';
+        });
     }
 
     function closeChatModal() {
       if (unsubscribeChatListener) unsubscribeChatListener();
-      cleanupRecordUI();
+      unsubscribeChatListener = null;
+      currentDirectChatId = null;
+      currentGroupId = null;
       document.getElementById('chatViewModal').classList.remove('active');
     }
 
     async function sendChatMessage() {
       const input = document.getElementById('chatTextInput');
-      const text = input.value.trim();
-      if (!text || !isFirebaseReady || !db || !currentUser.uid) return;
+      const text = normalizeText(input.value, 2000);
+      if (!text || !requireSignedIn('Please Sign In to chat.')) return;
 
-      const payload = {
-        senderUid: currentUser.uid,
-        senderName: currentUser.name || 'Filmmaker',
-        text: text,
-        type: 'text',
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
+      try {
+        const payload = {
+          senderUid: currentUser.uid,
+          senderName: normalizeText(currentUser.name, 120),
+          text,
+          type: 'text',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
 
-      if (currentChatMode === 'direct' && currentDirectChatId) {
-        const chatId = [currentUser.uid, currentDirectChatId].sort().join('_');
-        await db.collection('chats').doc(chatId).collection('messages').add(payload);
-      } else if (currentChatMode === 'group' && currentGroupId) {
-        await db.collection('groups').doc(currentGroupId).collection('messages').add(payload);
+        if (currentChatMode === 'direct' && currentDirectChatId) {
+          if (!isDirectlyConnected(currentDirectChatId)) {
+            alert('🔒 You are no longer connected with this user.');
+            return;
+          }
+          const chatId = [currentUser.uid, currentDirectChatId].sort().join('_');
+          const chatRef = db.collection('chats').doc(chatId);
+          await chatRef.set({ members: [currentUser.uid, currentDirectChatId], updatedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
+          await chatRef.collection('messages').add(payload);
+        } else if (currentChatMode === 'group' && currentGroupId) {
+          if (!isGroupMember(currentGroupId)) {
+            alert('🔒 You are no longer a member of this group.');
+            return;
+          }
+          await db.collection('groups').doc(currentGroupId).collection('messages').add(payload);
+        } else {
+          return;
+        }
+        input.value = '';
+      } catch (err) {
+        console.error('Send message error:', err);
+        alert('Could not send message: ' + (err.message || 'Unknown error'));
       }
-
-      input.value = '';
     }
 
     async function handleChatImageUpload(e) {
       const file = e.target.files[0];
-      if (file) {
-        try {
-          const photoUrl = await uploadPhotoOptimized(file, 'chat', { maxDimension: 900, quality: 0.75, targetMaxKB: 300 });
-          if (!isFirebaseReady || !db || !currentUser.uid) return;
+      if (!file || !requireSignedIn('Please Sign In to share images.')) return;
+      try {
+        const photoUrl = await uploadPhotoOptimized(file, 'chat', { maxDimension: 900, quality: 0.75, targetMaxKB: 300 });
+        const payload = {
+          senderUid: currentUser.uid,
+          senderName: normalizeText(currentUser.name, 120),
+          type: 'image',
+          imageSrc: photoUrl,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
 
-          const payload = {
-            senderUid: currentUser.uid,
-            senderName: currentUser.name || 'Filmmaker',
-            type: 'image',
-            imageSrc: photoUrl,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-          };
-
-          if (currentChatMode === 'direct' && currentDirectChatId) {
-            const chatId = [currentUser.uid, currentDirectChatId].sort().join('_');
-            await db.collection('chats').doc(chatId).collection('messages').add(payload);
-          } else if (currentChatMode === 'group' && currentGroupId) {
-            await db.collection('groups').doc(currentGroupId).collection('messages').add(payload);
-          }
-        } catch (err) {
-          console.error("Chat photo upload error:", err);
+        if (currentChatMode === 'direct' && currentDirectChatId && isDirectlyConnected(currentDirectChatId)) {
+          const chatId = [currentUser.uid, currentDirectChatId].sort().join('_');
+          const chatRef = db.collection('chats').doc(chatId);
+          await chatRef.set({ members: [currentUser.uid, currentDirectChatId], updatedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
+          await chatRef.collection('messages').add(payload);
+        } else if (currentChatMode === 'group' && currentGroupId && isGroupMember(currentGroupId)) {
+          await db.collection('groups').doc(currentGroupId).collection('messages').add(payload);
+        } else {
+          alert('🔒 You no longer have access to this chat.');
         }
+      } catch (err) {
+        console.error('Chat photo upload error:', err);
+        alert('Could not share image: ' + (err.message || 'Unknown error'));
+      } finally {
+        e.target.value = '';
       }
     }
 
@@ -3622,20 +3726,20 @@
           <div style="display: flex; align-items: center; gap: 8px;">
             <img src="${opp.orgLogo}" style="width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 1px solid #fff;">
             <div>
-              <div style="font-size: 13px; font-weight: 800; color: #fff;">${opp.orgName}</div>
+              <div style="font-size: 13px; font-weight: 800; color: #fff;">${escapeHTML(opp.orgName)}</div>
             </div>
           </div>
 
           <div style="font-size: 14px; font-weight: 800; color: var(--neon-cinema);">
-            🎯 Roles Needed: <span style="color: #fff;">${opp.rolesNeeded}</span>
+            🎯 Roles Needed: <span style="color: #fff;">${escapeHTML(opp.rolesNeeded)}</span>
           </div>
 
           <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <span class="badge-location">📍 ${opp.locations}</span>
-            ${opp.budget ? `<span class="badge-budget">💰 ${opp.budget}</span>` : ''}
+            <span class="badge-location">📍 ${escapeHTML(opp.locations)}</span>
+            ${opp.budget ? `<span class="badge-budget">💰 ${escapeHTML(opp.budget)}</span>` : ''}
           </div>
 
-          <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4;">${opp.description}</p>
+          <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4;">${escapeHTML(opp.description)}</p>
 
           <div class="opp-comments-box">
             <div style="font-size: 11px; font-weight: 800; color: var(--neon-director); margin-bottom: 6px;">
@@ -3645,8 +3749,8 @@
             <div id="comments-list-${opp.id}">
               ${(opp.comments || []).map(c => `
                 <div class="comment-item">
-                  <span style="font-weight: 700; color: #60a5fa;">${c.sender}:</span>
-                  <span style="color: #cbd5e1;">${c.message}</span>
+                  <span style="font-weight: 700; color: #60a5fa;">${escapeHTML(c.sender)}:</span>
+                  <span style="color: #cbd5e1;">${escapeHTML(c.message)}</span>
                 </div>
               `).join('')}
             </div>
@@ -3661,6 +3765,7 @@
     }
 
     async function postPitchMessage(oppId) {
+      if (!requireSignedIn('Please Sign In before pitching.')) return;
       if (!isUserProfileComplete()) {
         alert("⚠️ Please enter your Name in Profile before pitching!");
         switchNavTab('profile');
@@ -3668,7 +3773,7 @@
       }
 
       const input = document.getElementById(`input-pitch-${oppId}`);
-      const text = input.value.trim();
+      const text = normalizeText(input.value, 1000);
       if (!text) return;
 
       if (isFirebaseReady && db) {
@@ -3696,22 +3801,22 @@
 
           <div style="display: flex; justify-content: space-between; align-items: flex-start;">
             <div>
-              <span class="badge-deadline">⏳ Deadline: ${fest.deadline}</span>
-              <div style="font-size: 18px; font-weight: 800; color: #fff; margin-top: 4px;">${fest.name}</div>
-              <div style="font-size: 12px; color: var(--neon-fest);">Organized by: ${fest.organizer}</div>
+              <span class="badge-deadline">⏳ Deadline: ${escapeHTML(fest.deadline)}</span>
+              <div style="font-size: 18px; font-weight: 800; color: #fff; margin-top: 4px;">${escapeHTML(fest.name)}</div>
+              <div style="font-size: 12px; color: var(--neon-fest);">Organized by: ${escapeHTML(fest.organizer)}</div>
             </div>
           </div>
 
           <div style="background: #0d1017; border: 1px solid #1f2331; padding: 10px; border-radius: 8px; font-size: 12px;">
             <div style="color: var(--neon-director); font-weight: 700;">🎁 Awards & Perks:</div>
-            <div style="color: #cbd5e1; margin-bottom: 6px;">${fest.prize}</div>
+            <div style="color: #cbd5e1; margin-bottom: 6px;">${escapeHTML(fest.prize)}</div>
 
             <div style="color: var(--neon-cinema); font-weight: 700;">📜 Rules & Criteria:</div>
-            <div style="color: #cbd5e1;">${fest.desc}</div>
+            <div style="color: #cbd5e1;">${escapeHTML(fest.desc)}</div>
           </div>
 
           <div style="display: flex; justify-content: flex-end; margin-top: auto; padding-top: 8px;">
-            <a href="${fest.link}" target="_blank" class="btn-3d btn-3d-fest" style="text-decoration: none;">
+            <a href="${fest.link}" target="_blank" rel="noopener noreferrer" class="btn-3d btn-3d-fest" style="text-decoration: none;">
               🏆 Submit Film / Official Portal ↗
             </a>
           </div>
@@ -3731,8 +3836,8 @@
           <div style="display: flex; gap: 12px; align-items: center;">
             <img src="${org.logo}" style="width: 56px; height: 56px; border-radius: 12px; object-fit: cover; border: 2px solid var(--border-glow);">
             <div style="flex: 1;">
-              <div style="font-size: 17px; font-weight: 800; color: #fff;">${org.name}</div>
-              <span class="badge-budget" style="font-size: 10px;">${org.type}</span>
+              <div style="font-size: 17px; font-weight: 800; color: #fff;">${escapeHTML(org.name)}</div>
+              <span class="badge-budget" style="font-size: 10px;">${escapeHTML(org.type)}</span>
             </div>
           </div>
 
@@ -3764,12 +3869,13 @@
     }
 
     async function submitNewFestival() {
-      const name = document.getElementById('festNameInput').value.trim();
-      const org = document.getElementById('festOrgInput').value.trim();
-      const deadline = document.getElementById('festDeadlineInput').value.trim();
-      const prize = document.getElementById('festPrizeInput').value.trim();
-      const link = document.getElementById('festLinkInput').value.trim() || 'https://filmfreeway.com';
-      const desc = document.getElementById('festDescInput').value.trim();
+      if (!requireSignedIn('Please Sign In before posting a festival.')) return;
+      const name = normalizeText(document.getElementById('festNameInput').value, 160);
+      const org = normalizeText(document.getElementById('festOrgInput').value, 160);
+      const deadline = normalizeText(document.getElementById('festDeadlineInput').value, 80);
+      const prize = normalizeText(document.getElementById('festPrizeInput').value, 1000);
+      const link = normalizeText(document.getElementById('festLinkInput').value, 500) || 'https://filmfreeway.com';
+      const desc = normalizeText(document.getElementById('festDescInput').value, 2000);
 
       if (!name || !deadline || !prize || !desc) {
         alert('Please fill Festival Name, Deadline, Prize, and Rules fields!');
@@ -3790,7 +3896,7 @@
           link: link,
           desc: desc,
           banner: uploadedFestBannerData,
-          creatorUid: currentUser.uid || 'anon',
+          creatorUid: currentUser.uid,
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
       }
@@ -3818,12 +3924,13 @@
     }
 
     async function submitNewOrganization() {
-      const name = document.getElementById('orgNameInput').value.trim();
+      if (!requireSignedIn('Please Sign In before adding an organization.')) return;
+      const name = normalizeText(document.getElementById('orgNameInput').value, 160);
       let type = document.getElementById('orgTypeSelect').value;
-      if (type === 'Other') type = document.getElementById('orgCustomTypeInput').value.trim() || 'Studio';
+      if (type === 'Other') type = normalizeText(document.getElementById('orgCustomTypeInput').value, 80) || 'Studio';
 
-      const produces = document.getElementById('orgProducesInput').value.trim();
-      const provides = document.getElementById('orgProvidesInput').value.trim();
+      const produces = normalizeText(document.getElementById('orgProducesInput').value, 1000);
+      const provides = normalizeText(document.getElementById('orgProvidesInput').value, 1000);
 
       if (!name || !produces || !provides) {
         alert('Please fill all organization profile fields!');
@@ -3837,7 +3944,7 @@
           logo: uploadedOrgLogoData,
           typicallyProduces: produces,
           whatTheyProvide: provides,
-          creatorUid: currentUser.uid || 'anon',
+          creatorUid: currentUser.uid,
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
       }
@@ -3849,7 +3956,7 @@
 
     function populateOrgSelectDropdown() {
       const select = document.getElementById('oppOrgSelect');
-      let optionsHtml = organizationsList.map(org => `<option value="${org.id}">${org.name} (${org.type})</option>`).join('');
+      let optionsHtml = organizationsList.map(org => `<option value="${org.id}">${escapeHTML(org.name)} (${escapeHTML(org.type)})</option>`).join('');
       optionsHtml += `<option value="Other">Others (Enter Organization Name Below)</option>`;
       select.innerHTML = optionsHtml;
       togglePostingOrgCustom(select.value);
@@ -3879,12 +3986,13 @@
     }
 
     async function submitNewOpportunity() {
-      const orgId = document.getElementById('oppOrgSelect').value;
+      if (!requireSignedIn('Please Sign In before posting an opportunity.')) return;
+      const orgId = normalizeText(document.getElementById('oppOrgSelect').value, 200);
       let orgName = '';
       let orgLogo = defaultOrgLogo;
 
       if (orgId === 'Other') {
-        orgName = document.getElementById('customPostingOrgName').value.trim();
+        orgName = normalizeText(document.getElementById('customPostingOrgName').value, 160);
         if (!orgName) {
           alert('Please enter Organization Name!');
           return;
@@ -3899,10 +4007,10 @@
         }
       }
 
-      const roles = document.getElementById('oppRolesInput').value.trim();
-      const location = document.getElementById('oppLocationInput').value.trim();
-      const budget = document.getElementById('oppBudgetInput').value.trim();
-      const desc = document.getElementById('oppDescInput').value.trim();
+      const roles = normalizeText(document.getElementById('oppRolesInput').value, 1000);
+      const location = normalizeText(document.getElementById('oppLocationInput').value, 160);
+      const budget = normalizeText(document.getElementById('oppBudgetInput').value, 200);
+      const desc = normalizeText(document.getElementById('oppDescInput').value, 2000);
 
       if (!roles || !location || !desc) {
         alert('Please fill Roles, Location and Description fields!');
@@ -3920,7 +4028,7 @@
           locations: location,
           poster: uploadedOppPosterData,
           comments: [],
-          creatorUid: currentUser.uid || 'anon',
+          creatorUid: currentUser.uid,
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
       }
@@ -3931,65 +4039,126 @@
     }
 
     // ================= REVIEWS & RATINGS =================
-    function openReviewsModal(crewId) {
+    async function openReviewsModal(crewId) {
       currentReviewedCrewId = crewId;
+      currentReviewEligible = false;
       const crew = crewMembers.find(c => c.id === crewId);
       if (!crew) return;
 
-      document.getElementById('reviewModalTitle').innerText = `${crew.name.toUpperCase()} — REVIEWS`;
+      document.getElementById('reviewModalTitle').innerText = `${(crew.name || 'CREW').toUpperCase()} — REVIEWS`;
       setRatingScore(5);
-      renderReviewsList(crew);
+      document.getElementById('crewReviewsList').innerHTML = '<div style="font-size:12px;color:var(--text-muted);text-align:center;padding:16px;">Loading reviews...</div>';
       document.getElementById('reviewsModal').classList.add('active');
+
+      try {
+        const snapshot = await db.collection('users').doc(crewId).collection('reviews').get();
+        const reviews = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        renderReviewsList(reviews);
+        currentReviewEligible = await checkReviewEligibility(crewId);
+
+        const submitBtn = document.querySelector('#reviewsModal button[onclick="submitCrewReview()"]');
+        if (submitBtn) {
+          submitBtn.disabled = !currentReviewEligible;
+          submitBtn.style.opacity = currentReviewEligible ? '1' : '0.5';
+          submitBtn.innerText = currentReviewEligible ? 'Post Review' : 'Review After Collaboration';
+        }
+      } catch (err) {
+        console.error('Review load error:', err);
+        document.getElementById('crewReviewsList').innerHTML = '<div style="font-size:12px;color:#ef4444;text-align:center;padding:16px;">Could not load reviews.</div>';
+      }
     }
 
-    function closeReviewsModal() { document.getElementById('reviewsModal').classList.remove('active'); }
+    function closeReviewsModal() {
+      document.getElementById('reviewsModal').classList.remove('active');
+      currentReviewedCrewId = null;
+      currentReviewEligible = false;
+    }
 
-    function renderReviewsList(crew) {
+    function renderReviewsList(reviews) {
       const list = document.getElementById('crewReviewsList');
-      if (!crew.reviews || crew.reviews.length === 0) {
-        list.innerHTML = `<div style="font-size: 12px; color: var(--text-muted); text-align: center; padding: 16px;">No reviews yet. Be the first to review!</div>`;
+      if (!reviews || reviews.length === 0) {
+        list.innerHTML = `<div style="font-size:12px;color:var(--text-muted);text-align:center;padding:16px;">No reviews yet. Reviews become available after real collaboration.</div>`;
         return;
       }
 
-      list.innerHTML = crew.reviews.map(r => `
-        <div style="background: #0d1017; border: 1px solid #1e2433; padding: 10px 12px; border-radius: 8px; margin-bottom: 8px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-            <span style="font-size: 13px; font-weight: 700; color: #fff;">${r.reviewer}</span>
-            <span style="color: #ffb703; font-weight: 800; font-size: 12px;">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</span>
+      list.innerHTML = reviews.map(r => {
+        const rating = Math.max(1, Math.min(5, Number(r.rating) || 5));
+        const reviewer = escapeHTML(r.reviewerName || 'Filmmaker');
+        const role = escapeHTML(r.reviewerRole || '');
+        const comment = escapeHTML(r.comment || '');
+        return `
+          <div style="background:#0d1017;border:1px solid #1e2433;padding:10px 12px;border-radius:8px;margin-bottom:8px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+              <span style="font-size:13px;font-weight:700;color:#fff;">${reviewer}${role ? ` <span style="color:var(--text-muted);font-size:10px;">(${role})</span>` : ''}</span>
+              <span style="color:#ffb703;font-weight:800;font-size:12px;">${'★'.repeat(rating)}${'☆'.repeat(5-rating)}</span>
+            </div>
+            <p style="font-size:12px;color:#cbd5e1;line-height:1.3;">"${comment}"</p>
           </div>
-          <p style="font-size: 12px; color: #cbd5e1; line-height: 1.3;">"${r.comment}"</p>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     function setRatingScore(stars) {
-      selectedRatingStars = stars;
-      document.getElementById('starScoreDisplay').innerText = `${stars} Star${stars > 1 ? 's' : ''}`;
+      selectedRatingStars = Math.max(1, Math.min(5, Number(stars) || 5));
+      document.getElementById('starScoreDisplay').innerText = `${selectedRatingStars} Star${selectedRatingStars > 1 ? 's' : ''}`;
       const starSpans = document.querySelectorAll('#starRatingPicker span');
       starSpans.forEach((span, idx) => {
-        span.style.color = (idx < stars) ? '#ffb703' : '#4b5563';
+        span.style.color = (idx < selectedRatingStars) ? '#ffb703' : '#4b5563';
       });
     }
 
+    async function checkReviewEligibility(targetUid) {
+      if (!currentUser.uid || !targetUid || currentUser.uid === targetUid) return false;
+      try {
+        const pairId = [currentUser.uid, targetUid].sort().join('_');
+        const doc = await db.collection('userCollaborations').doc(pairId).get();
+        return doc.exists && doc.data().status === 'active';
+      } catch (err) {
+        console.error('Review eligibility error:', err);
+        return hasCollaboratedWith(targetUid);
+      }
+    }
+
     async function submitCrewReview() {
-      const comment = document.getElementById('newReviewComment').value.trim();
+      if (!requireSignedIn('Please Sign In to post a review.')) return;
+      const targetUid = currentReviewedCrewId;
+      if (!targetUid || targetUid === currentUser.uid) return;
+
+      const comment = normalizeText(document.getElementById('newReviewComment').value, 1000);
       if (!comment) {
         alert('Please enter a short review comment before submitting!');
         return;
       }
 
-      if (isFirebaseReady && db && currentReviewedCrewId) {
-        const userRef = db.collection('users').doc(currentReviewedCrewId);
-        await userRef.update({
-          reviews: firebase.firestore.FieldValue.arrayUnion({
-            reviewer: `${currentUser.name || 'Filmmaker'} (${currentUser.role})`,
-            rating: selectedRatingStars,
-            comment: comment
-          })
+      try {
+        currentReviewEligible = await checkReviewEligibility(targetUid);
+        if (!currentReviewEligible) {
+          alert('⚠️ Reviews are available only after an actual project collaboration.');
+          return;
+        }
+
+        const reviewRef = db.collection('users').doc(targetUid).collection('reviews').doc(currentUser.uid);
+        const existing = await reviewRef.get();
+        if (existing.exists) {
+          alert('You have already reviewed this filmmaker.');
+          return;
+        }
+
+        await reviewRef.set({
+          reviewerUid: currentUser.uid,
+          reviewerName: normalizeText(currentUser.name, 120),
+          reviewerRole: normalizeText(currentUser.role, 120),
+          rating: selectedRatingStars,
+          comment,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
+
         document.getElementById('newReviewComment').value = '';
-        closeReviewsModal();
         alert('⭐ Review posted successfully!');
+        await openReviewsModal(targetUid);
+      } catch (err) {
+        console.error('Review submit error:', err);
+        alert('Could not post review: ' + (err.message || 'Unknown error'));
       }
     }
 
@@ -4054,7 +4223,7 @@
 
       container.innerHTML = warningBanner + filtered.map(crew => {
         const style = getCraftMeta(crew.role);
-        const reviewCount = crew.reviews ? crew.reviews.length : 0;
+        const reviewCount = Number(crew.reviewCount || (crew.reviews ? crew.reviews.length : 0));
 
         let distanceSnippet = "";
         if (crew.distance !== null) {
@@ -4081,16 +4250,10 @@
         } else if (connStatus === 'pending') {
           actionFooterHtml = `
             <span style="font-size: 11px; color: var(--neon-director); font-weight: 700;">Waiting for acceptance</span>
-            <button class="btn-3d btn-3d-danger" style="padding: 6px 10px; font-size: 10px;" onclick="cancelConnectRequest('${crew.id}')" title="Cancel connect request">
-              ✕ Cancel Request
-            </button>
           `;
         } else if (connStatus === 'rejected') {
           actionFooterHtml = `
-            <span style="font-size: 11px; color: #ef4444; font-weight: 700;">✕ Not Accepted</span>
-            <button class="btn-3d btn-3d-connect" onclick="sendConnectRequest('${crew.id}')">
-              ⚡ Connect Again
-            </button>
+            <span style="font-size: 11px; color: #ef4444; font-weight: 700;">✕ Request Rejected</span>
           `;
         } else {
           // 'none'
@@ -4108,11 +4271,11 @@
               <img class="crew-avatar" src="${crew.avatar}">
               <div class="crew-info">
                 <div class="crew-name-row">
-                  <span class="crew-name">${crew.name}</span>
+                  <span class="crew-name">${escapeHTML(crew.name)}</span>
                   <span style="font-size: 12px; color: var(--text-muted);">(${crew.age}y)</span>
                   ${crew.projectsCount >= 5 ? `<span class="badge-verified">✓ Verified</span>` : ''}
-                  <span class="role-badge" style="background: ${style.bg}; color: ${style.color}; border: 1px solid ${style.border};" title="${crew.role}">
-                    ${crew.role}
+                  <span class="role-badge" style="background: ${style.bg}; color: ${style.color}; border: 1px solid ${style.border};" title="${escapeHTML(crew.role)}">
+                    ${escapeHTML(crew.role)}
                   </span>
                 </div>
                 <div style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">
@@ -4134,17 +4297,17 @@
             <div class="links-tags-container">
               ${(crew.portfolioLinks || []).map(l => `
                 <div class="link-badge-group">
-                  <a href="${l.url}" target="_blank" class="link-badge-main">
+                  <a href="${l.url}" target="_blank" rel="noopener noreferrer" class="link-badge-main">
                     🎬 ${l.platform || 'Work'} ↗
                   </a>
-                  <button type="button" class="link-badge-report-btn" onclick="reportInappropriateLink('${crew.id}', '${l.url}')" title="Report link">
+                  <button type="button" class="link-badge-report-btn" onclick="reportInappropriateLink('${crew.id}', '${encodeHandlerArg(l.url)}')" title="Report link">
                     🚩
                   </button>
                 </div>
               `).join('')}
             </div>
 
-            <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4; flex: 1;">${crew.bio}</p>
+            <p style="font-size: 13px; color: #cbd5e1; line-height: 1.4; flex: 1;">${escapeHTML(crew.bio)}</p>
 
             <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; margin-top: auto;">
               ${actionFooterHtml}
@@ -4194,44 +4357,53 @@
     function closeCreateProjectModal() { document.getElementById('createProjectModal').classList.remove('active'); }
 
     async function submitNewProject() {
-      const title = document.getElementById('newProjTitle').value.trim() || 'Untitled Short Film';
-      let type = document.getElementById('newProjType').value;
-      if (type === 'Other') type = document.getElementById('customProjTypeInput').value.trim() || 'Custom Project';
+      if (!requireSignedIn('Please Sign In before creating a project.')) return;
+      if (!isUserProfileComplete()) {
+        alert('⚠️ Please complete your profile name before creating a project.');
+        switchNavTab('profile');
+        return;
+      }
 
-      let status = document.getElementById('newProjStatus').value;
-      if (status === 'Other') status = document.getElementById('customProjStatusInput').value.trim() || 'Active';
+      const title = normalizeText(document.getElementById('newProjTitle').value, 120) || 'Untitled Short Film';
+      let type = normalizeText(document.getElementById('newProjType').value, 80);
+      if (type === 'Other') type = normalizeText(document.getElementById('customProjTypeInput').value, 80) || 'Custom Project';
+      let status = normalizeText(document.getElementById('newProjStatus').value, 50);
+      if (status === 'Other') status = normalizeText(document.getElementById('customProjStatusInput').value, 50) || 'Active';
 
-      const location = document.getElementById('newProjLocation').value.trim() || 'Location TBD';
-      const desc = document.getElementById('newProjDesc').value.trim() || 'Story pitch not specified.';
+      const location = normalizeText(document.getElementById('newProjLocation').value, 160) || 'Location TBD';
+      const desc = normalizeText(document.getElementById('newProjDesc').value, 2000) || 'Story pitch not specified.';
 
       const slots = [
-        { role: 'Cinematographer', target: parseInt(document.getElementById('slotDop').value) || 0, applicants: [] },
-        { role: 'Actor (Cine Artist)', target: parseInt(document.getElementById('slotActor').value) || 0, applicants: [] },
-        { role: 'Editor', target: parseInt(document.getElementById('slotEditor').value) || 0, applicants: [] }
+        { role: 'Cinematographer', target: Math.max(0, Math.min(999, parseInt(document.getElementById('slotDop').value) || 0)), applicants: [] },
+        { role: 'Actor (Cine Artist)', target: Math.max(0, Math.min(999, parseInt(document.getElementById('slotActor').value) || 0)), applicants: [] },
+        { role: 'Editor', target: Math.max(0, Math.min(999, parseInt(document.getElementById('slotEditor').value) || 0)), applicants: [] }
       ].filter(s => s.target > 0);
 
       document.querySelectorAll('#customRolesContainer .url-item-row').forEach(row => {
-        const name = row.querySelector('.custom-role-name').value;
-        const count = parseInt(row.querySelector('.custom-role-count').value) || 1;
-        if (name) slots.push({ role: name, target: count, applicants: [] });
+        const name = normalizeText(row.querySelector('.custom-role-name')?.value, 100);
+        const count = Math.max(1, Math.min(999, parseInt(row.querySelector('.custom-role-count')?.value) || 1));
+        if (name && name !== 'Other') slots.push({ role: name, target: count, applicants: [] });
       });
 
-      if (isFirebaseReady && db) {
+      try {
         await db.collection('projects').add({
           title: title.toUpperCase(),
-          type: type,
-          status: status,
-          location: location,
-          creatorUid: currentUser.uid || 'anon',
-          creatorName: currentUser.name || 'Filmmaker',
-          desc: desc,
-          slots: slots,
+          type,
+          status,
+          location,
+          creatorUid: currentUser.uid,
+          creatorName: normalizeText(currentUser.name, 120),
+          desc,
+          slots,
           createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
-      }
 
-      closeCreateProjectModal();
-      alert(`🎬 Project "${title}" published!`);
+        closeCreateProjectModal();
+        alert(`🎬 Project "${title}" published!`);
+      } catch (err) {
+        console.error('Project creation error:', err);
+        alert('Could not publish project: ' + (err.message || 'Unknown error'));
+      }
     }
 
     function switchNavTab(tabKey) {
@@ -4296,6 +4468,10 @@
 
             outgoingRequestStatusMap = {};
             connectRequests = [];
+            projectApplications = [];
+            if (unsubscribeApplicationsListener) { unsubscribeApplicationsListener(); unsubscribeApplicationsListener = null; }
+            connectedUserIds.clear();
+            if (unsubscribeConnectionsListener) { unsubscribeConnectionsListener(); unsubscribeConnectionsListener = null; }
 
             currentUser.uid = null;
             currentUser.name = "";
